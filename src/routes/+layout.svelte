@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { BaseLayout } from '$lib/components';
 	import '$lib/styles/app.less';
 </script>
 
-<div class="h-lvh">
+<BaseLayout>
 	<slot />
-</div>
+</BaseLayout>

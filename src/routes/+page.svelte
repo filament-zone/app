@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { Typography } from '$lib/components';
+</script>
+
 <div class="flex justify-center items-center h-full">
-	<h1 class="text-white">Welcome to Filament</h1>
+	<Typography variant="h1">Welcome to Filament</Typography>
 </div>
