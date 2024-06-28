@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/svelte';
+import '$lib/styles/app.less';
 
 const preview: Preview = {
 	parameters: {
@@ -8,12 +9,6 @@ const preview: Preview = {
 				{ name: 'dark', value: '#000000' },
 				{ name: 'light', value: '#ffffff' }
 			]
-		},
-		controls: {
-			matchers: {
-				color: /(background|color)$/i,
-				date: /Date$/i
-			}
 		}
 	}
 };
