@@ -2,7 +2,7 @@
 	import type { ITypographyProps } from '$lib/types';
 
 	export let variant: ITypographyProps['variant'] = 'h3';
-	export let color: ITypographyProps['color'] = 'white';
+	export let color: ITypographyProps['color'] = 'var(--primary-white)';
 	export let styles: ITypographyProps['styles'] = '';
 	export let className: ITypographyProps['className'] = '';
 
@@ -25,8 +25,8 @@
 
 <svelte:element
 	this={variant_to_tag_map[variant]}
-	class={`${className} typography_${variant} text-${color}`}
-	style={styles}
+	class={`${className} typography_${variant}`}
+	style={`color: ${color}; ${styles}`}
 >
 	<slot />
 </svelte:element>

@@ -19,9 +19,6 @@
 	};
 </script>
 
-<script lang="ts">
-</script>
-
 <Template let:args>
 	<div>
 		<Typography variant="h1" {...args}>Heading 1</Typography>
