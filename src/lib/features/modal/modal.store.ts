@@ -1,0 +1,35 @@
+import { writable, derived } from 'svelte/store';
+import { type IModalState, type IModalStore } from '$lib/types';
+import { EModalVariant } from '$lib/features/modal/modal.store.enums';
+
+const initialState: IModalState = {
+	modalConfig: {
+		variant: EModalVariant.CLOSED
+	}
+};
+
+const store = writable<IModalState>(initialState);
+
+const closeModal: IModalStore['closeModal'] = () => {
+	store.update((state) => {
+		state.modalConfig.variant = EModalVariant.CLOSED;
+		return state;
+	});
+};
+
+const openModal: IModalStore['openModal'] = (modalConfig) => {
+	store.update((state) => {
+		state.modalConfig = modalConfig;
+		return state;
+	});
+};
+
+const activeModal = derived(store, ($store) => $store.modalConfig.variant);
+const modalConfig = derived(store, ($store) => $store.modalConfig);
+
+export const modalStore: IModalStore = {
+	openModal,
+	closeModal,
+	activeModal,
+	modalConfig
+};

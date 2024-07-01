@@ -1,7 +1,10 @@
 <script>
 	import { Button } from '$lib/components';
-	import { EButtonColorVariant } from '$lib/types';
+	import { modalStore } from '$lib/features';
+	import { EButtonColorVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
+
+	const { openModal } = modalStore;
 </script>
 
 <div class="flex flex-col">
@@ -12,7 +15,14 @@
 			</div>
 		</div>
 		<div>
-			<Button colorVariant={EButtonColorVariant.SECONDARY}>Connect Wallet</Button>
+			<Button
+				data-testid="connect-wallet-button"
+				on:click={() => {
+					openModal({ variant: EModalVariant.CONFIRMATION });
+					console.log('Connect Wallet click');
+				}}
+				colorVariant={EButtonColorVariant.SECONDARY}>Connect Wallet</Button
+			>
 		</div>
 	</div>
 	<div class="divider" />
