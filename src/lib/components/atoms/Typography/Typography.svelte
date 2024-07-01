@@ -17,7 +17,6 @@
 		subtitle2: 'h6',
 		body1: 'p',
 		body2: 'p',
-		button: 'span',
 		caption: 'span',
 		overline: 'span'
 	};
@@ -307,36 +306,6 @@
 	.typography_body2 {
 		font-size: 14px;
 		font-weight: 400;
-		line-height: 1.5;
-
-		@media @size_sm {
-			font-size: 16px;
-		}
-
-		@media @size_md {
-			font-size: 18px;
-		}
-
-		@media @size_lg {
-			font-size: 20px;
-		}
-
-		@media @size_xl {
-			font-size: 24px;
-		}
-
-		@media @size_2xl {
-			font-size: 28px;
-		}
-
-		@media @size_3xl {
-			font-size: 32px;
-		}
-	}
-
-	.typography_button {
-		font-size: 14px;
-		font-weight: 700;
 		line-height: 1.5;
 
 		@media @size_sm {

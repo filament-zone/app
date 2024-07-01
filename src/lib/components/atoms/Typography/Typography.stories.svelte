@@ -31,8 +31,6 @@
 		<Typography variant="subtitle2" {...args}>Subtitle 2</Typography>
 		<Typography variant="body1" {...args}>Body 1</Typography>
 		<Typography variant="body2" {...args}>Body 2</Typography>
-		<Typography variant="button" {...args}>Button</Typography>
-		<br />
 		<Typography variant="caption" {...args}>Caption</Typography>
 		<br />
 		<Typography variant="overline" {...args}>Overline</Typography>

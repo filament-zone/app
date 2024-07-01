@@ -11,7 +11,6 @@ export type TTypographyVariant =
 	| 'subtitle2'
 	| 'body1'
 	| 'body2'
-	| 'button'
 	| 'caption'
 	| 'overline';
 
