@@ -7,8 +7,6 @@ test.describe('Home Page', () => {
 
 	test('Open modal connect wallet', async ({ page }) => {
 		await page.getByTestId('connect-wallet-button').click();
-		await expect(page.locator('.modal-container')).toBeVisible();
-		await page.getByTestId('confirmation-modal-cancel').click();
-		await expect(page.locator('.modal-container')).not.toBeVisible();
+		await expect(page.getByTestId('connect-metamask')).toBeVisible();
 	});
 });

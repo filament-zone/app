@@ -18,8 +18,7 @@
 			<Button
 				data-testid="connect-wallet-button"
 				on:click={() => {
-					openModal({ variant: EModalVariant.CONFIRMATION });
-					console.log('Connect Wallet click');
+					openModal({ variant: EModalVariant.CONNECT_WALLET });
 				}}
 				colorVariant={EButtonColorVariant.SECONDARY}>Connect Wallet</Button
 			>

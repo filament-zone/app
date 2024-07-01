@@ -1,6 +1,11 @@
 <script>
 	import { derived } from 'svelte/store';
-	import { modalStore, navigationStore, ModalConfirmation } from '$lib/features';
+	import {
+		modalStore,
+		navigationStore,
+		ModalConfirmation,
+		ModalConnectWallet
+	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
 	const { beforeNavigate } = navigationStore;
@@ -18,6 +23,8 @@
 				return null;
 			case EModalVariant.CONFIRMATION:
 				return ModalConfirmation;
+			case EModalVariant.CONNECT_WALLET:
+				return ModalConnectWallet;
 			default:
 				return null;
 		}
