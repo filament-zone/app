@@ -1,5 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
+import type { Eip1193Provider } from 'ethers';
+
 declare global {
 	namespace App {
 		// interface Error {}
@@ -12,6 +14,10 @@ declare global {
 		interface HTMLAttributes {
 			'on:clickOutside'?: (event: CustomEvent) => void;
 		}
+	}
+
+	interface Window {
+		ethereum?: Eip1193Provider;
 	}
 }
 

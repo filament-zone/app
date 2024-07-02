@@ -1,10 +1,12 @@
 <script>
 	import { Button } from '$lib/components';
-	import { modalStore } from '$lib/features';
+	import { metamaskStore, modalStore } from '$lib/features';
+	import { shortCutTransactionHash } from '$lib/helpers';
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
 
 	const { openModal } = modalStore;
+	const { signer } = metamaskStore;
 </script>
 
 <div class="flex flex-col">
@@ -18,9 +20,12 @@
 			<Button
 				data-testid="connect-wallet-button"
 				on:click={() => {
-					openModal({ variant: EModalVariant.CONNECT_WALLET });
+					if (!$signer?.address) {
+						openModal({ variant: EModalVariant.CONNECT_WALLET });
+					}
 				}}
-				colorVariant={EButtonColorVariant.SECONDARY}>Connect Wallet</Button
+				colorVariant={EButtonColorVariant.SECONDARY}
+				>{$signer?.address ? shortCutTransactionHash($signer?.address) : 'Connect Wallet'}</Button
 			>
 		</div>
 	</div>

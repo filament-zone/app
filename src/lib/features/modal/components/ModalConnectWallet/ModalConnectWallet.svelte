@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { Modal } from '$lib/features';
+	import { metamaskStore, Modal } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
 	import { EButtonColorVariant, EButtonSizeVariant } from '$lib/types';
+
+	const { connect } = metamaskStore;
 </script>
 
 <Modal classNames="max-w-96">
@@ -14,7 +16,10 @@
 			<Button
 				data-testid="connect-metamask"
 				colorVariant={EButtonColorVariant.PRIMARY}
-				sizeVariant={EButtonSizeVariant.FULL_WIDTH}>MetaMask</Button
+				sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+				on:click={() => {
+					connect();
+				}}>MetaMask</Button
 			>
 			<Button
 				data-testid="connect-rabby"
