@@ -5,6 +5,7 @@ export default {
 		extend: {},
 		colors: {
 			'primary-white': 'var(--primary-white)',
+			default: 'var(--default)',
 			background: 'var(--background)',
 			filaMint: 'var(--filaMint)',
 			'filaMint-100': 'var(--filaMint-100)',

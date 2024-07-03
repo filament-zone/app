@@ -1,5 +1,5 @@
 import type { Writable } from 'svelte/store';
-import { type BrowserProvider, JsonRpcSigner } from 'ethers';
+import { type BrowserProvider, type JsonRpcSigner } from 'ethers';
 
 export interface IMetamaskStore {
 	initMetamask: () => void;
@@ -8,4 +8,5 @@ export interface IMetamaskStore {
 	signer: Writable<JsonRpcSigner | null>;
 	provider: Writable<BrowserProvider | null>;
 	connect: () => void;
+	disconnect: () => void;
 }

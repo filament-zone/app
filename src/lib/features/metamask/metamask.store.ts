@@ -30,12 +30,16 @@ const initMetamask: IMetamaskStore['initMetamask'] = async () => {
 };
 
 const connect: IMetamaskStore['connect'] = async () => {
-	const signerRes = await get(provider)?.getSigner();
-	if (signerRes) {
-		signer.set(signerRes);
-		const { closeModal } = modalStore;
-		closeModal();
-	}
+	initMetamask();
+	const { closeModal } = modalStore;
+	closeModal();
+};
+
+const disconnect: IMetamaskStore['disconnect'] = async () => {
+	signer.set(null);
+	provider.set(null);
+	isMetamaskPresent.set(false);
+	loaded.set(false);
 };
 
 export const metamaskStore: IMetamaskStore = {
@@ -44,5 +48,6 @@ export const metamaskStore: IMetamaskStore = {
 	signer,
 	provider,
 	initMetamask,
-	connect
+	connect,
+	disconnect
 };

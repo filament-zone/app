@@ -1,12 +1,14 @@
 <script>
 	import { Button } from '$lib/components';
-	import { metamaskStore, modalStore } from '$lib/features';
+	import { metamaskStore, modalStore, Wallet } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
 
 	const { openModal } = modalStore;
 	const { signer } = metamaskStore;
+
+	let isWalletMenuOpen = false;
 </script>
 
 <div class="flex flex-col">
@@ -16,17 +18,24 @@
 				<img src={LogoFilament} alt="logo" />
 			</div>
 		</div>
-		<div>
+		<div class="relative">
 			<Button
 				data-testid="connect-wallet-button"
 				on:click={() => {
 					if (!$signer?.address) {
 						openModal({ variant: EModalVariant.CONNECT_WALLET });
+					} else {
+						isWalletMenuOpen = !isWalletMenuOpen;
 					}
 				}}
 				colorVariant={EButtonColorVariant.SECONDARY}
 				>{$signer?.address ? shortCutTransactionHash($signer?.address) : 'Connect Wallet'}</Button
 			>
+			{#if isWalletMenuOpen}
+				<div class="absolute right-0 top-[51px]">
+					<Wallet bind:isOpen={isWalletMenuOpen} />
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="divider" />
