@@ -34,6 +34,7 @@
 	@import '$lib/styles/layout.less';
 
 	.typography_h1 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 32px;
 		font-weight: 700;
 		line-height: 1.2;
@@ -64,6 +65,7 @@
 	}
 
 	.typography_h2 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 28px;
 		font-weight: 600;
 		line-height: 1.3;
@@ -94,6 +96,7 @@
 	}
 
 	.typography_h3 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 24px;
 		font-weight: 500;
 		line-height: 1.4;
@@ -124,6 +127,7 @@
 	}
 
 	.typography_h4 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 20px;
 		font-weight: 500;
 		line-height: 1.5;
@@ -154,6 +158,7 @@
 	}
 
 	.typography_h5 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 18px;
 		font-weight: 400;
 		line-height: 1.6;
@@ -184,6 +189,7 @@
 	}
 
 	.typography_h6 {
+		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 16px;
 		font-weight: 400;
 		line-height: 1.7;
@@ -214,6 +220,7 @@
 	}
 
 	.typography_subtitle1 {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 16px;
 		font-weight: 400;
 		line-height: 1.7;
@@ -244,6 +251,7 @@
 	}
 
 	.typography_subtitle2 {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.7;
@@ -274,6 +282,7 @@
 	}
 
 	.typography_body1 {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 16px;
 		font-weight: 400;
 		line-height: 1.5;
@@ -304,6 +313,7 @@
 	}
 
 	.typography_body2 {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.5;
@@ -334,6 +344,7 @@
 	}
 
 	.typography_caption {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 12px;
 		font-weight: 400;
 		line-height: 1.5;
@@ -364,6 +375,7 @@
 	}
 
 	.typography_overline {
+		font-family: 'fira-sans', sans-serif;
 		font-size: 10px;
 		font-weight: 400;
 		line-height: 1.5;
