@@ -1,6 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import type { Eip1193Provider } from 'ethers';
+import type { BrowserProvider, Eip1193Provider } from 'ethers';
 
 declare global {
 	namespace App {
@@ -17,7 +17,7 @@ declare global {
 	}
 
 	interface Window {
-		ethereum?: Eip1193Provider;
+		ethereum?: { isMetaMask?: boolean } & BrowserProvider & Eip1193Provider;
 	}
 }
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { metamaskStore, Modal } from '$lib/features';
+	import { walletStore, Modal } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
-	import { EButtonColorVariant, EButtonSizeVariant } from '$lib/types';
+	import { EButtonColorVariant, EButtonSizeVariant, EWalletProvider } from '$lib/types';
 
-	const { connect } = metamaskStore;
+	const { initializeWallet } = walletStore;
 </script>
 
 <Modal classNames="max-w-96">
@@ -18,7 +18,7 @@
 				colorVariant={EButtonColorVariant.PRIMARY}
 				sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 				on:click={() => {
-					connect();
+					initializeWallet(EWalletProvider.METAMASK);
 				}}>MetaMask</Button
 			>
 			<Button
