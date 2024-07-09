@@ -8,6 +8,7 @@ declare const __propDef: {
 		onConfirmLabel?: string;
 		onDeny?: () => void;
 		onDenyLabel?: string;
+		disabledDeny?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

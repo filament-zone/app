@@ -3,12 +3,14 @@ import { modalStore, toastsStore } from '$lib/features';
 import { EWalletProviderError, WalletClientConnector } from '$lib/services';
 import { writeToLocalStorage } from '$lib/utils';
 import {
-	type IWalletStore,
-	EWalletProvider,
-	type IWalletState,
-	type IAccountInfo,
+	EModalVariant,
 	type EthereumError,
-	type IAccountBalance
+	EWalletProvider,
+	type IAccountBalance,
+	type IAccountInfo,
+	type IModalConfirmationProps,
+	type IWalletState,
+	type IWalletStore
 } from '$lib/types';
 import { CHAIN_IDS } from '$lib/constants';
 import { shortCutTransactionHash } from '$lib/helpers';
@@ -87,8 +89,21 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 };
 
 wallet.subscribe((state) => {
+	const { openModal } = modalStore;
 	if (state.chain?.chainId && state.chain.chainId !== CHAIN_IDS.ETHEREUM_MAINNET) {
-		state.client?.switchChain();
+		openModal({
+			variant: EModalVariant.CONFIRMATION,
+			state: {
+				title: 'Change Network',
+				description:
+					'You are on a wrong network, click "Change network" to switch to Ethereum Mainnet',
+				disabledDeny: true,
+				onConfirm: () => {
+					state.client?.switchChain();
+				},
+				onConfirmLabel: 'Change network'
+			} as IModalConfirmationProps
+		});
 	}
 });
 
