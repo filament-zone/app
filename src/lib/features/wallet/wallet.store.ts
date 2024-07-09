@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { modalStore } from '$lib/features';
+import { modalStore, toastsStore } from '$lib/features';
 import { EWalletProviderError, WalletClientConnector } from '$lib/services';
 import { writeToLocalStorage } from '$lib/utils';
 import {
@@ -11,6 +11,7 @@ import {
 	type IAccountBalance
 } from '$lib/types';
 import { CHAIN_IDS } from '$lib/constants';
+import { shortCutTransactionHash } from '$lib/helpers';
 
 const { closeModal } = modalStore;
 
@@ -29,6 +30,7 @@ const initialState: IWalletState = {
 export const wallet = writable<IWalletState>(initialState);
 
 const initializeWallet = async (walletProvider: EWalletProvider) => {
+	const { send } = toastsStore;
 	const client = new WalletClientConnector({ walletProvider });
 
 	if (!client.on) return;
@@ -46,6 +48,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 			}));
 			writeToLocalStorage('prevWallet', walletProvider);
 			closeModal();
+			send({ message: `New address connected: ${shortCutTransactionHash(data[0].address)}` });
 		});
 
 		await client.getAccountBalance(get(wallet).address ?? '', (payload) => {
@@ -61,6 +64,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	client.on('AccountsChanged', (payload) => {
 		const data = payload as IAccountInfo[];
 		wallet.update((state) => ({ ...state, address: data[0].address ?? '' }));
+		send({ message: `New address connected: ${shortCutTransactionHash(data[0].address)}` });
 	});
 
 	client.on('ChainChanged', () => {
@@ -70,7 +74,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	client.on('reject', (error) => {
 		switch ((error as EthereumError).code) {
 			case EWalletProviderError.REQUEST_PENDING:
-				alert('Open metamask extension and accept the request');
+				send({ message: 'Open metamask extension and accept the request' });
 				break;
 			default:
 				console.log('error');
@@ -79,6 +83,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	});
 
 	await client.connect();
+	send({ message: 'Connected to wallet' });
 };
 
 wallet.subscribe((state) => {
@@ -88,8 +93,10 @@ wallet.subscribe((state) => {
 });
 
 const disconnectWallet = () => {
+	const { send } = toastsStore;
 	get(wallet).client?.disconnect();
 	wallet.set({ ...initialState });
+	send({ message: 'Disconnected from wallet' });
 };
 
 export const walletStore: IWalletStore = {

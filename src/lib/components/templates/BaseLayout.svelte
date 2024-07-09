@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ToastsContainer } from '$lib/features';
 	import { Header } from '$lib/components';
 </script>
 
@@ -6,3 +7,4 @@
 	<Header />
 	<slot />
 </div>
+<ToastsContainer />

@@ -61,7 +61,6 @@ export class WalletClientConnector implements IWalletClientConnector {
 		this.EventEmitter.clearAll();
 		this._connected = false;
 		removeFromLocalStorage('prevWallet');
-		alert('Wallet disconnected');
 		return this;
 	};
 
