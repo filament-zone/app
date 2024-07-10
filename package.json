@@ -64,5 +64,8 @@
 		"extends": [
 			"plugin:storybook/recommended"
 		]
+	},
+	"dependencies": {
+		"svelte-device-info": "^1.0.5"
 	}
 }
