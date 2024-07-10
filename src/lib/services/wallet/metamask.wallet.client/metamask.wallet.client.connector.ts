@@ -37,15 +37,17 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 			} else {
 				this.EventEmitter.emit('connect');
 			}
+		} else {
+			this.EventEmitter.emit('reject', { code: EWalletProviderError.METAMASK_NOT_AVAILABLE });
 		}
 
 		this.ClientBuilder?.MetamaskProvider?.on('accountsChanged', (accounts) => {
-			this.EventEmitter.emit(
-				'AccountsChanged',
-				(accounts as string[]).map((account) => ({
-					address: account
-				}))
-			);
+			const acc = accounts.length
+				? (accounts as string[]).map((account) => ({
+						address: account
+					}))
+				: [];
+			this.EventEmitter.emit('AccountsChanged', acc);
 		});
 
 		this.ClientBuilder?.MetamaskProvider?.on('chainChanged', (chain) => {

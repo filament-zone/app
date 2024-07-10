@@ -9,11 +9,10 @@ import type { IEventEmitter, IWalletClientConnectorConstructorProps } from '$lib
 import { removeFromLocalStorage } from '$lib/utils';
 
 export class WalletClientConnector implements IWalletClientConnector {
-	private _connected = false;
-
 	private readonly Client: IWalletClientConnector;
 
 	public EventEmitter: IEventEmitter;
+	public _connected = false;
 
 	constructor({ walletProvider }: IWalletClientConnectorConstructorProps) {
 		this.EventEmitter = new EventEmitter();

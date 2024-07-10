@@ -9,7 +9,8 @@ export enum EWalletProviderError {
 	REQUEST_PENDING = 'requestPending',
 	USER_REJECTED_REQUEST = 'userRejectedRequest',
 	INTERNAL_ERROR = 'internalError',
-	UNKNOWN = 'unknown'
+	UNKNOWN = 'unknown',
+	METAMASK_NOT_AVAILABLE = 'metamaskNotAvailable'
 }
 
 export type WalletClient = BrowserProvider;

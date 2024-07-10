@@ -50,7 +50,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 			}));
 			writeToLocalStorage('prevWallet', walletProvider);
 			closeModal();
-			send({ message: `New address connected: ${shortCutTransactionHash(data[0].address)}` });
+			send({ message: `Address connected: ${shortCutTransactionHash(data[0].address)}` });
 		});
 
 		await client.getAccountBalance(get(wallet).address ?? '', (payload) => {
@@ -63,10 +63,27 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 		});
 	});
 
-	client.on('AccountsChanged', (payload) => {
-		const data = payload as IAccountInfo[];
-		wallet.update((state) => ({ ...state, address: data[0].address ?? '' }));
-		send({ message: `New address connected: ${shortCutTransactionHash(data[0].address)}` });
+	client.on('AccountsChanged', async (payload) => {
+		const accountInfo = payload as IAccountInfo[];
+
+		if (accountInfo[0]?.address) {
+			send({
+				message: `New address connected: ${shortCutTransactionHash(accountInfo[0]?.address)}`
+			});
+		} else {
+			wallet.set({ ...initialState });
+			send({ message: `Address disconnected` });
+			return;
+		}
+
+		await client.getAccountBalance(accountInfo[0]?.address ?? '', (payload) => {
+			const accountBalance = payload as IAccountBalance;
+			wallet.update((state) => ({
+				...state,
+				address: accountInfo[0]?.address ?? '',
+				balance: accountBalance.balance ?? ''
+			}));
+		});
 	});
 
 	client.on('ChainChanged', () => {
@@ -78,6 +95,9 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 			case EWalletProviderError.REQUEST_PENDING:
 				send({ message: 'Open metamask extension and accept the request' });
 				break;
+			case EWalletProviderError.METAMASK_NOT_AVAILABLE:
+				send({ message: 'Metamask extension not available' });
+				break;
 			default:
 				console.log('error');
 				break;
@@ -85,7 +105,12 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	});
 
 	await client.connect();
-	send({ message: 'Connected to wallet' });
+
+	if (client._connected) {
+		send({ message: 'Connected to wallet' });
+	} else {
+		send({ message: 'Failed to connect to wallet' });
+	}
 };
 
 wallet.subscribe((state) => {
