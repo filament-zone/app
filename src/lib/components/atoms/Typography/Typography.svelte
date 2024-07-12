@@ -190,32 +190,32 @@
 
 	.typography_h6 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 16px;
+		font-size: 12px;
 		font-weight: 400;
 		line-height: 1.7;
 
 		@media @size_sm {
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		@media @size_md {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_lg {
-			font-size: 24px;
+			font-size: 18px;
 		}
 
 		@media @size_xl {
-			font-size: 28px;
+			font-size: 24px;
 		}
 
 		@media @size_2xl {
-			font-size: 32px;
+			font-size: 28px;
 		}
 
 		@media @size_3xl {
-			font-size: 36px;
+			font-size: 32px;
 		}
 	}
 

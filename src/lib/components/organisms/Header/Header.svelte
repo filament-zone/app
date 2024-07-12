@@ -1,9 +1,11 @@
 <script>
-	import { Button } from '$lib/components';
+	import { goto } from '$app/navigation';
+	import { Button, NavBar } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
+	import { routes } from '$lib/constants';
 
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
@@ -12,13 +14,20 @@
 </script>
 
 <div class="flex flex-col">
-	<div class="flex flex-row justify-between items-center h-[72px] px-4">
-		<div>
-			<div class="logo">
-				<img src={LogoFilament} alt="logo" />
-			</div>
+	<div class="flex flex-row items-center h-[72px] px-4" data-testid="header">
+		<div
+			class="cursor-pointer"
+			on:click={() => {
+				goto(routes.HOME);
+			}}
+			aria-hidden="true"
+		>
+			<img src={LogoFilament} alt="logo" />
 		</div>
-		<div class="relative">
+		<div class="ml-4">
+			<NavBar />
+		</div>
+		<div class="relative ml-auto">
 			<Button
 				data-testid="connect-wallet-button"
 				on:click={() => {

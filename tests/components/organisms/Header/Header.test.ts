@@ -29,7 +29,7 @@ test.describe('Header Component', () => {
 	});
 
 	test('header should have a height of 72 pixels', async ({ page }) => {
-		const header = page.locator('.flex-row.justify-between.items-center');
+		const header = page.getByTestId('header');
 		const height = await header.evaluate((element) => window.getComputedStyle(element).height);
 		expect(height).toBe('72px');
 	});
