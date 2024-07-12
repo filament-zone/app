@@ -14,7 +14,7 @@
 		isOpen.set(false);
 	};
 
-	$: currentPath = $page.url.pathname;
+	$: currentPath = $page?.url?.pathname ?? '';
 	$: mainRouteSelected = currentPath.split('/')[1] === option.path?.split('/')[1];
 
 	$: {

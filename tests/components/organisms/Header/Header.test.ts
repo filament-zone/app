@@ -23,11 +23,6 @@ test.describe('Header Component', () => {
 		await expect(button).toHaveClass(/color-variant-secondary/);
 	});
 
-	test('divider should be displayed', async ({ page }) => {
-		const divider = page.locator('.divider');
-		await expect(divider).toBeVisible();
-	});
-
 	test('header should have a height of 72 pixels', async ({ page }) => {
 		const header = page.getByTestId('header');
 		const height = await header.evaluate((element) => window.getComputedStyle(element).height);

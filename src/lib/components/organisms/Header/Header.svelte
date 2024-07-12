@@ -53,8 +53,7 @@
 <style lang="less">
 	.divider {
 		width: 100%;
-		height: 1px;
-		box-shadow: 0 0 0 0.1px var(--gray-200);
+		box-shadow: 0 0 0 0.3px var(--gray-200);
 		margin-bottom: 10px;
 	}
 </style>
