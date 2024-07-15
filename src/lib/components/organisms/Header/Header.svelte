@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { Button, NavBar } from '$lib/components';
+	import { Button, Divider, NavBar } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
@@ -47,13 +47,5 @@
 			{/if}
 		</div>
 	</div>
-	<div class="divider" />
+	<Divider class="mb-4" />
 </div>
-
-<style lang="less">
-	.divider {
-		width: 100%;
-		box-shadow: 0 0 0 0.3px var(--gray-200);
-		margin-bottom: 10px;
-	}
-</style>

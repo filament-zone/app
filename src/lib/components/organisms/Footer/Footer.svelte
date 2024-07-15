@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Typography } from '$lib/components';
+	import { Divider, Typography } from '$lib/components';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
 	import LogoGitGub from '$lib/assets/logos/logo-github.svg';
 	import LogoLinkedIn from '$lib/assets/logos/logo-linkedin.svg';
@@ -11,7 +11,7 @@
 	};
 </script>
 
-<div class="divider" />
+<Divider />
 <div class="flex flex-row justify-center items-center h-[72px] py-4 gap-4">
 	<img src={LogoFilament} alt="logo-filament-footer" />
 	<Typography variant="h5">Filament Zone</Typography>
@@ -42,11 +42,6 @@
 </div>
 
 <style lang="less">
-	.divider {
-		width: 100%;
-		box-shadow: 0 0 0 0.3px var(--gray-200);
-	}
-
 	.divider-vertical {
 		height: 100%;
 		box-shadow: 0 0 0 0.3px var(--gray-200);
