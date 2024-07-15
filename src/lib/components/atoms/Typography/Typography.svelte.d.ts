@@ -19,6 +19,7 @@ declare const __propDef: {
 		variant: TTypographyVariant;
 		color?: string;
 		styles?: string;
+		dataTestId?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

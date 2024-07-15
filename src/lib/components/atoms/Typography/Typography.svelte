@@ -5,6 +5,7 @@
 	export let variant: ITypographyProps['variant'] = 'h3';
 	export let color: ITypographyProps['color'] = 'var(--primary-white)';
 	export let styles: ITypographyProps['styles'] = '';
+	export let dataTestId: ITypographyProps['dataTestId'] = '';
 
 	const variant_to_tag_map: Record<ITypographyProps['variant'], string> = {
 		h1: 'h1',
@@ -34,6 +35,7 @@
 	style={`color: ${color}; ${styles}`}
 	on:click={forwardEvent}
 	aria-hidden="true"
+	data-testId={dataTestId}
 >
 	<slot />
 </svelte:element>
