@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import type { ITypographyProps } from '$lib/types';
 
 	export let variant: ITypographyProps['variant'] = 'h3';
 	export let color: ITypographyProps['color'] = 'var(--primary-white)';
 	export let styles: ITypographyProps['styles'] = '';
-	export let className: ITypographyProps['className'] = '';
 
 	const variant_to_tag_map: Record<ITypographyProps['variant'], string> = {
 		h1: 'h1',
@@ -20,12 +20,20 @@
 		caption: 'span',
 		overline: 'span'
 	};
+
+	const dispatch = createEventDispatcher();
+
+	const forwardEvent = (event: Event) => {
+		dispatch(event.type, event);
+	};
 </script>
 
 <svelte:element
 	this={variant_to_tag_map[variant]}
-	class={`${className} typography_${variant}`}
+	class={`typography_${variant} ${$$props.class}`}
 	style={`color: ${color}; ${styles}`}
+	on:click={forwardEvent}
+	aria-hidden="true"
 >
 	<slot />
 </svelte:element>

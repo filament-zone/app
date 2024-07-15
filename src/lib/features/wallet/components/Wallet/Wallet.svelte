@@ -17,7 +17,7 @@
 	<div>
 		<Typography variant="h4">Wallet</Typography>
 		<div class="flex flex-row">
-			<Typography className="mr-4" variant="body1">Balance:</Typography>
+			<Typography class="mr-4" variant="body1">Balance:</Typography>
 			<Typography variant="body1"
 				>{$wallet?.balance ? Number($wallet?.balance).toFixed(4) : '0.00'}</Typography
 			>

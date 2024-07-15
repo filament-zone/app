@@ -19,7 +19,6 @@ declare const __propDef: {
 		variant: TTypographyVariant;
 		color?: string;
 		styles?: string;
-		className?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
