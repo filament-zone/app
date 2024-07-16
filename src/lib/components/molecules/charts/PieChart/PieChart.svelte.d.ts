@@ -1,11 +1,11 @@
 import { SvelteComponent } from 'svelte';
-import type { Chart } from 'chart.js';
+import type { ChartInstance } from '$lib/types';
 
 declare const __propDef: {
 	props: {
 		data: { label: string; value: number }[];
 		colors?: string[];
-		chartInstance?: Chart<'pie', number[] | undefined, string>;
+		chartInstance?: ChartInstance<'pie'>;
 	};
 	events: {
 		[evt: string]: CustomEvent;
