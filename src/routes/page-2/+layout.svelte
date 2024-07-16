@@ -6,5 +6,7 @@
 <div>
 	<Typography>PAGE 2</Typography>
 	<SubPageMenuBar subPages={routes.PAGE_2} />
-	<slot />
+	<div class="pt-4">
+		<slot />
+	</div>
 </div>
