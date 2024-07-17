@@ -4,7 +4,7 @@
 	import { EButtonColorVariant, EButtonSizeVariant } from '$lib/types';
 
 	export const meta = {
-		title: 'Footer',
+		title: 'Organisms/Footer',
 		component: Footer
 	};
 </script>

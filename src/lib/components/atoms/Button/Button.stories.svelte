@@ -4,7 +4,7 @@
 	import { EButtonColorVariant, EButtonSizeVariant } from '$lib/types';
 
 	export const meta = {
-		title: 'Button',
+		title: 'Atoms/Button',
 		component: Button,
 		argTypes: {
 			colorVariant: {

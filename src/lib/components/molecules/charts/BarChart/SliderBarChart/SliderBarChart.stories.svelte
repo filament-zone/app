@@ -14,7 +14,7 @@
 	};
 
 	export const meta = {
-		title: 'BarChart',
+		title: 'Molecules/Charts/BarChart',
 		component: SliderBarChart
 	};
 </script>

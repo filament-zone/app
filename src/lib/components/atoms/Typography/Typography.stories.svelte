@@ -3,7 +3,7 @@
 	import Typography from './Typography.svelte';
 
 	export const meta = {
-		title: 'Typography',
+		title: 'Atoms/Typography',
 		component: Typography,
 		argTypes: {
 			variant: {

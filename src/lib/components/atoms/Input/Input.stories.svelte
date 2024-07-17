@@ -5,7 +5,7 @@
 	import CopyIcon from '$lib/assets/icons/copy.svg?component';
 
 	export const meta = {
-		title: 'Input',
+		title: 'Atoms/Input',
 		component: Input,
 		argTypes: {
 			colorVariant: {

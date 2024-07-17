@@ -3,7 +3,7 @@
 	import { PieChart } from '$lib/components';
 
 	export const meta = {
-		title: 'PieChart',
+		title: 'Molecules/Charts/PieChart',
 		component: PieChart
 	};
 </script>

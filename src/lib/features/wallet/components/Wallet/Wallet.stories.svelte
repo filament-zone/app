@@ -3,7 +3,7 @@
 	import Wallet from './Wallet.svelte';
 
 	export const meta = {
-		title: 'Wallet',
+		title: 'Features/Wallet/Wallet',
 		component: Wallet
 	};
 </script>
@@ -14,4 +14,4 @@
 	</div>
 </Template>
 
-<Story name="Component" />
+<Story name="Primary" />

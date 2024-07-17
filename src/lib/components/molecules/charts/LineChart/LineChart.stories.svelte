@@ -5,7 +5,7 @@
 	import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
 
 	export const meta = {
-		title: 'LineChart',
+		title: 'Molecules/Charts/LineChart',
 		component: LineChart
 	};
 
