@@ -4,3 +4,5 @@ export * from './List';
 export * from './ListItem';
 export * from './Divider';
 export * from './Card';
+export * from './Input';
+export * from './Label';
