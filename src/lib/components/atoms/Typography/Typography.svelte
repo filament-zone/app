@@ -19,7 +19,8 @@
 		body1: 'p',
 		body2: 'p',
 		caption: 'span',
-		overline: 'span'
+		overline: 'span',
+		labelSmall: 'span'
 	};
 
 	const dispatch = createEventDispatcher();
@@ -412,6 +413,37 @@
 
 		@media @size_3xl {
 			font-size: 22px;
+		}
+	}
+
+	.typography_labelSmall {
+		font-family: 'fira-sans', sans-serif;
+		font-size: 8px;
+		font-weight: 400;
+		line-height: 1.5;
+
+		@media @size_sm {
+			font-size: 10px;
+		}
+
+		@media @size_md {
+			font-size: 10px;
+		}
+
+		@media @size_lg {
+			font-size: 12px;
+		}
+
+		@media @size_xl {
+			font-size: 12px;
+		}
+
+		@media @size_2xl {
+			font-size: 13px;
+		}
+
+		@media @size_3xl {
+			font-size: 13px;
 		}
 	}
 </style>

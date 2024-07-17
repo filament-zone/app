@@ -12,7 +12,8 @@ export type TTypographyVariant =
 	| 'body1'
 	| 'body2'
 	| 'caption'
-	| 'overline';
+	| 'overline'
+	| 'labelSmall';
 
 declare const __propDef: {
 	props: {
