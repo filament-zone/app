@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Divider, Typography } from '$lib/components';
-	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
-	import LogoGitGub from '$lib/assets/logos/logo-github.svg';
-	import LogoLinkedIn from '$lib/assets/logos/logo-linkedin.svg';
-	import LogoTwitter from '$lib/assets/logos/logo-twitter.svg';
+	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
+	import LogoGitGub from '$lib/assets/logos/logo-github.svg?url';
+	import LogoLinkedIn from '$lib/assets/logos/logo-linkedin.svg?url';
+	import LogoTwitter from '$lib/assets/logos/logo-twitter.svg?url';
 	import { socialUrls, type TSocialType } from '$lib/constants';
 
 	const handleClickSocialIcon = (socialType: TSocialType) => {

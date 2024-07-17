@@ -4,7 +4,7 @@
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
-	import LogoFilament from '$lib/assets/logos/logo-filament.svg';
+	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
 
 	const { openModal } = modalStore;
