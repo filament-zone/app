@@ -1,17 +1,17 @@
 <script context="module">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { PieChart } from '$lib/components';
+	import { PrimaryPieChart } from '$lib/components';
 
 	export const meta = {
 		title: 'Molecules/Charts/PieChart',
-		component: PieChart
+		component: PrimaryPieChart
 	};
 </script>
 
 <Template let:args>
 	<div class="flex w-full h-full justify-center align-middle">
 		<div class="w-[600px]">
-			<PieChart {...args} />
+			<PrimaryPieChart {...args} />
 		</div>
 	</div>
 </Template>

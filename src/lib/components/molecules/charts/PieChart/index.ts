@@ -1,1 +1,2 @@
-export { default as PieChart } from './PieChart.svelte';
+export * from './AbstractPieChart';
+export * from './PrimaryPieChart';
