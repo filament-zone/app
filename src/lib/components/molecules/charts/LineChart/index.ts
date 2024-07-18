@@ -1,1 +1,2 @@
-export { default as LineChart } from './LineChart.svelte';
+export * from './AbstractLineChart';
+export * from './PrimaryLineChart';

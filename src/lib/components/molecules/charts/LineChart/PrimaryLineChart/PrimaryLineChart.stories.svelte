@@ -1,15 +1,15 @@
 <script context="module" lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { LineChart } from '$lib/components';
-	import { type ILineChartProps } from '$lib/types';
+	import { PrimaryLineChart } from '$lib/components';
 	import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
+	import { type IPrimaryLineChartProps } from '$lib/types';
 
 	export const meta = {
 		title: 'Molecules/Charts/LineChart',
-		component: LineChart
+		component: PrimaryLineChart
 	};
 
-	const data: ILineChartProps['data'] = {
+	const data: IPrimaryLineChartProps['data'] = {
 		labels: generateDateLabels('2022-10-01', '2022-12-31'),
 		datasets: [
 			{
@@ -29,10 +29,8 @@
 </script>
 
 <Template let:args>
-	<div class="flex w-full h-full justify-center align-middle">
-		<div class="w-full">
-			<LineChart {...args} />
-		</div>
+	<div class="mt-16">
+		<PrimaryLineChart {...args} />
 	</div>
 </Template>
 
