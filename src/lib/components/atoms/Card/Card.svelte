@@ -5,18 +5,16 @@
 	export let label: ICardProps['label'] = '';
 </script>
 
-<div class={`card ${$$props.class}`}>
-	<div><Typography variant="caption">{label}</Typography></div>
-	<div class="text-white">
-		<slot />
-	</div>
+<div class={`card ${$$props.class} `}>
+	<Typography variant="caption">{label}</Typography>
+	<slot />
 </div>
 
 <style lang="less">
 	.card {
 		box-shadow: 0 0 0 0.1px var(--primary-white);
 		background-color: var(--content1);
-		padding: 16px;
+		padding: 10px;
 		border-radius: 4px;
 	}
 </style>
