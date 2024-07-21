@@ -46,162 +46,173 @@
 
 	.typography_h1 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 32px;
+		font-size: 26px;
 		font-weight: 700;
 		line-height: 1.2;
 
 		@media @size_sm {
-			font-size: 36px;
+			font-size: 29px;
 		}
 
 		@media @size_md {
-			font-size: 48px;
+			font-size: 38px;
 		}
 
 		@media @size_lg {
-			font-size: 56px;
+			font-size: 45px;
 		}
 
 		@media @size_xl {
-			font-size: 64px;
+			font-size: 51px;
 		}
 
 		@media @size_2xl {
-			font-size: 72px;
-		}
-
-		@media @size_3xl {
-			font-size: 80px;
+			font-size: 58px;
 		}
 	}
 
 	.typography_h2 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 28px;
+		font-size: 22px;
 		font-weight: 600;
 		line-height: 1.3;
 
 		@media @size_sm {
-			font-size: 32px;
+			font-size: 26px;
 		}
 
 		@media @size_md {
-			font-size: 40px;
+			font-size: 32px;
 		}
 
 		@media @size_lg {
-			font-size: 48px;
+			font-size: 38px;
 		}
 
 		@media @size_xl {
-			font-size: 56px;
+			font-size: 45px;
 		}
 
 		@media @size_2xl {
-			font-size: 64px;
-		}
-
-		@media @size_3xl {
-			font-size: 72px;
+			font-size: 51px;
 		}
 	}
 
 	.typography_h3 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 24px;
+		font-size: 19px;
 		font-weight: 500;
 		line-height: 1.4;
 
 		@media @size_sm {
-			font-size: 28px;
+			font-size: 22px;
 		}
 
 		@media @size_md {
-			font-size: 32px;
+			font-size: 26px;
 		}
 
 		@media @size_lg {
-			font-size: 40px;
+			font-size: 32px;
 		}
 
 		@media @size_xl {
-			font-size: 48px;
+			font-size: 38px;
 		}
 
 		@media @size_2xl {
-			font-size: 56px;
-		}
-
-		@media @size_3xl {
-			font-size: 64px;
+			font-size: 45px;
 		}
 	}
 
 	.typography_h4 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 20px;
+		font-size: 16px;
 		font-weight: 500;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 24px;
+			font-size: 19px;
 		}
 
 		@media @size_md {
-			font-size: 28px;
+			font-size: 22px;
 		}
 
 		@media @size_lg {
-			font-size: 32px;
+			font-size: 26px;
 		}
 
 		@media @size_xl {
-			font-size: 36px;
+			font-size: 29px;
 		}
 
 		@media @size_2xl {
-			font-size: 40px;
-		}
-
-		@media @size_3xl {
-			font-size: 44px;
+			font-size: 32px;
 		}
 	}
 
 	.typography_h5 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 18px;
+		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.6;
 
 		@media @size_sm {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_md {
-			font-size: 24px;
+			font-size: 19px;
 		}
 
 		@media @size_lg {
-			font-size: 28px;
+			font-size: 22px;
 		}
 
 		@media @size_xl {
-			font-size: 32px;
+			font-size: 26px;
 		}
 
 		@media @size_2xl {
-			font-size: 36px;
-		}
-
-		@media @size_3xl {
-			font-size: 40px;
+			font-size: 29px;
 		}
 	}
 
 	.typography_h6 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 12px;
+		font-size: 10px;
+		font-weight: 400;
+		line-height: 1.7;
+
+		@media @size_sm {
+			font-size: 11px;
+		}
+
+		@media @size_md {
+			font-size: 13px;
+		}
+
+		@media @size_lg {
+			font-size: 14px;
+		}
+
+		@media @size_xl {
+			font-size: 19px;
+		}
+
+		@media @size_2xl {
+			font-size: 22px;
+		}
+
+		@media @size_3xl {
+			font-size: 26px;
+		}
+	}
+
+	.typography_subtitle1 {
+		font-family: 'fira-sans', sans-serif;
+		font-size: 13px;
 		font-weight: 400;
 		line-height: 1.7;
 
@@ -214,143 +225,96 @@
 		}
 
 		@media @size_lg {
-			font-size: 18px;
+			font-size: 19px;
 		}
 
 		@media @size_xl {
-			font-size: 24px;
+			font-size: 22px;
 		}
 
 		@media @size_2xl {
-			font-size: 28px;
-		}
-
-		@media @size_3xl {
-			font-size: 32px;
-		}
-	}
-
-	.typography_subtitle1 {
-		font-family: 'fira-sans', sans-serif;
-		font-size: 16px;
-		font-weight: 400;
-		line-height: 1.7;
-
-		@media @size_sm {
-			font-size: 18px;
-		}
-
-		@media @size_md {
-			font-size: 20px;
-		}
-
-		@media @size_lg {
-			font-size: 24px;
-		}
-
-		@media @size_xl {
-			font-size: 28px;
-		}
-
-		@media @size_2xl {
-			font-size: 32px;
-		}
-
-		@media @size_3xl {
-			font-size: 36px;
+			font-size: 26px;
 		}
 	}
 
 	.typography_subtitle2 {
 		font-family: 'fira-sans', sans-serif;
-		font-size: 14px;
+		font-size: 11px;
 		font-weight: 400;
 		line-height: 1.7;
 
 		@media @size_sm {
-			font-size: 16px;
+			font-size: 13px;
 		}
 
 		@media @size_md {
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		@media @size_lg {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_xl {
-			font-size: 24px;
+			font-size: 19px;
 		}
 
 		@media @size_2xl {
-			font-size: 28px;
-		}
-
-		@media @size_3xl {
-			font-size: 32px;
+			font-size: 22px;
 		}
 	}
 
 	.typography_body1 {
 		font-family: 'fira-sans', sans-serif;
-		font-size: 16px;
+		font-size: 13px;
 		font-weight: 400;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		@media @size_md {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_lg {
-			font-size: 24px;
+			font-size: 19px;
 		}
 
 		@media @size_xl {
-			font-size: 28px;
+			font-size: 22px;
 		}
 
 		@media @size_2xl {
-			font-size: 32px;
-		}
-
-		@media @size_3xl {
-			font-size: 36px;
+			font-size: 26px;
 		}
 	}
 
 	.typography_body2 {
 		font-family: 'fira-sans', sans-serif;
-		font-size: 14px;
+		font-size: 11px;
 		font-weight: 400;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 16px;
+			font-size: 13px;
 		}
 
 		@media @size_md {
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		@media @size_lg {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_xl {
-			font-size: 24px;
+			font-size: 19px;
 		}
 
 		@media @size_2xl {
-			font-size: 28px;
-		}
-
-		@media @size_3xl {
-			font-size: 32px;
+			font-size: 22px;
 		}
 	}
 
@@ -361,62 +325,27 @@
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 14px;
+			font-size: 13px;
 		}
 
 		@media @size_md {
-			font-size: 16px;
+			font-size: 13px;
 		}
 
 		@media @size_lg {
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		@media @size_xl {
-			font-size: 20px;
+			font-size: 16px;
 		}
 
 		@media @size_2xl {
-			font-size: 22px;
-		}
-
-		@media @size_3xl {
-			font-size: 24px;
+			font-size: 18px;
 		}
 	}
 
 	.typography_overline {
-		font-family: 'fira-sans', sans-serif;
-		font-size: 10px;
-		font-weight: 400;
-		line-height: 1.5;
-
-		@media @size_sm {
-			font-size: 12px;
-		}
-
-		@media @size_md {
-			font-size: 14px;
-		}
-
-		@media @size_lg {
-			font-size: 16px;
-		}
-
-		@media @size_xl {
-			font-size: 18px;
-		}
-
-		@media @size_2xl {
-			font-size: 20px;
-		}
-
-		@media @size_3xl {
-			font-size: 22px;
-		}
-	}
-
-	.typography_labelSmall {
 		font-family: 'fira-sans', sans-serif;
 		font-size: 8px;
 		font-weight: 400;
@@ -427,23 +356,46 @@
 		}
 
 		@media @size_md {
-			font-size: 10px;
+			font-size: 11px;
 		}
 
 		@media @size_lg {
-			font-size: 12px;
+			font-size: 13px;
 		}
 
 		@media @size_xl {
-			font-size: 12px;
+			font-size: 14px;
 		}
 
 		@media @size_2xl {
-			font-size: 13px;
+			font-size: 16px;
+		}
+	}
+
+	.typography_labelSmall {
+		font-family: 'fira-sans', sans-serif;
+		font-size: 6px;
+		font-weight: 400;
+		line-height: 1.5;
+
+		@media @size_sm {
+			font-size: 8px;
 		}
 
-		@media @size_3xl {
-			font-size: 13px;
+		@media @size_md {
+			font-size: 8px;
+		}
+
+		@media @size_lg {
+			font-size: 10px;
+		}
+
+		@media @size_xl {
+			font-size: 10px;
+		}
+
+		@media @size_2xl {
+			font-size: 10px;
 		}
 	}
 </style>
