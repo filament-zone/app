@@ -60,15 +60,5 @@ export const chartStylesConfig: Record<string, ScreenConfigT> = {
 		x2: {
 			fontSize: 43
 		}
-	},
-	'3xl': {
-		chartHeight: 765,
-		max: 24,
-		x: {
-			fontSize: 43
-		},
-		x2: {
-			fontSize: 43
-		}
 	}
 };
