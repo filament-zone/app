@@ -1,0 +1,60 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { Chart, registerables } from 'chart.js';
+	import { eventListener, screenDetect } from '$lib/helpers';
+	import { throttle } from '$lib/utils';
+	import { type ChartInstance, type IAbstractDoughnutChartProps } from '$lib/types';
+
+	export let chartData: IAbstractDoughnutChartProps['chartData'];
+	export let chartInstance: IAbstractDoughnutChartProps['chartInstance'];
+	export let chartCanvasInstance: IAbstractDoughnutChartProps['chartCanvasInstance'];
+	export let chartOptions: IAbstractDoughnutChartProps['chartInstance']['options'];
+	export let plugins: IAbstractDoughnutChartProps['plugins'] = [];
+
+	Chart.register(...registerables, ...plugins);
+
+	const screenTypeStore = screenDetect();
+	$: currentScreen = $screenTypeStore.currentScreen;
+
+	onMount(() => {
+		if (browser) {
+			chartInstance = new Chart(chartCanvasInstance, {
+				type: 'doughnut',
+				data: chartData,
+				options: {
+					...chartOptions,
+					responsive: true,
+					maintainAspectRatio: false,
+					plugins: {
+						...chartOptions.plugins,
+						legend: {
+							display: false
+						},
+						tooltip: {
+							enabled: false
+						}
+					}
+				}
+			}) as ChartInstance<'doughnut'>;
+		}
+	});
+
+	$: if (currentScreen && chartInstance) {
+		if (chartInstance) {
+			chartInstance.update();
+		}
+	}
+
+	eventListener(
+		'resize',
+		throttle(() => {
+			console.log('resize');
+			chartInstance?.resize();
+		}, 500)
+	);
+</script>
+
+<div class={`chart-container ${$$props.class} h-[300px] relative`}>
+	<canvas bind:this={chartCanvasInstance} height="300px" class="absolute" />
+</div>
