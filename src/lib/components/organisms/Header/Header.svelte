@@ -47,5 +47,5 @@
 			{/if}
 		</div>
 	</div>
-	<Divider class="mb-4" />
+	<Divider />
 </div>
