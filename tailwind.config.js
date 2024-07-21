@@ -15,6 +15,14 @@ export default {
 			'filaMint-500': 'var(--filaMint-500)',
 			darkNet: 'var(--darkNet)',
 			foreground: 'var(--foreground)'
+		},
+		screens: {
+			xs: '390px',
+			sm: '480px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px',
+			'2xl': '1400px'
 		}
 	},
 	plugins: []

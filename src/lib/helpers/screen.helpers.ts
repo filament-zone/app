@@ -12,7 +12,6 @@ export const screenDetect = () => {
 		isLayoutLg: false,
 		isLayoutXl: false,
 		isLayout2Xl: false,
-		isLayout3Xl: false,
 		currentScreen: 'xs'
 	});
 
@@ -26,12 +25,10 @@ export const screenDetect = () => {
 			isLayoutMd: width >= breakpoints.md,
 			isLayoutLg: width >= breakpoints.lg,
 			isLayoutXl: width >= breakpoints.xl,
-			isLayout2Xl: width >= breakpoints['2xl'],
-			isLayout3Xl: width >= breakpoints['3xl']
+			isLayout2Xl: width >= breakpoints['2xl']
 		};
 
-		if (updatedScreenType.isLayout3Xl) currentScreen = '3xl';
-		else if (updatedScreenType.isLayout2Xl) currentScreen = '2xl';
+		if (updatedScreenType.isLayout2Xl) currentScreen = '2xl';
 		else if (updatedScreenType.isLayoutXl) currentScreen = 'xl';
 		else if (updatedScreenType.isLayoutLg) currentScreen = 'lg';
 		else if (updatedScreenType.isLayoutMd) currentScreen = 'md';
