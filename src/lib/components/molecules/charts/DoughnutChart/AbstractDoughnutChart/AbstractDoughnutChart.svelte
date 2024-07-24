@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
-	import { Chart, registerables } from 'chart.js';
 	import { eventListener, screenDetect } from '$lib/helpers';
 	import { throttle } from '$lib/utils';
 	import { type ChartInstance, type IAbstractDoughnutChartProps } from '$lib/types';
@@ -11,8 +11,6 @@
 	export let chartCanvasInstance: IAbstractDoughnutChartProps['chartCanvasInstance'];
 	export let chartOptions: IAbstractDoughnutChartProps['chartInstance']['options'];
 	export let plugins: IAbstractDoughnutChartProps['plugins'] = [];
-
-	Chart.register(...registerables, ...plugins);
 
 	const screenTypeStore = screenDetect();
 	$: currentScreen = $screenTypeStore.currentScreen;
@@ -35,7 +33,8 @@
 							enabled: false
 						}
 					}
-				}
+				},
+				plugins: [...plugins]
 			}) as ChartInstance<'doughnut'>;
 		}
 	});

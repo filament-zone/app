@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import { Chart, registerables } from 'chart.js';
+	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
 	import { eventListener } from '$lib/helpers';
 	import { throttle } from '$lib/utils';
@@ -13,8 +13,6 @@
 	export let className: IAbstractBarChartProps['className'];
 	export let plugins: IAbstractBarChartProps['plugins'] = [];
 	export let styles: string;
-
-	Chart.register(...registerables);
 
 	$: chartOptionsLocal = {
 		...chartOptions,

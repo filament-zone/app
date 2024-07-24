@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import { Chart, registerables } from 'chart.js';
+	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
 	import { eventListener } from '$lib/helpers';
 	import { throttle } from '$lib/utils';
@@ -14,12 +14,20 @@
 	export let plugins: IAbstractLineChartProps['plugins'] = [];
 	export let styles: string;
 
-	Chart.register(...registerables);
-
 	$: chartOptionsLocal = {
 		...chartOptions,
 		responsive: true,
-		maintainAspectRatio: false
+		maintainAspectRatio: false,
+		scales: {
+			...chartOptions.scales,
+			y: {
+				...chartOptions.scales?.y,
+				ticks: {
+					...chartOptions.scales?.y?.ticks,
+					padding: 10
+				}
+			}
+		}
 	};
 
 	onMount(() => {
@@ -41,11 +49,6 @@
 
 	$: if (chartInstance && chartData) {
 		chartInstance.data = chartData;
-		chartInstance.update();
-	}
-
-	$: if (chartInstance && chartOptions) {
-		chartInstance.options = { ...chartInstance.options, ...chartOptions };
 		chartInstance.update();
 	}
 

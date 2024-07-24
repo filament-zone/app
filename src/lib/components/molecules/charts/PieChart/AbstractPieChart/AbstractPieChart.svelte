@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
-	import { Chart, registerables } from 'chart.js';
 	import { eventListener, screenDetect } from '$lib/helpers';
 	import { throttle } from '$lib/utils';
 	import { type ChartInstance, type IAbstractPieChartProps } from '$lib/types';
@@ -10,8 +10,6 @@
 	export let chartInstance: IAbstractPieChartProps['chartInstance'];
 	export let chartCanvasInstance: IAbstractPieChartProps['chartCanvasInstance'];
 	export let plugins: IAbstractPieChartProps['plugins'];
-
-	Chart.register(...registerables);
 
 	const screenTypeStore = screenDetect();
 	$: currentScreen = $screenTypeStore.currentScreen;
