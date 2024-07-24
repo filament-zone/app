@@ -1,4 +1,6 @@
-import type { IPrimaryDoughnutChartProps } from '$lib/components/molecules/charts/DoughnutChart/PrimaryDoughnutChart/PrimaryDoughnutChart.svelte';
+import { EChartDateRange, type IPrimaryDoughnutChartProps } from '$lib/types';
+import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
+import { formatLargeNumber } from '$lib/utils';
 
 export async function load() {
 	const cards = [
@@ -60,5 +62,75 @@ export async function load() {
 			}
 		]
 	};
-	return { cards, totalSupply, inflationChartData, supplyChartData };
+
+	const labels = generateDateLabels('2015-01-01', '2022-12-31');
+
+	const tvlData = {
+		chartData: {
+			labels,
+			datasets: [
+				{
+					label: 'Views',
+					data: createSmoothRandomData(labels.length, 100, 120)
+				}
+			]
+		},
+		label: 'TVL',
+		formatter: (value: number) => formatLargeNumber(value, '$'),
+		useLastValue: true,
+		toggleOptions: [EChartDateRange['1d'], EChartDateRange['6m'], EChartDateRange['all']]
+	};
+
+	const burnData = {
+		chartData: {
+			labels,
+			datasets: [
+				{
+					label: 'Views',
+					data: createSmoothRandomData(labels.length, 100, 120)
+				}
+			]
+		},
+		label: 'FILA Burn',
+		formatter: formatLargeNumber
+	};
+
+	const ibcData = {
+		chartData: {
+			labels,
+			datasets: [
+				{
+					label: 'Views',
+					data: createSmoothRandomData(labels.length, 100, 120)
+				}
+			]
+		},
+		label: 'IBC Transfers',
+		formatter: formatLargeNumber
+	};
+
+	const newAddressesData = {
+		chartData: {
+			labels,
+			datasets: [
+				{
+					label: 'Views',
+					data: createSmoothRandomData(labels.length, 100, 120)
+				}
+			]
+		},
+		label: 'New Addresses',
+		formatter: formatLargeNumber
+	};
+
+	return {
+		cards,
+		totalSupply,
+		inflationChartData,
+		supplyChartData,
+		tvlData,
+		burnData,
+		ibcData,
+		newAddressesData
+	};
 }
