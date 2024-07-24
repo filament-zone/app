@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Chart, registerables } from 'chart.js';
+	import { Chart } from 'chart.js';
 	import { AbstractPieChart } from '$lib/components';
 	import { screenDetect } from '$lib/helpers';
 	import type { IPrimaryPieChartProps } from '$lib/types';
@@ -11,8 +11,6 @@
 
 	const screenTypeStore = screenDetect();
 	$: currentScreen = $screenTypeStore.currentScreen;
-
-	Chart.register(...registerables);
 
 	const chartData = {
 		labels: data?.map(({ label }) => label) ?? [],

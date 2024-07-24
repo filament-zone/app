@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { AbstractLineChart } from '$lib/components';
 
-	import { externalTooltipHandler } from './externalTooltip';
-	import { verticalLinePlugin } from './verticalLinePlugin';
+	import { externalTooltipHandler } from '../tooltips';
+	import { verticalLinePlugin } from '../plugins';
 	import {
 		type ChartInstance,
 		type IAbstractBarChartProps,
@@ -46,7 +46,6 @@
 				beginAtZero: true,
 				min: 0,
 				type: 'logarithmic',
-
 				ticks: {
 					font: {
 						size: 14,
@@ -54,7 +53,8 @@
 					},
 					maxRotation: 0,
 					autoSkip: true,
-					autoSkipPadding: 20
+					autoSkipPadding: 20,
+					padding: 10
 				},
 				grid: {
 					color: '#7c7c7c',
