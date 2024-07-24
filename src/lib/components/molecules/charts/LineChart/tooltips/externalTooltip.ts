@@ -110,10 +110,33 @@ export const externalTooltipHandler = (context: {
 		tableRoot?.appendChild(tableBody);
 	}
 
-	const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
+	const {
+		offsetLeft: positionX,
+		offsetTop: positionY,
+		width: canvasWidth,
+		height: canvasHeight
+	} = chart.canvas;
+
+	const tooltipWidth = tooltipEl.offsetWidth;
+	const tooltipHeight = tooltipEl.offsetHeight;
+
+	let left = positionX + tooltip.caretX;
+	let top = positionY + tooltip.caretY;
+
+	if (left + tooltipWidth / 2 > positionX + canvasWidth / 2) {
+		left = positionX + canvasWidth / 2 - tooltipWidth / 2 - 5;
+	} else if (left - tooltipWidth / 2 < positionX) {
+		left = positionX + tooltipWidth / 2 + 5;
+	}
+
+	if (top + tooltipHeight > positionY + canvasHeight) {
+		top = positionY + canvasHeight - tooltipHeight - 5;
+	} else if (top < positionY) {
+		top = positionY + 5;
+	}
 
 	tooltipEl.style.opacity = '1';
-	tooltipEl.style.left = `${positionX + tooltip.caretX + 100}px`;
-	tooltipEl.style.top = `${positionY + tooltip.caretY - 100}px`;
+	tooltipEl.style.left = `${left}px`;
+	tooltipEl.style.top = `${top}px`;
 	tooltipEl.style.font = '';
 };
