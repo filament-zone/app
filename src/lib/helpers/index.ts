@@ -3,3 +3,4 @@ export * from './event.helpers';
 export * from './screen.helpers';
 export * from './mock.helpers';
 export * from './charts.helpers';
+export * from './style.helpers';

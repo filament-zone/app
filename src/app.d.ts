@@ -2,6 +2,8 @@
 // for information about these interfaces
 import type { BrowserProvider, Eip1193Provider } from 'ethers';
 import '@poppanator/sveltekit-svg/dist/svg';
+import type { RowData } from '@tanstack/table-core';
+import type { AccessorFn } from '@tanstack/svelte-table';
 
 declare global {
 	namespace App {
@@ -19,6 +21,13 @@ declare global {
 
 	interface Window {
 		ethereum?: { isMetaMask?: boolean } & BrowserProvider & Eip1193Provider;
+	}
+}
+
+declare module '@tanstack/table-core' {
+	interface ColumnMeta<TData extends RowData, TValue> {
+		cellStyle?: Record<string, string>;
+		customAccessor?: AccessorFn<TData, TValue>;
 	}
 }
 
