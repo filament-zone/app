@@ -6,3 +6,4 @@ export * from './Divider';
 export * from './Card';
 export * from './Input';
 export * from './Label';
+export * from './ProgressBar';
