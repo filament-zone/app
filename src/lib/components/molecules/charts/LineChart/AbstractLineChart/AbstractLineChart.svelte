@@ -61,5 +61,5 @@
 </script>
 
 <div class={`chart-container w-full relative ${className}`} style={styles}>
-	<canvas bind:this={chartCanvasInstance}></canvas>
+	<canvas bind:this={chartCanvasInstance} width="100%" height="100%" />
 </div>

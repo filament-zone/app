@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Card, SecondaryLineChart, TrendDisplay, Toggle } from '$lib/components';
-	import { updateChartDateRange } from '$lib/helpers';
+	import { calculatePercentageChange, updateChartDateRange } from '$lib/helpers';
 	import { defaultToggleOptions } from '$lib/constants';
 	import { EChartDateRange, type ILineChartWithControlsProps } from '$lib/types';
 
@@ -26,9 +26,9 @@
 	$: totalValue = Number(
 		localChartData?.datasets[0].data.reduce((a, b) => (a as number) + (b as number), 0)
 	);
-	$: startValue = localChartData?.datasets[0].data[0] as number;
+
+	$: change = calculatePercentageChange(localChartData?.datasets[0].data as number[]);
 	$: endValue = localChartData?.datasets[0].data.at(-1) as number;
-	$: change = Number(Number(((endValue - startValue) / endValue) * 100).toFixed(2));
 	$: value = useLastValue ? endValue : totalValue;
 
 	$: trendDisplayData = {

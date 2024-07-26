@@ -67,3 +67,9 @@ export const updateChartDateRange: (
 		}))
 	};
 };
+
+export const calculatePercentageChange = (data: number[]): number => {
+	const initial = data[0];
+	const final = data[data.length - 1];
+	return Number((((final - initial) / final) * 100).toFixed(2));
+};
