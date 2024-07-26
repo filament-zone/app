@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import { Chart, registerables } from 'chart.js';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { SecondaryLineChart } from '$lib/components';
 	import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
@@ -8,6 +9,8 @@
 		title: 'Molecules/Charts/LineChart',
 		component: SecondaryLineChart
 	};
+
+	Chart.register(...registerables);
 
 	const labels = generateDateLabels('2022-01-01', '2022-12-31');
 
