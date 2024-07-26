@@ -9,6 +9,7 @@ declare const __propDef: {
 		data: RowData[];
 		columnDef: ColumnDef<RowData>[];
 		tableLabel: string;
+		tableRightLabel?: string | SvelteComponent;
 		pagination?: IPaginationProps['pagination'] | null;
 		onPageChange?: IPaginationProps['onPageChange'];
 	};

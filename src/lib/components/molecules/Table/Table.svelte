@@ -58,40 +58,46 @@
 
 <div class="p-2 w-full">
 	{#if tableLabel}
-		<div class="table-title mb-16">
+		<div class="table-title mb-4">
 			<Typography variant="h2">{tableLabel}</Typography>
 		</div>{/if}
-	<table class="w-full">
-		<thead>
-			{#each $tableClient.getHeaderGroups() as headerGroup}
-				<tr>
-					{#each headerGroup.headers as header}
-						<th class="p-2">
-							{#if !header.isPlaceholder}
-								<svelte:component
-									this={flexRender(header.column.columnDef.header, header.getContext())}
-								/>
-							{/if}
-						</th>
-					{/each}
-				</tr>
-			{/each}
-		</thead>
+	{#if $tableClient.getRowModel().rows.length}
+		<table class="border-default-box-shadow w-full">
+			<thead>
+				{#each $tableClient.getHeaderGroups() as headerGroup}
+					<tr>
+						{#each headerGroup.headers as header}
+							<th class="p-2">
+								{#if !header.isPlaceholder}
+									<svelte:component
+										this={flexRender(header.column.columnDef.header, header.getContext())}
+									/>
+								{/if}
+							</th>
+						{/each}
+					</tr>
+				{/each}
+			</thead>
 
-		<tbody>
-			{#each $tableClient.getRowModel().rows as row}
-				<tr>
-					{#each row.getVisibleCells() as cell}
-						<td class="p-2" style={stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}>
-							<svelte:component this={flexRender(cell.column.columnDef.cell, cell.getContext())} />
-						</td>
-					{/each}
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+			<tbody>
+				{#each $tableClient.getRowModel().rows as row}
+					<tr>
+						{#each row.getVisibleCells() as cell}
+							<td class="p-2" style={stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}>
+								<svelte:component
+									this={flexRender(cell.column.columnDef.cell, cell.getContext())}
+								/>
+							</td>
+						{/each}
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{/if}
 	{#if !$tableClient.getRowModel().rows.length}
-		<div class="flex justify-center items-center w-full h-[412px] text-white flex-col">NO DATA</div>
+		<div class="flex justify-center items-center w-full h-[412px] border-default-box-shadow">
+			<Typography variant="h5">NO DATA</Typography>
+		</div>
 	{/if}
 
 	{#if pagination}
@@ -106,7 +112,7 @@
 		border-collapse: separate;
 		border-spacing: 0 8px;
 		width: 100%;
-		box-shadow: 0 0 0 0.1px var(--primary-white);
+
 		th {
 			padding: 10px 10px;
 			color: var(--gray-200);

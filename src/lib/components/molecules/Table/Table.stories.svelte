@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { ProgressBar, Table } from '$lib/components';
-	import { type ColumnDef, flexRender } from '@tanstack/svelte-table';
-	import type { RowData } from '@tanstack/table-core';
+	import { flexRender } from '@tanstack/svelte-table';
 	import moment from 'moment/moment.js';
 	import { stylesObjectToString } from '$lib/helpers';
+	import type { ITableProps } from '$lib/types';
 
 	export const meta = {
 		title: 'Molecules/Table',
@@ -63,7 +63,7 @@
 		}
 	];
 
-	const defaultColumns: ColumnDef<RowData>[] = [
+	const defaultColumns: ITableProps['columnDef'] = [
 		{
 			accessorKey: 'name',
 			header: 'Name'
