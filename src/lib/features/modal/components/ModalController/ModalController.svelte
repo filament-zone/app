@@ -4,7 +4,8 @@
 		modalStore,
 		navigationStore,
 		ModalConfirmation,
-		ModalConnectWallet
+		ModalConnectWallet,
+		ModalValidatorStake
 	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
@@ -25,6 +26,8 @@
 				return ModalConfirmation;
 			case EModalVariant.CONNECT_WALLET:
 				return ModalConnectWallet;
+			case EModalVariant.VALIDATOR_STAKE:
+				return ModalValidatorStake;
 			default:
 				return null;
 		}
