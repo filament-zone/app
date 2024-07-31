@@ -1,4 +1,4 @@
-import { SvelteComponent } from 'svelte';
+import { type ComponentType, SvelteComponent } from 'svelte';
 import '@tanstack/svelte-table';
 import type { RowData } from '@tanstack/table-core';
 import type { ColumnDef } from '@tanstack/svelte-table';
@@ -6,10 +6,11 @@ import type { IPaginationProps } from 'types';
 
 declare const __propDef: {
 	props: {
+		tableLabel: string;
+		tableRightLabel?: string | ComponentType<SvelteComponent>;
+		tableRightLabelProps?: object;
 		data: RowData[];
 		columnDef: ColumnDef<RowData>[];
-		tableLabel: string;
-		tableRightLabel?: string | SvelteComponent;
 		pagination?: IPaginationProps['pagination'] | null;
 		onPageChange?: IPaginationProps['onPageChange'];
 	};

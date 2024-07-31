@@ -14,6 +14,8 @@
 	import type { ITableProps } from '$lib/types';
 
 	export let tableLabel: ITableProps['tableLabel'] = '';
+	export let tableRightLabel: ITableProps['tableRightLabel'] = '';
+	export let tableRightLabelProps: ITableProps['tableRightLabelProps'] = {};
 	export let columnDef: ITableProps['columnDef'] = [];
 	export let data: ITableProps['data'] = [];
 	export let pagination: ITableProps['pagination'] = null;
@@ -57,10 +59,25 @@
 </script>
 
 <div class="p-2 w-full">
-	{#if tableLabel}
-		<div class="table-title mb-4">
-			<Typography variant="h2">{tableLabel}</Typography>
-		</div>{/if}
+	<div class="flex flex-row justify-between items-center">
+		{#if tableLabel}
+			<div class="table-title mb-4">
+				<Typography variant="h2">{tableLabel}</Typography>
+			</div>{/if}
+		{#if tableRightLabel}
+			<div class="w-1/3">
+				{#if typeof tableRightLabel === 'string'}
+					<div class="table-right-label mb-4">
+						<Typography variant="h2">{tableRightLabel}</Typography>
+					</div>
+				{:else}
+					<div>
+						<svelte:component this={tableRightLabel} {...tableRightLabelProps} />
+					</div>
+				{/if}
+			</div>
+		{/if}
+	</div>
 	{#if $tableClient.getRowModel().rows.length}
 		<table class="border-default-box-shadow w-full">
 			<thead>
