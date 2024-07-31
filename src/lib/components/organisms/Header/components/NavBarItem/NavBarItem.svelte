@@ -55,7 +55,7 @@
 	</div>
 	{#if option.subItems && $isOpen}
 		<div class="sub-items-container" use:clickOutside on:clickOutside={handleClickOutside}>
-			<List options={option.subItems} />
+			<List options={option.subItems} on:click={option.onClick} />
 		</div>
 	{/if}
 </div>
