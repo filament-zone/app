@@ -4,3 +4,6 @@ export * from './TrendDisplay/index.types';
 export * from './Toggle/index.types';
 export * from './Pagination/index.types';
 export * from './Table/index.types';
+export * from './Dropdown/index.types';
+export * from './SearchSelect/index.types';
+export * from './InputTokenField/index.types';
