@@ -12,7 +12,7 @@
 	class:selected
 	class:disabled={option?.disabled}
 	class:isPlaceholder
-	on:click={option?.onClick}
+	on:click
 	aria-hidden="true"
 	data-testId={`list-item-${option?.value}`}
 >
