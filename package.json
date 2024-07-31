@@ -61,7 +61,7 @@
 		"typescript": "^5.5.3",
 		"typescript-eslint": "^8.0.0-alpha.39",
 		"vite": "^5.3.3",
-		"vitest": "^1.6.0",
+		"vitest": "^2.0.5",
 		"svelte-device-info": "^1.0.5"
 	},
 	"type": "module",
