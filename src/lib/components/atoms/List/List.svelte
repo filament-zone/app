@@ -8,7 +8,7 @@
 <div class="list-container">
 	{#if options?.length}
 		{#each options as option}
-			<ListItem {option} />
+			<ListItem {option} on:click={option?.onClick} />
 		{/each}
 	{/if}
 </div>
