@@ -8,10 +8,11 @@ declare const __propDef: {
 		sizeVariant?: EInputSizeVariant;
 		readonly?: boolean;
 		RightIcon?: ComponentType<SvelteComponent> | string | null;
+		RightIconProps?: object;
 		leftLabel?: string | null;
 		LeftIcon?: ComponentType<SvelteComponent> | string | null;
 		colorVariant?: EInputColorVariant;
-		onInput?: (e: Event) => void;
+		onInput?: (e: Event<HTMLInputElement>) => void;
 		hideLeftBorder?: boolean;
 		inputClassNames?: string;
 	};
@@ -23,7 +24,7 @@ declare const __propDef: {
 
 type CustomProps = typeof __propDef.props;
 
-type IInputProps_ = CustomProps & Omit<HTMLInputElement, keyof CustomProps>;
+type IInputProps_ = CustomProps & Omit<Partial<HTMLInputElement>, keyof CustomProps>;
 
 export type { IInputProps_ as IInputProps };
 export type IInputEvents = typeof __propDef.events;

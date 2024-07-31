@@ -11,6 +11,7 @@
 	export let readonly: IInputProps['readonly'] = false;
 	export let leftLabel: IInputProps['leftLabel'] = '';
 	export let RightIcon: IInputProps['RightIcon'] = null;
+	export let RightIconProps: IInputProps['RightIconProps'] = {};
 	export let LeftIcon: IInputProps['LeftIcon'] = null;
 	export let max: IInputProps['max'] = '';
 	export let min: IInputProps['min'] = '';
@@ -19,7 +20,7 @@
 	export let inputClassNames: IInputProps['inputClassNames'] = '';
 </script>
 
-<div class={`${$$props.class} size-variant-${sizeVariant}`}>
+<div class={`${$$props.class} rounded-none size-variant-${sizeVariant}`}>
 	<div class={` color-variant-${colorVariant} relative`} class:disabled>
 		{#if label}
 			<Label value={label} />
@@ -29,9 +30,11 @@
 			class:readonly
 			on:click
 			aria-hidden="true"
-			style={hideLeftBorder
-				? 'border-left: none; border-bottom-left-radius: 0; border-top-left-radius: 0;'
-				: ''}
+			style={`${
+				hideLeftBorder
+					? 'border-left: none; border-bottom-left-radius: 0; border-top-left-radius: 0;'
+					: ''
+			} ${$$props.style}`}
 		>
 			{#if leftLabel}
 				<div class="left-label">{leftLabel}</div>
@@ -41,7 +44,7 @@
 					<img src={LeftIcon} alt="icon" style="height: 12px; width: 12px; margin-right: 4px;" />
 				{:else}
 					<div class="box mr-4">
-						<svelte:component this={LeftIcon} stroke="white" />
+						<svelte:component this={LeftIcon} stroke="white" width="12px" height="12px" />
 					</div>
 				{/if}
 			{/if}
@@ -59,7 +62,7 @@
 				{#if typeof RightIcon === 'string'}
 					<div class="box">{RightIcon}</div>
 				{:else}
-					<div class="box"><svelte:component this={RightIcon} /></div>
+					<div class="box"><svelte:component this={RightIcon} {...RightIconProps} /></div>
 				{/if}
 			{/if}
 		</div>
@@ -114,8 +117,8 @@
 
 	.input-container {
 		border-radius: 4px;
-		background: #141414;
-		border: 0.4px solid var(--default-border, #303030);
+		background: var(--background-100);
+		border: 0.4px solid var(--default);
 		color: #fff;
 		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 13px;
