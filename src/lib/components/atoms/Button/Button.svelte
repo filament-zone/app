@@ -12,6 +12,7 @@
 </script>
 
 <button
+	{...$$props}
 	on:mouseenter={() => {
 		isOnHover.set(true);
 	}}
@@ -19,8 +20,7 @@
 		isOnHover.set(false);
 	}}
 	class={`w-${sizeVariant} button-variant-primary flex justify-center items-center gap-1
-		color-variant-${colorVariant}`}
-	{...$$restProps}
+		color-variant-${colorVariant} ${$$props.class}`}
 	on:click
 	{disabled}
 >
@@ -29,10 +29,7 @@
 			<svelte:component this={LeftIcon} />
 		</div>
 	{/if}
-
-	{#if colorVariant}
-		<span class="typography_button"><slot /></span>
-	{/if}
+	<span class="typography_button"><slot /></span>
 </button>
 
 <style lang="less">
@@ -56,6 +53,7 @@
 		}
 
 		.typography_button {
+			font-family: 'fira-sans', sans-serif;
 			font-size: 14px;
 			font-style: normal;
 			font-weight: 400;
