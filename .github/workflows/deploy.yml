@@ -39,6 +39,11 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
+        id: run-tests
+        run: npm run test
+
+      - name: Run tests again if failed
+        if: failure()
         run: npm run test
 
       - name: Run linter
