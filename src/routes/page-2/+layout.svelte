@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { SubPageMenuBar, Typography } from '$lib/components';
+	import { page } from '$app/stores';
+	import { SubPageMenuBar } from '$lib/components';
 	import { routes } from '$lib/constants';
+
+	$: hideSubPageMenuBar = $page?.url?.pathname.split('/')[3] === 'create-proposal';
 </script>
 
 <div>
-	<Typography>PAGE 2</Typography>
-	<SubPageMenuBar subPages={routes.PAGE_2} />
+	{#if !hideSubPageMenuBar}
+		<SubPageMenuBar subPages={routes.PAGE_2} />
+	{/if}
 	<div class="pt-4">
 		<slot />
 	</div>
