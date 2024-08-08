@@ -2,7 +2,7 @@ import { type ComponentType, SvelteComponent } from 'svelte';
 
 declare const __propDef: {
 	props: {
-		Icon: ComponentType<SvelteComponent<unknown, unknown, unknown>>;
+		Icon: ComponentType<SvelteComponent>;
 		label: string;
 		ticker: string;
 	};
