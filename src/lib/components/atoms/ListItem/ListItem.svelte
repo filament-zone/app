@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IListItemProps } from '$lib/types';
-	import { Typography } from '$lib/components';
 
 	export let option: IListItemProps['option'] = null;
 	export let selected: IListItemProps['selected'] = false;
@@ -21,7 +20,7 @@
 	{:else}
 		<svelte:component this={option?.icon} />
 	{/if}
-	<Typography variant="h6">{option?.label}</Typography>
+	<span> {option?.label}</span>
 	{#if option?.valueSecondary}
 		<span class="value-secondary"> {option?.valueSecondary}</span>
 	{/if}
@@ -46,9 +45,6 @@
 	.isPlaceholder {
 		cursor: default;
 		text-align: center;
-		span {
-			color: white !important;
-		}
 	}
 
 	.list-item-component {
@@ -60,6 +56,8 @@
 		border-radius: 4px;
 		gap: 6px;
 		padding: 8px 12px;
+		text-wrap: nowrap;
+		cursor: pointer;
 
 		span {
 			color: white;
@@ -69,13 +67,13 @@
 			font-weight: 500;
 			line-height: 16px;
 		}
-
-		&:hover {
-			span {
-				color: #00ffff !important;
-			}
+	}
+	&:hover:not(.isPlaceholder) {
+		span {
+			color: #00ffff !important;
 		}
 	}
+
 	.disabled {
 		span {
 			color: gray !important;
