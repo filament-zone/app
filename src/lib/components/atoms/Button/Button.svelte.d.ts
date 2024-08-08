@@ -10,7 +10,7 @@ declare const __propDef: {
 		disabled?: boolean;
 	};
 	events: {
-		[evt: string]: CustomEvent;
+		[evt: string]: CustomEvent<unknown>;
 	};
 	slots: object;
 };

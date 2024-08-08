@@ -19,15 +19,13 @@
 	on:mouseleave={() => {
 		isOnHover.set(false);
 	}}
-	class={`w-${sizeVariant} button-variant-primary flex justify-center items-center gap-1
+	class={`w-${sizeVariant} flex justify-center items-center gap-1
 		color-variant-${colorVariant} ${$$props.class}`}
 	on:click
 	{disabled}
 >
 	{#if LeftIcon}
-		<div class="button-icon">
-			<svelte:component this={LeftIcon} />
-		</div>
+		<svelte:component this={LeftIcon} width="12px" height="12px" />
 	{/if}
 	<span class="typography_button"><slot /></span>
 </button>
@@ -39,6 +37,7 @@
 		height: 30px;
 		border-radius: 2px;
 		white-space: nowrap;
+		cursor: pointer;
 
 		&:disabled {
 			cursor: not-allowed;
@@ -60,12 +59,6 @@
 			line-height: 20px;
 			letter-spacing: 0.05rem;
 		}
-
-		.button-icon {
-			width: 16px;
-			height: 16px;
-			border-radius: 4px;
-		}
 	}
 
 	.color-variant-primary {
@@ -74,28 +67,15 @@
 		.typography_button {
 			color: var(--darkNet);
 		}
-		.button-icon {
-			background: var(--filaMint-400);
-		}
 
 		&:hover:not(:disabled) {
 			background-color: var(--filaMint-100);
-
 			color: var(--darkNet);
-
-			.button-icon {
-				background: var(--filaMint-200);
-			}
 		}
 
 		&:disabled {
 			background-color: var(--filaMint-700);
-
 			color: var(--filaMint-300);
-
-			.button-icon {
-				background: var(--filaMint-600);
-			}
 		}
 	}
 
