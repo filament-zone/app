@@ -15,7 +15,6 @@ declare const __propDef: {
 		options?: IDropdownOption[];
 		onChange?: (value: IDropdownProps['value'] | null) => void;
 		fullWidth?: boolean;
-		classNames?: string;
 		sizeVariant?: EDropdownSizeVariant;
 		placeholder?: string;
 		isSearchable?: boolean;

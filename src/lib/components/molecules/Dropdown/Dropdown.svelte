@@ -10,7 +10,6 @@
 	export let sizeVariant: IDropdownProps['sizeVariant'] = EDropdownSizeVariant.FULL_WIDTH;
 	export let value: IDropdownProps['value'] = null;
 	export let options: IDropdownProps['options'] = [];
-	export let classNames: IDropdownProps['classNames'] = '';
 	export let placeholder: IDropdownProps['placeholder'] = 'Select';
 	export let onChange: IDropdownProps['onChange'] = () => {};
 	export let isSearchable: IDropdownProps['isSearchable'] = false;
@@ -186,7 +185,7 @@
 </script>
 
 <div
-	class={`${classNames} ${sizeVariant === EDropdownSizeVariant.FULL_WIDTH ? 'w-full' : ''}`}
+	class={`${$$props.class} ${sizeVariant === EDropdownSizeVariant.FULL_WIDTH ? 'w-full' : ''}`}
 	use:clickOutside
 	on:clickOutside={() => isOpen.set(false)}
 >
@@ -232,7 +231,7 @@
 			style={`${valueColor ? `color: ${valueColor}` : ''} ${$$props.style}`}
 		/>
 		{#if $isOpen}
-			<div class="list-container">
+			<div class="list-container" style={`top: ${label ? '66px' : '34px'}`}>
 				{#if filteredOptions.length}
 					{#each filteredOptions as option}
 						<ListItem
@@ -279,7 +278,6 @@
 		border: 0.4px solid var(--default);
 		position: absolute;
 		left: 0;
-		top: 34px;
 		z-index: 1000;
 	}
 </style>
