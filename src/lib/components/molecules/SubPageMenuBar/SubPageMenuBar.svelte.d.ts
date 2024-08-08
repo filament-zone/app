@@ -2,7 +2,7 @@ import { SvelteComponent } from 'svelte';
 
 declare const __propDef: {
 	props: {
-		subPages: Record<string, string>;
+		subPages: Record<string, string | Record<string, string>>;
 	};
 	events: {
 		[evt: string]: CustomEvent;

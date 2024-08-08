@@ -18,15 +18,29 @@
 <div>
 	<div class="flex flex-row gap-4">
 		{#each Object.values(subPages) as subRoute}
-			<div class:selected={subRouteSelected(subRoute)}>
-				<Typography
-					dataTestId={subRoute}
-					variant="h6"
-					class="cursor-pointer selected capitalize"
-					color={subRouteSelected(subRoute) ? 'var(--dark-net)' : 'var(--primary-white)'}
-					on:click={handleSubRouteSelect.bind(null, subRoute)}>{subRoute.split('/')[2]}</Typography
-				>
-			</div>
+			{#if typeof subRoute === 'string'}
+				<div class:selected={subRouteSelected(subRoute)}>
+					<Typography
+						dataTestId={subRoute}
+						variant="h6"
+						class="cursor-pointer selected capitalize"
+						color={subRouteSelected(subRoute) ? 'var(--dark-net)' : 'var(--primary-white)'}
+						on:click={handleSubRouteSelect.bind(null, subRoute)}
+						>{subRoute.split('/')[2]}</Typography
+					>
+				</div>
+			{:else}
+				<div class:selected={subRouteSelected(subRoute.ROOT)}>
+					<Typography
+						dataTestId={subRoute.ROOT}
+						variant="h6"
+						class="cursor-pointer selected capitalize"
+						color={subRouteSelected(subRoute.ROOT) ? 'var(--dark-net)' : 'var(--primary-white)'}
+						on:click={handleSubRouteSelect.bind(null, subRoute.ROOT)}
+						>{subRoute.ROOT.split('/')[2]}</Typography
+					>
+				</div>
+			{/if}
 		{/each}
 	</div>
 	<Divider />

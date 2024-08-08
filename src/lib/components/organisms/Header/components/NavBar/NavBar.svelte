@@ -27,7 +27,7 @@
 				{
 					label: 'subpage-3',
 					value: 'page-2/subpage-3',
-					path: routes.PAGE_2.SUBPAGE_3
+					path: routes.PAGE_2.SUBPAGE_3.ROOT
 				}
 			]
 		},

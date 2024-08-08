@@ -17,7 +17,7 @@ test.describe('Page-2', () => {
 	});
 
 	test('Navigate to subpage-3', async ({ page }) => {
-		await page.getByTestId(routes.PAGE_2.SUBPAGE_3).click();
-		await expect(page).toHaveURL(routes.PAGE_2.SUBPAGE_3);
+		await page.getByTestId(routes.PAGE_2.SUBPAGE_3.ROOT).click();
+		await expect(page).toHaveURL(routes.PAGE_2.SUBPAGE_3.ROOT);
 	});
 });
