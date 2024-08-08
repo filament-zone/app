@@ -7,3 +7,4 @@ export * from './Table';
 export * from './Dropdown';
 export * from './SearchSelect';
 export * from './InputTokenField';
+export * from './MenuPopover';
