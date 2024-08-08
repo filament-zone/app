@@ -93,7 +93,8 @@ export async function load() {
 				header: '#',
 				meta: {
 					cellStyle: {
-						width: '30px'
+						width: '30px',
+						color: 'var(--gray-200)'
 					}
 				}
 			},
@@ -172,7 +173,8 @@ export async function load() {
 				header: '#',
 				meta: {
 					cellStyle: {
-						width: '30px'
+						width: '30px',
+						color: 'var(--gray-200)'
 					}
 				}
 			},
@@ -198,6 +200,11 @@ export async function load() {
 				cell: (info) => {
 					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
 					return flexRender(TableValidatorOptionsComponent, { ...value });
+				},
+				meta: {
+					cellStyle: {
+						width: '100px'
+					}
 				}
 			}
 		],
