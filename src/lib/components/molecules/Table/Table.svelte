@@ -100,7 +100,7 @@
 				{#each $tableClient.getRowModel().rows as row}
 					<tr>
 						{#each row.getVisibleCells() as cell}
-							<td class="p-2" style={stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}>
+							<td style={stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}>
 								<svelte:component
 									this={flexRender(cell.column.columnDef.cell, cell.getContext())}
 								/>
@@ -131,7 +131,7 @@
 		width: 100%;
 
 		th {
-			padding: 10px 10px;
+			padding: 10px 12px;
 			color: var(--gray-200);
 			font-family: 'ff-meta-serif-web-pro', serif;
 			font-size: 0.875rem;
@@ -150,7 +150,7 @@
 				border-radius: 4px;
 			}
 			td {
-				padding: 3px 10px;
+				padding: 4px 12px;
 			}
 		}
 	}
