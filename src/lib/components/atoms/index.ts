@@ -7,3 +7,5 @@ export * from './Card';
 export * from './Input';
 export * from './Label';
 export * from './ProgressBar';
+export * from './Badge';
+export * from './TextArea';
