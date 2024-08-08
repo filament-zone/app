@@ -5,10 +5,20 @@
 	export let options: IListProps['options'] = [];
 </script>
 
-<div class="list-container">
+<div class="{$$props.class} list-container">
 	{#if options?.length}
 		{#each options as option}
-			<ListItem {option} on:click={option?.onClick} />
+			<ListItem
+				{option}
+				on:click={() => {
+					if ($$props.onClick) {
+						$$props.onClick(option);
+					}
+					if (option?.onClick) {
+						option?.onClick();
+					}
+				}}
+			/>
 		{/each}
 	{/if}
 </div>
@@ -19,7 +29,6 @@
 		border-radius: 4px;
 		background-color: black;
 		box-shadow: 0 0 0 0.5px #242424;
-		position: absolute;
 		left: 0;
 		top: 34px;
 		z-index: 1000;
