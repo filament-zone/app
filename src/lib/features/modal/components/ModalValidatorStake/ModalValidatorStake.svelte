@@ -29,9 +29,7 @@
 	</div>
 	<div slot="content">
 		<Typography variant="h6">Current stake amount: 0 FILA</Typography>
-		<div class="flex flex-row justify-center items-center w-full py-2">
-			<InputTokenField {...inputTokenFieldData} />
-		</div>
+		<InputTokenField {...inputTokenFieldData} />
 		<div class="flex justify-end">
 			<Typography variant="h6" color="var(--gray-200)">Available: 0.00 FILA</Typography>
 		</div>
