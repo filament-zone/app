@@ -8,3 +8,4 @@ export * from './Dropdown/index.types';
 export * from './SearchSelect/index.types';
 export * from './InputTokenField/index.types';
 export * from './MenuPopover/index.types';
+export * from './Breadcrumbs/index.types';
