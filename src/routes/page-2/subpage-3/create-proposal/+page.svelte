@@ -6,15 +6,17 @@
 		Typography,
 		TextArea,
 		InputTokenField,
-		Button
+		Button,
+		Breadcrumbs
 	} from '$lib/components';
-	import { EBadgeWidthVariant } from '$lib/components/atoms/Badge/Badge.enums';
+	import { EBadgeWidthVariant } from '$lib/types';
 
 	export let data;
 </script>
 
 <div class="flex flex-col items-center">
 	<div class="w-full max-w-3xl flex flex-col gap-4">
+		<Breadcrumbs class="self-start" />
 		<Typography>Create new Proposal</Typography>
 		<Card label="Proposal Details" class="p-6 gap-4">
 			<Dropdown label="Type" class="mt-2" placeholder="Choose proposal type" />

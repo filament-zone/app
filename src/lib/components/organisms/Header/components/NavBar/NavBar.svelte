@@ -7,22 +7,22 @@
 		{
 			label: 'page1',
 			value: 'page1',
-			path: routes.PAGE_1
+			path: routes.PAGE_1.ROOT
 		},
 		{
 			label: `page2`,
 			value: 'page2',
-			path: routes.PAGE_2.SUBPAGE_1,
+			path: routes.PAGE_2.SUBPAGE_1.ROOT,
 			subItems: [
 				{
 					label: 'subpage-1',
 					value: 'page-2/subpage-1',
-					path: routes.PAGE_2.SUBPAGE_1
+					path: routes.PAGE_2.SUBPAGE_1.ROOT
 				},
 				{
 					label: 'subpage-2',
 					value: 'page-2/subpage-2',
-					path: routes.PAGE_2.SUBPAGE_2
+					path: routes.PAGE_2.SUBPAGE_2.ROOT
 				},
 				{
 					label: 'subpage-3',
@@ -34,7 +34,7 @@
 		{
 			label: 'page3',
 			value: 'page3',
-			path: routes.PAGE_3
+			path: routes.PAGE_3.ROOT
 		}
 	];
 </script>
