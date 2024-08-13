@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { afterUpdate } from 'svelte';
+	import { portal } from 'svelte-portal';
+	import { v4 as uuidV4 } from 'uuid';
 	import { clickOutside } from '$lib/actions';
 	import type { IMenuPopoverProps } from '$lib/types';
 
@@ -12,25 +14,41 @@
 		isOpen = false;
 	};
 
+	const popoverId = uuidV4();
+
 	const adjustPopoverPosition = (popover: HTMLElement) => {
-		const rect = popover.getBoundingClientRect();
-		const parentRect = popover.parentElement?.getBoundingClientRect();
-		const viewportWidth = window.innerWidth;
+		const parentRect = document
+			?.getElementById(`popover-parent-${popoverId}`)
+			?.getBoundingClientRect();
 
 		if (!parentRect) {
 			return;
 		}
 
-		let left = (parentRect.width - rect.width) / 4;
+		let left = parentRect.left;
+		let top = parentRect.bottom;
+
 		popover.style.left = `${left}px`;
+		popover.style.top = `${top}px`;
 
 		const adjustedRect = popover.getBoundingClientRect();
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
 
-		if (adjustedRect.left < 0) {
-			popover.style.left = `${left - adjustedRect.left}px`;
-		} else if (adjustedRect.right > viewportWidth) {
-			popover.style.left = `${left - (adjustedRect.right - viewportWidth)}px`;
+		if (adjustedRect.right > viewportWidth) {
+			left = viewportWidth - adjustedRect.width - 10;
+		} else if (adjustedRect.left < 0) {
+			left = 10;
 		}
+
+		if (adjustedRect.bottom > viewportHeight) {
+			top = parentRect.top - adjustedRect.height;
+		} else if (adjustedRect.top < 0) {
+			top = parentRect.bottom;
+		}
+
+		popover.style.left = `${left}px`;
+		popover.style.top = `${top}px`;
 	};
 
 	afterUpdate(() => {
@@ -48,11 +66,12 @@
 </script>
 
 <div class="relative w-fit">
-	<div on:click={openPopover} aria-hidden="true">
+	<div on:click={openPopover} aria-hidden="true" id={`popover-parent-${popoverId}`}>
 		<slot name="trigger" />
 	</div>
 	{#if isOpen}
 		<div
+			use:portal={'body'}
 			class="menu-popover overflow-scroll rounded border border-default"
 			use:clickOutside
 			on:clickOutside={onClickOutside}
@@ -75,9 +94,6 @@
 	.menu-popover {
 		position: absolute;
 		z-index: 1000;
-		top: 30px;
-		left: 50%;
-		transform: translateX(-50%);
 		&::-webkit-scrollbar {
 			display: none;
 		}
