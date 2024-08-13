@@ -6,7 +6,9 @@
 		getCoreRowModel,
 		type OnChangeFn,
 		type VisibilityState,
-		type TableOptions
+		type TableOptions,
+		type Cell,
+		type Header
 	} from '@tanstack/svelte-table';
 	import type { RowData } from '@tanstack/table-core';
 	import { Typography, Pagination } from '$lib/components';
@@ -56,9 +58,23 @@
 	}
 
 	export let tableClient = createSvelteTable(options);
+
+	const getLeftIfSticky = (cells: Cell<unknown, unknown>[], index: number) => {
+		return cells[index].column.columnDef.meta?.class?.includes('sticky') && index > 0
+			? `left: ${cells[index - 1].column.getSize()}px`
+			: cells[index].column.columnDef.meta?.class?.includes('sticky') && index === 0
+				? 'left: 0'
+				: '';
+	};
+
+	const isHeaderSticky = (cells: Header<unknown, unknown>[], index: number) => {
+		if (cells[index].column.columnDef.meta?.class?.includes('sticky')) {
+			return `${getLeftIfSticky(cells as unknown as Cell<unknown, unknown>[], index)}; position: sticky`;
+		}
+	};
 </script>
 
-<div class="p-2 w-full">
+<div class="">
 	<div class="flex flex-row justify-between items-center">
 		{#if tableLabel}
 			<div class="table-title mb-4">
@@ -79,37 +95,42 @@
 		{/if}
 	</div>
 	{#if $tableClient.getRowModel().rows.length}
-		<table class="border-default-box-shadow w-full">
-			<thead>
-				{#each $tableClient.getHeaderGroups() as headerGroup}
-					<tr>
-						{#each headerGroup.headers as header}
-							<th class="p-2">
-								{#if !header.isPlaceholder}
+		<div class="overflow-x-scroll border-default-box-shadow">
+			<table class="">
+				<tbody>
+					{#each $tableClient.getHeaderGroups() as headerGroup}
+						<tr class="header">
+							{#each headerGroup.headers as header, index}
+								<th
+									class={`${isHeaderSticky(headerGroup.headers, index) ? 'sticky' : ''} p-2`}
+									style={`${isHeaderSticky(headerGroup.headers, index)}; width: ${header.getSize()}px`}
+								>
+									{#if !header.isPlaceholder}
+										<svelte:component
+											this={flexRender(header.column.columnDef.header, header.getContext())}
+										/>
+									{/if}
+								</th>
+							{/each}
+						</tr>
+					{/each}
+					{#each $tableClient.getRowModel().rows as row}
+						<tr>
+							{#each row.getVisibleCells() as cell, index}
+								<td
+									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
+									class={cell.column.columnDef.meta?.class}
+								>
 									<svelte:component
-										this={flexRender(header.column.columnDef.header, header.getContext())}
+										this={flexRender(cell.column.columnDef.cell, cell.getContext())}
 									/>
-								{/if}
-							</th>
-						{/each}
-					</tr>
-				{/each}
-			</thead>
-
-			<tbody>
-				{#each $tableClient.getRowModel().rows as row}
-					<tr>
-						{#each row.getVisibleCells() as cell}
-							<td style={stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}>
-								<svelte:component
-									this={flexRender(cell.column.columnDef.cell, cell.getContext())}
-								/>
-							</td>
-						{/each}
-					</tr>
-				{/each}
-			</tbody>
-		</table>
+								</td>
+							{/each}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
 	{/if}
 	{#if !$tableClient.getRowModel().rows.length}
 		<div class="flex justify-center items-center w-full h-[412px] border-default-box-shadow">
@@ -126,9 +147,12 @@
 
 <style lang="less">
 	table {
-		border-collapse: separate;
-		border-spacing: 0 8px;
 		width: 100%;
+		table-layout: fixed;
+
+		.header {
+			background-color: var(--background);
+		}
 
 		th {
 			padding: 10px 12px;
@@ -153,5 +177,10 @@
 				padding: 4px 12px;
 			}
 		}
+	}
+
+	.sticky {
+		position: sticky;
+		background-color: var(--background);
 	}
 </style>

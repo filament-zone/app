@@ -26,6 +26,7 @@ declare global {
 
 declare module '@tanstack/table-core' {
 	interface ColumnMeta<TData extends RowData, TValue> {
+		class?: string;
 		cellStyle?: Record<string, string>;
 		customAccessor?: AccessorFn<TData, TValue>;
 	}
