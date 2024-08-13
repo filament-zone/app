@@ -65,7 +65,7 @@
 				<Typography variant="h2">{tableLabel}</Typography>
 			</div>{/if}
 		{#if tableRightLabel}
-			<div class="w-1/3">
+			<div class="flex flex-row justify-end w-2/3">
 				{#if typeof tableRightLabel === 'string'}
 					<div class="table-right-label mb-4">
 						<Typography variant="h2">{tableRightLabel}</Typography>
