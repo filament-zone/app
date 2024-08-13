@@ -91,9 +91,10 @@ export async function load() {
 			{
 				accessorKey: 'id',
 				header: '#',
+				size: 30,
 				meta: {
+					class: 'sticky',
 					cellStyle: {
-						width: '30px',
 						color: 'var(--gray-200)'
 					}
 				}
@@ -101,9 +102,13 @@ export async function load() {
 			{
 				accessorKey: 'validator',
 				header: 'Validator',
+				size: 200,
 				cell: (info) => {
 					const value = info.getValue() as unknown as TDelegationsTableData['validator'];
 					return flexRender(TableValidatorComponent, { ...value });
+				},
+				meta: {
+					class: 'sticky'
 				}
 			},
 			{
@@ -171,9 +176,10 @@ export async function load() {
 			{
 				accessorKey: 'id',
 				header: '#',
+				size: 30,
 				meta: {
+					class: 'sticky',
 					cellStyle: {
-						width: '30px',
 						color: 'var(--gray-200)'
 					}
 				}
@@ -181,9 +187,13 @@ export async function load() {
 			{
 				accessorKey: 'validator',
 				header: 'Validator',
+				size: 200,
 				cell: (info) => {
 					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
 					return flexRender(TableValidatorComponent, { ...value });
+				},
+				meta: {
+					class: 'sticky'
 				}
 			},
 			{

@@ -148,7 +148,11 @@ export async function load() {
 		columnDef: [
 			{
 				accessorKey: 'id',
-				header: '#'
+				header: '#',
+				size: 30,
+				meta: {
+					class: 'sticky'
+				}
 			},
 			{
 				accessorKey: 'name',
@@ -157,10 +161,9 @@ export async function load() {
 					const value = info.getValue() as unknown as TableData['name'];
 					return flexRender(TableNetworkComponent, { ...value });
 				},
+				size: 175,
 				meta: {
-					cellStyle: {
-						['min-width']: '200px'
-					}
+					class: 'sticky'
 				}
 			},
 			{

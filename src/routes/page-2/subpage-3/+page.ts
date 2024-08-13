@@ -99,9 +99,10 @@ export async function load() {
 			{
 				accessorKey: 'id',
 				header: '#',
+				size: 30,
 				meta: {
+					class: 'sticky',
 					cellStyle: {
-						width: '30px',
 						color: 'var(--gray-200)'
 					}
 				}
@@ -109,7 +110,9 @@ export async function load() {
 			{
 				accessorKey: 'title',
 				header: 'Title',
+				size: 150,
 				meta: {
+					class: 'sticky',
 					cellStyle: {
 						width: 'calc(65% - 30px)'
 					}

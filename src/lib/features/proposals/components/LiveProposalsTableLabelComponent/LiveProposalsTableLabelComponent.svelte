@@ -7,7 +7,7 @@
 	export let buttonProps: ILiveProposalsTableLabelComponentProps['buttonProps'];
 </script>
 
-<div class="flex flex-row gap-4">
+<div class="flex flex-col items-end md:flex-row md:gap-4">
 	<SearchSelect {...searchSelectProps} />
 	<Button LeftIcon={UploadIcon} {...buttonProps} on:click={buttonProps.onClick}
 		>Create new proposal</Button
