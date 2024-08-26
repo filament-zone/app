@@ -398,10 +398,5 @@
 		@media @size_2xl {
 			font-size: 10px;
 		}
-
-		.typography_button {
-			font-family: 'fira-sans', sans-serif;
-			font-size: 14px;
-		}
 	}
 </style>
