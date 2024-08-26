@@ -37,9 +37,9 @@ export class TransactionRequest extends TransactionClientEventsEmitCreator {
 				const ethereumContract = new EthereumContract(scAddress, walletClientConnector, this.abi);
 
 				await ethereumContract.contract[method](...args)
-					.then((res) => {
-						walletClientConnector.EventEmitter.emit('success', res);
-						successEmitSubscribers(res);
+					.then((payload) => {
+						walletClientConnector.EventEmitter.emit('success', payload);
+						successEmitSubscribers(payload);
 					})
 					.catch((error: EthersError) => {
 						const errorPayload = walletClientConnector.Client.createErrorPayload(error);

@@ -34,7 +34,7 @@ export interface CommonTransactionPayload {
 }
 
 export interface SuccessTransactionPayload {
-	transactionHash: string;
+	data: unknown;
 }
 
 export interface ErrorTransactionPayload {

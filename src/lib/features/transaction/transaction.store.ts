@@ -25,8 +25,8 @@ const newTransaction: TNewTransaction = (abi, method, args) => {
 		walletProvider
 	});
 
-	transaction.onSuccess((payload) => {
-		send({ message: `Transaction with hash ${payload.transactionHash} completed` });
+	transaction.onSuccess(() => {
+		send({ message: `Transaction has been completed` });
 	});
 
 	transaction.onReject(() => {
@@ -34,7 +34,7 @@ const newTransaction: TNewTransaction = (abi, method, args) => {
 	});
 
 	transaction.onFailure(() => {
-		send({ message: `Transaction fail` });
+		send({ message: `Transaction failed` });
 	});
 
 	return transaction;

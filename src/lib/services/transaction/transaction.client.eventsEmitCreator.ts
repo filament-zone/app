@@ -24,7 +24,7 @@ export class TransactionClientEventsEmitCreator {
 				subscriber({
 					method,
 					walletProvider,
-					...payload
+					data: payload
 				})
 			);
 
@@ -35,7 +35,7 @@ export class TransactionClientEventsEmitCreator {
 				subscriber({
 					method,
 					walletProvider,
-					...payload
+					error: payload.error
 				})
 			);
 
@@ -46,7 +46,7 @@ export class TransactionClientEventsEmitCreator {
 				subscriber({
 					method,
 					walletProvider,
-					...payload
+					error: payload.error
 				})
 			);
 
