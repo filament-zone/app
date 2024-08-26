@@ -21,7 +21,7 @@
 		"@chromatic-com/storybook": "^1.6.1",
 		"@commitlint/cli": "^19.4.0",
 		"@commitlint/config-conventional": "^19.2.2",
-		"@playwright/test": "^1.45.3",
+		"@playwright/test": "^1.46.1",
 		"@poppanator/sveltekit-svg": "^4.2.1",
 		"@storybook/addon-essentials": "^8.2.6",
 		"@storybook/addon-interactions": "^8.2.6",
