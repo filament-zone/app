@@ -1,15 +1,15 @@
 import {
-	EventEmitter,
 	type IWalletClientConnector,
 	MetamaskWalletClientConnector,
-	EWalletProvider
+	EWalletProvider,
+	EventEmitter
 } from '$lib/services';
 import type { IEventEmitter, IWalletClientConnectorConstructorProps } from '$lib/types';
 
 import { removeFromLocalStorage } from '$lib/utils';
 
 export class WalletClientConnector implements IWalletClientConnector {
-	private readonly Client: IWalletClientConnector;
+	public readonly Client: IWalletClientConnector;
 
 	public EventEmitter: IEventEmitter;
 	public _connected = false;
@@ -85,8 +85,12 @@ export class WalletClientConnector implements IWalletClientConnector {
 		return this;
 	};
 
-	public switchChain: IWalletClientConnector['switchChain'] = async () => {
-		await this.Client.switchChain();
+	public switchChain: IWalletClientConnector['switchChain'] = async (chainId) => {
+		await this.Client.switchChain(chainId);
 		return this;
+	};
+
+	public createErrorPayload: IWalletClientConnector['createErrorPayload'] = (payload) => {
+		return this.Client.createErrorPayload(payload);
 	};
 }

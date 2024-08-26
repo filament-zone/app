@@ -1,5 +1,7 @@
-import type { BrowserProvider } from 'ethers';
+import { type BrowserProvider, type EthersError, JsonRpcSigner } from 'ethers';
 import type { IChain } from '$lib/features/wallet/wallet.store.types';
+import type { IEventEmitter } from '$lib/services/event-emitter/event-emitter.types';
+import type { TransactionError } from '$lib/services/transaction/transaction.client.types';
 
 export enum EWalletProvider {
 	METAMASK = 'metamask'
@@ -17,6 +19,7 @@ export type WalletClient = BrowserProvider;
 
 export interface IWalletClientConnectorConstructorProps {
 	walletProvider: EWalletProvider;
+	eventEmitter?: IEventEmitter;
 }
 
 export type TWalletClientConnectorCallback = (data?: unknown) => unknown;
@@ -37,11 +40,9 @@ export interface IWalletClientConnector {
 		address: string,
 		callback?: TWalletClientConnectorCallback
 	) => Promise<IWalletClientConnector>;
-	switchChain: () => Promise<IWalletClientConnector>;
-}
-
-export interface IWalletClientBuilderConstructorProps {
-	walletProvider: EWalletProvider;
+	switchChain: (chainId: bigint) => Promise<IWalletClientConnector>;
+	Signer?: JsonRpcSigner | null;
+	createErrorPayload: (error: EthersError) => TransactionError;
 }
 
 export type WalletClientEventE =
@@ -64,4 +65,9 @@ export interface IAccountBalance {
 
 export interface IWalletClientBuilder {
 	build: () => WalletClient | null;
+}
+
+export enum EChain {
+	ETHEREUM_MAINNET = 'ethereum-mainnet',
+	SEPOLIA_TESTNET = 'sepolia-testnet'
 }

@@ -1,5 +1,5 @@
 import type { Writable } from 'svelte/store';
-import { type IWalletClientConnector } from '$lib/services';
+import { WalletClientConnector } from '$lib/services';
 import { EWalletProvider } from '$lib/types';
 
 export interface IChain {
@@ -11,9 +11,10 @@ export interface IWalletState {
 	address: string | null;
 	network: string | null;
 	connected: boolean;
-	client: IWalletClientConnector | null;
+	client: WalletClientConnector | null;
 	chain: IChain | null;
 	balance: string | null;
+	walletProvider: EWalletProvider | null;
 }
 
 export interface IWalletStore {

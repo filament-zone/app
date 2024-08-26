@@ -1,45 +1,47 @@
-import { type BrowserProvider, ethers } from 'ethers';
+import { type BrowserProvider, ethers, type EthersError, JsonRpcSigner } from 'ethers';
 import { MetamaskWalletClientBuilder } from '$lib/services';
+import { bigIntToHexId } from '$lib/helpers';
 import {
 	type IWalletClientConnector,
-	type EthereumError,
 	type IEventEmitter,
-	EWalletProviderError
+	EWalletProviderError,
+	type TransactionError
 } from '$lib/types';
 
 export class MetamaskWalletClientConnector implements IWalletClientConnector {
 	private readonly Client: BrowserProvider | null;
 	private readonly ClientBuilder: MetamaskWalletClientBuilder;
 	public EventEmitter: IEventEmitter;
+	public Signer: JsonRpcSigner | null;
 
 	constructor(eventEmitter: IEventEmitter) {
 		this.EventEmitter = eventEmitter;
 		this.ClientBuilder = new MetamaskWalletClientBuilder();
 		this.Client = this.ClientBuilder.build();
+		this.Signer = null;
 	}
 
 	private async enableWindowProvider() {
-		await this.Client?.getSigner();
+		if (this.Client) {
+			this.Signer = await this.Client.getSigner();
+		}
 	}
 
 	public connect: IWalletClientConnector['connect'] = async () => {
-		const isProviderConnected = await MetamaskWalletClientBuilder.isProviderConnected();
-
-		if (MetamaskWalletClientBuilder.isWindowProviderAvailable()) {
-			if (!isProviderConnected) {
-				await this.enableWindowProvider()
-					.then(() => {
-						this.EventEmitter.emit('connect');
-					})
-					.catch((error: EthereumError) => {
-						this.EventEmitter.emit('reject', this.createErrorPayload(error));
-					});
-			} else {
+		await this.enableWindowProvider()
+			.then(() => {
 				this.EventEmitter.emit('connect');
-			}
-		} else {
-			this.EventEmitter.emit('reject', { code: EWalletProviderError.METAMASK_NOT_AVAILABLE });
-		}
+			})
+			.catch((error: EthersError) => {
+				console.error('Metamask connect error', error);
+				const errorPayload = this.createErrorPayload(error);
+
+				if (error.info?.error.code === EWalletProviderError.USER_REJECTED_REQUEST) {
+					this.EventEmitter.emit('reject', errorPayload);
+				} else {
+					this.EventEmitter.emit('failure', errorPayload);
+				}
+			});
 
 		this.ClientBuilder?.MetamaskProvider?.on('accountsChanged', (accounts) => {
 			const acc = accounts.length
@@ -85,18 +87,19 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 		return this;
 	};
 
-	public switchChain: IWalletClientConnector['switchChain'] = async () => {
+	public switchChain: IWalletClientConnector['switchChain'] = async (chainId) => {
+		const hexId = bigIntToHexId(chainId);
 		await this.ClientBuilder?.MetamaskProvider?.request({
 			method: 'wallet_switchEthereumChain',
-			params: [{ chainId: '0x1' }]
+			params: [{ chainId: hexId }]
 		});
 		return this;
 	};
 
-	public createErrorPayload(error: EthereumError): EthereumError {
+	public createErrorPayload(error: EthersError): TransactionError {
 		return {
-			...error,
-			code: this.getErrorByCode(error?.error?.code)
+			originalError: error,
+			code: this.getErrorByCode(error?.info?.error?.code)
 		};
 	}
 

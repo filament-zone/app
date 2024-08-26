@@ -1,10 +1,14 @@
+import type { EthersError } from 'ethers';
 import { get, writable } from 'svelte/store';
+import { env } from '$env/dynamic/public';
 import { modalStore, toastsStore } from '$lib/features';
 import { EWalletProviderError, WalletClientConnector } from '$lib/services';
 import { writeToLocalStorage } from '$lib/utils';
+import { shortCutTransactionHash } from '$lib/helpers';
+import { CHAIN_IDS, CHAIN_NAMES } from '$lib/constants';
 import {
+	EChain,
 	EModalVariant,
-	type EthereumError,
 	EWalletProvider,
 	type IAccountBalance,
 	type IAccountInfo,
@@ -12,8 +16,6 @@ import {
 	type IWalletState,
 	type IWalletStore
 } from '$lib/types';
-import { CHAIN_IDS } from '$lib/constants';
-import { shortCutTransactionHash } from '$lib/helpers';
 
 const { closeModal } = modalStore;
 
@@ -26,13 +28,15 @@ const initialState: IWalletState = {
 		chainId: null,
 		name: null
 	},
-	balance: null
+	balance: null,
+	walletProvider: null
 };
 
 export const wallet = writable<IWalletState>(initialState);
 
 const initializeWallet = async (walletProvider: EWalletProvider) => {
 	const { send } = toastsStore;
+	wallet.update((state) => ({ ...state, walletProvider }));
 	const client = new WalletClientConnector({ walletProvider });
 
 	if (!client.on) return;
@@ -46,7 +50,8 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 				client,
 				address: data[0].address ?? '',
 				connected: true,
-				chain: data[0].chain
+				chain: data[0].chain,
+				walletProvider
 			}));
 			writeToLocalStorage('prevWallet', walletProvider);
 			closeModal();
@@ -91,7 +96,8 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	});
 
 	client.on('reject', (error) => {
-		switch ((error as EthereumError).code) {
+		wallet.set(initialState);
+		switch ((error as EthersError).info?.error.code) {
 			case EWalletProviderError.REQUEST_PENDING:
 				send({ message: 'Open metamask extension and accept the request' });
 				break;
@@ -115,16 +121,19 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 
 wallet.subscribe((state) => {
 	const { openModal } = modalStore;
-	if (state.chain?.chainId && state.chain.chainId !== CHAIN_IDS.ETHEREUM_MAINNET) {
+
+	if (
+		state.chain?.chainId &&
+		state.chain.chainId !== CHAIN_IDS[env.PUBLIC_DEFAULT_CHAIN as EChain]
+	) {
 		openModal({
 			variant: EModalVariant.CONFIRMATION,
 			state: {
 				title: 'Change Network',
-				description:
-					'You are on a wrong network, click "Change network" to switch to Ethereum Mainnet',
+				description: `You are on a wrong network, click "Change network" to switch to ${CHAIN_NAMES[env.PUBLIC_DEFAULT_CHAIN as EChain]}`,
 				disabledDeny: true,
 				onConfirm: () => {
-					state.client?.switchChain();
+					state.client?.switchChain(CHAIN_IDS[env.PUBLIC_DEFAULT_CHAIN as EChain]);
 				},
 				onConfirmLabel: 'Change network'
 			} as IModalConfirmationProps
