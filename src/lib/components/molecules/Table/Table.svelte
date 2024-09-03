@@ -95,7 +95,7 @@
 		{/if}
 	</div>
 	{#if $tableClient.getRowModel().rows.length}
-		<div class="overflow-x-scroll border-default-box-shadow">
+		<div class="overflow-x-auto border-default-box-shadow">
 			<table class="">
 				<tbody>
 					{#each $tableClient.getHeaderGroups() as headerGroup}
