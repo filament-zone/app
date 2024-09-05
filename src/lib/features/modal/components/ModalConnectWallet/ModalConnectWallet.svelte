@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import Device from 'svelte-device-info';
 	import { walletStore, Modal } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
 	import { EButtonColorVariant, EButtonSizeVariant, EWalletProvider } from '$lib/types';
@@ -20,20 +19,14 @@
 				colorVariant={EButtonColorVariant.PRIMARY}
 				sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 				on:click={() => {
-					if (Device.isMobile && !window?.ethereum?.isMetaMask) {
+					if (!window?.ethereum?.isMetaMask) {
 						if (browser) {
-							window.location.href = `https://metamask.app.link/dapp/${window.location.host}`;
+							window.open(`https://metamask.app.link/dapp/${window.location.host}`, '_blank');
 						}
 					} else {
 						initializeWallet(EWalletProvider.METAMASK);
 					}
 				}}>MetaMask</Button
-			>
-			<Button
-				data-testid="connect-rabby"
-				colorVariant={EButtonColorVariant.SECONDARY}
-				sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-				disabled>Rabby</Button
 			>
 		</div>
 	</div>
