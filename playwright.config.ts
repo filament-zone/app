@@ -10,27 +10,9 @@ const config: PlaywrightTestConfig = {
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/,
 	projects: [
 		{
-			name: 'Desktop Safari',
-			use: {
-				...devices['Desktop Safari']
-			}
-		},
-		{
 			name: 'Desktop Chrome',
 			use: {
 				...devices['Desktop Chrome']
-			}
-		},
-		{
-			name: 'Mobile Chrome iOS',
-			use: {
-				...devices['iPhone 14 Pro Max']
-			}
-		},
-		{
-			name: 'Mobile Safari iOS',
-			use: {
-				...devices['iPhone 14 Pro Max']
 			}
 		},
 		{

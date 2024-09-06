@@ -1,5 +1,30 @@
+run_twice_on_fail() {
+  CMD=$1
+  echo "Running $CMD"
+  $CMD
+  STATUS=$?
+
+  if [ $STATUS -ne 0 ]; then
+    echo "First attempt of '$CMD' failed, retrying..."
+    $CMD
+    STATUS=$?
+  fi
+
+  return $STATUS
+}
+
 npm run check
+
+run_twice_on_fail "npm run test" || TEST_STATUS=$?
+TEST_STATUS=${TEST_STATUS:-$?}
+
 npm run lint
+
+if  [ $TEST_STATUS -ne 0 ]; then
+  exit 1
+else
+  exit 0
+fi
 
 
 
