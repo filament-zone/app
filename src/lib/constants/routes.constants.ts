@@ -10,5 +10,13 @@ export const routes = {
 			CREATE_PROPOSAL: '/page-2/subpage-3/create-proposal'
 		}
 	},
-	PAGE_3: { ROOT: '/page-3' }
+	CAMPAIGNS: {
+		ROOT: '/campaigns',
+		ALL: { ROOT: '/campaigns/all' },
+		MY: { ROOT: '/campaigns/my' },
+		CREATE: {
+			ROOT: '/campaigns/create',
+			AIR_DROP: { ROOT: `/campaigns/create/air-drop` }
+		}
+	}
 };

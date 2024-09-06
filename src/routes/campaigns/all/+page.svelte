@@ -2,4 +2,4 @@
 	import { Typography } from '$lib/components';
 </script>
 
-<Typography>PAGE 3</Typography>
+<Typography>All Campaigns</Typography>

@@ -32,9 +32,21 @@
 			]
 		},
 		{
-			label: 'page3',
-			value: 'page3',
-			path: routes.PAGE_3.ROOT
+			label: 'Campaigns',
+			value: 'campaigns',
+			path: routes.CAMPAIGNS.ROOT,
+			subItems: [
+				{
+					label: 'All Campaigns',
+					value: 'campaigns/all',
+					path: routes.CAMPAIGNS.ALL.ROOT
+				},
+				{
+					label: 'My Campaigns',
+					value: 'campaigns/my',
+					path: routes.CAMPAIGNS.MY.ROOT
+				}
+			]
 		}
 	];
 </script>
