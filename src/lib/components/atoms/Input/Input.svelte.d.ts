@@ -4,6 +4,7 @@ import { EInputColorVariant, type EInputSizeVariant } from '$lib/types';
 declare const __propDef: {
 	props: {
 		label?: string | null;
+		labelGap?: boolean;
 		error?: string;
 		sizeVariant?: EInputSizeVariant;
 		readonly?: boolean;

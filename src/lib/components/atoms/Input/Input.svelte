@@ -3,6 +3,7 @@
 	import { EInputSizeVariant, type IInputProps, EInputColorVariant } from '$lib/types';
 
 	export let label: IInputProps['label'] = '';
+	export let labelGap: IInputProps['labelGap'] = false;
 	export let error: IInputProps['error'] = '';
 	export let sizeVariant: IInputProps['sizeVariant'] = EInputSizeVariant.FULL_WIDTH;
 	export let colorVariant: IInputProps['colorVariant'] = EInputColorVariant.DARK;
@@ -22,8 +23,11 @@
 
 <div class={`${$$props.class} rounded-none size-variant-${sizeVariant}`}>
 	<div class={` color-variant-${colorVariant} relative`} class:disabled>
-		{#if label}
+		{#if label && !labelGap}
 			<Label value={label} />
+		{/if}
+		{#if !label && labelGap}
+			<div style="height: 30px" />
 		{/if}
 		<div
 			class={`input-container flex flex-row justify-between`}
