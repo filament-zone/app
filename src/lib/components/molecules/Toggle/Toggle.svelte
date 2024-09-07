@@ -60,7 +60,7 @@
 
 <div>
 	{#if label}
-		<Label {label} />
+		<Label value={label} />
 	{/if}
 	{#if options && options.length > 0}
 		<div class="toggle-container">
@@ -94,12 +94,12 @@
 	}
 	.toggle-container {
 		display: flex;
-		padding: 3px;
 		align-items: flex-start;
 		gap: 0.625rem;
 		border-radius: 2px;
 		background: var(--content1);
 		width: fit-content;
+		height: 30px;
 	}
 	.toggle {
 		display: flex;
