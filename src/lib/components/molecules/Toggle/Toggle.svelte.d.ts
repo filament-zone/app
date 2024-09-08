@@ -13,6 +13,7 @@ declare const __propDef: {
 		onChange?: ((value: T | T[]) => void) | null;
 		label?: string;
 		isMulti?: boolean;
+		variant?: EToggleVariant;
 	};
 	events: {
 		[evt: string]: CustomEvent;

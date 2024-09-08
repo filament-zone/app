@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { Label, Typography } from '$lib/components';
-	import type { IToggleOption, IToggleProps } from '$lib/components/molecules/Toggle/Toggle.svelte';
+	import { EToggleVariant, type IToggleOption, type IToggleProps } from '$lib/types';
 
 	export let options: IToggleProps['options'] = null;
 	export let value: IToggleProps['value'] = null;
 	export let label: IToggleProps['label'] = '';
 	export let isMulti: IToggleProps['isMulti'] = false;
+	export let variant: IToggleProps['variant'] = EToggleVariant.PRIMARY;
 
 	$: updateValue = (selectedValues: string[]) => {
 		if (isMulti) {
@@ -56,6 +57,23 @@
 			return value === option.value;
 		}
 	};
+
+	const getTypographyColor = (isSelected: boolean, variant: EToggleVariant) => {
+		switch (variant) {
+			case EToggleVariant.PRIMARY:
+				if (!isSelected) {
+					return 'var(--primary-white)';
+				} else {
+					return 'var(--darkNet)';
+				}
+			case EToggleVariant.SECONDARY:
+				if (!isSelected) {
+					return 'var(--primary-white)';
+				} else {
+					return 'var(--filaMint-500)';
+				}
+		}
+	};
 </script>
 
 <div>
@@ -63,10 +81,10 @@
 		<Label value={label} />
 	{/if}
 	{#if options && options.length > 0}
-		<div class="toggle-container">
+		<div class="toggle-container toggle-container-{variant}">
 			{#each options as option}
 				<div
-					class="toggle"
+					class="toggle-{variant}"
 					class:selected={isOptionSelected(option)}
 					class:disabled={option.disabled}
 					on:click={() => {
@@ -78,8 +96,7 @@
 				>
 					<Typography
 						variant="caption"
-						color={isOptionSelected(option) ? 'var(--darkNet)' : 'var(--primary-white)'}
-						>{option.label}</Typography
+						color={getTypographyColor(isOptionSelected(option), variant)}>{option.label}</Typography
 					>
 				</div>
 			{/each}
@@ -92,16 +109,29 @@
 		opacity: 0.3;
 		cursor: not-allowed !important;
 	}
+
 	.toggle-container {
+		cursor: pointer;
+	}
+
+	.toggle-container-primary {
 		display: flex;
 		align-items: flex-start;
 		gap: 0.625rem;
+		height: 30px;
 		border-radius: 2px;
 		background: var(--content1);
 		width: fit-content;
-		height: 30px;
 	}
-	.toggle {
+
+	.toggle-container-secondary {
+		display: flex;
+		flex-direction: row;
+		gap: 2rem;
+		border-bottom: 1px solid var(--gray-200);
+	}
+
+	.toggle-primary {
 		display: flex;
 		padding: 8px;
 		justify-content: center;
@@ -110,8 +140,18 @@
 		border-radius: 4px;
 		transition: background-color 0.3s;
 		cursor: pointer;
+
+		&.selected {
+			background-color: var(--foreground);
+		}
 	}
-	.selected {
-		background-color: var(--foreground);
+
+	.toggle-secondary {
+		padding: 0 1rem;
+		&.selected {
+			color: red;
+			margin-bottom: -1px;
+			border-bottom: 1px solid var(--filaMint-500);
+		}
 	}
 </style>
