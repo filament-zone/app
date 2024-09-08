@@ -10,5 +10,22 @@ export default defineConfig({
 	},
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
+	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (id.includes('chart.js')) {
+						return 'chartjs';
+					}
+					if (id.includes('ethers')) {
+						return 'ethers';
+					}
+					if (id.includes('chartjs-plugin-datalabels')) {
+						return 'chartjs-plugin-datalabels';
+					}
+				}
+			}
+		}
 	}
 });
