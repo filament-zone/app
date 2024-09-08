@@ -16,7 +16,7 @@ export type TStepBarConfig = Record<
 
 declare const __propDef: {
 	props: {
-		contextId: string;
+		contextId?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent<unknown>;

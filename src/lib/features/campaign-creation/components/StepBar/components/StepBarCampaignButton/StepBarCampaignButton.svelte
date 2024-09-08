@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { IStepBarStore } from '$lib/types';
+	import { type IStepBarCampaignButtonProps, type IStepBarStore } from '$lib/types';
 	import CheckIcon from '$lib/assets/icons/check-1.svg?component';
 
-	export let step;
+	export let step: IStepBarCampaignButtonProps['step'];
+	export let contextId: IStepBarCampaignButtonProps['contextId'];
 
-	const { setCurrentStep } = getContext<IStepBarStore>('stepBarStore');
+	const { setCurrentStep } = getContext<IStepBarStore>(contextId);
 </script>
 
 {#if step.description}
@@ -20,7 +21,8 @@
 				{#if step.isCompleted}
 					<CheckIcon />
 				{:else}
-					{step.label}{/if}
+					{step.label}
+				{/if}
 			</div>
 		</button>
 	</div>

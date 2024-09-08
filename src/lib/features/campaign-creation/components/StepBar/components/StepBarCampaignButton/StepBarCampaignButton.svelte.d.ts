@@ -1,7 +1,11 @@
 import { SvelteComponent } from 'svelte';
+import type { IStepBarCampaignOption } from '$lib/types';
 
 declare const __propDef: {
-	props: object;
+	props: {
+		step: IStepBarCampaignOption;
+		contextId: string;
+	};
 	events: {
 		[evt: string]: CustomEvent<unknown>;
 	};
