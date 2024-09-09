@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { Container, Dropdown, Input, Table, Typography } from '$lib/components';
-	import { EDropdownSizeVariant, EInputSizeVariant } from '$lib/types';
+	import { rightSideBarStore } from '$lib/features';
+	import { Button, Container, Dropdown, Input, Table, Typography } from '$lib/components';
+	import { EDropdownSizeVariant, EInputSizeVariant, ERightSideBarVariant } from '$lib/types';
+
+	const { openRightSideBar } = rightSideBarStore;
 </script>
 
 <div class="flex flex-col gap-5">
@@ -27,6 +30,11 @@
 		</div>
 	</Container>
 	<Container label="Eligibility Criteria">
+		<Button
+			on:click={() => {
+				openRightSideBar({ variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA });
+			}}>Open Sidebar</Button
+		>
 		<div class="flex flex-col gap-5">
 			<Typography variant="caption">
 				Via criterions you can define specific actions of a user that you want to reward with your
