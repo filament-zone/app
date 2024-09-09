@@ -41,7 +41,7 @@
 		{ value: 'votes', label: 'Votes' }
 	];
 
-	$: toggleValue = '';
+	$: toggleValue = toggleOptions[0].value;
 </script>
 
 <Container label="Campaign Preview">
