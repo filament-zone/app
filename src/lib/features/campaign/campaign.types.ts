@@ -1,8 +1,9 @@
 export interface ICampaign {
 	// STEP 1 VALUES START
-	title?: string | null;
-	description?: string | null;
-	maxEvictableDelegates?: string | null;
+	title: string | null;
+	description: string | null;
+	maxEvictableDelegates: string | null;
+	selectedActiveDelegates: string[];
 	// STEP 1 VALUES END
 	// STEP 2 VALUES START
 	// STEP 2 VALUES END

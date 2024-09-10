@@ -1,9 +1,128 @@
 <script lang="ts">
-	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
+	import { onMount } from 'svelte';
+	import { derived } from 'svelte/store';
+	import { flexRender } from '@tanstack/svelte-table';
+	import { page } from '$app/stores';
 	import { campaignStore } from '$lib/features';
-	import { EInputSizeVariant } from '$lib/types';
+	import {
+		Badge,
+		Container,
+		Input,
+		ProgressBar,
+		Table,
+		TextArea,
+		Typography
+	} from '$lib/components';
+	import { stylesObjectToString } from '$lib/helpers';
+	import {
+		EBadgeColorVariant,
+		EInputSizeVariant,
+		type IDelegate,
+		type ITableProps
+	} from '$lib/types';
+	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
+	import MinusCircleIcon from '$lib/assets/icons/minus-circle.svg?component';
 
-	const { campaignDetails } = campaignStore;
+	const data = derived(page, () => $page.data);
+
+	const { campaignDetails, toggleActiveDelegate } = campaignStore;
+
+	onMount(() => {
+		campaignDetails.update((prev) => ({
+			...prev,
+			title: $data.step1Data.title,
+			description: $data.step1Data.description,
+			maxEvictableDelegates: $data.step1Data.maxEvictableDelegates,
+			selectedActiveDelegates: $data.step1Data.activeDelegatesTable.data
+				.filter((delegate: IDelegate) => delegate.selected)
+				.map((delegate: IDelegate) => delegate.id)
+		}));
+	});
+
+	$: activeDelegatesTable = {
+		...$data.step1Data.activeDelegatesTable,
+		data: [
+			...$data.step1Data.activeDelegatesTable.data.map((delegate: IDelegate) => {
+				const selectedInStore = $campaignDetails.selectedActiveDelegates.includes(delegate.id);
+				return { ...delegate, selected: selectedInStore };
+			})
+		],
+		columnDef: [
+			{
+				accessorKey: 'name',
+				header: 'Delegate',
+				cell: (info) => {
+					return info.getValue() as IDelegate['name'];
+				}
+			},
+			{
+				accessorKey: 'value',
+				header: '',
+				cell: (info) => {
+					const value = info.getValue() as IDelegate['value'];
+					return flexRender(ProgressBar, {
+						total: 100,
+						used: Number(value) * 100,
+						styles: stylesObjectToString({ height: '20px' }),
+						displayLabel: true
+					});
+				}
+			},
+			{
+				accessorKey: 'votingPower',
+				header: 'Voting Power (VP)',
+				cell: (info) => {
+					const votingPower = info.getValue() as IDelegate['votingPower'];
+					return flexRender(Badge, {
+						label: votingPower.toLocaleString(),
+						colorVariant: EBadgeColorVariant.PRIMARY
+					});
+				}
+			},
+			{
+				header: ' ',
+				cell: () => {
+					return flexRender(ArrowRight, {});
+				},
+				size: 10
+			},
+			{
+				accessorKey: 'evictionCost',
+				header: 'Eviction Cost (EC)',
+				cell: (info) => {
+					const evictionCost = info.getValue() as IDelegate['evictionCost'];
+					return flexRender(Badge, {
+						label: evictionCost.toLocaleString(),
+						colorVariant: EBadgeColorVariant.SECONDARY
+					});
+				}
+			},
+			{
+				accessorKey: 'selected',
+				header: '',
+				cell: (value) => {
+					const isSelected = value.getValue() as IDelegate['selected'];
+					if (isSelected) {
+						return flexRender(CheckmarkCircleIcon, {});
+					} else {
+						return flexRender(MinusCircleIcon, {});
+					}
+				},
+				size: 10,
+				meta: {
+					class: 'sticky',
+					cellStyle: {
+						cursor: 'pointer'
+					},
+					onClick: (cell) => {
+						const selectedActiveDelegateId = cell.getContext().row.original.id as IDelegate['id'];
+						toggleActiveDelegate(selectedActiveDelegateId);
+					}
+				}
+			}
+		]
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 </script>
 
 <div class="flex flex-col gap-5">
@@ -47,7 +166,7 @@
 				sizeVariant={EInputSizeVariant.MEDIUM}
 				bind:value={$campaignDetails.maxEvictableDelegates}
 			/>
-			<Table tableLabel="Active Delegates" />
+			<Table {...activeDelegatesTable} />
 			<Table tableLabel="Evicted Delegates" />
 		</div>
 	</Container>
