@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createStepBarStore, StepBar } from '$lib/features';
+	import { createStepBarStore, NavigationFooter, StepBar } from '$lib/features';
 	import { PageHeader } from '$lib/components';
 	import { setContext } from 'svelte';
 
@@ -11,3 +11,4 @@
 <PageHeader label={`Campaigns / Create / ${data.label}`} />
 <StepBar />
 <slot />
+<NavigationFooter />
