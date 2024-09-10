@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { routes } from '$lib/constants';
+import { routes } from '$lib/constants/routes.constants';
 
 test.describe('Page-2', () => {
 	test.beforeEach(async ({ page }) => {
