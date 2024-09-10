@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
+	import { campaignStore } from '$lib/features';
 	import { EInputSizeVariant } from '$lib/types';
+
+	const { campaignDetails } = campaignStore;
 </script>
 
 <div class="flex flex-col gap-5">
@@ -14,11 +17,13 @@
 			<Input
 				label="Campaign Title"
 				placeholder="e.g., April Ad Campaign to increase user number"
+				bind:value={$campaignDetails.title}
 				sizeVariant={EInputSizeVariant.MEDIUM}
 			/>
 			<TextArea
 				label="Description"
 				placeholder="Type here..."
+				bind:value={$campaignDetails.description}
 				sizeVariant={EInputSizeVariant.FULL_WIDTH}
 			/>
 		</div>
@@ -34,12 +39,13 @@
 			<Typography variant="caption">
 				Your option here is to either involve all delegates or evict up to three from the active
 				set. The cost for evicting is calculated algorithmically by the Filament Hub depending on
-				multiple factors such as the voting power of a delegate.
+				multiple factors such as t?: string | null;he voting power of a delegate.
 			</Typography>
 			<Input
 				label="Max. evictable delegates"
-				placeholder="e.g., April Ad Campaign to increase user number"
+				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
+				bind:value={$campaignDetails.maxEvictableDelegates}
 			/>
 			<Table tableLabel="Active Delegates" />
 			<Table tableLabel="Evicted Delegates" />
