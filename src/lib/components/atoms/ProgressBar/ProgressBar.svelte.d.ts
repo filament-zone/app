@@ -4,6 +4,7 @@ declare const __propDef: {
 	props: {
 		used: number;
 		total: number;
+		displayLabel?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;
