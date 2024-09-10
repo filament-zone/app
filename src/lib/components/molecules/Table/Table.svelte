@@ -120,6 +120,9 @@
 								<td
 									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
 									class={cell.column.columnDef.meta?.class}
+									on:click={() => {
+										cell.column.columnDef.meta?.onClick?.(cell);
+									}}
 								>
 									<svelte:component
 										this={flexRender(cell.column.columnDef.cell, cell.getContext())}

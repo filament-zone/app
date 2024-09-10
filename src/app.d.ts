@@ -29,6 +29,7 @@ declare module '@tanstack/table-core' {
 		class?: string;
 		cellStyle?: Record<string, string>;
 		customAccessor?: AccessorFn<TData, TValue>;
+		onClick?: (cell: Cell<TData, TValue>) => void;
 	}
 }
 
