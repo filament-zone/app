@@ -1,12 +1,13 @@
 import { writable } from 'svelte/store';
-import { type ICampaign, type ICampaignStore } from '$lib/types';
+import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START
 	title: null,
 	description: null,
 	maxEvictableDelegates: null,
-	selectedActiveDelegates: []
+	selectedActiveDelegates: [],
+	selectedEvictedDelegates: []
 	// STEP 1 END
 	// STEP 2 START
 	// STEP 2 END
@@ -18,13 +19,25 @@ const initCampaignDetails: ICampaign = {
 
 const campaignDetails = writable({ ...initCampaignDetails });
 
-const toggleActiveDelegate = (delegate: string) => {
+const toggleDelegate: ICampaignStore['toggleDelegate'] = (
+	delegateId: string,
+	delegateType: EDelegateType
+) => {
 	campaignDetails.update((details) => {
-		const index = details.selectedActiveDelegates.indexOf(delegate);
-		if (index === -1) {
-			details.selectedActiveDelegates.push(delegate);
-		} else {
-			details.selectedActiveDelegates.splice(index, 1);
+		if (delegateType === EDelegateType.ACTIVE) {
+			const index = details.selectedActiveDelegates.indexOf(delegateId);
+			if (index === -1) {
+				details.selectedActiveDelegates.push(delegateId);
+			} else {
+				details.selectedActiveDelegates.splice(index, 1);
+			}
+		} else if (delegateType === EDelegateType.EVICTED) {
+			const index = details.selectedEvictedDelegates.indexOf(delegateId);
+			if (index === -1) {
+				details.selectedEvictedDelegates.push(delegateId);
+			} else {
+				details.selectedEvictedDelegates.splice(index, 1);
+			}
 		}
 		return details;
 	});
@@ -42,5 +55,5 @@ export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
 	createCampaign,
-	toggleActiveDelegate
+	toggleDelegate
 };

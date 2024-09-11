@@ -33,7 +33,7 @@ export const load = async () => {
 				name: '#4 BlockWatcher',
 				value: '0.18',
 				votingPower: '123456789',
-				evictionCost: '13245',
+				evictionCost: '1324columnDef5',
 				selected: false
 			},
 			{
@@ -46,7 +46,52 @@ export const load = async () => {
 			}
 		] as IDelegate[]
 	};
-	const evictedDelegatesTable = {};
+	const evictedDelegatesTable = {
+		tableLabel: 'Evicted Delegates',
+		data: [
+			{
+				id: '6',
+				name: '#6 DeFiMaster',
+				value: '0.50',
+				votingPower: '345678910',
+				evictionCost: '14230',
+				selected: false
+			},
+			{
+				id: '7',
+				name: '#7 NFTKing',
+				value: '0.95',
+				votingPower: '987654321',
+				evictionCost: '15874',
+				selected: true
+			},
+			{
+				id: '8',
+				name: '#8 Web3Guru',
+				value: '0.22',
+				votingPower: '234567890',
+				evictionCost: '12654',
+				selected: false
+			},
+			{
+				id: '9',
+				name: '#9 MetaTrader',
+				value: '0.67',
+				votingPower: '765432109',
+				evictionCost: '13500',
+				selected: false
+			},
+			{
+				id: '10',
+				name: '#10 WhaleWatcher',
+				value: '0.44',
+				votingPower: '543210987',
+				evictionCost: '14475',
+				selected: true
+			}
+		] as IDelegate[]
+	};
+
 	const step1Data = {
 		title: 'Test Title',
 		description: 'Test Description',

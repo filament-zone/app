@@ -4,6 +4,7 @@ export interface ICampaign {
 	description: string | null;
 	maxEvictableDelegates: string | null;
 	selectedActiveDelegates: string[];
+	selectedEvictedDelegates: string[];
 	// STEP 1 VALUES END
 	// STEP 2 VALUES START
 	// STEP 2 VALUES END
