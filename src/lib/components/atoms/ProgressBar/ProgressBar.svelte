@@ -26,6 +26,6 @@
 		style="width: {leftPercentage}%; background-color: var(--filaMint-700); border-bottom-right-radius: {borderRadius}; border-top-right-radius: {borderRadius};"
 	></div>
 	{#if displayLabel}
-		<span class="absolute left-1/2 -translate-x-1/2">12%</span>
+		<span class="absolute left-1/2 -translate-x-1/2">{usedPercentage}%</span>
 	{/if}
 </div>
