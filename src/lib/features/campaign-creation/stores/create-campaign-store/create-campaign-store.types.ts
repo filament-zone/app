@@ -1,10 +1,5 @@
 import type { Writable } from 'svelte/store';
-import type { ICampaign, IDelegate } from '$lib/types';
-
-export enum EDelegateType {
-	ACTIVE = 'ACTIVE',
-	EVICTED = 'EVICTED'
-}
+import { EDelegateType, type ICampaign, type IDelegate } from '$lib/types';
 
 export interface ICampaignStore {
 	campaignDetails: Writable<ICampaign>;
