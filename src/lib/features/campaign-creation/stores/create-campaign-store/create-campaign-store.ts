@@ -7,9 +7,10 @@ const initCampaignDetails: ICampaign = {
 	description: null,
 	maxEvictableDelegates: null,
 	selectedActiveDelegates: [],
-	selectedEvictedDelegates: []
+	selectedEvictedDelegates: [],
 	// STEP 1 END
 	// STEP 2 START
+	snapshotDate: null
 	// STEP 2 END
 	// STEP 3 START
 	// STEP 3 END

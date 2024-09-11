@@ -1,9 +1,30 @@
 <script lang="ts">
-	import { rightSideBarStore } from '$lib/features';
-	import { Button, Container, Dropdown, Input, Table, Typography } from '$lib/components';
-	import { EDropdownSizeVariant, EInputSizeVariant, ERightSideBarVariant } from '$lib/types';
-
+	import { campaignStore, rightSideBarStore } from '$lib/features';
+	import {
+		Button,
+		Container,
+		Dropdown,
+		Input,
+		Table,
+		Typography,
+		DatePicker
+	} from '$lib/components';
+	import {
+		CalendarMode,
+		EDropdownSizeVariant,
+		EInputSizeVariant,
+		ERightSideBarVariant,
+		type ICalendarProps
+	} from '$lib/types';
 	const { openRightSideBar } = rightSideBarStore;
+
+	const { campaignDetails } = campaignStore;
+
+	const handleChangeDateRange: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
+		value: ICalendarProps<CalendarMode.SINGLE>['value']
+	) => {
+		campaignDetails.update((prev) => ({ ...prev, snapshotDate: value.date }));
+	};
 </script>
 
 <div class="flex flex-col gap-5">
@@ -14,10 +35,10 @@
 				actions. Please start by selecting a start date and the number of snapshots to create.
 			</Typography>
 			<div class="flex flex-row justify-between">
-				<Input
-					label="Snapshot Start Date"
-					placeholder="04  /  01  /  2024"
-					sizeVariant={EInputSizeVariant.MEDIUM}
+				<DatePicker
+					label="Snapshot Date"
+					value={{ date: $campaignDetails.snapshotDate }}
+					onChange={handleChangeDateRange}
 				/>
 				<Dropdown label="Shapshot Interval" sizeVariant={EDropdownSizeVariant.MEDIUM} />
 				<Input
