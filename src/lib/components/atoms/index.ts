@@ -9,3 +9,4 @@ export * from './Label';
 export * from './ProgressBar';
 export * from './Badge';
 export * from './TextArea';
+export * from './Calendar';

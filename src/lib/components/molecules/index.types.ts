@@ -9,3 +9,4 @@ export * from './SearchSelect/index.types';
 export * from './InputTokenField/index.types';
 export * from './MenuPopover/index.types';
 export * from './Breadcrumbs/index.types';
+export * from './DatePicker/index.types';

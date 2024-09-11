@@ -7,6 +7,7 @@ export interface ICampaign {
 	selectedEvictedDelegates: string[];
 	// STEP 1 VALUES END
 	// STEP 2 VALUES START
+	snapshotDate: string | null;
 	// STEP 2 VALUES END
 	// START STEP-3
 	// END STEP-3
