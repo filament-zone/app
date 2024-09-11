@@ -4,26 +4,18 @@
 	import { Button } from '$lib/components';
 	import { EButtonColorVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
 	import CloseIcon from '$lib/assets/icons/x.svg?component';
-	import SaveIcon from '$lib/assets/icons/save.svg?component';
+
 	import ArrowIcon from '$lib/assets/icons/arrow-1.svg?component';
 	import PlusIcon from '$lib/assets/icons/plus.svg?component';
 	import { validateForm } from '$lib/helpers';
 
 	export let handleBack: INavigationFooterProps['handleBack'] = () => {};
-	export let handleDraft: INavigationFooterProps['handleDraft'] = () => {};
 	export let disabled: INavigationFooterProps['disabled'] = false;
 
 	const { campaignDetails } = campaignStore;
 	const { clearCampaignDetails, createCampaign } = campaignStore;
 	const { nextStep, currentStep, setCurrentStep, steps } =
 		getContext<IStepBarStore>('stepBarStore');
-
-	$: localHandleDraft = async () => {
-		if (handleDraft) {
-			handleDraft();
-		}
-		createCampaign();
-	};
 
 	$: localHandleNext = async () => {
 		if ($currentStep === $steps.length - 1) {
@@ -74,14 +66,6 @@
 			</Button>
 		</div>
 		<div class="flex flex-row gap-2">
-			<Button
-				colorVariant={EButtonColorVariant.BLACK}
-				on:click={() => {
-					localHandleDraft();
-				}}
-				Icon={SaveIcon}
-				{disabled}>Save Draft</Button
-			>
 			<Button
 				on:click={localHandleNext}
 				colorVariant={$currentStep === $steps.length - 1

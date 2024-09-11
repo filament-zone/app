@@ -3,7 +3,7 @@ import { SvelteComponent } from 'svelte';
 declare const __propDef: {
 	props: {
 		handleNext?: () => Promise<boolean> | void;
-		handleDraft?: () => void;
+
 		handleBack?: () => void;
 		disabled?: boolean;
 	};
