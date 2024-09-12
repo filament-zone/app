@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
+	import { beforeUpdate } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { clickOutside } from '$lib/actions';
 	import { ListItem, Input, SelectedItemMulti } from '$lib/components';
@@ -116,13 +116,11 @@
 		);
 
 	const isReadonly = () => {
-		if (isSearchable) {
+		if (isSearchable || isCreatable) {
 			return false;
+		} else {
+			return true;
 		}
-		if (isCreatable) {
-			return false;
-		}
-		return true;
 	};
 
 	const handleInputChange = (e: Event) => {
@@ -134,7 +132,7 @@
 		}
 	};
 
-	afterUpdate(() => {
+	beforeUpdate(() => {
 		if (!isMulti) {
 			if (isSearchable) {
 				localValue =
@@ -189,7 +187,7 @@
 	use:clickOutside
 	on:clickOutside={() => isOpen.set(false)}
 >
-	<div class={`dropdown-container`}>
+	<div class="dropdown-container">
 		{#if isMulti && value?.length && displaySelectedValues}
 			<div
 				class="multi-selected-items-container flex flex-row gap-4"
