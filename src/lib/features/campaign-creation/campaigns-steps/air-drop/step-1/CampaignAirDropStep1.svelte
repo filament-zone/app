@@ -38,7 +38,7 @@
 			selectedActiveDelegates: $data.step1Data.activeDelegatesTable.data
 				.filter((delegate: IDelegate) => delegate.selected)
 				.map((delegate: IDelegate) => delegate.id),
-			selectedEvictedDelegatesTable: $data.step1Data.evictedDelegatesTable.data
+			selectedEvictedDelegates: $data.step1Data.evictedDelegatesTable.data
 				.filter((delegate: IDelegate) => delegate.selected)
 				.map((delegate: IDelegate) => delegate.id)
 		}));
