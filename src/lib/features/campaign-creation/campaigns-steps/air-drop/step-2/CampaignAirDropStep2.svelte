@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { derived } from 'svelte/store';
+	import { page } from '$app/stores';
 	import { campaignStore, rightSideBarStore } from '$lib/features';
 	import {
 		Button,
@@ -16,9 +19,19 @@
 		ERightSideBarVariant,
 		type ICalendarProps
 	} from '$lib/types';
-	const { openRightSideBar } = rightSideBarStore;
 
+	const data = derived(page, () => $page.data);
+	const { openRightSideBar } = rightSideBarStore;
 	const { campaignDetails } = campaignStore;
+
+	onMount(() => {
+		campaignDetails.update((prev) => ({
+			...prev,
+			snapshotDate: $data.step2Data.snapshotDate,
+			snapshotInterval: $data.step2Data.snapshotInterval,
+			snapshotTotal: $data.step2Data.snapshotTotal
+		}));
+	});
 
 	const handleChangeDateRange: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
 		value: ICalendarProps<CalendarMode.SINGLE>['value']
@@ -40,12 +53,18 @@
 					value={{ date: $campaignDetails.snapshotDate }}
 					onChange={handleChangeDateRange}
 				/>
-				<Dropdown label="Shapshot Interval" sizeVariant={EDropdownSizeVariant.MEDIUM} />
+				<Dropdown
+					label="Snapshot Interval"
+					sizeVariant={EDropdownSizeVariant.MEDIUM}
+					options={$data.step2Data.meta.snapshotIntervalOptions}
+					bind:value={$campaignDetails.snapshotInterval}
+				/>
 				<Input
 					label="Total Snapshots"
 					placeholder="10"
 					type="number"
 					sizeVariant={EInputSizeVariant.MEDIUM}
+					bind:value={$campaignDetails.snapshotTotal}
 				/>
 			</div>
 		</div>

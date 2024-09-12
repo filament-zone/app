@@ -10,7 +10,9 @@ const initCampaignDetails: ICampaign = {
 	selectedEvictedDelegates: [],
 	// STEP 1 END
 	// STEP 2 START
-	snapshotDate: null
+	snapshotDate: null,
+	snapshotInterval: null,
+	snapshotTotal: null
 	// STEP 2 END
 	// STEP 3 START
 	// STEP 3 END

@@ -1,4 +1,4 @@
-import type { IDelegate } from '$lib/types';
+import { type IDelegate, type IDropdownProps } from '$lib/types';
 
 export const load = async () => {
 	const activeDelegatesTable = {
@@ -100,7 +100,20 @@ export const load = async () => {
 		evictedDelegatesTable
 	};
 
+	const step2Data = {
+		snapshotDate: null,
+		snapshotInterval: '10',
+		snapshotTotal: '5',
+		meta: {
+			snapshotIntervalOptions: [
+				{ value: '10', label: '10' },
+				{ value: '20', label: '20' },
+				{ value: '30', label: '30' }
+			] as IDropdownProps['options']
+		}
+	};
 	return {
-		step1Data
+		step1Data,
+		step2Data
 	};
 };
