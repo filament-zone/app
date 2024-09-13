@@ -39,6 +39,7 @@
 		text-align: center;
 		border-radius: 4px;
 		padding: 4px 8px;
+		height: 35px;
 
 		&.primary {
 			box-shadow: 0 0 0 0.1px var(--primary-white);
