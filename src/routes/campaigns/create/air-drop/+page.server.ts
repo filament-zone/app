@@ -1,4 +1,5 @@
-import { type IDelegate, type IDropdownProps } from '$lib/types';
+import { generateMockEligibilityCriteria } from '$lib/features';
+import { EEligibilityCriteriaType, type IDelegate, type IDropdownProps } from '$lib/types';
 
 export const load = async () => {
 	const activeDelegatesTable = {
@@ -46,6 +47,7 @@ export const load = async () => {
 			}
 		] as IDelegate[]
 	};
+
 	const evictedDelegatesTable = {
 		tableLabel: 'Evicted Delegates',
 		data: [
@@ -100,18 +102,46 @@ export const load = async () => {
 		evictedDelegatesTable
 	};
 
+	const eligibilityCriteriaTable = {
+		tableLabel: '',
+		data: generateMockEligibilityCriteria(15)
+	};
+
 	const step2Data = {
 		snapshotDate: null,
 		snapshotInterval: '10',
 		snapshotTotal: '5',
+		eligibilityCriteriaTable,
 		meta: {
 			snapshotIntervalOptions: [
 				{ value: '10', label: '10' },
 				{ value: '20', label: '20' },
 				{ value: '30', label: '30' }
-			] as IDropdownProps['options']
+			] as IDropdownProps['options'],
+			eligibilityCriteriaCategoryOptions: [
+				{ value: 'all', label: 'All' },
+				{ value: 'balance', label: 'Balance' },
+				{ value: 'defi', label: 'DeFi' },
+				{ value: 'governance', label: 'Governance' },
+				{ value: 'nft', label: 'NFT' },
+				{ value: 'total', label: 'Gaming' }
+			],
+			eligibilityCriteriaTypeOptions: Object.values(EEligibilityCriteriaType).map(
+				(criteriaType) => {
+					const result = criteriaType.replace(/-/g, ' ').toLocaleLowerCase();
+					const finalResult = result.replace(/\b\w+/g, (word) => {
+						return word === 'by' ? word : word.charAt(0).toUpperCase() + word.slice(1);
+					});
+
+					return {
+						value: criteriaType,
+						label: finalResult
+					};
+				}
+			)
 		}
 	};
+
 	return {
 		step1Data,
 		step2Data

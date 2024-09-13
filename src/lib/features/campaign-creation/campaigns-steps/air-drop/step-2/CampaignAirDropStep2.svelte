@@ -2,26 +2,38 @@
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
+	import { flexRender } from '@tanstack/svelte-table';
 	import { campaignStore, rightSideBarStore } from '$lib/features';
 	import {
-		Button,
 		Container,
 		Dropdown,
 		Input,
 		Table,
 		Typography,
-		DatePicker
+		DatePicker,
+		Toggle,
+		Badge,
+		Button
 	} from '$lib/components';
 	import {
 		CalendarMode,
+		EBadgeColorVariant,
 		EDropdownSizeVariant,
 		EInputSizeVariant,
 		ERightSideBarVariant,
-		type ICalendarProps
+		EToggleVariant,
+		type ICalendarProps,
+		type ICampaignCreationSidebarCriteriaState,
+		type IEligibilityCriteria,
+		type ITableProps
 	} from '$lib/types';
+	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
+	import SettingsCircleIcon from '$lib/assets/icons/settings-circle.svg?component';
+	import SettingsCircleGreenIcon from '$lib/assets/icons/settings-circle-green.svg?component';
 
 	const data = derived(page, () => $page.data);
-	const { openRightSideBar } = rightSideBarStore;
+	const { openRightSideBar, activeRightSideBar } = rightSideBarStore;
 	const { campaignDetails } = campaignStore;
 
 	onMount(() => {
@@ -29,14 +41,146 @@
 			...prev,
 			snapshotDate: $data.step2Data.snapshotDate,
 			snapshotInterval: $data.step2Data.snapshotInterval,
-			snapshotTotal: $data.step2Data.snapshotTotal
+			snapshotTotal: $data.step2Data.snapshotTotal,
+			criteria: $data.step2Data.eligibilityCriteriaTable.data
 		}));
 	});
+
+	$: eligibilityCriteriaColumnDef = [
+		{
+			accessorKey: 'name',
+			header: 'Name',
+			cell: (info) => {
+				return info.getValue() as IEligibilityCriteria['name'];
+			}
+		},
+		{
+			accessorKey: 'type',
+			header: 'Type',
+			cell: (info) => {
+				const value = info.getValue() as IEligibilityCriteria['type'];
+				let label = '';
+				if (value) {
+					const result = value.replace(/-/g, ' ').toLocaleLowerCase();
+					label = result.replace(/\b\w+/g, (word) => {
+						return word === 'by' ? word : word.charAt(0).toUpperCase() + word.slice(1);
+					});
+				}
+
+				return flexRender(Badge, {
+					label,
+					colorVariant: EBadgeColorVariant.PRIMARY
+				});
+			}
+		},
+		{
+			accessorKey: 'tvl',
+			header: 'TVL',
+			cell: (info) => {
+				const value = info.getValue() as IEligibilityCriteria['tvl'];
+				return flexRender(Badge, {
+					label: value?.toLocaleString(),
+					colorVariant: EBadgeColorVariant.PRIMARY
+				});
+			}
+		},
+		{
+			header: ' ',
+			cell: () => {
+				return flexRender(ArrowRight, {});
+			},
+			size: 10
+		},
+		{
+			accessorKey: 'weight',
+			header: 'Weight',
+			cell: (info) => {
+				const value = info.getValue() as IEligibilityCriteria['weight'];
+				return flexRender(Badge, {
+					label: value?.toLocaleString(),
+					colorVariant: EBadgeColorVariant.PRIMARY
+				});
+			}
+		},
+		{
+			accessorKey: 'completed',
+			header: ' ',
+			cell: (value) => {
+				const isCompleted = value.getValue() as IEligibilityCriteria['completed'];
+
+				if (isCompleted) {
+					return flexRender(CheckmarkCircleIcon, {});
+				}
+
+				if (
+					!!$activeRightSideBar.state &&
+					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).criteriaId ===
+						(value.row.original as IEligibilityCriteria).id
+				) {
+					return flexRender(SettingsCircleGreenIcon, {});
+				}
+				return flexRender(SettingsCircleIcon, {});
+			},
+			size: 10,
+			meta: {
+				cellStyle: {
+					cursor: 'pointer'
+				},
+				onClick: (cell) => {
+					const selectedCriteriaId = cell.getContext().row.original
+						.id as IEligibilityCriteria['id'];
+					openRightSideBar({
+						variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA,
+						state: { criteriaId: selectedCriteriaId }
+					});
+				}
+			}
+		}
+	] as ITableProps['columnDef'];
+
+	$: toggleValue = 'all';
+
+	$: eligibilityCriteriaTable = {
+		...$data.step2Data.eligibilityCriteriaTable,
+		data: [
+			...$campaignDetails.criteria
+				.filter((item) => {
+					if (toggleValue === 'all') {
+						return true;
+					}
+					if (toggleValue === item.category) {
+						return true;
+					}
+				})
+				.map((criteria) => {
+					console.log('criteria', criteria);
+					return {
+						...criteria,
+						completed: Object.entries(criteria).every(([key, value]) => {
+							if (key === 'completed') {
+								return true;
+							}
+							if (key === 'contracts') {
+								return value.length;
+							}
+							return Boolean(value);
+						})
+					};
+				})
+		],
+		columnDef: [...eligibilityCriteriaColumnDef]
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
 	const handleChangeDateRange: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
 		value: ICalendarProps<CalendarMode.SINGLE>['value']
 	) => {
 		campaignDetails.update((prev) => ({ ...prev, snapshotDate: value.date }));
+	};
+
+	const handleAddNewCriteria = () => {
+		openRightSideBar({
+			variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA
+		});
 	};
 </script>
 
@@ -70,11 +214,6 @@
 		</div>
 	</Container>
 	<Container label="Eligibility Criteria">
-		<Button
-			on:click={() => {
-				openRightSideBar({ variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA });
-			}}>Open Sidebar</Button
-		>
 		<div class="flex flex-col gap-5">
 			<Typography variant="caption">
 				Via criterions you can define specific actions of a user that you want to reward with your
@@ -82,7 +221,13 @@
 				the users Airdrop allocation. Add criterions and click on the edit button of each item to
 				configure the weights as preferred.
 			</Typography>
-			<Table />
+			<Toggle
+				options={$data.step2Data.meta.eligibilityCriteriaCategoryOptions}
+				variant={EToggleVariant.SECONDARY}
+				bind:value={toggleValue}
+			/>
+			<Table {...eligibilityCriteriaTable} />
+			<Button class="self-end" on:click={handleAddNewCriteria}>Add New Criteria</Button>
 		</div>
 	</Container>
 </div>

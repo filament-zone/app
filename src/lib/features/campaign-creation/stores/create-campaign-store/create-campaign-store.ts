@@ -12,7 +12,8 @@ const initCampaignDetails: ICampaign = {
 	// STEP 2 START
 	snapshotDate: null,
 	snapshotInterval: null,
-	snapshotTotal: null
+	snapshotTotal: null,
+	criteria: []
 	// STEP 2 END
 	// STEP 3 START
 	// STEP 3 END
