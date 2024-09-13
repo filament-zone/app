@@ -145,6 +145,8 @@
 						options?.find(
 							(option) => option.value?.toLowerCase() === (value as string)?.toLowerCase()
 						)?.label ?? '';
+				} else {
+					localValue = '';
 				}
 			}
 		} else {
