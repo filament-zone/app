@@ -1,5 +1,6 @@
 import { derived, get, writable } from 'svelte/store';
-
+import { goto } from '$app/navigation';
+import { routes } from '$lib/constants';
 import type { IStepBarCampaignOption, IStepBarStore } from '$lib/types';
 
 export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
@@ -28,6 +29,10 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 				const currentIndex = get(steps).findIndex((option) => option.value === current);
 				const lastIndex = get(steps).length - 1;
 				const nextIndex = Math.min(currentIndex + 1, lastIndex);
+
+				if (isLastStep) {
+					goto(routes.CAMPAIGNS.MY.ROOT);
+				}
 
 				setCurrentStep(get(steps)[currentIndex + 1].value);
 

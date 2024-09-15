@@ -60,6 +60,7 @@ const clearCampaignDetails = () => {
 };
 
 const createCampaign: ICampaignStore['createCampaign'] = () => {
+	alert('Campaign was created');
 	return true;
 };
 
