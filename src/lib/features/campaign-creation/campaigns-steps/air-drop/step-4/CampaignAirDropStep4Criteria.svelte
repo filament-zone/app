@@ -13,10 +13,11 @@
 		...$data.step2Data.eligibilityCriteriaTable,
 		data: [
 			...$campaignDetails.criteria.filter((item) => {
-				if (toggleValue === 'all') {
+				const isCompleted = item.completed;
+				if (toggleValue === 'all' && isCompleted) {
 					return true;
 				}
-				if (toggleValue === item.category) {
+				if (toggleValue === item.category && isCompleted) {
 					return true;
 				}
 			})

@@ -3,25 +3,9 @@
 	import { derived } from 'svelte/store';
 	import { flexRender } from '@tanstack/svelte-table';
 	import { page } from '$app/stores';
-	import { campaignStore } from '$lib/features';
-	import {
-		Badge,
-		Container,
-		Input,
-		ProgressBar,
-		Table,
-		TextArea,
-		Typography
-	} from '$lib/components';
-	import { stylesObjectToString } from '$lib/helpers';
-	import {
-		EBadgeColorVariant,
-		EDelegateType,
-		EInputSizeVariant,
-		type IDelegate,
-		type ITableProps
-	} from '$lib/types';
-	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+	import { campaignStore, delegatesColumnDefCommon } from '$lib/features';
+	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
+	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import MinusCircleIcon from '$lib/assets/icons/minus-circle.svg?component';
 
@@ -47,55 +31,7 @@
 	const delegateColumnDef: (delegateType: EDelegateType) => ITableProps['columnDef'] = (
 		delegateType
 	) => [
-		{
-			accessorKey: 'name',
-			header: 'Delegate',
-			cell: (info) => {
-				return info.getValue() as IDelegate['name'];
-			}
-		},
-		{
-			accessorKey: 'value',
-			header: '',
-			cell: (info) => {
-				const value = info.getValue() as IDelegate['value'];
-				return flexRender(ProgressBar, {
-					total: 100,
-					used: Number(value) * 100,
-					styles: stylesObjectToString({ height: '20px' }),
-					displayLabel: true
-				});
-			}
-		},
-		{
-			accessorKey: 'votingPower',
-			header: 'Voting Power (VP)',
-			cell: (info) => {
-				const votingPower = info.getValue() as IDelegate['votingPower'];
-				return flexRender(Badge, {
-					label: votingPower.toLocaleString(),
-					colorVariant: EBadgeColorVariant.PRIMARY
-				});
-			}
-		},
-		{
-			header: ' ',
-			cell: () => {
-				return flexRender(ArrowRight, {});
-			},
-			size: 10
-		},
-		{
-			accessorKey: 'evictionCost',
-			header: 'Eviction Cost (EC)',
-			cell: (info) => {
-				const evictionCost = info.getValue() as IDelegate['evictionCost'];
-				return flexRender(Badge, {
-					label: evictionCost.toLocaleString(),
-					colorVariant: EBadgeColorVariant.SECONDARY
-				});
-			}
-		},
+		...delegatesColumnDefCommon,
 		{
 			accessorKey: 'selected',
 			header: '',

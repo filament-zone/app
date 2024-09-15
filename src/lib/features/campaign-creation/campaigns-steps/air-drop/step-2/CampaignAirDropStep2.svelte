@@ -5,8 +5,8 @@
 	import { flexRender } from '@tanstack/svelte-table';
 	import {
 		campaignStore,
-		eligibilityCriteriaColumnDefCommon,
-		rightSideBarStore
+		rightSideBarStore,
+		eligibilityCriteriaColumnDefCommon
 	} from '$lib/features';
 	import {
 		Container,
