@@ -3,7 +3,11 @@
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { flexRender } from '@tanstack/svelte-table';
-	import { campaignStore, rightSideBarStore } from '$lib/features';
+	import {
+		campaignStore,
+		eligibilityCriteriaColumnDefCommon,
+		rightSideBarStore
+	} from '$lib/features';
 	import {
 		Container,
 		Dropdown,
@@ -12,12 +16,10 @@
 		Typography,
 		DatePicker,
 		Toggle,
-		Badge,
 		Button
 	} from '$lib/components';
 	import {
 		CalendarMode,
-		EBadgeColorVariant,
 		EDropdownSizeVariant,
 		EInputSizeVariant,
 		ERightSideBarVariant,
@@ -27,7 +29,6 @@
 		type IEligibilityCriteria,
 		type ITableProps
 	} from '$lib/types';
-	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import SettingsCircleIcon from '$lib/assets/icons/settings-circle.svg?component';
 	import SettingsCircleGreenIcon from '$lib/assets/icons/settings-circle-green.svg?component';
@@ -47,61 +48,7 @@
 	});
 
 	$: eligibilityCriteriaColumnDef = [
-		{
-			accessorKey: 'name',
-			header: 'Name',
-			cell: (info) => {
-				return info.getValue() as IEligibilityCriteria['name'];
-			}
-		},
-		{
-			accessorKey: 'type',
-			header: 'Type',
-			cell: (info) => {
-				const value = info.getValue() as IEligibilityCriteria['type'];
-				let label = '';
-				if (value) {
-					const result = value.replace(/-/g, ' ').toLocaleLowerCase();
-					label = result.replace(/\b\w+/g, (word) => {
-						return word === 'by' ? word : word.charAt(0).toUpperCase() + word.slice(1);
-					});
-				}
-
-				return flexRender(Badge, {
-					label,
-					colorVariant: EBadgeColorVariant.PRIMARY
-				});
-			}
-		},
-		{
-			accessorKey: 'tvl',
-			header: 'TVL',
-			cell: (info) => {
-				const value = info.getValue() as IEligibilityCriteria['tvl'];
-				return flexRender(Badge, {
-					label: value?.toLocaleString(),
-					colorVariant: EBadgeColorVariant.PRIMARY
-				});
-			}
-		},
-		{
-			header: ' ',
-			cell: () => {
-				return flexRender(ArrowRight, {});
-			},
-			size: 10
-		},
-		{
-			accessorKey: 'weight',
-			header: 'Weight',
-			cell: (info) => {
-				const value = info.getValue() as IEligibilityCriteria['weight'];
-				return flexRender(Badge, {
-					label: value?.toLocaleString(),
-					colorVariant: EBadgeColorVariant.PRIMARY
-				});
-			}
-		},
+		...eligibilityCriteriaColumnDefCommon,
 		{
 			accessorKey: 'completed',
 			header: ' ',
@@ -153,7 +100,6 @@
 					}
 				})
 				.map((criteria) => {
-					console.log('criteria', criteria);
 					return {
 						...criteria,
 						completed: Object.entries(criteria).every(([key, value]) => {
