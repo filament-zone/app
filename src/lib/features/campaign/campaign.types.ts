@@ -40,6 +40,14 @@ export interface ICampaign {
 	criteria: IEligibilityCriteria[];
 	// STEP 2 VALUES END
 	// START STEP-3
+	visibility: string | null;
+	relativeShare: string | null;
+	totalAirDropSupply: string | null;
+	tokenContractAddress: string | null;
+	indexer: string | null;
+	budgetFrom: string | null;
+	budgetTo: string | null;
+	bond: string | null;
 	// END STEP-3
 	// START STEP-4
 	// END STEP-4

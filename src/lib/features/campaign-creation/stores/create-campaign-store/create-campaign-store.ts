@@ -13,9 +13,17 @@ const initCampaignDetails: ICampaign = {
 	snapshotDate: null,
 	snapshotInterval: null,
 	snapshotTotal: null,
-	criteria: []
+	criteria: [],
 	// STEP 2 END
 	// STEP 3 START
+	visibility: null,
+	relativeShare: null,
+	totalAirDropSupply: null,
+	tokenContractAddress: null,
+	indexer: null,
+	budgetFrom: null,
+	budgetTo: null,
+	bond: null
 	// STEP 3 END
 	// STEP 4 START
 	// STEP 4 END

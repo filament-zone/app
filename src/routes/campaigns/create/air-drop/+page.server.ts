@@ -142,8 +142,30 @@ export const load = async () => {
 		}
 	};
 
+	const step3Data = {
+		visibility: 'public',
+		relativeShare: null,
+		totalAirDropSupply: null,
+		tokenContractAddress: null,
+		indexer: 'internal',
+		budgetFrom: null,
+		budgetTo: null,
+		bond: null,
+		meta: {
+			visibilityOptions: [
+				{ value: 'public', label: 'Public' },
+				{ value: 'hidden', label: 'Hidden' }
+			],
+			indexerOptions: [
+				{ value: 'internal', label: 'Internal' },
+				{ value: 'external', label: 'External' }
+			]
+		}
+	};
+
 	return {
 		step1Data,
-		step2Data
+		step2Data,
+		step3Data
 	};
 };

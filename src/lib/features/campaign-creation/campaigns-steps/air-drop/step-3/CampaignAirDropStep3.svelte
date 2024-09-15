@@ -1,16 +1,27 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { derived } from 'svelte/store';
+	import { page } from '$app/stores';
+	import { campaignStore } from '$lib/features';
 	import { Container, Input, Toggle, Typography } from '$lib/components';
-	import { EInputSizeVariant, type IToggleProps } from '$lib/types';
+	import { EInputSizeVariant } from '$lib/types';
 
-	let tableToggleOptions: IToggleProps<string>['options'] = [
-		{ value: 'public', label: 'Public' },
-		{ value: 'hidden', label: 'Hidden' }
-	];
+	const data = derived(page, () => $page.data);
+	const { campaignDetails } = campaignStore;
 
-	let tableToggleOptions2: IToggleProps<string>['options'] = [
-		{ value: 'internal', label: 'Internal' },
-		{ value: 'external', label: 'External' }
-	];
+	onMount(() => {
+		campaignDetails.update((prev) => ({
+			...prev,
+			visibility: $data.step3Data.visibility,
+			relativeShare: $data.step3Data.relativeShare,
+			totalAirDropSupply: $data.step3Data.totalAirDropSupply,
+			tokenContractAddress: $data.step3Data.tokenContractAddress,
+			indexer: $data.step3Data.indexer,
+			budgetFrom: $data.step3Data.budgetFrom,
+			budgetTo: $data.step3Data.budgetTo,
+			bond: $data.step3Data.bond
+		}));
+	});
 </script>
 
 <div class="flex flex-col gap-5">
@@ -22,16 +33,27 @@
 				until the criteria voting has ended.
 			</Typography>
 			<div class="flex flex-row justify-between gap-4">
-				<Toggle label="Visibility" options={tableToggleOptions} />
-				<Input label="Relative share*" placeholder="10%" sizeVariant={EInputSizeVariant.SMALL} />
+				<Toggle
+					label="Visibility"
+					bind:value={$campaignDetails.visibility}
+					options={$data.step3Data.meta.visibilityOptions}
+				/>
+				<Input
+					label="Relative share*"
+					bind:value={$campaignDetails.relativeShare}
+					placeholder="Type here..."
+					sizeVariant={EInputSizeVariant.SMALL}
+				/>
 				<Input
 					label="Total Supply*"
-					placeholder="100,000,000"
+					bind:value={$campaignDetails.totalAirDropSupply}
+					placeholder="Type here..."
 					sizeVariant={EInputSizeVariant.SMALL}
 				/>
 				<Input
 					label="Token Contract Address (if available)"
-					placeholder="0x6982508145454Ce325dDbE47a25d4ec3d2311933"
+					bind:value={$campaignDetails.tokenContractAddress}
+					placeholder="Type here..."
 					sizeVariant={EInputSizeVariant.MEDIUM}
 				/>
 			</div>
@@ -47,10 +69,24 @@
 				recommend to rely on trusted Indexers.
 			</Typography>
 			<div class="flex flex-row gap-4">
-				<Toggle label="Indexer" options={tableToggleOptions2} />
+				<Toggle
+					label="Indexer"
+					bind:value={$campaignDetails.indexer}
+					options={$data.step3Data.meta.indexerOptions}
+				/>
 				<div class="flex flex-row gap-4">
-					<Input label="Budget" placeholder="10%" sizeVariant={EInputSizeVariant.SMALL} />
-					<Input labelGap placeholder="100,000,000" sizeVariant={EInputSizeVariant.SMALL} />
+					<Input
+						label="Budget"
+						bind:value={$campaignDetails.budgetFrom}
+						placeholder="Type here..."
+						sizeVariant={EInputSizeVariant.SMALL}
+					/>
+					<Input
+						labelGap
+						bind:value={$campaignDetails.budgetTo}
+						placeholder="Type here..."
+						sizeVariant={EInputSizeVariant.SMALL}
+					/>
 				</div>
 			</div>
 		</div>
@@ -65,7 +101,11 @@
 				the Filament Hub. The fee is determined algorithmically by the protocol, depending on the
 				number of campaigns.
 			</Typography>
-			<Input placeholder="50,000" sizeVariant={EInputSizeVariant.SMALL} />
+			<Input
+				placeholder="Type here..."
+				bind:value={$campaignDetails.bond}
+				sizeVariant={EInputSizeVariant.SMALL}
+			/>
 		</div></Container
 	>
 </div>
