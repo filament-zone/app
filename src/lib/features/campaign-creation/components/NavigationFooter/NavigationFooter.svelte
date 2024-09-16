@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { routes } from '$lib/constants';
 	import { airDropCampaignCreationConfig, campaignStore } from '$lib/features';
 	import { Button } from '$lib/components';
 	import { EButtonColorVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
@@ -12,13 +14,12 @@
 	export let handleBack: INavigationFooterProps['handleBack'] = () => {};
 	export let disabled: INavigationFooterProps['disabled'] = false;
 
-	const { campaignDetails } = campaignStore;
-	const { clearCampaignDetails, createCampaign } = campaignStore;
-	const { nextStep, currentStep, setCurrentStep, steps } =
+	const { campaignDetails, clearCampaignDetails, createCampaign } = campaignStore;
+	const { nextStep, currentStep, setCurrentStep, steps, isLastStep, isPreLastStep } =
 		getContext<IStepBarStore>('stepBarStore');
 
 	$: localHandleNext = async () => {
-		if ($currentStep === $steps.length - 1) {
+		if ($isLastStep) {
 			const isCreated = createCampaign();
 			if (isCreated) {
 				nextStep();
@@ -58,7 +59,7 @@
 				Icon={CloseIcon}
 				on:click={() => {
 					clearCampaignDetails();
-					// goto(routes.CAMPAIGNS.LIST);
+					goto(routes.CAMPAIGNS.MY.ROOT);
 				}}
 				{disabled}
 			>
@@ -74,11 +75,7 @@
 				Icon={$currentStep === $steps.length - 1 ? PlusIcon : ArrowIcon}
 				{disabled}
 			>
-				{$currentStep === $steps.length - 1
-					? 'Submit'
-					: $currentStep === $steps.length - 2
-						? 'Summary'
-						: 'Next'}
+				{$isLastStep ? 'Submit' : $isPreLastStep ? 'Summary' : 'Next'}
 			</Button>
 		</div>
 	</div>

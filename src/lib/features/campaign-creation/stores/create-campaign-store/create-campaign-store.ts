@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
@@ -60,7 +60,8 @@ const clearCampaignDetails = () => {
 };
 
 const createCampaign: ICampaignStore['createCampaign'] = () => {
-	alert('Campaign was created');
+	alert('Campaign was created, see data structure in dev tools');
+	console.log('Campaign was created: ', get(campaignDetails));
 	return true;
 };
 

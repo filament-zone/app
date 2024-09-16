@@ -15,8 +15,7 @@ export const load: LayoutServerLoad = async ({ url }) => {
 					isCompleted: false
 				},
 				{ value: 3, label: '3', description: 'Budget', isActive: false, isCompleted: false },
-				{ value: 4, label: '4', description: 'Summary', isActive: false, isCompleted: false },
-				{ value: 5, label: '5', description: null, isActive: false, isCompleted: false }
+				{ value: 4, label: '4', description: 'Summary', isActive: false, isCompleted: false }
 			]
 		}
 	};

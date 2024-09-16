@@ -28,8 +28,7 @@
 			isActive: false,
 			isCompleted: false
 		},
-		{ value: 5, label: '5', description: 'Finished', isActive: false, isCompleted: false },
-		{ value: 6, label: '6', description: null, isActive: false, isCompleted: false }
+		{ value: 5, label: '5', description: 'Finished', isActive: false, isCompleted: false }
 	];
 	const summaryContextId = 'summaryStepBarStore';
 	setContext(summaryContextId, createStepBarStore(summarySteps));

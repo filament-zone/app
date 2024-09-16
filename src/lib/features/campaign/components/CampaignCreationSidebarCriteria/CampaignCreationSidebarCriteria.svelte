@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { derived, writable } from 'svelte/store';
 	import { page } from '$app/stores';
-	import { AddContractInput, campaignStore, RightSideBar, rightSideBarStore } from '$lib/features';
+	import {
+		AddContractInput,
+		campaignStore,
+		checkIsCriteriaCompleted,
+		RightSideBar,
+		rightSideBarStore
+	} from '$lib/features';
 	import { Button, Dropdown, Input } from '$lib/components';
 	import {
 		type IEligibilityCriteria,
@@ -29,6 +35,13 @@
 	$: editableCriteriaState = writable<IEligibilityCriteria>(selectedCriteria);
 
 	const handleSaveChanges = () => {
+		editableCriteriaState.update((criteria) => {
+			return {
+				...criteria,
+				completed: checkIsCriteriaCompleted(criteria)
+			};
+		});
+
 		campaignDetails.update((details) => {
 			if (sidebarState?.criteriaId) {
 				const newCriteriaArr = details.criteria.map((criteria) =>
@@ -39,6 +52,7 @@
 				return { ...details, criteria: [...details.criteria, $editableCriteriaState] };
 			}
 		});
+
 		closeRightSideBar();
 	};
 </script>

@@ -50,7 +50,7 @@
 				<div class="flex flex-row step-button">
 					<StepBarCampaignButton {step} {contextId} />
 				</div>
-				{#if index < $steps.length - 2}
+				{#if index < $steps.length - 1}
 					<div class="mx-2 flex flex-row justify-between flex-grow dots-wrapper">
 						<div class="dots-container flex flex-row justify-between">
 							{#if gaps?.length}

@@ -6,7 +6,8 @@
 	import {
 		campaignStore,
 		rightSideBarStore,
-		eligibilityCriteriaColumnDefCommon
+		eligibilityCriteriaColumnDefCommon,
+		checkIsCriteriaCompleted
 	} from '$lib/features';
 	import {
 		Container,
@@ -43,7 +44,12 @@
 			snapshotDate: $data.step2Data.snapshotDate,
 			snapshotInterval: $data.step2Data.snapshotInterval,
 			snapshotTotal: $data.step2Data.snapshotTotal,
-			criteria: $data.step2Data.eligibilityCriteriaTable.data
+			criteria: $data.step2Data.eligibilityCriteriaTable.data.map((item: IEligibilityCriteria) => {
+				return {
+					...item,
+					completed: checkIsCriteriaCompleted(item)
+				};
+			})
 		}));
 	});
 
@@ -102,15 +108,7 @@
 				.map((criteria) => {
 					return {
 						...criteria,
-						completed: Object.entries(criteria).every(([key, value]) => {
-							if (key === 'completed') {
-								return true;
-							}
-							if (key === 'contracts') {
-								return value.length;
-							}
-							return Boolean(value);
-						})
+						completed: checkIsCriteriaCompleted(criteria)
 					};
 				})
 		],

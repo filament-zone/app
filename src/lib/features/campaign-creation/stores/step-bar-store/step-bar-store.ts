@@ -2,6 +2,8 @@ import { derived, get, writable } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { routes } from '$lib/constants';
 import type { IStepBarCampaignOption, IStepBarStore } from '$lib/types';
+import { validateForm } from '$lib/helpers';
+import { airDropCampaignCreationConfig, campaignStore } from '$lib/features';
 
 export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 	const steps = writable(stepsArg);
@@ -12,7 +14,20 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 		($currentStep) => $currentStep === get(steps).length - 1
 	);
 
-	const setCurrentStep = (value: IStepBarCampaignOption['value']) => {
+	const setCurrentStep = async (value: IStepBarCampaignOption['value']) => {
+		const { campaignDetails } = campaignStore;
+
+		if (value > get(currentStep)) {
+			const isValid = await validateForm(
+				get(campaignDetails) as unknown as Record<string, unknown>,
+				airDropCampaignCreationConfig.validationsSchemas[get(currentStep) - 1]
+			);
+
+			if (!isValid) {
+				return;
+			}
+		}
+
 		currentStep.set(value);
 		steps.update((options) => {
 			return options.map((option) => ({
@@ -30,7 +45,7 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 				const lastIndex = get(steps).length - 1;
 				const nextIndex = Math.min(currentIndex + 1, lastIndex);
 
-				if (isLastStep) {
+				if (get(isLastStep)) {
 					goto(routes.CAMPAIGNS.MY.ROOT);
 				}
 
