@@ -47,14 +47,15 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 
 				if (get(isLastStep)) {
 					goto(routes.CAMPAIGNS.MY.ROOT);
+					return current;
 				}
 
 				setCurrentStep(get(steps)[currentIndex + 1].value);
 
 				return get(steps)[nextIndex].value;
 			});
-		} catch {
-			console.log('validationError');
+		} catch (e) {
+			console.log('nextStep Error', e);
 		}
 	};
 
