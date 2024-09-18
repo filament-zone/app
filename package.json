@@ -75,6 +75,7 @@
 		]
 	},
 	"dependencies": {
+		"borsh": "^2.0.0",
 		"svelte-portal": "^2.2.1"
 	}
 }

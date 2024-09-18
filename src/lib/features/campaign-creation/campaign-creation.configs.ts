@@ -1,4 +1,5 @@
-import { ENetwork, type IDropdownOption } from '$lib/types';
+import { type IDropdownOption } from '$lib/types';
+import { ENetwork } from '$lib/types';
 
 export const networkOptions: IDropdownOption[] = [
 	{ value: ENetwork.ETHEREUM, label: 'Ethereum' },

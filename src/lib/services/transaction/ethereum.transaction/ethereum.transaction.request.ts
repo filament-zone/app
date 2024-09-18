@@ -1,4 +1,4 @@
-import type { EthersError, InterfaceAbi } from 'ethers';
+import { type EthersError, type InterfaceAbi } from 'ethers';
 import {
 	WalletClientConnector,
 	EthereumContract,

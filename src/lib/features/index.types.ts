@@ -6,3 +6,4 @@ export * from './transaction/index.types';
 export * from './campaign-creation/index.types';
 export * from './campaign/index.types';
 export * from './right-sidebar/index.types';
+export * from './hub/index.types';

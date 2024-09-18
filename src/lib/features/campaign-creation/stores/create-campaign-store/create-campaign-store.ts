@@ -1,4 +1,5 @@
 import { get, writable } from 'svelte/store';
+import { hubStore } from '$lib/features';
 import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
@@ -65,9 +66,16 @@ const createCampaign: ICampaignStore['createCampaign'] = () => {
 	return true;
 };
 
+const createHubTx = async () => {
+	const { processHubTransaction } = hubStore;
+	const msg = new Uint8Array(8);
+	await processHubTransaction({ msg });
+};
+
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
 	createCampaign,
-	toggleDelegate
+	toggleDelegate,
+	createHubTx
 };

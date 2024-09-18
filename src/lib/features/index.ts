@@ -7,3 +7,4 @@ export * from './transaction';
 export * from './campaign-creation';
 export * from './right-sidebar';
 export * from './campaign';
+export * from './hub';
