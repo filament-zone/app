@@ -25,7 +25,7 @@ export interface IWalletClientConnectorConstructorProps {
 export type TWalletClientConnectorCallback = (data?: unknown) => unknown;
 
 export interface IWalletClientConnector {
-	connect: (cb?: () => void) => Promise<IWalletClientConnector>;
+	connect: (cb?: () => void) => Promise<IWalletClientConnector['BrowserProvider']>;
 	disconnect: (cb?: () => void) => IWalletClientConnector;
 	on?: (
 		event: WalletClientEventE,
@@ -43,6 +43,7 @@ export interface IWalletClientConnector {
 	switchChain: (chainId: bigint) => Promise<IWalletClientConnector>;
 	Signer?: JsonRpcSigner | null;
 	createErrorPayload: (error: EthersError) => TransactionError;
+	BrowserProvider?: BrowserProvider | null;
 }
 
 export type WalletClientEventE =

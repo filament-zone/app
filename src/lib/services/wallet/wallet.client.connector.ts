@@ -10,7 +10,7 @@ import { removeFromLocalStorage } from '$lib/utils';
 
 export class WalletClientConnector implements IWalletClientConnector {
 	public readonly Client: IWalletClientConnector;
-
+	public BrowserProvider: IWalletClientConnector['BrowserProvider'];
 	public EventEmitter: IEventEmitter;
 	public _connected = false;
 
@@ -27,19 +27,17 @@ export class WalletClientConnector implements IWalletClientConnector {
 		}
 	}
 
-	public on: IWalletClientConnector['on'] = (event, callback): WalletClientConnector => {
+	public on: IWalletClientConnector['on'] = (event, callback) => {
 		this.EventEmitter.on(event, callback);
 		return this;
 	};
 
-	public off: IWalletClientConnector['off'] = (event, callback): WalletClientConnector => {
+	public off: IWalletClientConnector['off'] = (event, callback) => {
 		this.EventEmitter.off(event, callback);
 		return this;
 	};
 
-	public connect: IWalletClientConnector['connect'] = async (
-		cb
-	): Promise<WalletClientConnector> => {
+	public connect: IWalletClientConnector['connect'] = async (cb) => {
 		if (cb) {
 			this.EventEmitter.on('connect', cb);
 		}
@@ -47,12 +45,12 @@ export class WalletClientConnector implements IWalletClientConnector {
 			this._connected = true;
 		});
 
-		await this.Client.connect();
+		this.BrowserProvider = await this.Client.connect();
 
-		return this;
+		return this.BrowserProvider;
 	};
 
-	public disconnect: IWalletClientConnector['disconnect'] = (cb): WalletClientConnector => {
+	public disconnect: IWalletClientConnector['disconnect'] = (cb) => {
 		if (cb) {
 			this.EventEmitter.on('disconnect', cb);
 		}

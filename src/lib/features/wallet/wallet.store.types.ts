@@ -19,6 +19,6 @@ export interface IWalletState {
 
 export interface IWalletStore {
 	wallet: Writable<IWalletState>;
-	initializeWallet: (walletProvider: EWalletProvider) => void;
+	initializeWallet: (walletProvider: EWalletProvider) => Promise<void>;
 	disconnectWallet: () => void;
 }

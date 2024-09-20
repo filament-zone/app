@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { hubStore } from '$lib/features';
+import { stringToUint8Array } from '$lib/helpers';
 import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
@@ -68,7 +69,7 @@ const createCampaign: ICampaignStore['createCampaign'] = () => {
 
 const createHubTx = async () => {
 	const { processHubTransaction } = hubStore;
-	const msg = new Uint8Array(8);
+	const msg = stringToUint8Array('some custom string data');
 	await processHubTransaction({ msg });
 };
 

@@ -1,5 +1,7 @@
-import { writable } from 'svelte/store';
-import { EventEmitter, HubService } from '$lib/services';
+import { get, writable } from 'svelte/store';
+import { v4 as uuidv4 } from 'uuid';
+import { walletStore } from '$lib/features';
+import { EventEmitter, EWalletProvider, HubService } from '$lib/services';
 import type {
 	IHubStore,
 	ITransactionErrorPayload,
@@ -8,7 +10,6 @@ import type {
 	ITransactionSuccessPayload,
 	TUpdateTransactionState
 } from '$lib/features/hub/hob.store.types';
-import { v4 as uuidv4 } from 'uuid';
 
 const hubService = new HubService();
 
@@ -42,6 +43,12 @@ export const processHubTransaction: IHubStore['processHubTransaction'] = async (
 			});
 		});
 
+		const { wallet, initializeWallet } = walletStore;
+
+		if (!get(wallet).address) {
+			await initializeWallet(EWalletProvider.METAMASK);
+		}
+
 		const transactionState: ITransactionState = {
 			id,
 			status: 'processing',
@@ -50,7 +57,11 @@ export const processHubTransaction: IHubStore['processHubTransaction'] = async (
 
 		transactionsStore.update((transactions) => [...transactions, transactionState]);
 
-		await hubService.processHubTransaction({ id, msg, eventEmitter });
+		await hubService.processHubTransaction({
+			id,
+			msg,
+			eventEmitter
+		});
 	} catch (error) {
 		console.error('Error processing transaction:', error);
 	}

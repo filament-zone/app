@@ -1,4 +1,4 @@
-import { type BrowserProvider, ethers, type EthersError, JsonRpcSigner } from 'ethers';
+import { ethers, type EthersError, JsonRpcSigner } from 'ethers';
 import { MetamaskWalletClientBuilder } from '$lib/services';
 import { bigIntToHexId } from '$lib/helpers';
 import {
@@ -9,7 +9,7 @@ import {
 } from '$lib/types';
 
 export class MetamaskWalletClientConnector implements IWalletClientConnector {
-	private readonly Client: BrowserProvider | null;
+	public readonly BrowserProvider: IWalletClientConnector['BrowserProvider'];
 	private readonly ClientBuilder: MetamaskWalletClientBuilder;
 	public EventEmitter: IEventEmitter;
 	public Signer: JsonRpcSigner | null;
@@ -17,13 +17,13 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 	constructor(eventEmitter: IEventEmitter) {
 		this.EventEmitter = eventEmitter;
 		this.ClientBuilder = new MetamaskWalletClientBuilder();
-		this.Client = this.ClientBuilder.build();
+		this.BrowserProvider = this.ClientBuilder.build();
 		this.Signer = null;
 	}
 
 	private async enableWindowProvider() {
-		if (this.Client) {
-			this.Signer = await this.Client.getSigner();
+		if (this.BrowserProvider) {
+			this.Signer = await this.BrowserProvider.getSigner();
 		}
 	}
 
@@ -55,7 +55,7 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 		this.ClientBuilder?.MetamaskProvider?.on('chainChanged', (chain) => {
 			this.EventEmitter.emit('ChainChanged', chain);
 		});
-		return this;
+		return this.BrowserProvider;
 	};
 
 	public disconnect: IWalletClientConnector['disconnect'] = () => {
@@ -72,7 +72,7 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 	};
 
 	public getAccountInfo: IWalletClientConnector['getAccountInfo'] = async () => {
-		await this.Client?.getSigner().then(async (signer) => {
+		await this.BrowserProvider?.getSigner().then(async (signer) => {
 			const chain = signer.provider._network;
 
 			this.EventEmitter.emit('AccountInfo', [{ address: signer.address, chain }]);
@@ -81,7 +81,7 @@ export class MetamaskWalletClientConnector implements IWalletClientConnector {
 	};
 
 	public getAccountBalance: IWalletClientConnector['getAccountBalance'] = async (address) => {
-		const balance = await this.Client?.getBalance(address);
+		const balance = await this.BrowserProvider?.getBalance(address);
 		const formattedBalance = balance && ethers.formatEther(balance);
 		this.EventEmitter.emit('AccountBalance', { balance: formattedBalance });
 		return this;

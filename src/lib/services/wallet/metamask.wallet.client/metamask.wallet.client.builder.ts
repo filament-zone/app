@@ -1,5 +1,5 @@
+import { browser } from '$app/environment';
 import { type BrowserProvider, ethers } from 'ethers';
-
 import type { IWalletClientBuilder } from '$lib/types';
 
 export class MetamaskWalletClientBuilder implements IWalletClientBuilder {
@@ -7,8 +7,8 @@ export class MetamaskWalletClientBuilder implements IWalletClientBuilder {
 
 	constructor() {
 		this.MetamaskProvider =
-			MetamaskWalletClientBuilder.isWindowProviderAvailable() && window.ethereum
-				? window.ethereum
+			MetamaskWalletClientBuilder.isWindowProviderAvailable() && window?.ethereum
+				? window?.ethereum
 				: null;
 	}
 
@@ -17,15 +17,10 @@ export class MetamaskWalletClientBuilder implements IWalletClientBuilder {
 	};
 
 	static isWindowProviderAvailable(): boolean {
-		return !!window.ethereum?.isMetaMask;
-	}
-
-	static async isProviderConnected(): Promise<boolean> {
-		let accounts: string[];
-		if (MetamaskWalletClientBuilder.isWindowProviderAvailable()) {
-			accounts = (await window.ethereum?.request({ method: 'eth_accounts' })) as string[];
-			return !!accounts.length;
+		if (browser) {
+			return !!window?.ethereum?.isMetaMask;
+		} else {
+			return false;
 		}
-		return Promise.resolve(false);
 	}
 }
