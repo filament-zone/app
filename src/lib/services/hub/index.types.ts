@@ -1,1 +1,1 @@
-export * from './hub.rpc-client/index.types';
+export * from './hub.api-client/index.types';

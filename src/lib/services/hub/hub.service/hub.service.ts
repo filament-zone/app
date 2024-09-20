@@ -2,17 +2,17 @@ import { ethers, SigningKey } from 'ethers';
 import { hexToBytes } from 'ethereum-cryptography/utils';
 import { new_serialized_tx, new_serialized_unsigned_tx } from 'filament-hub-wasm';
 import { env } from '$env/dynamic/public';
-import { HubRpcClient, EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
+import { HubApiClient, EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
 import { CHAIN_IDS } from '$lib/constants';
 import { EChain } from '$lib/types';
 import { uint8ArrayToBase64 } from '$lib/helpers';
 
 export class HubService {
 	private WalletClientConnector: WalletClientConnector;
-	private readonly rpcClient: HubRpcClient;
+	private readonly apiClient: HubApiClient;
 
 	constructor() {
-		this.rpcClient = new HubRpcClient();
+		this.apiClient = new HubApiClient({ host: '' });
 		this.WalletClientConnector = new WalletClientConnector({
 			walletProvider: EWalletProvider.METAMASK
 		});
@@ -70,17 +70,9 @@ export class HubService {
 			const messageHash = hexToBytes(messageHashHex);
 
 			const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
-			const unVCompressedPublicKey = ethers.SigningKey.computePublicKey(recoveredPublicKey, false);
-			const publicKey = hexToBytes(unVCompressedPublicKey.slice(2));
-
+			const unCompressedPublicKey = ethers.SigningKey.computePublicKey(recoveredPublicKey, false);
+			const publicKey = hexToBytes(unCompressedPublicKey.slice(2));
 			const formattedSignature = hexToBytes(signature.slice(2));
-			if (formattedSignature.length !== 65) {
-				throw new Error('Signature length is incorrect. Expected 65 bytes.');
-			}
-
-			if (publicKey.length !== 65) {
-				throw new Error('Public key length is incorrect. Expected 65 bytes.');
-			}
 
 			const serializedSignedTx = new_serialized_tx(
 				publicKey,
@@ -103,7 +95,8 @@ export class HubService {
 		}
 	}
 
-	private async sendTx(serializedTx: Uint8Array): Promise<void> {
-		await this.rpcClient.send('custom_method', [{ body: uint8ArrayToBase64(serializedTx) }]);
+	public async sendTx(serializedTx: Uint8Array): Promise<void> {
+		const base64Tx = uint8ArrayToBase64(serializedTx);
+		await this.apiClient.post('/txs', { body: base64Tx });
 	}
 }
