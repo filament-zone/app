@@ -16,6 +16,7 @@ declare const __propDef: {
 		onInput?: (e: Event<HTMLInputElement>) => void;
 		hideLeftBorder?: boolean;
 		inputClassNames?: string;
+		textColor?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
