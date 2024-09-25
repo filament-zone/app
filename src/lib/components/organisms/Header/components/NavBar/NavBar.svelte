@@ -34,7 +34,19 @@
 		{
 			label: 'Airdrops',
 			value: 'campaigns',
-			path: routes.CAMPAIGNS.ROOT
+			path: routes.CAMPAIGNS.ROOT,
+			subItems: [
+				{
+					label: 'List',
+					value: 'campaigns/list',
+					path: routes.CAMPAIGNS.LIST.ROOT
+				},
+				{
+					label: 'Create',
+					value: 'campaigns/create',
+					path: routes.CAMPAIGNS.CREATE.AIR_DROP.ROOT
+				}
+			]
 		}
 	];
 </script>

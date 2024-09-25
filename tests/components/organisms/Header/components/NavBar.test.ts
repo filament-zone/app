@@ -26,6 +26,10 @@ test.describe('NavBarComponent', () => {
 
 	test('should navigate to the page-3 when a link is clicked', async ({ page }) => {
 		await page.getByTestId('nav-item-campaigns').click();
-		await expect(page).toHaveURL('/campaigns');
+		await page.getByTestId('list-item-campaigns/list').click();
+		await expect(page).toHaveURL('/campaigns/list');
+		await page.getByTestId('nav-item-campaigns').click();
+		await page.getByTestId('list-item-campaigns/create').click();
+		await expect(page).toHaveURL('/campaigns/create/air-drop');
 	});
 });
