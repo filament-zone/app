@@ -153,6 +153,7 @@
 					type="number"
 					sizeVariant={EInputSizeVariant.MEDIUM}
 					bind:value={$campaignDetails.snapshotTotal}
+					LeftIcon="#"
 				/>
 			</div>
 		</div>

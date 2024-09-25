@@ -5,6 +5,7 @@
 	import { campaignStore } from '$lib/features';
 	import { Container, Input, Toggle, Typography } from '$lib/components';
 	import { EInputSizeVariant } from '$lib/types';
+	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
 
 	const data = derived(page, () => $page.data);
 	const { campaignDetails } = campaignStore;
@@ -43,6 +44,9 @@
 					bind:value={$campaignDetails.relativeShare}
 					placeholder="Type here..."
 					sizeVariant={EInputSizeVariant.SMALL}
+					LeftIcon="~"
+					RightIcon="%"
+					textColor="var(--filaMint)"
 				/>
 				<Input
 					label="Total Supply*"
@@ -80,12 +84,16 @@
 						bind:value={$campaignDetails.budgetFrom}
 						placeholder="Type here..."
 						sizeVariant={EInputSizeVariant.SMALL}
+						RightIcon="FILA"
+						textColor="var(--filaMint)"
 					/>
+					<ArrowRight class="mt-[43px]" />
 					<Input
 						labelGap
 						bind:value={$campaignDetails.budgetTo}
 						placeholder="Type here..."
 						sizeVariant={EInputSizeVariant.SMALL}
+						LeftIcon="$"
 					/>
 				</div>
 			</div>
@@ -105,6 +113,9 @@
 				placeholder="Type here..."
 				bind:value={$campaignDetails.bond}
 				sizeVariant={EInputSizeVariant.SMALL}
+				LeftIcon="Bond"
+				RightIcon="FILA"
+				textColor="var(--filaMint)"
 			/>
 		</div></Container
 	>

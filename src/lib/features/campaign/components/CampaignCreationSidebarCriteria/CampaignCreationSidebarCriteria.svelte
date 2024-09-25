@@ -68,11 +68,21 @@
 					options={$data.step2Data.meta.eligibilityCriteriaTypeOptions}
 				/>
 				<div class="flex flex-row gap-2">
-					<Input label="Mapping" bind:value={$editableCriteriaState.tvl} />
+					<Input
+						label="Mapping"
+						bind:value={$editableCriteriaState.tvl}
+						LeftIcon="$"
+						RightIcon="TVL"
+					/>
 					<div class="mt-[32px]">
 						<ArrowRight />
 					</div>
-					<Input labelGap bind:value={$editableCriteriaState.weight} />
+					<Input
+						labelGap
+						bind:value={$editableCriteriaState.weight}
+						LeftIcon="x"
+						RightIcon="Weight"
+					/>
 				</div>
 				<AddContractInput
 					label="List of contracts"

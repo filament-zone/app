@@ -22,7 +22,7 @@ export const generateMockEligibilityCriteria = (quantity: number): IEligibilityC
 			id: uuidv4(),
 			name: `${randomType.replace(/-/g, ' ')} on ${randomNetwork}`,
 			category: randomCategory,
-			type: null,
+			type: EEligibilityCriteriaType.TVL_BY_CONTRACT,
 			tvl: (Math.random() * 100).toFixed(2),
 			weight: (Math.random() * 10).toFixed(0),
 			contracts: [

@@ -37,7 +37,9 @@ export const eligibilityCriteriaColumnDefCommon = [
 			const value = info.getValue() as IEligibilityCriteria['tvl'];
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
-				colorVariant: EBadgeColorVariant.PRIMARY
+				colorVariant: EBadgeColorVariant.PRIMARY,
+				LeftIcon: '$',
+				RightIcon: 'TVL'
 			});
 		}
 	},
@@ -55,7 +57,9 @@ export const eligibilityCriteriaColumnDefCommon = [
 			const value = info.getValue() as IEligibilityCriteria['weight'];
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
-				colorVariant: EBadgeColorVariant.PRIMARY
+				colorVariant: EBadgeColorVariant.SECONDARY,
+				LeftIcon: 'X',
+				RightIcon: 'Weight'
 			});
 		}
 	}
