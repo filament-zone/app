@@ -121,7 +121,7 @@
 	}
 
 	.color-variant-black {
-		background-color: var(--darkNet-100);
+		background-color: var(--darkNet);
 		.typography_button {
 			color: var(--gray);
 		}
