@@ -32,7 +32,9 @@ export const delegatesColumnDefCommon = [
 			const votingPower = info.getValue() as IDelegate['votingPower'];
 			return flexRender(Badge, {
 				label: votingPower.toLocaleString(),
-				colorVariant: EBadgeColorVariant.PRIMARY
+				colorVariant: EBadgeColorVariant.PRIMARY,
+				LeftIcon: 'VP',
+				RightIcon: 'FILA'
 			});
 		}
 	},
@@ -50,7 +52,9 @@ export const delegatesColumnDefCommon = [
 			const evictionCost = info.getValue() as IDelegate['evictionCost'];
 			return flexRender(Badge, {
 				label: evictionCost.toLocaleString(),
-				colorVariant: EBadgeColorVariant.SECONDARY
+				colorVariant: EBadgeColorVariant.SECONDARY,
+				LeftIcon: 'EC',
+				RightIcon: 'FILA'
 			});
 		}
 	}

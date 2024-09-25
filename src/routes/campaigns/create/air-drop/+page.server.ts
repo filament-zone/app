@@ -108,7 +108,7 @@ export const load = async () => {
 	};
 
 	const step2Data = {
-		snapshotDate: null,
+		snapshotDate: '2024-12-31',
 		snapshotInterval: '10',
 		snapshotTotal: '5',
 		eligibilityCriteriaTable,
