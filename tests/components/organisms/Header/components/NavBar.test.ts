@@ -6,27 +6,26 @@ test.describe('NavBarComponent', () => {
 	});
 
 	test('should navigate to the page-1 when a link is clicked', async ({ page }) => {
-		await page.getByTestId('nav-item-page1').click();
-		await expect(page).toHaveURL('/page-1');
+		await page.getByTestId('nav-item-overview').click();
+		await expect(page).toHaveURL('/overview');
 	});
 
 	test('should navigate to the page-2 and its subpages when a link is clicked', async ({
 		page
 	}) => {
-		await page.getByTestId('nav-item-page2').click();
-		await page.getByTestId('list-item-page-2/subpage-1').click();
-		await expect(page).toHaveURL('/page-2/subpage-1');
-		await page.getByTestId('nav-item-page2').click();
-		await page.getByTestId('list-item-page-2/subpage-2').click();
-		await expect(page).toHaveURL('/page-2/subpage-2');
-		await page.getByTestId('nav-item-page2').click();
-		await page.getByTestId('list-item-page-2/subpage-3').click();
-		await expect(page).toHaveURL('/page-2/subpage-3');
+		await page.getByTestId('nav-item-delegates').click();
+		await page.getByTestId('list-item-delegates/subpage-1').click();
+		await expect(page).toHaveURL('/delegates/subpage-1');
+		await page.getByTestId('nav-item-delegates').click();
+		await page.getByTestId('list-item-delegates/subpage-2').click();
+		await expect(page).toHaveURL('/delegates/subpage-2');
+		await page.getByTestId('nav-item-delegates').click();
+		await page.getByTestId('list-item-delegates/subpage-3').click();
+		await expect(page).toHaveURL('/delegates/subpage-3');
 	});
 
 	test('should navigate to the page-3 when a link is clicked', async ({ page }) => {
 		await page.getByTestId('nav-item-campaigns').click();
-		await page.getByTestId('list-item-campaigns/my').click();
-		await expect(page).toHaveURL('/campaigns/my');
+		await expect(page).toHaveURL('/campaigns');
 	});
 });

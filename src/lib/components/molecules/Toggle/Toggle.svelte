@@ -76,7 +76,7 @@
 	};
 </script>
 
-<div>
+<div class="w-full">
 	{#if label}
 		<Label value={label} />
 	{/if}

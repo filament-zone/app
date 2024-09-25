@@ -46,7 +46,7 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 				const nextIndex = Math.min(currentIndex + 1, lastIndex);
 
 				if (get(isLastStep)) {
-					goto(routes.CAMPAIGNS.MY.ROOT);
+					goto(routes.CAMPAIGNS.ROOT);
 					return current;
 				}
 

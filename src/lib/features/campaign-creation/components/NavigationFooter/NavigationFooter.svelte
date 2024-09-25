@@ -59,7 +59,7 @@
 				Icon={CloseIcon}
 				on:click={() => {
 					clearCampaignDetails();
-					goto(routes.CAMPAIGNS.MY.ROOT);
+					goto(routes.CAMPAIGNS.ROOT);
 				}}
 				{disabled}
 			>

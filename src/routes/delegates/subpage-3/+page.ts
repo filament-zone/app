@@ -69,7 +69,7 @@ export async function load() {
 		searchSelectProps: { ...searchSelectProps },
 		buttonProps: {
 			onClick: () => {
-				goto(routes.PAGE_2.SUBPAGE_3.CREATE_PROPOSAL);
+				goto(routes.DELEGATES.SUBPAGE_3.CREATE_PROPOSAL);
 			}
 		}
 	};
