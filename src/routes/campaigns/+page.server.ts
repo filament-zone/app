@@ -1,3 +1,5 @@
+import { generateMockCampaigns } from '$lib/features';
+
 export const load = async () => {
 	const campaignToggleOptions = [
 		{ value: 'all', label: 'All' },
@@ -6,7 +8,10 @@ export const load = async () => {
 		{ value: 'draft', label: 'Draft' }
 	];
 
+	const campaignList = generateMockCampaigns(2);
+
 	return {
-		campaignToggleOptions
+		campaignToggleOptions,
+		campaignList
 	};
 };

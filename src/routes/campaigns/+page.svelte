@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { CampaignListItem } from '$lib/features';
 	import { Button, Container, Toggle } from '$lib/components/';
 	import { routes } from '$lib/constants';
 	import { EToggleVariant } from '$lib/types';
@@ -19,11 +20,18 @@
 			Create
 		</Button>
 	</div>
-	<div class="flex justify-between gap-8 w-full">
-		<Toggle
-			options={data.campaignToggleOptions}
-			variant={EToggleVariant.SECONDARY}
-			bind:value={toggleValue}
-		/>
+	<div class="flex flex-col w-full">
+		<div class="flex justify-between gap-8 w-full mb-4">
+			<Toggle
+				options={data.campaignToggleOptions}
+				variant={EToggleVariant.SECONDARY}
+				bind:value={toggleValue}
+			/>
+		</div>
+		<div class="flex flex-col gap-4 w-full">
+			{#each data.campaignList as campaignItem}
+				<CampaignListItem campaign={campaignItem} />
+			{/each}
+		</div>
 	</div>
 </Container>

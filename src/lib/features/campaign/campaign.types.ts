@@ -26,6 +26,7 @@ export interface IEligibilityCriteria {
 }
 
 export interface ICampaign {
+	createdAt?: string | null;
 	// STEP 1 VALUES START
 	title: string | null;
 	description: string | null;
