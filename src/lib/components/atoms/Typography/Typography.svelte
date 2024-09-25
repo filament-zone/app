@@ -388,15 +388,15 @@
 		}
 
 		@media @size_lg {
-			font-size: 10px;
+			font-size: 12px;
 		}
 
 		@media @size_xl {
-			font-size: 10px;
+			font-size: 12px;
 		}
 
 		@media @size_2xl {
-			font-size: 10px;
+			font-size: 12px;
 		}
 	}
 </style>
