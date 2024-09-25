@@ -1,4 +1,4 @@
-import { SvelteComponent } from 'svelte';
+import { type ComponentType, SvelteComponent } from 'svelte';
 import { EBadgeColorVariant, EBadgeWidthVariant } from '$lib/types';
 
 declare const __propDef: {
@@ -6,6 +6,8 @@ declare const __propDef: {
 		label: string;
 		colorVariant: EBadgeColorVariant;
 		widthVariant: EBadgeWidthVariant;
+		LeftIcon?: ComponentType<SvelteComponent> | string | null;
+		RightIcon?: ComponentType<SvelteComponent> | string | null;
 	};
 	events: {
 		[evt: string]: CustomEvent;
