@@ -19,6 +19,7 @@
 	export let onInput: IInputProps['onInput'] = () => {};
 	export let hideLeftBorder: IInputProps['hideLeftBorder'] = false;
 	export let inputClassNames: IInputProps['inputClassNames'] = '';
+	export let textColor: IInputProps['textColor'] = '';
 </script>
 
 <div class={`${$$props.class} rounded-none size-variant-${sizeVariant}`}>
@@ -44,13 +45,15 @@
 				<div class="left-label">{leftLabel}</div>
 			{/if}
 			{#if LeftIcon}
-				{#if typeof LeftIcon === 'string'}
-					<img src={LeftIcon} alt="icon" style="height: 12px; width: 12px; margin-right: 4px;" />
-				{:else}
-					<div class="box mr-4">
+				<div class="box mr-2">
+					{#if typeof LeftIcon === 'string'}
+						<Typography variant="labelSmall" class="mr-2" style="font-size:12px"
+							>{LeftIcon}</Typography
+						>
+					{:else}
 						<svelte:component this={LeftIcon} stroke="white" width="12px" height="12px" />
-					</div>
-				{/if}
+					{/if}
+				</div>
 			{/if}
 			<input
 				{...$$restProps}
@@ -61,13 +64,16 @@
 				{min}
 				{max}
 				class={inputClassNames}
+				style="color: {textColor}"
 			/>
 			{#if RightIcon}
-				{#if typeof RightIcon === 'string'}
-					<div class="box">{RightIcon}</div>
-				{:else}
-					<div class="box"><svelte:component this={RightIcon} {...RightIconProps} /></div>
-				{/if}
+				<div class="box ml-2">
+					{#if typeof RightIcon === 'string'}
+						<Typography variant="labelSmall" style="font-size:12px">{RightIcon}</Typography>
+					{:else}
+						<svelte:component this={RightIcon} {...RightIconProps} />
+					{/if}
+				</div>
 			{/if}
 		</div>
 		{#if error}
@@ -138,6 +144,10 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+
+		input {
+			margin-bottom: 2px;
+		}
 
 		& input {
 			width: 100%;
