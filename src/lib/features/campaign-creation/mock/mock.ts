@@ -56,7 +56,11 @@ function generateMockCampaign(): ICampaign {
 		indexer: `Indexer-${Math.random().toString(36).substring(2, 10)}`,
 		budgetFrom: (Math.random() * 5000).toFixed(2),
 		budgetTo: (Math.random() * 10000).toFixed(2),
-		bond: (Math.random() * 100).toFixed(2)
+		bond: (Math.random() * 100).toFixed(2),
+		collateralStatus: {
+			date: new Date().toISOString(),
+			status: 'processing'
+		}
 	};
 }
 

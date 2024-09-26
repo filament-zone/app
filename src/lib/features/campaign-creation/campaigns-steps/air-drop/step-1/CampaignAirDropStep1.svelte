@@ -38,7 +38,7 @@
 			cell: (value) => {
 				const isSelected = value.getValue() as IDelegate['selected'];
 				if (isSelected) {
-					return flexRender(CheckmarkCircleIcon, {});
+					return flexRender(CheckmarkCircleIcon, { fill: 'var(--green-100)' });
 				} else {
 					return flexRender(MinusCircleIcon, {});
 				}

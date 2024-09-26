@@ -1,7 +1,12 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
+	import { CampaignTimeLineItem } from '$lib/features';
 	import { Badge, Button, Divider, Typography } from '$lib/components';
-	import { type ICampaignListItemProps, EButtonColorVariant } from '$lib/types';
+	import {
+		type ICampaignListItemProps,
+		EButtonColorVariant,
+		ECampaignTimeLineItem
+	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 </script>
@@ -37,6 +42,29 @@
 		<Divider />
 		<div>
 			<Typography variant="caption">Timeline</Typography>
+			<div class="flex flex-col">
+				<CampaignTimeLineItem
+					iconStatus={ECampaignTimeLineItem.PROCESSING}
+					title="Deposit Collateral"
+					description="In order to initiate the campaign you have to deposit the campaign collateral."
+					status={campaign.collateralStatus?.status}
+				/>
+				<CampaignTimeLineItem
+					iconStatus={ECampaignTimeLineItem.CHECKED}
+					title="Signed Deposit Transaction"
+					description="The campaign draft has been finalized and saved"
+					date={campaign.collateralStatus?.date}
+					status={'success'}
+				/>
+
+				<CampaignTimeLineItem
+					iconStatus={ECampaignTimeLineItem.CHECKED}
+					title="Campaign Draft"
+					description="The campaign draft has been finalized and saved"
+					date={campaign.collateralStatus?.date}
+					status={'success'}
+				/>
+			</div>
 		</div>
 		<Divider />
 		<div class="flex flex-row justify-end gap-8">
