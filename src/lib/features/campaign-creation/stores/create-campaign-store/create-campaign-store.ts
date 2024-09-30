@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store';
-import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
+import { modalStore } from '$lib/features';
+import { EDelegateType, EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START
@@ -30,6 +31,8 @@ const initCampaignDetails: ICampaign = {
 };
 
 const campaignDetails = writable({ ...initCampaignDetails });
+
+const { openModal } = modalStore;
 
 const toggleDelegate: ICampaignStore['toggleDelegate'] = (
 	delegateId: string,
@@ -65,9 +68,15 @@ const createCampaign: ICampaignStore['createCampaign'] = () => {
 	return true;
 };
 
+const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
+	campaignDetails.set({ ...campaign });
+	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
+};
+
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
 	createCampaign,
-	toggleDelegate
+	toggleDelegate,
+	initiateCampaign
 };

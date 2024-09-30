@@ -5,14 +5,13 @@
 		navigationStore,
 		ModalConfirmation,
 		ModalConnectWallet,
-		ModalValidatorStake
+		ModalValidatorStake,
+		ModalCampaignInitiate
 	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
 	const { beforeNavigate } = navigationStore;
-	const { closeModal } = modalStore;
-
-	const { activeModal } = modalStore;
+	const { closeModal, activeModal } = modalStore;
 
 	beforeNavigate(() => {
 		closeModal();
@@ -28,6 +27,8 @@
 				return ModalConnectWallet;
 			case EModalVariant.VALIDATOR_STAKE:
 				return ModalValidatorStake;
+			case EModalVariant.CAMPAIGN_INITIATE:
+				return ModalCampaignInitiate;
 			default:
 				return null;
 		}

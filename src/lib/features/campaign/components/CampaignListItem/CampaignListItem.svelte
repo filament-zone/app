@@ -1,6 +1,6 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
-	import { CampaignTimeLineItem } from '$lib/features';
+	import { campaignStore, CampaignTimeLineItem } from '$lib/features';
 	import { Badge, Button, Divider, Typography } from '$lib/components';
 	import {
 		type ICampaignListItemProps,
@@ -9,6 +9,8 @@
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
+
+	const { initiateCampaign } = campaignStore;
 </script>
 
 <div class="campaign-list-item-container">
@@ -69,7 +71,10 @@
 		<Divider />
 		<div class="flex flex-row justify-end gap-8">
 			<Button colorVariant={EButtonColorVariant.BLACK}>Delete</Button>
-			<Button colorVariant={EButtonColorVariant.SECONDARY}>Initiate</Button>
+			<Button
+				colorVariant={EButtonColorVariant.SECONDARY}
+				on:click={initiateCampaign.bind(null, campaign)}>Initiate</Button
+			>
 		</div>
 	</div>
 </div>
