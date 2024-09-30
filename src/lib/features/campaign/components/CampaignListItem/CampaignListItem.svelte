@@ -5,12 +5,13 @@
 	import {
 		type ICampaignListItemProps,
 		EButtonColorVariant,
-		ECampaignTimeLineItem
+		ECampaignTimeLineItem,
+		EBadgeColorVariant
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 
-	const { initiateCampaign } = campaignStore;
+	const { initiateCampaign, depositToCampaign } = campaignStore;
 </script>
 
 <div class="campaign-list-item-container">
@@ -31,7 +32,11 @@
 							>50,000 FILA</Typography
 						>
 					</div>
-					<Badge label="Redeem" />
+					<Badge
+						label="Deposit"
+						on:click={depositToCampaign.bind(null, campaign)}
+						colorVariant={EBadgeColorVariant.LIGHT}
+					/>
 				</div>
 			</div>
 			<div class="flex flex-col">

@@ -7,4 +7,6 @@ export interface ICampaignStore {
 	createCampaign: () => boolean;
 	toggleDelegate: (delegateId: IDelegate['id'], delegateType: EDelegateType) => void;
 	initiateCampaign: (campaign: ICampaign) => void;
+	depositToCampaign: (campaign: ICampaign) => void;
+	setTokenAllowance: () => void;
 }

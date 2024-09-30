@@ -6,7 +6,8 @@
 		ModalConfirmation,
 		ModalConnectWallet,
 		ModalValidatorStake,
-		ModalCampaignInitiate
+		ModalCampaignInitiate,
+		ModalCampaignDeposit
 	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
@@ -29,6 +30,8 @@
 				return ModalValidatorStake;
 			case EModalVariant.CAMPAIGN_INITIATE:
 				return ModalCampaignInitiate;
+			case EModalVariant.CAMPAIGN_DEPOSIT:
+				return ModalCampaignDeposit;
 			default:
 				return null;
 		}

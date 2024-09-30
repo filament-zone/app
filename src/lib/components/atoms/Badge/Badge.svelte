@@ -41,7 +41,12 @@
 	}
 </script>
 
-<div class={`badge ${$$props.class} ${colorVariant} ${widthVariant}`}>
+<div
+	{...$$props}
+	class={`badge ${$$props.class} ${colorVariant} ${widthVariant}`}
+	on:click
+	aria-hidden="true"
+>
 	{#if LeftIcon}
 		<div class="item item-1 mr-2">
 			{#if typeof LeftIcon === 'string'}

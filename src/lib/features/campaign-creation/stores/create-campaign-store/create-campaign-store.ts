@@ -73,10 +73,19 @@ const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
 	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
 };
 
+const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
+	campaignDetails.set({ ...campaign });
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
+};
+
+const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {};
+
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
-	initiateCampaign
+	initiateCampaign,
+	depositToCampaign,
+	setTokenAllowance
 };
