@@ -44,7 +44,7 @@
 		"eslint": "^9.9.1",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-storybook": "^0.8.0",
-		"eslint-plugin-svelte": "^2.43.0",
+		"eslint-plugin-svelte": "^2.44.1",
 		"ethers": "^6.13.2",
 		"globals": "^15.9.0",
 		"husky": "^9.1.5",
