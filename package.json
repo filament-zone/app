@@ -30,7 +30,7 @@
 		"@storybook/blocks": "^8.2.9",
 		"@storybook/svelte": "^8.2.9",
 		"@storybook/sveltekit": "^8.2.9",
-		"@storybook/test": "^8.2.9",
+		"@storybook/test": "^8.3.4",
 		"@storybook/types": "^8.2.9",
 		"@sveltejs/adapter-auto": "^3.2.4",
 		"@sveltejs/adapter-cloudflare": "^4.1.0",
