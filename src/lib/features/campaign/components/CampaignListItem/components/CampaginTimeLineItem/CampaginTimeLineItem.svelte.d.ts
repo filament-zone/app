@@ -1,9 +1,8 @@
 import { SvelteComponent } from 'svelte';
-import { type ICampaign, ECampaignTimeLineItem } from '$lib/types';
+import { ECampaignTimeLineItem } from '$lib/types';
 
 declare const __propDef: {
 	props: {
-		campaign: ICampaign;
 		iconStatus: ECampaignTimeLineItem;
 		title: string;
 		description: string;

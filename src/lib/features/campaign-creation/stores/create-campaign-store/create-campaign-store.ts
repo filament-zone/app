@@ -78,7 +78,9 @@ const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
 	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
 };
 
-const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {};
+const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
+};
 
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
