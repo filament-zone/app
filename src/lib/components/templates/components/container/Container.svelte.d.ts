@@ -7,7 +7,9 @@ declare const __propDef: {
 	events: {
 		[evt: string]: CustomEvent;
 	};
-	slots: object;
+	slots: {
+		header: object;
+	};
 };
 type IContainerProps_ = typeof __propDef.props;
 export type { IContainerProps_ as IContainerProps };

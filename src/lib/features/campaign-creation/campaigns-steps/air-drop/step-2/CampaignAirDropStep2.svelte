@@ -62,7 +62,7 @@
 				const isCompleted = value.getValue() as IEligibilityCriteria['completed'];
 
 				if (isCompleted) {
-					return flexRender(CheckmarkCircleIcon, {});
+					return flexRender(CheckmarkCircleIcon, { fill: 'var(--green-100)' });
 				}
 
 				if (

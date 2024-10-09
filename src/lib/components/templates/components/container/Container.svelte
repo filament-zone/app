@@ -4,9 +4,11 @@
 
 <div class="base-container gap-6 w-full">
 	<div class="flex flex-row justify-between w-full">
-		<div class="label-box">
-			<span>{label}</span>
-		</div>
+		{#if label}
+			<div class="label-box">
+				<span>{label}</span>
+			</div>
+		{/if}
 		<div>
 			<slot name="header" />
 		</div>

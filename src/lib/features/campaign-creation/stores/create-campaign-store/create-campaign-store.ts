@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store';
-import { hubStore } from '$lib/features';
+import { modalStore,hubStore } from '$lib/features';
 import { stringToUint8Array } from '$lib/helpers';
-import { EDelegateType, type ICampaign, type ICampaignStore } from '$lib/types';
+import { EDelegateType, EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START
@@ -32,6 +32,8 @@ const initCampaignDetails: ICampaign = {
 };
 
 const campaignDetails = writable({ ...initCampaignDetails });
+
+const { openModal } = modalStore;
 
 const toggleDelegate: ICampaignStore['toggleDelegate'] = (
 	delegateId: string,
@@ -67,6 +69,20 @@ const createCampaign: ICampaignStore['createCampaign'] = () => {
 	return true;
 };
 
+const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
+	campaignDetails.set({ ...campaign });
+	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
+};
+
+const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
+	campaignDetails.set({ ...campaign });
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
+};
+
+const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
+};
+
 const createHubTx = async () => {
 	const { processHubTransaction } = hubStore;
 	const msg = stringToUint8Array('some custom string data');
@@ -78,5 +94,8 @@ export const campaignStore: ICampaignStore = {
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
+	initiateCampaign,
+	depositToCampaign,
+	setTokenAllowance,
 	createHubTx
 };

@@ -34,6 +34,13 @@
 			});
 		}
 	}
+
+	$: generateLabel = () => {
+		if (option.subItems?.length && currentPath.split('/')[1] === option.path?.split('/')[1]) {
+			return `${option.label} / ${currentPath.split('/')[2]}`;
+		}
+		return option.label;
+	};
 </script>
 
 <div class="nav-item-container">
@@ -50,7 +57,7 @@
 		aria-hidden="true"
 	>
 		<Typography variant="h6" color={mainRouteSelected ? 'var(--darkNet)' : 'var(--primary-white)'}
-			>{option.label}</Typography
+			>{generateLabel()}</Typography
 		>
 	</div>
 	{#if option.subItems && $isOpen}

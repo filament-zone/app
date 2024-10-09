@@ -1,0 +1,27 @@
+<svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="Frame 2609163">
+        <g clip-path="url(#clip0_8839_17974)">
+            <rect x="0.5" width="22" height="22" rx="11" fill="#4D4D4D"/>
+            <path id="Vector 8" d="M12 1.5V1.5C17.4928 1.23844 21.9027 5.97717 21.2476 11.437L21.1922 11.8982C21.065 12.9581 20.7559 13.9881 20.2785 14.943L20.1219 15.2562C19.7089 16.0823 19.1961 16.8546 18.595 17.5558L16.5 20" stroke="url(#paint0_linear_8839_17974)" stroke-width="3"/>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="paint0_linear_8839_17974" x1="12" y1="1.625" x2="25.6233" y2="10.3288" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#999999" stop-opacity="0.5"/>
+            <stop offset="1" stop-color="white"/>
+        </linearGradient>
+        <clipPath id="clip0_8839_17974">
+            <rect x="0.5" width="22" height="22" rx="11" fill="white"/>
+        </clipPath>
+    </defs>
+    <style>
+        @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+        #Frame\ 2609163 {
+        animation: rotate 2s linear infinite;
+        transform-origin: center;
+        }
+    </style>
+</svg>

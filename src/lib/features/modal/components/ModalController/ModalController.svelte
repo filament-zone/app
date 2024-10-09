@@ -5,14 +5,15 @@
 		navigationStore,
 		ModalConfirmation,
 		ModalConnectWallet,
-		ModalValidatorStake
+		ModalValidatorStake,
+		ModalCampaignInitiate,
+		ModalCampaignDeposit,
+		ModalCampaignDepositTimeline
 	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
 	const { beforeNavigate } = navigationStore;
-	const { closeModal } = modalStore;
-
-	const { activeModal } = modalStore;
+	const { closeModal, activeModal } = modalStore;
 
 	beforeNavigate(() => {
 		closeModal();
@@ -28,6 +29,12 @@
 				return ModalConnectWallet;
 			case EModalVariant.VALIDATOR_STAKE:
 				return ModalValidatorStake;
+			case EModalVariant.CAMPAIGN_INITIATE:
+				return ModalCampaignInitiate;
+			case EModalVariant.CAMPAIGN_DEPOSIT:
+				return ModalCampaignDeposit;
+			case EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE:
+				return ModalCampaignDepositTimeline;
 			default:
 				return null;
 		}

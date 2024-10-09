@@ -5,46 +5,46 @@
 
 	const menuConfig: INavBarItemOption[] = [
 		{
-			label: 'page1',
-			value: 'page1',
-			path: routes.PAGE_1.ROOT
+			label: 'Overview',
+			value: 'overview',
+			path: routes.OVERVIEW.ROOT
 		},
 		{
-			label: `page2`,
-			value: 'page2',
-			path: routes.PAGE_2.SUBPAGE_1.ROOT,
+			label: `Delegates`,
+			value: 'delegates',
+			path: routes.DELEGATES.SUBPAGE_1.ROOT,
 			subItems: [
 				{
 					label: 'subpage-1',
-					value: 'page-2/subpage-1',
-					path: routes.PAGE_2.SUBPAGE_1.ROOT
+					value: 'delegates/subpage-1',
+					path: routes.DELEGATES.SUBPAGE_1.ROOT
 				},
 				{
 					label: 'subpage-2',
-					value: 'page-2/subpage-2',
-					path: routes.PAGE_2.SUBPAGE_2.ROOT
+					value: 'delegates/subpage-2',
+					path: routes.DELEGATES.SUBPAGE_2.ROOT
 				},
 				{
 					label: 'subpage-3',
-					value: 'page-2/subpage-3',
-					path: routes.PAGE_2.SUBPAGE_3.ROOT
+					value: 'delegates/subpage-3',
+					path: routes.DELEGATES.SUBPAGE_3.ROOT
 				}
 			]
 		},
 		{
-			label: 'Campaigns',
+			label: 'Airdrops',
 			value: 'campaigns',
 			path: routes.CAMPAIGNS.ROOT,
 			subItems: [
 				{
-					label: 'All Campaigns',
-					value: 'campaigns/all',
-					path: routes.CAMPAIGNS.ALL.ROOT
+					label: 'List',
+					value: 'campaigns/list',
+					path: routes.CAMPAIGNS.LIST.ROOT
 				},
 				{
-					label: 'My Campaigns',
-					value: 'campaigns/my',
-					path: routes.CAMPAIGNS.MY.ROOT
+					label: 'Create',
+					value: 'campaigns/create',
+					path: routes.CAMPAIGNS.CREATE.AIR_DROP.ROOT
 				}
 			]
 		}
