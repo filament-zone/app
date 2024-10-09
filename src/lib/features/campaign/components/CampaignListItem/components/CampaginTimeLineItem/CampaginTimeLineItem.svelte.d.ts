@@ -8,6 +8,8 @@ declare const __propDef: {
 		description: string;
 		date: string;
 		status: string;
+		isLast?: boolean;
+		isFirst?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

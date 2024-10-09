@@ -13,7 +13,8 @@
 		title: 'Sign Token Allowance',
 		description: 'Please allow us to requirest at least 50,000 FILA',
 		date: new Date().getDate().toString(),
-		status: 'success'
+		status: 'success',
+		isFirst: true
 	};
 
 	const timeLineItemSignDepositTransactionProps = {
@@ -35,21 +36,20 @@
 		1: {
 			buttonLabel: 'Deposit',
 			handleFoo: () => {
-				console.log('foo');
 				step.set(2);
 			},
 			timeLineItemSignTokenAllowanceProps,
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'To-Do',
-				iconStatus: ECampaignTimeLineItem.PROCESSING
+				iconStatus: ECampaignTimeLineItem.PROCESSING,
+				isLast: true
 			},
 			timeLineItemFilamentHubConfirmationProps: null
 		},
 		2: {
 			buttonLabel: 'Close',
 			handleFoo: () => {
-				console.log('foo 2');
 				closeModal();
 			},
 			timeLineItemSignTokenAllowanceProps,
@@ -64,7 +64,8 @@
 				title: 'Filament Hub Confirmation',
 				description: 'This can take up to 10 minutes. You can close the window in the meantime.',
 				date: '',
-				status: 'To-Do'
+				status: 'To-Do',
+				isLast: true
 			}
 		}
 	};

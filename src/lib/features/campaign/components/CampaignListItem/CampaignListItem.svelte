@@ -55,6 +55,7 @@
 					title="Deposit Collateral"
 					description="In order to initiate the campaign you have to deposit the campaign collateral."
 					status={campaign.collateralStatus?.status}
+					isLast
 				/>
 				<CampaignTimeLineItem
 					iconStatus={ECampaignTimeLineItem.CHECKED}
@@ -70,6 +71,7 @@
 					description="The campaign draft has been finalized and saved"
 					date={campaign.collateralStatus?.date}
 					status={'success'}
+					isFirst
 				/>
 			</div>
 		</div>
