@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { modalStore,hubStore } from '$lib/features';
+import { modalStore, hubStore } from '$lib/features';
 import { stringToUint8Array } from '$lib/helpers';
 import { EDelegateType, EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
 

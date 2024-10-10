@@ -1,6 +1,6 @@
 import { ethers, SigningKey } from 'ethers';
 import { hexToBytes } from 'ethereum-cryptography/utils';
-import { new_serialized_tx, new_serialized_unsigned_tx } from 'filament-hub-wasm';
+import { new_serialized_tx } from 'filament-hub-wasm';
 import { env } from '$env/dynamic/public';
 import { HubApiClient, EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
 import { CHAIN_IDS } from '$lib/constants';
@@ -45,43 +45,21 @@ export class HubService {
 				return null;
 			}
 
-			const maxFee = feeData.maxFeePerGas;
-			const maxPriorityFee = feeData.maxPriorityFeePerGas;
-
-			const serializedUnsignedTx = new_serialized_unsigned_tx(
-				msg,
-				chainId,
-				maxPriorityFee,
-				maxFee,
-				BigInt(nonce)
-			);
-
-			if (!serializedUnsignedTx) {
-				return null;
-			}
-
-			const signature =
-				await this.WalletClientConnector.Client.Signer?.signMessage(serializedUnsignedTx);
+			const signature = await this.WalletClientConnector.Client.Signer?.signMessage(msg);
 			if (!signature) {
 				return null;
 			}
 
-			const messageHashHex = ethers.hashMessage(serializedUnsignedTx);
+			const messageHashHex = ethers.hashMessage(msg);
 			const messageHash = hexToBytes(messageHashHex);
 
 			const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
-			const unCompressedPublicKey = ethers.SigningKey.computePublicKey(recoveredPublicKey, false);
-			const publicKey = hexToBytes(unCompressedPublicKey.slice(2));
-			const formattedSignature = hexToBytes(signature.slice(2));
 
 			const serializedSignedTx = new_serialized_tx(
-				publicKey,
-				formattedSignature,
-				serializedUnsignedTx,
-				chainId,
-				maxPriorityFee,
-				maxFee,
-				BigInt(nonce)
+				ethers.toBeArray(signature),
+				ethers.toBeArray(recoveredPublicKey),
+				msg,
+				chainId
 			);
 
 			eventEmitter.emit('transaction:send:start', { id });

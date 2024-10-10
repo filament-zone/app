@@ -45,6 +45,11 @@
 					label: 'Create',
 					value: 'campaigns/create',
 					path: routes.CAMPAIGNS.CREATE.AIR_DROP.ROOT
+				},
+				{
+					label: 'Test The Hub Tx',
+					value: 'campaigns/check-the-hub',
+					path: routes.CAMPAIGNS.CHECK_THE_HUB.ROOT
 				}
 			]
 		}

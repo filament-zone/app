@@ -13,6 +13,7 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	build: {
+		target: 'esnext',
 		rollupOptions: {
 			output: {
 				manualChunks(id) {
