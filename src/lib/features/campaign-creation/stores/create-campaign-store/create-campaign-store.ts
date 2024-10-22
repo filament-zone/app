@@ -1,6 +1,5 @@
 import { get, writable } from 'svelte/store';
 import { modalStore, hubStore } from '$lib/features';
-import { stringToUint8Array } from '$lib/helpers';
 import { EDelegateType, EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
@@ -85,7 +84,13 @@ const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
 
 const createHubTx = async () => {
 	const { processHubTransaction } = hubStore;
-	const msg = stringToUint8Array('some custom string data');
+	const msg = {
+		bank: {
+			freeze: {
+				token_id: 'token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6'
+			}
+		}
+	};
 	await processHubTransaction({ msg });
 };
 

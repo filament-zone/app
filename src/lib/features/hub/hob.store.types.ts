@@ -8,7 +8,7 @@ export interface ITransactionState {
 
 export interface IHubStore {
 	transactionsStore: Writable<ITransactionState[]>;
-	processHubTransaction: ({ msg }: { msg: Uint8Array }) => Promise<void>;
+	processHubTransaction: ({ msg }: { msg: object }) => Promise<void>;
 }
 
 export type TUpdateTransactionState = (txState: ITransactionState) => void;
