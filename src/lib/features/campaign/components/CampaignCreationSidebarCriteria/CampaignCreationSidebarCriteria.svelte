@@ -74,7 +74,7 @@
 						LeftIcon="$"
 						RightIcon="TVL"
 					/>
-					<div class="mt-[32px]">
+					<div class="mt-[43px]">
 						<ArrowRight />
 					</div>
 					<Input
