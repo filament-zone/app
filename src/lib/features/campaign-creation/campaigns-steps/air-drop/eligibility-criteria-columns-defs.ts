@@ -52,14 +52,14 @@ export const eligibilityCriteriaColumnDefCommon = [
 	},
 	{
 		accessorKey: 'weight',
-		header: 'Weight',
+		header: 'Point(s)',
 		cell: (info) => {
 			const value = info.getValue() as IEligibilityCriteria['weight'];
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
 				LeftIcon: 'X',
-				RightIcon: 'Weight'
+				RightIcon: 'Point(s)'
 			});
 		}
 	}

@@ -8,12 +8,12 @@
 	export let LeftIcon: IBadgeProps['LeftIcon'] = null;
 	export let RightIcon: IBadgeProps['RightIcon'] = null;
 
-	function getColor(colorVariant: string): string {
+	function getColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
 			case EBadgeColorVariant.PRIMARY:
 				return 'var(--primary-white)';
 			case EBadgeColorVariant.SECONDARY:
-				return 'var(--default)';
+				return '#898989';
 			case EBadgeColorVariant.SUCCESS:
 				return 'var(--default)';
 			case EBadgeColorVariant.DANGER:
@@ -29,14 +29,14 @@
 		}
 	}
 
-	function getIconTextColor(colorVariant: string): string {
+	function getIconTextColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
 			case EBadgeColorVariant.PRIMARY:
-				return 'var(--gray-200)';
+				return '#898989';
 			case EBadgeColorVariant.SECONDARY:
-				return 'var(--filaMint-600)';
+				return '#898989';
 			default:
-				return 'var(--default)';
+				return '#898989';
 		}
 	}
 </script>
@@ -75,37 +75,21 @@
 	.badge {
 		display: flex;
 		position: relative;
-
+		align-items: center;
+		width: fit-content;
+		gap: 0.5rem;
 		border-radius: 4px;
-		padding: 4px 8px;
+		padding: 8px;
 		height: 35px;
 
-		.item {
-			position: absolute;
-			margin: auto 0;
-		}
-
-		.item-1 {
-			left: 8px;
-		}
-
-		.item-2 {
-			left: 50%;
-			transform: translateX(-50%);
-		}
-
-		.item-3 {
-			right: 8px;
-		}
-
 		&.primary {
-			box-shadow: 0 0 0 0.1px var(--primary-white);
-			background-color: var(--content1);
+			border: 1px solid var(--default-border);
+			background: #282828;
 		}
 
 		&.secondary {
-			box-shadow: 0 0 0 0.1px var(--filaMint-300);
-			background-color: var(--filaMint-100);
+			border: 1px solid var(--default-border);
+			background-color: var(--content1);
 		}
 
 		&.success {

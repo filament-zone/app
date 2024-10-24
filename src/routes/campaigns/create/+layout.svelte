@@ -8,7 +8,8 @@
 	setContext('stepBarStore', createStepBarStore(data.initSteps));
 </script>
 
-<PageHeader label={`Campaigns / Create / ${data.label}`} />
+<PageHeader label={`New Airdrop`} />
+
 <StepBar />
 <slot />
 <NavigationFooter />

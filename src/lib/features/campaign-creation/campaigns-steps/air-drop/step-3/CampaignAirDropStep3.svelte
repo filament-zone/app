@@ -102,7 +102,7 @@
 	<Container label="Campaign Collateral">
 		<div class="flex flex-col gap-5">
 			<Typography variant="caption">
-				To prevent campaign spam and facilitate the participation of all delegates in the
+				To prevent campaign spam and facilitate the participation of all governance in the
 				administration, the Filament hub requires you to deposit a collateral. If the campaign runs
 				smoothly, you will be able to redeem the collaterial bond at no cost. In case you cancel the
 				campaign before finalization a fee is deducted from the bond to pay the involved servies of

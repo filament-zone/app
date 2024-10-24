@@ -127,27 +127,20 @@
 
 	.input-container {
 		border-radius: 4px;
-		background: var(--background-100);
+		background: var(--highlight-bg);
 		border: 0.4px solid var(--default);
 		color: #fff;
-		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 13px;
+		font-family: var(--secondary-font);
 		font-style: normal;
 		font-weight: 400;
-		line-height: 13px;
 
-		padding: 6px 14px;
+		padding: 4px 14px;
 		width: 100%;
-		height: 30px;
 
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-
-		input {
-			margin-bottom: 2px;
-		}
 
 		& input {
 			width: 100%;

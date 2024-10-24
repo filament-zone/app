@@ -16,8 +16,9 @@
 		padding: 10px 20px;
 		background-color: #333;
 		color: white;
-		border-radius: 5px;
+		border-radius: 2px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		transition: transform 0.3s ease-in-out;
+		font-family: var(--primary-font);
 	}
 </style>

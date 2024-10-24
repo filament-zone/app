@@ -5,4 +5,4 @@ export * from './step-4';
 export * from './air-drop-campaign-creation.config';
 export * from './air-drop-campaign-creation.helpers';
 export * from './eligibility-criteria-columns-defs';
-export * from './delegates-columns-defs';
+export * from './governance-columns-defs';

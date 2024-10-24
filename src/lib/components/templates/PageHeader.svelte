@@ -3,9 +3,9 @@
 	export let label = '';
 </script>
 
-<div class="page-header-wrapper flex items-center justify-center w-full border-b border-default">
-	<div class="page-header mx-6 3xl:mx-0 max-w-screen-2xl">
-		<Typography variant="h5">{label}</Typography>
+<div class="page-header-wrapper flex items-center justify-center w-full">
+	<div class="page-header max-w-screen-2xl">
+		<Typography variant="h4">{label}</Typography>
 		<div>
 			<slot />
 		</div>
@@ -13,13 +13,6 @@
 </div>
 
 <style lang="less">
-	.page-header-wrapper {
-		position: sticky;
-		top: 0;
-		background: var(--content1);
-		z-index: 10;
-	}
-
 	.page-header {
 		display: flex;
 		flex-grow: 1;

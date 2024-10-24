@@ -13,7 +13,7 @@
 	</div>
 	<div slot="content">
 		<Typography variant="caption">
-			To prevent campaign spam and facilitate the participation of all delegates in the
+			To prevent campaign spam and facilitate the participation of all governance in the
 			administration, the Filament hub requires campaigners to deposit a collateral. <strong
 				>Campaigns can only be initiated if the collateral has been deposited.</strong
 			>
@@ -34,7 +34,7 @@
 			<div class="mt-[42px]">
 				<ArrowRight />
 			</div>
-			<Input labelGap value="48,345" LeftIcon="$" RightIcon="Weight" />
+			<Input labelGap value="48,345" LeftIcon="$" RightIcon="Point(s)" />
 		</div>
 		<Typography variant="caption">Please make sure that yous address has enough funds.</Typography>
 		<Button on:click={setTokenAllowance} class="ml-auto mt-8" variant="secondary"

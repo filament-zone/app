@@ -81,7 +81,7 @@
 						labelGap
 						bind:value={$editableCriteriaState.weight}
 						LeftIcon="x"
-						RightIcon="Weight"
+						RightIcon="Point(s)"
 					/>
 				</div>
 				<AddContractInput

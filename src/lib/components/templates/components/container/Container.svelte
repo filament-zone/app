@@ -23,6 +23,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 		justify-content: center;
+		height: fit-content;
 		padding: 20px;
 		background-color: var(--background-100);
 		box-shadow: 0 0 0 1px #66666611;

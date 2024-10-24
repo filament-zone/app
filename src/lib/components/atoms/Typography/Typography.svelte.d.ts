@@ -22,6 +22,8 @@ declare const __propDef: {
 		color?: string;
 		styles?: string;
 		dataTestId?: string;
+		weight?: number;
+		allowHover?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

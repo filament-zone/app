@@ -231,7 +231,7 @@
 			style={`${valueColor ? `color: ${valueColor}` : ''} ${$$props.style}`}
 		/>
 		{#if $isOpen}
-			<div class="list-container" style={`top: ${label ? '66px' : '34px'}`}>
+			<div class="list-container" style={`top: ${label ? '68px' : '34px'}`}>
 				{#if filteredOptions.length}
 					{#each filteredOptions as option}
 						<ListItem
@@ -273,7 +273,6 @@
 	}
 	.list-container {
 		width: 100%;
-		border-radius: 4px;
 		background-color: black;
 		border: 0.4px solid var(--default);
 		position: absolute;

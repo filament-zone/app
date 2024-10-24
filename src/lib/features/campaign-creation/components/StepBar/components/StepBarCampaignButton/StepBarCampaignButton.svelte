@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { type IStepBarCampaignButtonProps, type IStepBarStore } from '$lib/types';
-	import CheckIcon from '$lib/assets/icons/check-1.svg?component';
 
 	export let step: IStepBarCampaignButtonProps['step'];
 	export let contextId: IStepBarCampaignButtonProps['contextId'];
@@ -19,7 +18,21 @@
 			<span>{step.description}</span>
 			<div class="box">
 				{#if step.isCompleted}
-					<CheckIcon />
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="14"
+						height="14"
+						viewBox="0 0 14 14"
+						fill="none"
+						class="check-icon"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M7 14A7 7 0 1 0 7 0a7 7 0 0 0 0 14zm-.222-3.944 4.148-4.667-1.628-1.447-3.21 3.612-1.291-1.937-1.814 1.208 2.074 3.111.783 1.174.938-.054z"
+							clip-rule="evenodd"
+							opacity=".8"
+						/>
+					</svg>
 				{:else}
 					{step.label}
 				{/if}
@@ -42,28 +55,36 @@
 		border-radius: 2px;
 
 		&.isActive {
-			background-color: #0d1e1d;
+			background-color: var(--content2);
 
 			span {
-				color: #21fffe;
+				color: var(--blueChip);
+				font-weight: 600;
 			}
 
 			.box {
-				background-color: #0c1919;
-				color: #ffffff;
+				font-weight: 600;
+				background-color: unset;
+				color: var(--blueChip);
 			}
 		}
 
 		&.isCompleted {
-			background-color: #0d2f1d;
+			background-color: var(--content2);
 
 			span {
-				color: #21f879;
+				color: var(--upOnly);
 			}
 
 			.box {
-				background-color: #0c2719;
-				color: #c3cdc9;
+				background-color: unset;
+				color: var(--upOnly);
+
+				.check-icon {
+					path {
+						fill: var(--upOnly);
+					}
+				}
 			}
 		}
 

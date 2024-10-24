@@ -44,7 +44,7 @@
 		<div class="flex flex-row gap-2">
 			{#if $currentStep > 1}
 				<Button
-					colorVariant={EButtonColorVariant.BLACK}
+					colorVariant={EButtonColorVariant.SECONDARY}
 					on:click={() => {
 						if (handleBack) {
 							handleBack();

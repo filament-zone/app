@@ -36,7 +36,7 @@
 	const toggleOptions: IToggleProps<string>['options'] = [
 		{ value: 'description', label: 'Description' },
 		{ value: 'criteria', label: 'Criteria' },
-		{ value: 'delegates', label: 'Delegates' },
+		{ value: 'governance', label: 'Delegates' },
 		{ value: 'votes', label: 'Votes' }
 	];
 
@@ -54,7 +54,7 @@
 			<CampaignAirDropStep4Description />
 		{:else if toggleValue === 'criteria'}
 			<CampaignAirDropStep4Criteria />
-		{:else if toggleValue === 'delegates'}
+		{:else if toggleValue === 'governance'}
 			<CampaignAirDropStep4Delegates />
 		{:else if toggleValue === 'votes'}
 			<CampaignAirDropStep4Votes />

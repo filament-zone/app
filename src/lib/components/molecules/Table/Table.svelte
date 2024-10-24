@@ -23,6 +23,167 @@
 	export let pagination: ITableProps['pagination'] = null;
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 
+	//console log data
+	const test = [
+		{
+			environment: 'evm',
+			supported_criteria: [
+				{
+					type: 'bank',
+					name: 'Token balances',
+					description: 'Snapshot an ERC20 token balance for a given chain',
+					chains: [
+						'ethereum',
+						'bnb',
+						'base',
+						'polygon',
+						'avalanche',
+						'chiliz',
+						'gnosis',
+						'cronos',
+						'fantom',
+						'arbitrum',
+						'palm',
+						'optimism',
+						'linea',
+						'moonbeam',
+						'flow',
+						'opbnb',
+						'zksync',
+						'polygon zkevm',
+						'zetachain',
+						'blast',
+						'mantle'
+					],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 1000 },
+						{ type: 'historic', price_per_snapshot: 1500 }
+					],
+					category: 'balance'
+				},
+				{
+					type: 'nft-holders',
+					name: 'NFT holders',
+					description: 'Snapshot the holders on an NFT collection',
+					chains: [
+						'ethereum',
+						'bnb',
+						'base',
+						'polygon',
+						'avalanche',
+						'chiliz',
+						'gnosis',
+						'cronos',
+						'fantom',
+						'arbitrum',
+						'palm',
+						'optimism',
+						'linea',
+						'moonbeam',
+						'flow',
+						'opbnb',
+						'zksync',
+						'polygon zkevm',
+						'zetachain',
+						'blast',
+						'mantle'
+					],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 1000 },
+						{ type: 'historic', price_per_snapshot: 1500 }
+					],
+					category: 'nft'
+				},
+				{
+					type: 'gas-fees',
+					name: 'Gas fees',
+					description: 'Snapshot the gas fees spent for a given chain',
+					chains: [
+						'scroll',
+						'linea',
+						'blast',
+						'zora',
+						'fantom',
+						'arbitrum',
+						'ethereum',
+						'zkevm',
+						'base',
+						'bnb',
+						'avalanche_c',
+						'gnosis',
+						'polygon',
+						'mantle',
+						'optimism',
+						'zksync',
+						'sei'
+					],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 1000 },
+						{ type: 'historic', price_per_snapshot: 1500 }
+					],
+					category: 'balance'
+				},
+				{
+					type: 'uniswap-v3-lp',
+					name: 'Liquidity providers on a Uniswap V3 pool',
+					description: 'Snapshot the liquidity providers on a Uniswap V3 pool',
+					chains: ['ethereum'],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 4000 },
+						{ type: 'historic', price_per_snapshot: 5000 }
+					],
+					category: 'defi'
+				},
+				{
+					type: 'uniswap-v3-volume',
+					name: 'Volume on a Uniswap V3 pool',
+					description: 'Snapshot the volume per address on a Uniswap V3 pool',
+					chains: ['ethereum'],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 3000 },
+						{ type: 'historic', price_per_snapshot: 4000 }
+					],
+					category: 'defi'
+				},
+				{
+					type: 'trading-profit',
+					name: 'Trading profit',
+					description: 'Snapshot the trading profit in dollars($) per address on a given chain',
+					chains: [
+						'ethereum',
+						'bnb',
+						'base',
+						'polygon',
+						'avalanche',
+						'chiliz',
+						'gnosis',
+						'cronos',
+						'fantom',
+						'arbitrum',
+						'palm',
+						'optimism',
+						'linea',
+						'moonbeam',
+						'flow',
+						'opbnb',
+						'zksync',
+						'polygon zkevm',
+						'zetachain',
+						'blast',
+						'mantle'
+					],
+					pricing: [
+						{ type: 'upcoming', price_per_snapshot: 1000 },
+						{ type: 'historic', price_per_snapshot: 1500 }
+					],
+					category: 'defi'
+				}
+			]
+		}
+	];
+
+	console.log(test);
+
 	let columnVisibility: VisibilityState = {};
 
 	const setColumnVisibility: OnChangeFn<VisibilityState> = (updater) => {
@@ -74,11 +235,11 @@
 	};
 </script>
 
-<div class="">
+<div class="table-container">
 	<div class="flex flex-row justify-between items-center">
 		{#if tableLabel}
-			<div class="table-title mb-4">
-				<Typography variant="h2">{tableLabel}</Typography>
+			<div class="table-title">
+				<Typography variant="h5">{tableLabel}</Typography>
 			</div>{/if}
 		{#if tableRightLabel}
 			<div class="flex flex-row justify-end w-2/3">
@@ -95,8 +256,8 @@
 		{/if}
 	</div>
 	{#if $tableClient.getRowModel().rows.length}
-		<div class="overflow-x-auto border-default-box-shadow">
-			<table class="">
+		<div class="overflow-x-auto">
+			<table class="custom-table">
 				<tbody>
 					{#each $tableClient.getHeaderGroups() as headerGroup}
 						<tr class="header">
@@ -115,11 +276,11 @@
 						</tr>
 					{/each}
 					{#each $tableClient.getRowModel().rows as row}
-						<tr>
+						<tr class="data-row">
 							{#each row.getVisibleCells() as cell, index}
 								<td
 									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
-									class={cell.column.columnDef.meta?.class}
+									class={`${cell.column.columnDef.meta?.class || ''} cell`}
 									on:click={() => {
 										cell.column.columnDef.meta?.onClick?.(cell);
 									}}
@@ -136,7 +297,7 @@
 		</div>
 	{/if}
 	{#if !$tableClient.getRowModel().rows.length}
-		<div class="flex justify-center items-center w-full h-[412px] border-default-box-shadow">
+		<div class="flex justify-center items-center w-full h-[412px]">
 			<Typography variant="h5">NO DATA</Typography>
 		</div>
 	{/if}
@@ -149,41 +310,53 @@
 </div>
 
 <style lang="less">
-	table {
+	.custom-table {
 		width: 100%;
-		table-layout: fixed;
+		border-collapse: separate;
+		border-spacing: 0 8px;
+		--table-border-radius: 2px;
 
 		.header {
-			background-color: var(--background);
+			th {
+				padding: 10px 12px;
+				color: #8c8c8c;
+				font-family: var(--primary-font);
+				font-size: 1rem;
+				font-weight: 500;
+				text-align: left;
+				background-color: transparent;
+			}
 		}
 
-		th {
-			padding: 10px 12px;
-			color: var(--gray-200);
-			font-family: 'ff-meta-serif-web-pro', serif;
-			font-size: 0.875rem;
-			font-style: normal;
-			font-weight: 500;
-			line-height: 0.875rem;
-			text-align: start;
-		}
-		tbody {
-			border-spacing: 30px;
-			tr {
-				color: var(--primary-white);
-				background-color: var(--background);
-				box-shadow: 0 0 0 0.1px var(--default);
-				height: 34px;
-				border-radius: 4px;
+		.data-row {
+			background-color: var(--highlight-bg);
+			cursor: pointer;
+
+			&:hover {
+				background-color: #3333338d;
 			}
-			td {
-				padding: 4px 12px;
+
+			.cell {
+				padding: 16px 12px;
+				color: #ffffff;
+				font-family: var(--secondary-font);
+				font-size: 0.875rem;
+
+				&:first-child {
+					border-top-left-radius: var(--table-border-radius);
+					border-bottom-left-radius: var(--table-border-radius);
+				}
+
+				&:last-child {
+					border-top-right-radius: var(--table-border-radius);
+					border-bottom-right-radius: var(--table-border-radius);
+				}
 			}
 		}
 	}
 
 	.sticky {
 		position: sticky;
-		background-color: var(--background);
+		background-color: #1a1a1a;
 	}
 </style>

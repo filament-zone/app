@@ -6,6 +6,7 @@
 	import { EButtonColorVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
+	import { Typography } from '$lib/components';
 
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
@@ -13,18 +14,20 @@
 	let isWalletMenuOpen = false;
 </script>
 
-<div class="flex flex-col">
-	<div class="flex flex-row items-center h-[72px] px-4" data-testid="header">
+<div class="flex flex-col w-full sticky top-0 z-50">
+	<div class="flex flex-row items-center h-[54px] px-4 bg-background" data-testid="header">
 		<div
-			class="cursor-pointer"
+			class="cursor-pointer flex gap-3"
 			on:click={() => {
 				goto(routes.HOME);
 			}}
 			aria-hidden="true"
 		>
-			<img src={LogoFilament} alt="logo" />
+			<img src={LogoFilament} alt="logo" class="w-6" />
+			<Typography variant="h5">Filament</Typography>
 		</div>
-		<div class="ml-4">
+
+		<div class="ml-12 flex h-full items-center justify-middle">
 			<NavBar />
 		</div>
 		<div class="relative ml-auto">
@@ -37,7 +40,7 @@
 						isWalletMenuOpen = !isWalletMenuOpen;
 					}
 				}}
-				colorVariant={EButtonColorVariant.SECONDARY}
+				colorVariant={EButtonColorVariant.HIGHLIGHT}
 				>{$wallet.address ? shortCutTransactionHash($wallet.address) : 'Connect Wallet'}</Button
 			>
 			{#if isWalletMenuOpen}

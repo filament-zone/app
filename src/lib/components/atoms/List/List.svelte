@@ -26,7 +26,7 @@
 <style lang="less">
 	.list-container {
 		width: 100%;
-		border-radius: 4px;
+		min-width: 200px;
 		background-color: black;
 		box-shadow: 0 0 0 0.5px #242424;
 		left: 0;

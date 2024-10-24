@@ -16,7 +16,7 @@
 	};
 </script>
 
-<div class="w-[384px] h-full">
+<div class="right-sidebar-container w-[384px] h-full">
 	<div
 		class="right-sidebar px-6 py-8 {classNames} h-full"
 		use:clickOutside
@@ -37,6 +37,14 @@
 </div>
 
 <style lang="less">
+	.right-sidebar-container {
+		position: fixed;
+		top: 80;
+		right: 0;
+		z-index: 500;
+		border: 1px solid var(--default-border);
+	}
+
 	.right-sidebar {
 		border-radius: 4px;
 		background: #141414;

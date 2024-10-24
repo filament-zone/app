@@ -20,7 +20,7 @@
 		{#each Object.entries(subPages) as [key, subRoute]}
 			{#if typeof subRoute === 'string'}
 				{#if key !== 'ROOT'}
-					<div class:selected={subRouteSelected(subRoute)}>
+					<div class:selected={subRouteSelected(subRoute)} class="py-2 flex items-center">
 						<Typography
 							dataTestId={subRoute}
 							variant="h6"
@@ -32,7 +32,7 @@
 					</div>
 				{/if}
 			{:else}
-				<div class:selected={subRouteSelected(subRoute.ROOT)}>
+				<div class:selected={subRouteSelected(subRoute.ROOT)} class="py-1 flex items-center">
 					<Typography
 						dataTestId={subRoute.ROOT}
 						variant="h6"

@@ -5,6 +5,7 @@
 	import { clickOutside } from '$lib/actions';
 	import { List, Typography } from '$lib/components';
 	import type { IListItemOption, INavBarItemOption } from '$lib/types';
+	import { ChevronDownIcon } from 'svelte-feather-icons';
 
 	export let option: INavBarItemOption;
 
@@ -56,9 +57,16 @@
 		}}
 		aria-hidden="true"
 	>
-		<Typography variant="h6" color={mainRouteSelected ? 'var(--darkNet)' : 'var(--primary-white)'}
+		<Typography
+			variant="h6"
+			color={mainRouteSelected ? 'var(--filaMint)' : 'var(--primary-white)'}
+			styles={`white-space: nowrap; ${mainRouteSelected && 'font-weight: 600'}`}
 			>{generateLabel()}</Typography
-		>
+		>{#if option.subItems}
+			<span class={mainRouteSelected ? 'filament-icon' : 'white-icon'}>
+				<ChevronDownIcon class="w-4 h-4" />
+			</span>
+		{/if}
 	</div>
 	{#if option.subItems && $isOpen}
 		<div class="sub-items-container" use:clickOutside on:clickOutside={handleClickOutside}>
@@ -72,22 +80,39 @@
 		cursor: pointer;
 		text-transform: capitalize;
 		position: relative;
+		height: 100%;
 
 		.nav-item {
 			display: flex;
 			padding: 0 12px;
+			height: 100%;
+			align-items: center;
+			font-weight: inherit;
+			gap: 0.5rem;
+
+			&.selected {
+				font-weight: 800;
+			}
 		}
 
 		.sub-items-container {
 			position: absolute;
-
 			display: flex;
 			flex-direction: column;
-			width: 200px;
+			width: 100%;
 		}
 
 		.selected {
-			background-color: var(--filaMint);
+			border-bottom: 1.5px solid var(--filaMint);
+			font-weight: 700;
+		}
+
+		.white-icon {
+			color: white;
+		}
+
+		.filament-icon {
+			color: var(--filaMint);
 		}
 	}
 </style>

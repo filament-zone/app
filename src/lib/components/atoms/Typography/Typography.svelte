@@ -6,6 +6,7 @@
 	export let color: ITypographyProps['color'] = 'var(--primary-white)';
 	export let styles: ITypographyProps['styles'] = '';
 	export let dataTestId: ITypographyProps['dataTestId'] = '';
+	export let allowHover: boolean = false;
 
 	const variant_to_tag_map: Record<ITypographyProps['variant'], string> = {
 		h1: 'h1',
@@ -33,7 +34,7 @@
 
 <svelte:element
 	this={variant_to_tag_map[variant]}
-	class={`typography_${variant} ${$$props.class}`}
+	class={`typography_${variant} ${allowHover ? 'allow-hover' : ''} ${$$props.class}`}
 	style={`color: ${color}; ${styles}`}
 	on:click={forwardEvent}
 	aria-hidden="true"
@@ -137,26 +138,26 @@
 		}
 
 		@media @size_md {
-			font-size: 22px;
+			font-size: 23px;
 		}
 
 		@media @size_lg {
-			font-size: 26px;
+			font-size: 24px;
 		}
 
 		@media @size_xl {
-			font-size: 29px;
+			font-size: 25px;
 		}
 
 		@media @size_2xl {
-			font-size: 32px;
+			font-size: 26px;
 		}
 	}
 
 	.typography_h5 {
 		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 14px;
-		font-weight: 400;
+		font-size: 18px;
+		font-weight: 600;
 		line-height: 1.6;
 
 		@media @size_sm {
@@ -172,11 +173,11 @@
 		}
 
 		@media @size_xl {
-			font-size: 26px;
+			font-size: 18px;
 		}
 
 		@media @size_2xl {
-			font-size: 29px;
+			font-size: 18px;
 		}
 	}
 
@@ -184,30 +185,30 @@
 		font-family: 'ff-meta-serif-web-pro', serif;
 		font-size: 10px;
 		font-weight: 400;
-		line-height: 1.7;
+		--size: 16px;
 
 		@media @size_sm {
-			font-size: 11px;
+			font-size: var(--size);
 		}
 
 		@media @size_md {
-			font-size: 13px;
+			font-size: var(--size);
 		}
 
 		@media @size_lg {
-			font-size: 14px;
+			font-size: var(--size);
 		}
 
 		@media @size_xl {
-			font-size: 19px;
+			font-size: var(--size);
 		}
 
 		@media @size_2xl {
-			font-size: 22px;
+			font-size: var(--size);
 		}
 
 		@media @size_3xl {
-			font-size: 26px;
+			font-size: var(--size);
 		}
 	}
 
@@ -338,38 +339,38 @@
 		}
 
 		@media @size_xl {
-			font-size: 16px;
+			font-size: 15px;
 		}
 
 		@media @size_2xl {
-			font-size: 18px;
+			font-size: 15px;
 		}
 	}
 
 	.typography_overline {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--primary-font);
 		font-size: 8px;
 		font-weight: 400;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 10px;
-		}
-
-		@media @size_md {
-			font-size: 11px;
-		}
-
-		@media @size_lg {
 			font-size: 13px;
 		}
 
-		@media @size_xl {
+		@media @size_md {
+			font-size: 13px;
+		}
+
+		@media @size_lg {
 			font-size: 14px;
 		}
 
+		@media @size_xl {
+			font-size: 15px;
+		}
+
 		@media @size_2xl {
-			font-size: 16px;
+			font-size: 15px;
 		}
 	}
 
@@ -397,6 +398,14 @@
 
 		@media @size_2xl {
 			font-size: 12px;
+		}
+	}
+
+	.allow-hover {
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: var(--filaMint);
 		}
 	}
 </style>

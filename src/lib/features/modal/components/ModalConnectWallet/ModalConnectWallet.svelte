@@ -12,7 +12,7 @@
 		<Typography variant="h2">Connect Wallet</Typography>
 	</div>
 	<div slot="content" class="text-center flex flex-col gap-12">
-		<Typography variant="h3">Choose wallet to connect</Typography>
+		<Typography variant="h4">Choose wallet to connect</Typography>
 		<div class="flex flex-col items-center w-full gap-6">
 			<Button
 				data-testid="connect-metamask"

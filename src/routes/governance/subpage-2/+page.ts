@@ -169,7 +169,7 @@ export async function load() {
 	];
 
 	const tableAllValidatorsData: ITableProps = {
-		tableLabel: 'All Validators',
+		tableLabel: 'All Delegates',
 		tableRightLabel: SearchSelect,
 		tableRightLabelProps: { ...searchSelectProps },
 		columnDef: [

@@ -42,7 +42,7 @@
 
 <div class="flex w-full justify-center">
 	<div
-		class="step-indicator-navigation flex mx-6 3xl:mx-0 flex-1 flex-row items-center gap-8 py-4 max-w-screen-2xl"
+		class="step-indicator-navigation flex flex-1 flex-row items-center gap-8 py-4 max-w-screen-2xl"
 		bind:this={container}
 	>
 		<div class="flex flex-row justify-between items-center w-full">

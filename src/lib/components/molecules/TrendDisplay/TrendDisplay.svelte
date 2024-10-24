@@ -10,7 +10,11 @@
 
 <div class="flex flex-row gap-2">
 	<Typography variant="h6">{value}</Typography>
-	<Typography variant="h6" color={`${direction === 'up' ? 'green' : 'red'}`} class="text-nowrap">
+	<Typography
+		variant="h6"
+		color={`${direction === 'up' ? 'var(--upOnly)' : 'var(--rugged)'}`}
+		class="text-nowrap"
+	>
 		{change}
 		{period}
 	</Typography>

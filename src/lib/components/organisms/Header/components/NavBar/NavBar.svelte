@@ -10,24 +10,24 @@
 			path: routes.OVERVIEW.ROOT
 		},
 		{
-			label: `Delegates`,
-			value: 'delegates',
-			path: routes.DELEGATES.SUBPAGE_1.ROOT,
+			label: `Governance`,
+			value: 'governance',
+			path: routes.GOVERNANCE.SUBPAGE_1.ROOT,
 			subItems: [
 				{
 					label: 'subpage-1',
-					value: 'delegates/subpage-1',
-					path: routes.DELEGATES.SUBPAGE_1.ROOT
+					value: 'governance/subpage-1',
+					path: routes.GOVERNANCE.SUBPAGE_1.ROOT
 				},
 				{
 					label: 'subpage-2',
-					value: 'delegates/subpage-2',
-					path: routes.DELEGATES.SUBPAGE_2.ROOT
+					value: 'governance/subpage-2',
+					path: routes.GOVERNANCE.SUBPAGE_2.ROOT
 				},
 				{
 					label: 'subpage-3',
-					value: 'delegates/subpage-3',
-					path: routes.DELEGATES.SUBPAGE_3.ROOT
+					value: 'governance/subpage-3',
+					path: routes.GOVERNANCE.SUBPAGE_3.ROOT
 				}
 			]
 		},
@@ -37,9 +37,9 @@
 			path: routes.CAMPAIGNS.ROOT,
 			subItems: [
 				{
-					label: 'List',
-					value: 'campaigns/list',
-					path: routes.CAMPAIGNS.LIST.ROOT
+					label: 'Manage',
+					value: 'campaigns/manage',
+					path: routes.CAMPAIGNS.MANAGE.ROOT
 				},
 				{
 					label: 'Create',
@@ -56,7 +56,7 @@
 	];
 </script>
 
-<div class="flex flex-row">
+<div class="flex flex-row h-full">
 	{#each menuConfig as item}
 		<NavBarItem option={item} />
 	{/each}

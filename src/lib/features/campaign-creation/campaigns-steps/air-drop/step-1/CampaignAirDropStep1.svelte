@@ -60,10 +60,12 @@
 	$: activeDelegatesTable = {
 		...$data.step1Data.activeDelegatesTable,
 		data: [
-			...$data.step1Data.activeDelegatesTable.data.map((delegate: IDelegate) => {
-				const selectedInStore = $campaignDetails.selectedActiveDelegates.includes(delegate.id);
-				return { ...delegate, selected: selectedInStore };
-			})
+			...$data.step1Data.activeDelegatesTable.data
+				.map((delegate: IDelegate) => {
+					const selectedInStore = $campaignDetails.selectedActiveDelegates.includes(delegate.id);
+					return { ...delegate, selected: selectedInStore };
+				})
+				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
 		],
 		columnDef: delegateColumnDef(EDelegateType.ACTIVE)
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
@@ -71,10 +73,12 @@
 	$: evictedDelegatesTable = {
 		...$data.step1Data.evictedDelegatesTable,
 		data: [
-			...$data.step1Data.evictedDelegatesTable.data.map((delegate: IDelegate) => {
-				const selectedInStore = $campaignDetails.selectedEvictedDelegates.includes(delegate.id);
-				return { ...delegate, selected: selectedInStore };
-			})
+			...$data.step1Data.evictedDelegatesTable.data
+				.map((delegate: IDelegate) => {
+					const selectedInStore = $campaignDetails.selectedEvictedDelegates.includes(delegate.id);
+					return { ...delegate, selected: selectedInStore };
+				})
+				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
 		],
 		columnDef: delegateColumnDef(EDelegateType.EVICTED)
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
@@ -102,21 +106,21 @@
 			/>
 		</div>
 	</Container>
-	<Container label="Election of delegates">
+	<Container label="Election of governance">
 		<div class="flex flex-col gap-5">
 			<Typography variant="caption">
-				In this step you can select the set of delegates that you would like to involve in the
-				process of your campaign. The delegates are responsible for finding consensus about your
+				In this step you can select the set of governance that you would like to involve in the
+				process of your campaign. The governance are responsible for finding consensus about your
 				airdrop eligibility criteria via Filament’s decentralized process even before you launch and
 				distribute your token.
 			</Typography>
 			<Typography variant="caption">
-				Your option here is to either involve all delegates or evict up to three from the active
+				Your option here is to either involve all governance or evict up to three from the active
 				set. The cost for evicting is calculated algorithmically by the Filament Hub depending on
 				multiple factors such as t?: string | null;he voting power of a delegate.
 			</Typography>
 			<Input
-				label="Max. evictable delegates"
+				label="Max. evictable governance"
 				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
 				bind:value={$campaignDetails.maxEvictableDelegates}

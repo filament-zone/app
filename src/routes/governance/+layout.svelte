@@ -8,15 +8,15 @@
 	$: hideSubPageMenuBar = $page?.url?.pathname.split('/')[3] === 'create-proposal';
 
 	beforeUpdate(() => {
-		if ($page?.url?.pathname === routes.DELEGATES.ROOT) {
-			goto(routes.DELEGATES.SUBPAGE_1.ROOT);
+		if ($page?.url?.pathname === routes.GOVERNANCE.ROOT) {
+			goto(routes.GOVERNANCE.SUBPAGE_1.ROOT);
 		}
 	});
 </script>
 
 <div>
 	{#if !hideSubPageMenuBar}
-		<SubPageMenuBar subPages={routes.DELEGATES} />
+		<SubPageMenuBar subPages={routes.GOVERNANCE} />
 	{/if}
 	<div class="pt-4">
 		<slot />

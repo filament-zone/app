@@ -33,7 +33,7 @@
 </script>
 
 <div>
-	<Container label="Election of delegates">
+	<Container label="Election of governance">
 		<Table {...activeDelegatesTable} />
 		<Table {...evictedDelegatesTable} />
 	</Container>

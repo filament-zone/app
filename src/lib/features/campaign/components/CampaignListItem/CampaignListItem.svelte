@@ -5,24 +5,23 @@
 	import {
 		type ICampaignListItemProps,
 		EButtonColorVariant,
-		ECampaignTimeLineItem,
-		EBadgeColorVariant
+		ECampaignTimeLineItem
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 
-	const { initiateCampaign, depositToCampaign } = campaignStore;
+	const { initiateCampaign } = campaignStore;
 </script>
 
 <div class="campaign-list-item-container">
 	<div class="header">
-		<Typography>{campaign.title}</Typography>
+		<Typography variant="h4">{campaign.title}</Typography>
 	</div>
 	<div class="content">
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-col">
 				<Typography variant="h6">Status</Typography>
-				<Badge label="Ready" />
+				<Badge label="READY" />
 			</div>
 			<div class="flex flex-col w-auto">
 				<Typography variant="h6">Collateral</Typography>
@@ -32,11 +31,6 @@
 							>50,000 FILA</Typography
 						>
 					</div>
-					<Badge
-						label="Deposit"
-						on:click={depositToCampaign.bind(null, campaign)}
-						colorVariant={EBadgeColorVariant.LIGHT}
-					/>
 				</div>
 			</div>
 			<div class="flex flex-col">
@@ -76,10 +70,10 @@
 			</div>
 		</div>
 		<Divider />
-		<div class="flex flex-row justify-end gap-8">
-			<Button colorVariant={EButtonColorVariant.BLACK}>Delete</Button>
+		<div class="flex flex-row justify-between gap-8">
+			<Button colorVariant={EButtonColorVariant.SECONDARY}>Delete</Button>
 			<Button
-				colorVariant={EButtonColorVariant.SECONDARY}
+				colorVariant={EButtonColorVariant.PRIMARY}
 				on:click={initiateCampaign.bind(null, campaign)}>Initiate</Button
 			>
 		</div>

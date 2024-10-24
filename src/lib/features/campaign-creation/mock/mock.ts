@@ -43,8 +43,8 @@ function generateMockCampaign(): ICampaign {
 		title: `Campaign ${Math.random().toString(36).substring(7)}`,
 		description: `This is a mock campaign description.`,
 		maxEvictableDelegates: Math.floor(Math.random() * 100).toString(),
-		selectedActiveDelegates: Array.from({ length: 3 }, () => uuidv4()), // Mock 3 delegates
-		selectedEvictedDelegates: Array.from({ length: 2 }, () => uuidv4()), // Mock 2 evicted delegates
+		selectedActiveDelegates: Array.from({ length: 3 }, () => uuidv4()), // Mock 3 governance
+		selectedEvictedDelegates: Array.from({ length: 2 }, () => uuidv4()), // Mock 2 evicted governance
 		snapshotDate: new Date().toISOString(),
 		snapshotInterval: `${Math.floor(Math.random() * 1000)} seconds`,
 		snapshotTotal: (Math.random() * 1000).toFixed(2),

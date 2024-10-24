@@ -64,7 +64,7 @@
 	</div>
 	<div class="flex justify-start items-center w-8/12">
 		<div class="flex flex-col">
-			<Typography variant="caption">{title}</Typography>
+			<Typography variant="h6">{title}</Typography>
 			<Typography variant="caption" color="var(--gray-200)">
 				{description}
 			</Typography>

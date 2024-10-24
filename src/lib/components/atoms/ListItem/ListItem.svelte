@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { IListItemProps } from '$lib/types';
+	import Typography from '$lib/components/atoms/Typography/Typography.svelte';
 
 	export let option: IListItemProps['option'] = null;
 	export let selected: IListItemProps['selected'] = false;
@@ -20,16 +21,18 @@
 	{:else}
 		<svelte:component this={option?.icon} />
 	{/if}
-	<span> {option?.label}</span>
+	<Typography variant="h6" allowHover={!option?.disabled && !isPlaceholder}>
+		{option?.label}
+	</Typography>
 	{#if option?.valueSecondary}
-		<span class="value-secondary"> {option?.valueSecondary}</span>
+		<span class="value-secondary">{option?.valueSecondary}</span>
 	{/if}
 </div>
 
 <style lang="less">
 	.selected {
 		span {
-			color: #00ffff !important;
+			color: var(--filaMint) !important;
 		}
 	}
 
@@ -58,6 +61,11 @@
 		padding: 8px 12px;
 		text-wrap: nowrap;
 		cursor: pointer;
+		border-bottom: 1px solid #242424;
+		width: 100%;
+		&:last-child {
+			border-bottom: none;
+		}
 
 		span {
 			color: white;
@@ -67,21 +75,22 @@
 			font-weight: 500;
 			line-height: 16px;
 		}
-	}
-	&:hover:not(.isPlaceholder) {
-		span {
-			color: #00ffff !important;
+
+		&:hover:not(.isPlaceholder):not(.disabled) {
+			.value-secondary {
+				color: var(--filaMint) !important;
+			}
 		}
 	}
 
 	.disabled {
-		span {
+		> * {
 			color: gray !important;
 			cursor: not-allowed;
 		}
 
 		&:hover {
-			span {
+			> * {
 				color: gray !important;
 			}
 		}

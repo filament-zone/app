@@ -14,7 +14,7 @@
 	let chartInstance: IAbstractBarChartProps['chartInstance'];
 
 	$: change = calculatePercentageChange(data?.datasets[0].data as number[]);
-	$: lineColors = change > 0 ? ['#00C48C'] : ['#FF5C5C'];
+	$: lineColors = change > 0 ? ['#7dFA79'] : ['#ff74a4'];
 
 	$: chartData = {
 		labels: data?.labels?.length ? [...(data?.labels as string[])] : [],

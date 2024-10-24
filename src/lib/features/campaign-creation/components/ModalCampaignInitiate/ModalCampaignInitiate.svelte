@@ -49,7 +49,7 @@
 	</div>
 	<div slot="content">
 		<Typography variant="subtitle2"
-			>To prevent campaign spam and facilitate the participation of all delegates in the
+			>To prevent campaign spam and facilitate the participation of all governance in the
 			administration, the Filament hub requires campaigners to deposit a collateral bond. Campaigns
 			can only be initiated if a collateral has been deposited.
 		</Typography>

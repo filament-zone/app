@@ -1,26 +1,24 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { EButtonColorVariant, EButtonSizeVariant, type IButtonProps } from '$lib/types';
+	import { EButtonSizeVariant, EButtonStyleVariant, EButtonColorVariant } from './Button.enums';
+	import type { IButtonProps } from '$lib/types';
 
-	export let sizeVariant: IButtonProps['sizeVariant'] = EButtonSizeVariant.PRIMARY;
-	export let colorVariant: IButtonProps['colorVariant'] = EButtonColorVariant.PRIMARY;
-
+	export let sizeVariant: EButtonSizeVariant = EButtonSizeVariant.PRIMARY;
+	export let styleVariant: EButtonStyleVariant = EButtonStyleVariant.PRIMARY;
+	export let colorVariant: EButtonColorVariant = EButtonColorVariant.PRIMARY;
 	export let LeftIcon: IButtonProps['LeftIcon'] = null;
-	export let disabled: IButtonProps['disabled'] = false;
+	export let disabled: boolean = false;
 
 	const isOnHover = writable<boolean>(false);
+
+	$: variant = styleVariant !== EButtonStyleVariant.PRIMARY ? styleVariant : colorVariant;
 </script>
 
 <button
 	{...$$props}
-	on:mouseenter={() => {
-		isOnHover.set(true);
-	}}
-	on:mouseleave={() => {
-		isOnHover.set(false);
-	}}
-	class={`w-${sizeVariant} flex justify-center items-center gap-1
-		color-variant-${colorVariant} ${$$props.class}`}
+	on:mouseenter={() => isOnHover.set(true)}
+	on:mouseleave={() => isOnHover.set(false)}
+	class={`button w-${sizeVariant} style-${variant} ${$$props.class || ''}`}
 	on:click
 	{disabled}
 >
@@ -31,16 +29,22 @@
 </button>
 
 <style lang="less">
-	button {
+	.button {
 		padding: 6px 10px;
 		text-align: center;
-		height: 30px;
-		border-radius: 2px;
+		height: 32px;
 		white-space: nowrap;
 		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1px;
+		border: 2px solid transparent;
+		transition: all 0.3s ease;
 
 		&:disabled {
 			cursor: not-allowed;
+			opacity: 0.6;
 		}
 
 		&.w-primary {
@@ -52,90 +56,55 @@
 		}
 
 		.typography_button {
-			font-family: 'fira-sans', sans-serif;
-			font-size: 14px;
+			font-family: var(--primary-font);
+			font-size: 15px;
 			font-style: normal;
-			font-weight: 400;
+			font-weight: 600;
 			line-height: 20px;
-			letter-spacing: 0.05rem;
+			letter-spacing: 0.02rem;
 		}
-	}
 
-	.color-variant-primary {
-		background-color: var(--filaMint);
-
-		.typography_button {
-			color: var(--darkNet);
+		&.style-secondary {
+			--fill-color: var(--darkNet);
+			--text-color: #ffffff;
 		}
+
+		&.style-disabled {
+			--fill-color: #4d4d4d;
+			--text-color: #9e9e9e;
+		}
+
+		&.style-primary {
+			--fill-color: #ffffff;
+			--text-color: #000000;
+		}
+
+		&.style-positive {
+			--fill-color: var(--upOnly);
+			--text-color: black;
+		}
+
+		&.style-negative {
+			--fill-color: var(--rugged);
+			--text-color: black;
+		}
+
+		&.style-highlight {
+			--fill-color: var(--filaMint);
+			--text-color: black;
+		}
+
+		background-color: var(--fill-color);
+		color: var(--text-color);
 
 		&:hover:not(:disabled) {
-			background-color: var(--filaMint-100);
-			color: var(--darkNet);
+			background-color: var(--text-color);
+			color: var(--fill-color);
+			border-color: var(--fill-color);
 		}
 
 		&:disabled {
-			background-color: var(--filaMint-700);
-			color: var(--filaMint-300);
-		}
-	}
-
-	.color-variant-secondary {
-		background-color: var(--foreground);
-		.typography_button {
-			color: var(--darkNet);
-		}
-
-		&:hover:not(:disabled) {
-			background-color: var(--filaMint-100);
-
-			.typography_button {
-				color: var(--darkNet);
-			}
-		}
-
-		&:disabled {
-			background-color: var(--filaMint-700);
-			.typography_button {
-				color: var(--filaMint-300);
-			}
-		}
-	}
-
-	.color-variant-yellow {
-		background-color: var(--yellow-200);
-		.typography_button {
-			color: var(--yellow);
-		}
-
-		&:hover:not(:disabled) {
-			background-color: var(--yellow-100);
-
-			.typography_button {
-				color: var(--darkNet);
-			}
-		}
-
-		&:disabled {
-			opacity: 0.2;
-		}
-	}
-
-	.color-variant-black {
-		background-color: var(--darkNet);
-		.typography_button {
-			color: var(--gray);
-		}
-
-		&:hover:not(:disabled) {
-			background-color: var(--gray-100);
-
-			.typography_button {
-				color: var(--darkNet);
-			}
-		}
-
-		&:disabled {
-			opacity: 0.2;
+			opacity: 0.6;
 		}
 	}
 </style>
