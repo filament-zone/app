@@ -4,10 +4,20 @@
 	import { Button, Container, Toggle } from '$lib/components/';
 	import { routes } from '$lib/constants';
 	import { EToggleVariant } from '$lib/types';
+	import { onMount } from 'svelte';
+	import { HubApiClient } from '$lib/services';
 
 	export let data;
 
 	$: toggleValue = 'all';
+
+	onMount(async () => {
+		const campaignListNew = await HubApiClient.getCampaignsByEthAddr(
+			'0x32b3FC59E06B8d37c726D8d4D2Deb1A52FA57316'
+		);
+
+		console.log('campaignListNew', campaignListNew);
+	});
 </script>
 
 <Container label="Airdrops list">

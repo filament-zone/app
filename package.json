@@ -78,5 +78,8 @@
 		"extends": [
 			"plugin:storybook/recommended"
 		]
+	},
+	"dependencies": {
+		"ofetch": "^1.4.1"
 	}
 }
