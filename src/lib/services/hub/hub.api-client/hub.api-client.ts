@@ -1,52 +1,15 @@
-import type { IHubApiClient } from '$lib/types';
+import { env } from '$env/dynamic/public';
+import { ofetch, type FetchOptions } from 'ofetch';
 
-export class HubApiClient implements IHubApiClient {
-	private readonly host: string;
+const hubApiClient = ofetch.create({
+	headers: {
+		'Content-Type': 'application/json'
+	},
+	baseURL: env.PUBLIC_HUB_API
+});
 
-	constructor({ host }: { host: string }) {
-		this.host = host;
-	}
+const request = async (url: string, options?: FetchOptions<'json'> | undefined) => {
+	return await hubApiClient(url, options);
+};
 
-	public async post<T>(endpoint: string, payload: unknown): Promise<T> {
-		try {
-			const response = await fetch(`${this.host}${endpoint}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(payload)
-			});
-
-			if (!response.ok) {
-				throw new Error(`Error: ${response.status} ${response.statusText}`);
-			}
-
-			const json = await response.json();
-			return json;
-		} catch (error) {
-			console.error('Error sending POST request:', error);
-			throw error;
-		}
-	}
-
-	public async get<T>(endpoint: string): Promise<T> {
-		try {
-			const response = await fetch(`${this.host}${endpoint}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-
-			if (!response.ok) {
-				throw new Error(`Error: ${response.status} ${response.statusText}`);
-			}
-
-			const json = await response.json();
-			return json;
-		} catch (error) {
-			console.error('Error sending GET request:', error);
-			throw error;
-		}
-	}
-}
+export { request as hubApiClient };
