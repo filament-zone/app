@@ -10,6 +10,9 @@ export const delegatesColumnDefCommon = [
 		header: 'Delegate',
 		cell: (info) => {
 			return info.getValue() as IDelegate['name'];
+		},
+		meta: {
+			class: 'sticky'
 		}
 	},
 	{

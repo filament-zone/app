@@ -20,7 +20,7 @@ type TableData = {
 };
 
 const labels = generateDateLabels('2022-12-01', '2022-12-31');
-const chartStyles = 'height: 60px; width: 160px';
+const chartStyles = 'height: 60px; width: 128px';
 
 export async function load() {
 	const cards = [

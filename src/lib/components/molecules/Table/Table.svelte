@@ -24,165 +24,165 @@
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 
 	//console log data
-	const test = [
-		{
-			environment: 'evm',
-			supported_criteria: [
-				{
-					type: 'bank',
-					name: 'Token balances',
-					description: 'Snapshot an ERC20 token balance for a given chain',
-					chains: [
-						'ethereum',
-						'bnb',
-						'base',
-						'polygon',
-						'avalanche',
-						'chiliz',
-						'gnosis',
-						'cronos',
-						'fantom',
-						'arbitrum',
-						'palm',
-						'optimism',
-						'linea',
-						'moonbeam',
-						'flow',
-						'opbnb',
-						'zksync',
-						'polygon zkevm',
-						'zetachain',
-						'blast',
-						'mantle'
-					],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 1000 },
-						{ type: 'historic', price_per_snapshot: 1500 }
-					],
-					category: 'balance'
-				},
-				{
-					type: 'nft-holders',
-					name: 'NFT holders',
-					description: 'Snapshot the holders on an NFT collection',
-					chains: [
-						'ethereum',
-						'bnb',
-						'base',
-						'polygon',
-						'avalanche',
-						'chiliz',
-						'gnosis',
-						'cronos',
-						'fantom',
-						'arbitrum',
-						'palm',
-						'optimism',
-						'linea',
-						'moonbeam',
-						'flow',
-						'opbnb',
-						'zksync',
-						'polygon zkevm',
-						'zetachain',
-						'blast',
-						'mantle'
-					],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 1000 },
-						{ type: 'historic', price_per_snapshot: 1500 }
-					],
-					category: 'nft'
-				},
-				{
-					type: 'gas-fees',
-					name: 'Gas fees',
-					description: 'Snapshot the gas fees spent for a given chain',
-					chains: [
-						'scroll',
-						'linea',
-						'blast',
-						'zora',
-						'fantom',
-						'arbitrum',
-						'ethereum',
-						'zkevm',
-						'base',
-						'bnb',
-						'avalanche_c',
-						'gnosis',
-						'polygon',
-						'mantle',
-						'optimism',
-						'zksync',
-						'sei'
-					],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 1000 },
-						{ type: 'historic', price_per_snapshot: 1500 }
-					],
-					category: 'balance'
-				},
-				{
-					type: 'uniswap-v3-lp',
-					name: 'Liquidity providers on a Uniswap V3 pool',
-					description: 'Snapshot the liquidity providers on a Uniswap V3 pool',
-					chains: ['ethereum'],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 4000 },
-						{ type: 'historic', price_per_snapshot: 5000 }
-					],
-					category: 'defi'
-				},
-				{
-					type: 'uniswap-v3-volume',
-					name: 'Volume on a Uniswap V3 pool',
-					description: 'Snapshot the volume per address on a Uniswap V3 pool',
-					chains: ['ethereum'],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 3000 },
-						{ type: 'historic', price_per_snapshot: 4000 }
-					],
-					category: 'defi'
-				},
-				{
-					type: 'trading-profit',
-					name: 'Trading profit',
-					description: 'Snapshot the trading profit in dollars($) per address on a given chain',
-					chains: [
-						'ethereum',
-						'bnb',
-						'base',
-						'polygon',
-						'avalanche',
-						'chiliz',
-						'gnosis',
-						'cronos',
-						'fantom',
-						'arbitrum',
-						'palm',
-						'optimism',
-						'linea',
-						'moonbeam',
-						'flow',
-						'opbnb',
-						'zksync',
-						'polygon zkevm',
-						'zetachain',
-						'blast',
-						'mantle'
-					],
-					pricing: [
-						{ type: 'upcoming', price_per_snapshot: 1000 },
-						{ type: 'historic', price_per_snapshot: 1500 }
-					],
-					category: 'defi'
-				}
-			]
-		}
-	];
-
-	console.log(test);
+	// const test = [
+	// 	{
+	// 		environment: 'evm',
+	// 		supported_criteria: [
+	// 			{
+	// 				type: 'bank',
+	// 				name: 'Token balances',
+	// 				description: 'Snapshot an ERC20 token balance for a given chain',
+	// 				chains: [
+	// 					'ethereum',
+	// 					'bnb',
+	// 					'base',
+	// 					'polygon',
+	// 					'avalanche',
+	// 					'chiliz',
+	// 					'gnosis',
+	// 					'cronos',
+	// 					'fantom',
+	// 					'arbitrum',
+	// 					'palm',
+	// 					'optimism',
+	// 					'linea',
+	// 					'moonbeam',
+	// 					'flow',
+	// 					'opbnb',
+	// 					'zksync',
+	// 					'polygon zkevm',
+	// 					'zetachain',
+	// 					'blast',
+	// 					'mantle'
+	// 				],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
+	// 					{ type: 'historic', price_per_snapshot: 1500 }
+	// 				],
+	// 				category: 'balance'
+	// 			},
+	// 			{
+	// 				type: 'nft-holders',
+	// 				name: 'NFT holders',
+	// 				description: 'Snapshot the holders on an NFT collection',
+	// 				chains: [
+	// 					'ethereum',
+	// 					'bnb',
+	// 					'base',
+	// 					'polygon',
+	// 					'avalanche',
+	// 					'chiliz',
+	// 					'gnosis',
+	// 					'cronos',
+	// 					'fantom',
+	// 					'arbitrum',
+	// 					'palm',
+	// 					'optimism',
+	// 					'linea',
+	// 					'moonbeam',
+	// 					'flow',
+	// 					'opbnb',
+	// 					'zksync',
+	// 					'polygon zkevm',
+	// 					'zetachain',
+	// 					'blast',
+	// 					'mantle'
+	// 				],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
+	// 					{ type: 'historic', price_per_snapshot: 1500 }
+	// 				],
+	// 				category: 'nft'
+	// 			},
+	// 			{
+	// 				type: 'gas-fees',
+	// 				name: 'Gas fees',
+	// 				description: 'Snapshot the gas fees spent for a given chain',
+	// 				chains: [
+	// 					'scroll',
+	// 					'linea',
+	// 					'blast',
+	// 					'zora',
+	// 					'fantom',
+	// 					'arbitrum',
+	// 					'ethereum',
+	// 					'zkevm',
+	// 					'base',
+	// 					'bnb',
+	// 					'avalanche_c',
+	// 					'gnosis',
+	// 					'polygon',
+	// 					'mantle',
+	// 					'optimism',
+	// 					'zksync',
+	// 					'sei'
+	// 				],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
+	// 					{ type: 'historic', price_per_snapshot: 1500 }
+	// 				],
+	// 				category: 'balance'
+	// 			},
+	// 			{
+	// 				type: 'uniswap-v3-lp',
+	// 				name: 'Liquidity providers on a Uniswap V3 pool',
+	// 				description: 'Snapshot the liquidity providers on a Uniswap V3 pool',
+	// 				chains: ['ethereum'],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 4000 },
+	// 					{ type: 'historic', price_per_snapshot: 5000 }
+	// 				],
+	// 				category: 'defi'
+	// 			},
+	// 			{
+	// 				type: 'uniswap-v3-volume',
+	// 				name: 'Volume on a Uniswap V3 pool',
+	// 				description: 'Snapshot the volume per address on a Uniswap V3 pool',
+	// 				chains: ['ethereum'],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 3000 },
+	// 					{ type: 'historic', price_per_snapshot: 4000 }
+	// 				],
+	// 				category: 'defi'
+	// 			},
+	// 			{
+	// 				type: 'trading-profit',
+	// 				name: 'Trading profit',
+	// 				description: 'Snapshot the trading profit in dollars($) per address on a given chain',
+	// 				chains: [
+	// 					'ethereum',
+	// 					'bnb',
+	// 					'base',
+	// 					'polygon',
+	// 					'avalanche',
+	// 					'chiliz',
+	// 					'gnosis',
+	// 					'cronos',
+	// 					'fantom',
+	// 					'arbitrum',
+	// 					'palm',
+	// 					'optimism',
+	// 					'linea',
+	// 					'moonbeam',
+	// 					'flow',
+	// 					'opbnb',
+	// 					'zksync',
+	// 					'polygon zkevm',
+	// 					'zetachain',
+	// 					'blast',
+	// 					'mantle'
+	// 				],
+	// 				pricing: [
+	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
+	// 					{ type: 'historic', price_per_snapshot: 1500 }
+	// 				],
+	// 				category: 'defi'
+	// 			}
+	// 		]
+	// 	}
+	// ];
+	//
+	// console.log(test);
 
 	let columnVisibility: VisibilityState = {};
 
@@ -235,7 +235,7 @@
 	};
 </script>
 
-<div class="table-container">
+<div>
 	<div class="flex flex-row justify-between items-center">
 		{#if tableLabel}
 			<div class="table-title">
@@ -257,7 +257,7 @@
 	</div>
 	{#if $tableClient.getRowModel().rows.length}
 		<div class="overflow-x-auto">
-			<table class="custom-table">
+			<table>
 				<tbody>
 					{#each $tableClient.getHeaderGroups() as headerGroup}
 						<tr class="header">
@@ -280,7 +280,7 @@
 							{#each row.getVisibleCells() as cell, index}
 								<td
 									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
-									class={`${cell.column.columnDef.meta?.class || ''} cell`}
+									class={cell.column.columnDef.meta?.class || ''}
 									on:click={() => {
 										cell.column.columnDef.meta?.onClick?.(cell);
 									}}
@@ -310,13 +310,16 @@
 </div>
 
 <style lang="less">
-	.custom-table {
+	table {
 		width: 100%;
+		table-layout: fixed;
 		border-collapse: separate;
 		border-spacing: 0 8px;
 		--table-border-radius: 2px;
 
 		.header {
+			background-color: var(--background);
+
 			th {
 				padding: 10px 12px;
 				color: #8c8c8c;
@@ -324,7 +327,7 @@
 				font-size: 1rem;
 				font-weight: 500;
 				text-align: left;
-				background-color: transparent;
+				background-color: var(--background);
 			}
 		}
 
@@ -333,10 +336,14 @@
 			cursor: pointer;
 
 			&:hover {
-				background-color: #3333338d;
+				background-color: #333333;
+
+				.sticky {
+					background-color: #333333;
+				}
 			}
 
-			.cell {
+			td {
 				padding: 16px 12px;
 				color: #ffffff;
 				font-family: var(--secondary-font);
@@ -352,11 +359,11 @@
 					border-bottom-right-radius: var(--table-border-radius);
 				}
 			}
-		}
-	}
 
-	.sticky {
-		position: sticky;
-		background-color: #1a1a1a;
+			.sticky {
+				position: sticky;
+				background-color: var(--highlight-bg);
+			}
+		}
 	}
 </style>

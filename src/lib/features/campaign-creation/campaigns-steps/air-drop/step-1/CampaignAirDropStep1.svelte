@@ -43,7 +43,7 @@
 					return flexRender(MinusCircleIcon, {});
 				}
 			},
-			size: 10,
+			size: 36,
 			meta: {
 				class: 'sticky',
 				cellStyle: {
@@ -107,7 +107,7 @@
 		</div>
 	</Container>
 	<Container label="Election of governance">
-		<div class="flex flex-col gap-5">
+		<div class="flex flex-col gap-5 w-full">
 			<Typography variant="caption">
 				In this step you can select the set of governance that you would like to involve in the
 				process of your campaign. The governance are responsible for finding consensus about your

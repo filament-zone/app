@@ -9,7 +9,6 @@
 </script>
 
 <PageHeader label={`New Airdrop`} />
-
 <StepBar />
 <slot />
 <NavigationFooter />
