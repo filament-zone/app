@@ -55,6 +55,16 @@
 
 		closeRightSideBar();
 	};
+
+	const handleDelete = () => {
+		campaignDetails.update((details) => {
+			const newCriteriaArr = details.criteria.filter(
+				(criteria) => criteria.id !== $editableCriteriaState.id
+			);
+			return { ...details, criteria: newCriteriaArr };
+		});
+		closeRightSideBar();
+	};
 </script>
 
 <RightSideBar>
@@ -89,7 +99,10 @@
 					bind:contracts={$editableCriteriaState.contracts}
 				/>
 			</div>
-			<Button class="self-end" on:click={handleSaveChanges}>Save Changes</Button>
+			<div class="flex flex-row justify-between">
+				<Button class="self-end" on:click={handleDelete}>Delete</Button>
+				<Button class="self-end" on:click={handleSaveChanges}>Save Changes</Button>
+			</div>
 		</div>
 	{/if}
 </RightSideBar>
