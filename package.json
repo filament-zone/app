@@ -47,7 +47,7 @@
 		"eslint-plugin-svelte": "^2.43.0",
 		"ethereum-cryptography": "^3.0.0",
 		"ethers": "^6.13.2",
-		"filament-hub-wasm": "file:../filament/crates/wasm/pkg",
+		"@filament-zone/filament": "0.1.0-20c0638",
 		"globals": "^15.9.0",
 		"husky": "^9.1.5",
 		"less": "^4.2.0",
