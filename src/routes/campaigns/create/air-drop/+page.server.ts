@@ -97,7 +97,7 @@ export const load = async () => {
 	const step1Data = {
 		title: 'Test Title',
 		description: 'Test Description',
-		maxEvictableDelegates: '5',
+		maxEvictableDelegates: '3',
 		activeDelegatesTable,
 		evictedDelegatesTable
 	};

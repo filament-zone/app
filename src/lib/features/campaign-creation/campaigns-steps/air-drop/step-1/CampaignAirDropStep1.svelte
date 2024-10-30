@@ -124,6 +124,7 @@
 				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
 				bind:value={$campaignDetails.maxEvictableDelegates}
+				disabled
 			/>
 			<Table {...activeDelegatesTable} />
 			<Table {...evictedDelegatesTable} />
