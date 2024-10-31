@@ -234,6 +234,14 @@
 			return `${getLeftIfSticky(cells as unknown as Cell<unknown, unknown>[], index)}; position: sticky`;
 		}
 	};
+
+	const handleMouseEnterRow = (rowId: string) => {
+		window.dispatchEvent(new CustomEvent('custom-table-hover-rowId', { detail: rowId }));
+	};
+
+	const handleMouseLeaveRow = () => {
+		window.dispatchEvent(new CustomEvent('custom-table-hover-rowId', { detail: null }));
+	};
 </script>
 
 <div>
@@ -284,6 +292,8 @@
 									onRowClick(row);
 								}
 							}}
+							on:mouseenter={() => handleMouseEnterRow(row.id)}
+							on:mouseleave={handleMouseLeaveRow}
 						>
 							{#each row.getVisibleCells() as cell, index}
 								<td

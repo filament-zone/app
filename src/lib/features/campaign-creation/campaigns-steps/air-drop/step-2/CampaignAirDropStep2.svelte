@@ -7,7 +7,8 @@
 		campaignStore,
 		rightSideBarStore,
 		eligibilityCriteriaColumnDefCommon,
-		checkIsCriteriaCompleted
+		checkIsCriteriaCompleted,
+		HoverableCell
 	} from '$lib/features';
 	import {
 		Container,
@@ -30,9 +31,6 @@
 		type IEligibilityCriteria,
 		type ITableProps
 	} from '$lib/types';
-	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
-	import SettingsCircleIcon from '$lib/assets/icons/settings-circle.svg?component';
-	import SettingsCircleGreenIcon from '$lib/assets/icons/settings-circle-green.svg?component';
 
 	const data = derived(page, () => $page.data);
 	const { openRightSideBar, activeRightSideBar } = rightSideBarStore;
@@ -60,19 +58,16 @@
 			header: ' ',
 			cell: (value) => {
 				const isCompleted = value.getValue() as IEligibilityCriteria['completed'];
-
-				if (isCompleted) {
-					return flexRender(CheckmarkCircleIcon, { fill: 'var(--green-100)' });
-				}
-
-				if (
+				const isSettingsCircleGreen =
 					!!$activeRightSideBar.state &&
 					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).criteriaId ===
-						(value.row.original as IEligibilityCriteria).id
-				) {
-					return flexRender(SettingsCircleGreenIcon, {});
-				}
-				return flexRender(SettingsCircleIcon, {});
+						(value.row.original as IEligibilityCriteria).id;
+
+				return flexRender(HoverableCell, {
+					id: value.row.id,
+					isCompleted,
+					isSettingsCircleGreen
+				});
 			},
 			size: 36,
 			meta: {
@@ -114,7 +109,11 @@
 		],
 		columnDef: [...eligibilityCriteriaColumnDef],
 		onRowClick: (row: Row<IEligibilityCriteria>) => {
-			console.log('onRowClick', row);
+			const selectedCriteriaId = row.original.id as IEligibilityCriteria['id'];
+			openRightSideBar({
+				variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA,
+				state: { criteriaId: selectedCriteriaId }
+			});
 		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
