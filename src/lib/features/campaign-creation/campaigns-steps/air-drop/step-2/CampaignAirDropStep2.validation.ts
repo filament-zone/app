@@ -7,6 +7,7 @@ export const campaignAirDropStep2ValidationSchema = yup.object().shape({
 	snapshotTotal: yup.string().required('Snapshots total value is required'),
 	criteria: yup
 		.array()
+		.min(1, 'Select at least one criterion')
 		.test(
 			'Returns true if at least one completed',
 			'Complete at least one criterion',
