@@ -19,8 +19,6 @@
 
 <div class="h-full">
 	{#if $rightSideBar}
-		<div class="h-full">
-			<svelte:component this={$rightSideBar} />
-		</div>
+		<svelte:component this={$rightSideBar} />
 	{/if}
 </div>
