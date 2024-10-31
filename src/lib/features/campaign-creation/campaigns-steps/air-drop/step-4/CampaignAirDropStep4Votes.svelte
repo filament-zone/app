@@ -3,6 +3,6 @@
 </script>
 
 <div>
-	<Typography variant="h5">Votes</Typography>
-	<Typography variant="h6">Votes description</Typography>
+	<Typography variant="h4">Votes:</Typography>
+	<Typography variant="h5">Votes description</Typography>
 </div>

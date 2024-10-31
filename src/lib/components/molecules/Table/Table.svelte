@@ -236,11 +236,19 @@
 	};
 
 	const handleMouseEnterRow = (rowId: string) => {
-		window.dispatchEvent(new CustomEvent('custom-table-hover-rowId', { detail: rowId }));
+		window.dispatchEvent(
+			new CustomEvent('custom-table-hover-rowId', {
+				detail: { rowId }
+			})
+		);
 	};
 
 	const handleMouseLeaveRow = () => {
-		window.dispatchEvent(new CustomEvent('custom-table-hover-rowId', { detail: null }));
+		window.dispatchEvent(
+			new CustomEvent('custom-table-hover-rowId', {
+				detail: { rowId: null }
+			})
+		);
 	};
 </script>
 

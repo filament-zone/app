@@ -6,7 +6,6 @@ export interface IDelegate {
 	value: string;
 	votingPower: string;
 	evictionCost: string;
-	selected: boolean;
 }
 
 export interface IContract {
@@ -35,8 +34,8 @@ export interface ICampaign {
 	title: string | null;
 	description: string | null;
 	maxEvictableDelegates: string | null;
-	selectedActiveDelegates: string[];
-	selectedEvictedDelegates: string[];
+	activeDelegates: string[];
+	evictedDelegates: string[];
 	// STEP 1 VALUES END
 	// STEP 2 VALUES START
 	snapshotDate: string | null;

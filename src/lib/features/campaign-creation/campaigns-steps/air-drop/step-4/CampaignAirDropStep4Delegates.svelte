@@ -8,25 +8,12 @@
 	const data = derived(page, () => $page.data);
 	const { campaignDetails } = campaignStore;
 
-	$: selectedActiveDelegatesIds = $campaignDetails.selectedActiveDelegates;
-	$: evictedActiveDelegatesIds = $campaignDetails.selectedEvictedDelegates;
-
 	$: activeDelegatesTable = {
 		...$data.step1Data.activeDelegatesTable,
 		data: [
-			...$data.step1Data.activeDelegatesTable.data.filter((activeDelegate: IDelegate) =>
-				selectedActiveDelegatesIds.includes(activeDelegate.id)
-			)
-		],
-		columnDef: delegatesColumnDefCommon
-	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
-
-	$: evictedDelegatesTable = {
-		...$data.step1Data.evictedDelegatesTable,
-		data: [
-			...$data.step1Data.evictedDelegatesTable.data.filter((evictedDelegate: IDelegate) =>
-				evictedActiveDelegatesIds.includes(evictedDelegate.id)
-			)
+			...$data.delegates
+				.filter((delegate: IDelegate) => $campaignDetails.activeDelegates.includes(delegate.id))
+				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
 		],
 		columnDef: delegatesColumnDefCommon
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
@@ -35,6 +22,5 @@
 <div>
 	<Container label="Election of governance">
 		<Table {...activeDelegatesTable} />
-		<Table {...evictedDelegatesTable} />
 	</Container>
 </div>

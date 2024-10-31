@@ -22,10 +22,6 @@ declare global {
 	interface Window {
 		ethereum?: { isMetaMask?: boolean } & BrowserProvider & Eip1193Provider;
 	}
-
-	interface WindowEventMap {
-		'custom-table-hover-rowId': CustomEvent<{ rowId: string | null }>;
-	}
 }
 
 declare module '@tanstack/table-core' {

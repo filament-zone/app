@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
-	import { flexRender } from '@tanstack/svelte-table';
+	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import { page } from '$app/stores';
-	import { campaignStore, delegatesColumnDefCommon } from '$lib/features';
+	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
 	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
-	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
-	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
-	import MinusCircleIcon from '$lib/assets/icons/minus-circle.svg?component';
+	import {
+		EDelegateType,
+		EInputSizeVariant,
+		type IDelegate,
+		type IEligibilityCriteria,
+		type ITableProps
+	} from '$lib/types';
 
 	const data = derived(page, () => $page.data);
 
@@ -19,12 +23,8 @@
 			title: $data.step1Data.title,
 			description: $data.step1Data.description,
 			maxEvictableDelegates: $data.step1Data.maxEvictableDelegates,
-			selectedActiveDelegates: $data.step1Data.activeDelegatesTable.data
-				.filter((delegate: IDelegate) => delegate.selected)
-				.map((delegate: IDelegate) => delegate.id),
-			selectedEvictedDelegates: $data.step1Data.evictedDelegatesTable.data
-				.filter((delegate: IDelegate) => delegate.selected)
-				.map((delegate: IDelegate) => delegate.id)
+			activeDelegates: $data.step1Data.activeDelegates,
+			evictedDelegates: $data.step1Data.evictedDelegates
 		}));
 	});
 
@@ -36,51 +36,49 @@
 			accessorKey: 'selected',
 			header: '',
 			cell: (value) => {
-				const isSelected = value.getValue() as IDelegate['selected'];
-				if (isSelected) {
-					return flexRender(CheckmarkCircleIcon, { fill: 'var(--green-100)' });
-				} else {
-					return flexRender(MinusCircleIcon, {});
-				}
+				return flexRender(HoverableCellInverted, {
+					id: value.row.id,
+					isSelected: delegateType === EDelegateType.ACTIVE
+				});
 			},
 			size: 36,
 			meta: {
-				class: 'sticky',
 				cellStyle: {
 					cursor: 'pointer'
 				},
 				onClick: (cell) => {
 					const selectedActiveDelegateId = cell.getContext().row.original.id as IDelegate['id'];
-					toggleDelegate(selectedActiveDelegateId, delegateType);
+					toggleDelegate(selectedActiveDelegateId);
 				}
 			}
 		}
 	];
 
 	$: activeDelegatesTable = {
+		tableLabel: 'Active Delegates',
 		...$data.step1Data.activeDelegatesTable,
 		data: [
-			...$data.step1Data.activeDelegatesTable.data
-				.map((delegate: IDelegate) => {
-					const selectedInStore = $campaignDetails.selectedActiveDelegates.includes(delegate.id);
-					return { ...delegate, selected: selectedInStore };
-				})
+			...$data.delegates
+				.filter((delegate: IDelegate) => $campaignDetails.activeDelegates.includes(delegate.id))
 				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
 		],
-		columnDef: delegateColumnDef(EDelegateType.ACTIVE)
+		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
+		onRowClick: (row: Row<IEligibilityCriteria>) => {
+			toggleDelegate(row.original.id as string);
+		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
 	$: evictedDelegatesTable = {
 		...$data.step1Data.evictedDelegatesTable,
 		data: [
-			...$data.step1Data.evictedDelegatesTable.data
-				.map((delegate: IDelegate) => {
-					const selectedInStore = $campaignDetails.selectedEvictedDelegates.includes(delegate.id);
-					return { ...delegate, selected: selectedInStore };
-				})
+			...$data.delegates
+				.filter((delegate: IDelegate) => $campaignDetails.evictedDelegates.includes(delegate.id))
 				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
 		],
-		columnDef: delegateColumnDef(EDelegateType.EVICTED)
+		columnDef: delegateColumnDef(EDelegateType.EVICTED),
+		onRowClick: (row: Row<IEligibilityCriteria>) => {
+			toggleDelegate(row.original.id as string);
+		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 </script>
 

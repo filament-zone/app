@@ -1,14 +1,14 @@
 import { get, writable } from 'svelte/store';
 import { modalStore, hubStore } from '$lib/features';
-import { EDelegateType, EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
+import { EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START
 	title: null,
 	description: null,
 	maxEvictableDelegates: null,
-	selectedActiveDelegates: [],
-	selectedEvictedDelegates: [],
+	activeDelegates: [],
+	evictedDelegates: [],
 	// STEP 1 END
 	// STEP 2 START
 	snapshotDate: null,
@@ -34,25 +34,19 @@ const campaignDetails = writable({ ...initCampaignDetails });
 
 const { openModal } = modalStore;
 
-const toggleDelegate: ICampaignStore['toggleDelegate'] = (
-	delegateId: string,
-	delegateType: EDelegateType
-) => {
+const toggleDelegate: ICampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
-		if (delegateType === EDelegateType.ACTIVE) {
-			const index = details.selectedActiveDelegates.indexOf(delegateId);
-			if (index === -1) {
-				details.selectedActiveDelegates.push(delegateId);
-			} else {
-				details.selectedActiveDelegates.splice(index, 1);
-			}
-		} else if (delegateType === EDelegateType.EVICTED) {
-			const index = details.selectedEvictedDelegates.indexOf(delegateId);
-			if (index === -1) {
-				details.selectedEvictedDelegates.push(delegateId);
-			} else {
-				details.selectedEvictedDelegates.splice(index, 1);
-			}
+		const activeIndex = details.activeDelegates.indexOf(delegateId);
+		const evictedIndex = details.evictedDelegates.indexOf(delegateId);
+
+		if (activeIndex !== -1) {
+			details.activeDelegates.splice(activeIndex, 1);
+			details.evictedDelegates.push(delegateId);
+		} else if (evictedIndex !== -1) {
+			details.evictedDelegates.splice(evictedIndex, 1);
+			details.activeDelegates.push(delegateId);
+		} else {
+			details.activeDelegates.push(delegateId);
 		}
 		return details;
 	});
