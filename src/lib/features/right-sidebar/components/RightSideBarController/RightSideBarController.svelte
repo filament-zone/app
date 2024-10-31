@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { derived } from 'svelte/store';
-	import { slide } from 'svelte/transition';
 	import { CampaignCreationSidebarCriteria, rightSideBarStore } from '$lib/features';
 	import { ERightSideBarVariant } from '$lib/types';
 
@@ -20,7 +19,7 @@
 
 <div class="h-full">
 	{#if $rightSideBar}
-		<div transition:slide={{ delay: 250, duration: 300, axis: 'x' }} class="h-full">
+		<div class="h-full">
 			<svelte:component this={$rightSideBar} />
 		</div>
 	{/if}
