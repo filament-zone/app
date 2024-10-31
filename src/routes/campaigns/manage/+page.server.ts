@@ -1,5 +1,5 @@
 import { generateMockCampaigns } from '$lib/features';
-import { HubApiClient } from '$lib/services';
+// import { HubApiClient } from '$lib/services';
 
 export const load = async () => {
 	const campaignToggleOptions = [
@@ -11,11 +11,11 @@ export const load = async () => {
 
 	const campaignList = generateMockCampaigns(2);
 
-	const campaignListNew = await HubApiClient.getCampaignsByEthAddr(
-		'0x1234567890123456789012345678901234567890'
-	);
+	// const campaignListNew = await HubApiClient.getCampaignsByEthAddr(
+	// 	'0x1234567890123456789012345678901234567890'
+	// );
 
-	console.log('campaignListNew', campaignListNew);
+	// console.log('campaignListNew', campaignListNew);
 
 	return {
 		campaignToggleOptions,
