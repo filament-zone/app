@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
-	import { flexRender } from '@tanstack/svelte-table';
+	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import {
 		campaignStore,
 		rightSideBarStore,
@@ -74,7 +74,7 @@
 				}
 				return flexRender(SettingsCircleIcon, {});
 			},
-			size: 10,
+			size: 36,
 			meta: {
 				cellStyle: {
 					cursor: 'pointer'
@@ -112,7 +112,10 @@
 					};
 				})
 		],
-		columnDef: [...eligibilityCriteriaColumnDef]
+		columnDef: [...eligibilityCriteriaColumnDef],
+		onRowClick: (row: Row<IEligibilityCriteria>) => {
+			console.log('onRowClick', row);
+		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
 	const handleChangeDateRange: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
@@ -159,7 +162,7 @@
 		</div>
 	</Container>
 	<Container label="Eligibility Criteria">
-		<div class="flex flex-col gap-5">
+		<div class="flex flex-col gap-5 w-full">
 			<Typography variant="caption">
 				Via criterions you can define specific actions of a user that you want to reward with your
 				airdrop. By allocating a weight to the actions, you can adjust the impact of each action on

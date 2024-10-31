@@ -22,6 +22,7 @@
 	export let data: ITableProps['data'] = [];
 	export let pagination: ITableProps['pagination'] = null;
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
+	export let onRowClick: ITableProps['onRowClick'] = null;
 
 	//console log data
 	// const test = [
@@ -276,7 +277,14 @@
 						</tr>
 					{/each}
 					{#each $tableClient.getRowModel().rows as row}
-						<tr class="data-row">
+						<tr
+							class={`data-row ${onRowClick ? 'isHoverable' : ''}`}
+							on:click={() => {
+								if (onRowClick) {
+									onRowClick(row);
+								}
+							}}
+						>
 							{#each row.getVisibleCells() as cell, index}
 								<td
 									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
@@ -333,13 +341,15 @@
 
 		.data-row {
 			background-color: var(--highlight-bg);
-			cursor: pointer;
 
-			&:hover {
-				background-color: #333333;
-
-				.sticky {
+			&.isHoverable {
+				cursor: pointer;
+				&:hover {
 					background-color: #333333;
+
+					.sticky {
+						background-color: #333333;
+					}
 				}
 			}
 
