@@ -17,6 +17,7 @@
 	export let inputLabel: IDatePickerProps<CalendarMode.SINGLE>['inputLabel'] = '';
 	export let position: IDatePickerProps<CalendarMode.SINGLE>['position'] = '';
 	export let closeOnClickOutside: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'] = false;
+	export let disabled: IDatePickerProps<CalendarMode.SINGLE>['disabled'] = false;
 
 	$: initialDate = (value.date ? moment(value.date) : moment()) as unknown as string;
 
@@ -88,10 +89,15 @@
 			{/if}
 			<Input
 				sizeVariant={EInputSizeVariant.FULL_WIDTH}
-				on:click={handleOpenPopover}
+				on:click={() => {
+					if (!disabled) {
+						handleOpenPopover();
+					}
+				}}
 				value={value.date ? moment(value.date).format('MM / DD / YYYY') : undefined}
 				placeholder="Date"
 				RightIcon={CalendarIcon}
+				{disabled}
 			/>
 		</div>
 	</div>

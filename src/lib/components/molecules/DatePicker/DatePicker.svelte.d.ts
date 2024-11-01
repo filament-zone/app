@@ -20,6 +20,7 @@ type IDatePickerProps_<T> = typeof __propDef.props & {
 	value: ICalendarProps<T>['value'];
 	onChange: ICalendarProps<T>['onChange'];
 	label: ICalendarProps<T>['label'];
+	disabled: ICalendarProps<T>['disabled'];
 };
 export type { IDatePickerProps_ as IDatePickerProps };
 export type IDatePickerEvents = typeof __propDef.events;

@@ -205,7 +205,6 @@
 						bind:value={$campaignDetails.snapshotTotal}
 						LeftIcon="#"
 					/>
-
 					<DatePicker
 						label="Snapshot End Date"
 						value={{ date: $campaignDetails.snapshotEndDateRecurring }}
