@@ -13,6 +13,11 @@ export interface IContract {
 	address: string;
 }
 
+export enum ECampaignTimeSettings {
+	ONE_TIME = 'ONE_TIME',
+	RECURRING = 'RECURRING'
+}
+
 export interface IEligibilityCriteria {
 	id: string | null;
 	name: string | null;
@@ -38,9 +43,12 @@ export interface ICampaign {
 	evictedDelegates: string[];
 	// STEP 1 VALUES END
 	// STEP 2 VALUES START
+	timeSettings: ECampaignTimeSettings | null;
 	snapshotDate: string | null;
+	snapshotStartDateRecurring: string | null;
 	snapshotInterval: string | null;
 	snapshotTotal: string | null;
+	snapshotEndDateRecurring: string | null;
 	criteria: IEligibilityCriteria[];
 	// STEP 2 VALUES END
 	// START STEP-3

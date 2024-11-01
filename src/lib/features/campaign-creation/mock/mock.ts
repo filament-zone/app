@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
+	ECampaignTimeSettings,
 	EEligibilityCriteriaCategory,
 	EEligibilityCriteriaType,
 	type ICampaign,
-	type IEligibilityCriteria,
-	type IDelegate
+	type IDelegate,
+	type IDropdownProps,
+	type IEligibilityCriteria
 } from '$lib/types';
 
 export const generateMockEligibilityCriteria = (quantity: number): IEligibilityCriteria[] => {
@@ -44,11 +46,14 @@ function generateMockCampaign(): ICampaign {
 		title: `Campaign ${Math.random().toString(36).substring(7)}`,
 		description: `This is a mock campaign description.`,
 		maxEvictableDelegates: Math.floor(Math.random() * 100).toString(),
-		activeDelegates: Array.from({ length: 3 }, () => uuidv4()), // Mock 3 governance
-		evictedDelegates: Array.from({ length: 2 }, () => uuidv4()), // Mock 2 evicted governance
+		activeDelegates: Array.from({ length: 3 }, () => uuidv4()),
+		evictedDelegates: Array.from({ length: 2 }, () => uuidv4()),
+		timeSettings: ECampaignTimeSettings.ONE_TIME,
 		snapshotDate: new Date().toISOString(),
+		snapshotStartDateRecurring: new Date().toISOString(),
 		snapshotInterval: `${Math.floor(Math.random() * 1000)} seconds`,
 		snapshotTotal: (Math.random() * 1000).toFixed(2),
+		snapshotEndDateRecurring: null,
 		criteria: generateMockEligibilityCriteria(3),
 		visibility: 'public',
 		relativeShare: (Math.random() * 100).toFixed(2),
@@ -142,4 +147,12 @@ export const generateMockDelegates = (): IDelegate[] => {
 			evictionCost: '14475'
 		}
 	];
+};
+
+export const generateSnapshotIntervalOptions = (): IDropdownProps['options'] => {
+	const options: IDropdownProps['options'] = [];
+	for (let i = 1; i <= 14; i++) {
+		options.push({ value: i.toString(), label: `${i} Day${i > 1 ? 's' : ''}` });
+	}
+	return options;
 };

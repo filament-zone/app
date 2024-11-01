@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
+	import moment from 'moment/moment.js';
 	import { page } from '$app/stores';
 	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import {
@@ -22,6 +23,7 @@
 	} from '$lib/components';
 	import {
 		CalendarMode,
+		ECampaignTimeSettings,
 		EDropdownSizeVariant,
 		EInputSizeVariant,
 		ERightSideBarVariant,
@@ -117,11 +119,45 @@
 		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
-	const handleChangeDateRange: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
+	const handleChangeDateOneTime: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
 		value: ICalendarProps<CalendarMode.SINGLE>['value']
 	) => {
 		campaignDetails.update((prev) => ({ ...prev, snapshotDate: value.date }));
 	};
+
+	$: setSnapshotEndDate = () => {
+		if (
+			$campaignDetails.snapshotStartDateRecurring &&
+			$campaignDetails.snapshotInterval &&
+			$campaignDetails.snapshotTotal
+		) {
+			const value = moment($campaignDetails.snapshotStartDateRecurring).add(
+				+$campaignDetails.snapshotInterval * +$campaignDetails.snapshotTotal,
+				'days'
+			);
+
+			campaignDetails.update((prev) => ({
+				...prev,
+				snapshotEndDateRecurring: value.toLocaleString()
+			}));
+		} else {
+			campaignDetails.update((prev) => ({
+				...prev,
+				snapshotEndDateRecurring: null
+			}));
+		}
+	};
+
+	const handleChangeDateRecurring: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
+		value: ICalendarProps<CalendarMode.SINGLE>['value']
+	) => {
+		campaignDetails.update((prev) => ({ ...prev, snapshotStartDateRecurring: value.date }));
+		setSnapshotEndDate();
+	};
+
+	$: {
+		setSnapshotEndDate();
+	}
 
 	const handleAddNewCriteria = () => {
 		openRightSideBar({
@@ -132,32 +168,51 @@
 
 <div class="flex flex-col gap-5">
 	<Container label="General">
-		<div class="flex flex-col gap-5">
+		<div class="flex flex-col gap-5 w-full">
 			<Typography variant="caption"
 				>On this page you can design the airdrop criteria by allocating weights to specific user
 				actions. Please start by selecting a start date and the number of snapshots to create.
 			</Typography>
-			<div class="flex flex-row justify-between">
+			<Toggle
+				label="Time settings"
+				bind:value={$campaignDetails.timeSettings}
+				options={$data.step2Data.meta.timeSettingsOptions}
+			/>
+			{#if $campaignDetails.timeSettings === ECampaignTimeSettings.ONE_TIME}
 				<DatePicker
 					label="Snapshot Date"
 					value={{ date: $campaignDetails.snapshotDate }}
-					onChange={handleChangeDateRange}
+					onChange={handleChangeDateOneTime}
 				/>
-				<Dropdown
-					label="Snapshot Interval"
-					sizeVariant={EDropdownSizeVariant.MEDIUM}
-					options={$data.step2Data.meta.snapshotIntervalOptions}
-					bind:value={$campaignDetails.snapshotInterval}
-				/>
-				<Input
-					label="Total Snapshots"
-					placeholder="10"
-					type="number"
-					sizeVariant={EInputSizeVariant.MEDIUM}
-					bind:value={$campaignDetails.snapshotTotal}
-					LeftIcon="#"
-				/>
-			</div>
+			{:else if $campaignDetails.timeSettings === ECampaignTimeSettings.RECURRING}
+				<div class="flex flex-row justify-between">
+					<DatePicker
+						label="Snapshot Start Date"
+						value={{ date: $campaignDetails.snapshotStartDateRecurring }}
+						onChange={handleChangeDateRecurring}
+					/>
+					<Dropdown
+						label="Snapshot Interval"
+						sizeVariant={EDropdownSizeVariant.MEDIUM}
+						options={$data.step2Data.meta.snapshotIntervalOptions}
+						bind:value={$campaignDetails.snapshotInterval}
+					/>
+					<Input
+						label="Total Snapshots"
+						placeholder="10"
+						type="number"
+						sizeVariant={EInputSizeVariant.MEDIUM}
+						bind:value={$campaignDetails.snapshotTotal}
+						LeftIcon="#"
+					/>
+
+					<DatePicker
+						label="Snapshot End Date"
+						value={{ date: $campaignDetails.snapshotEndDateRecurring }}
+						disabled
+					/>
+				</div>
+			{/if}
 		</div>
 	</Container>
 	<Container label="Eligibility Criteria">

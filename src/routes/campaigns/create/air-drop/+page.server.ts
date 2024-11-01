@@ -1,5 +1,9 @@
-import { generateMockDelegates, generateMockEligibilityCriteria } from '$lib/features';
-import { EEligibilityCriteriaType, type IDropdownProps } from '$lib/types';
+import {
+	generateMockDelegates,
+	generateMockEligibilityCriteria,
+	generateSnapshotIntervalOptions
+} from '$lib/features';
+import { ECampaignTimeSettings, EEligibilityCriteriaType, type IDropdownProps } from '$lib/types';
 
 export const load = async () => {
 	const delegates = generateMockDelegates();
@@ -23,11 +27,11 @@ export const load = async () => {
 		snapshotTotal: '5',
 		eligibilityCriteriaTable,
 		meta: {
-			snapshotIntervalOptions: [
-				{ value: '10', label: '10' },
-				{ value: '20', label: '20' },
-				{ value: '30', label: '30' }
+			timeSettingsOptions: [
+				{ value: ECampaignTimeSettings.ONE_TIME, label: 'One Time' },
+				{ value: ECampaignTimeSettings.RECURRING, label: 'Recurring' }
 			] as IDropdownProps['options'],
+			snapshotIntervalOptions: generateSnapshotIntervalOptions(),
 			eligibilityCriteriaCategoryOptions: [
 				{ value: 'all', label: 'All' },
 				{ value: 'balance', label: 'Balance' },

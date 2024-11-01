@@ -1,6 +1,11 @@
 import { get, writable } from 'svelte/store';
-import { modalStore, hubStore } from '$lib/features';
-import { EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
+import { hubStore, modalStore } from '$lib/features';
+import {
+	ECampaignTimeSettings,
+	EModalVariant,
+	type ICampaign,
+	type ICampaignStore
+} from '$lib/types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START
@@ -11,9 +16,12 @@ const initCampaignDetails: ICampaign = {
 	evictedDelegates: [],
 	// STEP 1 END
 	// STEP 2 START
+	timeSettings: ECampaignTimeSettings.RECURRING,
 	snapshotDate: null,
+	snapshotStartDateRecurring: null,
 	snapshotInterval: null,
 	snapshotTotal: null,
+	snapshotEndDateRecurring: null,
 	criteria: [],
 	// STEP 2 END
 	// STEP 3 START
