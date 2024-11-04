@@ -4,7 +4,7 @@ import { type ICampaign, type IDelegate } from '$lib/types';
 export interface ICampaignStore {
 	campaignDetails: Writable<ICampaign>;
 	clearCampaignDetails: () => void;
-	createCampaign: () => boolean;
+	createCampaign: () => Promise<boolean>;
 	toggleDelegate: (delegateId: IDelegate['id']) => void;
 	initiateCampaign: (campaign: ICampaign) => void;
 	depositToCampaign: (campaign: ICampaign) => void;

@@ -64,12 +64,6 @@ const clearCampaignDetails = () => {
 	campaignDetails.set({ ...initCampaignDetails });
 };
 
-const createCampaign: ICampaignStore['createCampaign'] = () => {
-	alert('Campaign was created, see data structure in dev tools');
-	console.log('Campaign was created: ', get(campaignDetails));
-	return true;
-};
-
 const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
 	campaignDetails.set({ ...campaign });
 	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
@@ -84,16 +78,23 @@ const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
 	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
 };
 
-const createHubTx = async () => {
+const createHubTx = () => {
 	const { processHubTransaction } = hubStore;
 	const msg = {
-		bank: {
-			freeze: {
-				token_id: 'token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6'
-			}
+		Init: {
+			title: get(campaignDetails).title,
+			description: get(campaignDetails).description,
+			criteria: get(campaignDetails).criteria,
+			evictions: get(campaignDetails).evictedDelegates
 		}
 	};
-	await processHubTransaction({ msg });
+	return processHubTransaction.bind(null, { msg });
+};
+
+const createCampaign: ICampaignStore['createCampaign'] = async () => {
+	const hubTx = createHubTx();
+	await hubTx();
+	return true;
 };
 
 export const campaignStore: ICampaignStore = {
