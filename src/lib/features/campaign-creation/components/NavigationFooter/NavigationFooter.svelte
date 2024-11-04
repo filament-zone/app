@@ -20,9 +20,9 @@
 
 	$: localHandleNext = async () => {
 		if ($isLastStep) {
-			const isCreated = createCampaign();
+			const isCreated = await createCampaign();
 			if (isCreated) {
-				nextStep();
+				await goto(routes.CAMPAIGNS.MANAGE.ROOT);
 			}
 			return;
 		}
