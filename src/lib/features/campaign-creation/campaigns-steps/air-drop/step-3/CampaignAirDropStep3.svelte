@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { campaignStore } from '$lib/features';
 	import { Container, Input, Toggle, Typography } from '$lib/components';
-	import { EInputSizeVariant } from '$lib/types';
+	import { EInputSizeVariant, EToggleSizeVariant } from '$lib/types';
 	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
 
 	const data = derived(page, () => $page.data);
@@ -38,6 +38,7 @@
 					label="Visibility"
 					bind:value={$campaignDetails.visibility}
 					options={$data.step3Data.meta.visibilityOptions}
+					sizeVariant={EToggleSizeVariant.NORMAL}
 				/>
 				<Input
 					label="Relative share*"
@@ -72,18 +73,19 @@
 				selecting an internal Indexer you can outsource this process and negotiate freely. We
 				recommend to rely on trusted Indexers.
 			</Typography>
-			<div class="flex flex-row gap-4">
+			<div class="flex flex-row gap-4 justify-between">
 				<Toggle
 					label="Indexer"
 					bind:value={$campaignDetails.indexer}
 					options={$data.step3Data.meta.indexerOptions}
+					sizeVariant={EToggleSizeVariant.NORMAL}
 				/>
 				<div class="flex flex-row gap-4">
 					<Input
 						label="Budget"
 						bind:value={$campaignDetails.budgetFrom}
 						placeholder="Type here..."
-						sizeVariant={EInputSizeVariant.SMALL}
+						sizeVariant={EInputSizeVariant.MEDIUM}
 						RightIcon="FILA"
 						textColor="var(--filaMint)"
 					/>
@@ -92,7 +94,7 @@
 						labelGap
 						bind:value={$campaignDetails.budgetTo}
 						placeholder="Type here..."
-						sizeVariant={EInputSizeVariant.SMALL}
+						sizeVariant={EInputSizeVariant.MEDIUM}
 						LeftIcon="$"
 					/>
 				</div>
@@ -112,7 +114,7 @@
 			<Input
 				placeholder="Type here..."
 				bind:value={$campaignDetails.bond}
-				sizeVariant={EInputSizeVariant.SMALL}
+				sizeVariant={EInputSizeVariant.MEDIUM}
 				LeftIcon="Bond"
 				RightIcon="FILA"
 				textColor="var(--filaMint)"
