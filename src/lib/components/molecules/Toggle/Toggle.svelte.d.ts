@@ -1,4 +1,5 @@
 import type { SvelteComponent } from 'svelte';
+import type { EToggleSizeVariant } from '$lib/types';
 
 export interface IToggleOption<T> {
 	value: T;
@@ -14,6 +15,7 @@ declare const __propDef: {
 		label?: string;
 		isMulti?: boolean;
 		variant?: EToggleVariant;
+		sizeVariant?: EToggleSizeVariant;
 	};
 	events: {
 		[evt: string]: CustomEvent;

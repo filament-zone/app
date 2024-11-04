@@ -1,12 +1,18 @@
 <script lang="ts">
 	import { Label, Typography } from '$lib/components';
-	import { EToggleVariant, type IToggleOption, type IToggleProps } from '$lib/types';
+	import {
+		EToggleSizeVariant,
+		EToggleVariant,
+		type IToggleOption,
+		type IToggleProps
+	} from '$lib/types';
 
 	export let options: IToggleProps['options'] = null;
 	export let value: IToggleProps['value'] = null;
 	export let label: IToggleProps['label'] = '';
 	export let isMulti: IToggleProps['isMulti'] = false;
 	export let variant: IToggleProps['variant'] = EToggleVariant.PRIMARY;
+	export let sizeVariant: IToggleProps['sizeVariant'] = EToggleSizeVariant.FULL_WIDTH;
 
 	$: updateValue = (selectedValues: string[]) => {
 		if (isMulti) {
@@ -76,7 +82,7 @@
 	};
 </script>
 
-<div class="w-full">
+<div class={sizeVariant}>
 	{#if label}
 		<Label value={label} />
 	{/if}
@@ -105,6 +111,9 @@
 </div>
 
 <style lang="less">
+	.full-width {
+		width: 100%;
+	}
 	.disabled {
 		opacity: 0.3;
 		cursor: not-allowed !important;
