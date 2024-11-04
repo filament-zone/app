@@ -18,7 +18,7 @@
 		"build-storybook": "storybook build"
 	},
 	"devDependencies": {
-		"@chromatic-com/storybook": "^1.7.0",
+		"@chromatic-com/storybook": "^3.2.2",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@playwright/test": "^1.48.2",
