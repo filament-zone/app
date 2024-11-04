@@ -23,7 +23,7 @@
 		"@commitlint/config-conventional": "^19.5.0",
 		"@playwright/test": "^1.48.2",
 		"@poppanator/sveltekit-svg": "^4.2.1",
-		"@storybook/addon-essentials": "^8.2.9",
+		"@storybook/addon-essentials": "^8.4.1",
 		"@storybook/addon-interactions": "^8.2.9",
 		"@storybook/addon-links": "^8.3.2",
 		"@storybook/addon-svelte-csf": "^4.1.6",
