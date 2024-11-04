@@ -58,13 +58,13 @@ export const load = async () => {
 
 	const step3Data = {
 		visibility: 'public',
-		relativeShare: null,
-		totalAirDropSupply: null,
-		tokenContractAddress: null,
+		relativeShare: 5,
+		totalAirDropSupply: 5,
+		tokenContractAddress: 5,
 		indexer: 'internal',
-		budgetFrom: null,
-		budgetTo: null,
-		bond: null,
+		budgetFrom: 5,
+		budgetTo: 10,
+		bond: 5,
 		meta: {
 			visibilityOptions: [
 				{ value: 'public', label: 'Public' },
