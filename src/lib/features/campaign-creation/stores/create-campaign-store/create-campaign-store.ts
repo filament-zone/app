@@ -1,7 +1,9 @@
 import { get, writable } from 'svelte/store';
-import { hubStore, modalStore } from '$lib/features';
+import { hubStore, modalStore, transactionStore } from '$lib/features';
 import {
 	ECampaignTimeSettings,
+	EContract,
+	EDelegatesABI,
 	EModalVariant,
 	type ICampaign,
 	type ICampaignStore
@@ -69,6 +71,18 @@ const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
 	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
 };
 
+const getDelegates = async () => {
+	const { newTransaction } = transactionStore;
+
+	const getDataDelegatesTx = newTransaction(EContract.FILAMENT_SC, EDelegatesABI.GET_ALL_DELEGATES);
+
+	await getDataDelegatesTx?.run();
+
+	getDataDelegatesTx?.onSuccess((payload) => {
+		console.log('delegates', payload.data);
+	});
+};
+
 const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
 	campaignDetails.set({ ...campaign });
 	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
@@ -105,5 +119,6 @@ export const campaignStore: ICampaignStore = {
 	initiateCampaign,
 	depositToCampaign,
 	setTokenAllowance,
-	createHubTx
+	createHubTx,
+	getDelegates
 };

@@ -10,4 +10,5 @@ export interface ICampaignStore {
 	depositToCampaign: (campaign: ICampaign) => void;
 	setTokenAllowance: () => void;
 	createHubTx: () => void;
+	getDelegates: () => void;
 }

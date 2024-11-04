@@ -1,0 +1,17 @@
+{
+	"abi": [
+		{
+			"type": "function",
+			"name": "allDelegates",
+			"inputs": [],
+			"outputs": [
+				{
+					"name": "",
+					"type": "address[]",
+					"internalType": "address[]"
+				}
+			],
+			"stateMutability": "view"
+		}
+	]
+}
