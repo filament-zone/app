@@ -1,11 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { hubStore, modalStore } from '$lib/features';
-import {
-	ECampaignTimeSettings,
-	EModalVariant,
-	type ICampaign,
-	type ICampaignStore
-} from '$lib/types';
+import { EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
+import { ECampaignTimeSettings } from '$lib/features/campaign/campaign.types';
 
 const initCampaignDetails: ICampaign = {
 	// STEP 1 START

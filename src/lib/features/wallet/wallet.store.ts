@@ -1,6 +1,6 @@
 import type { EthersError } from 'ethers';
 import { get, writable } from 'svelte/store';
-import { env } from '$env/dynamic/public';
+import { PUBLIC_DEFAULT_CHAIN } from '$env/static/public';
 import { modalStore, toastsStore } from '$lib/features';
 import { EWalletProviderError, WalletClientConnector } from '$lib/services';
 import { writeToLocalStorage } from '$lib/utils';
@@ -122,18 +122,15 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 wallet.subscribe((state) => {
 	const { openModal } = modalStore;
 
-	if (
-		state.chain?.chainId &&
-		state.chain.chainId !== CHAIN_IDS[env.PUBLIC_DEFAULT_CHAIN as EChain]
-	) {
+	if (state.chain?.chainId && state.chain.chainId !== CHAIN_IDS[PUBLIC_DEFAULT_CHAIN as EChain]) {
 		openModal({
 			variant: EModalVariant.CONFIRMATION,
 			state: {
 				title: 'Change Network',
-				description: `You are on a wrong network, click "Change network" to switch to ${CHAIN_NAMES[env.PUBLIC_DEFAULT_CHAIN as EChain]}`,
+				description: `You are on a wrong network, click "Change network" to switch to ${CHAIN_NAMES[PUBLIC_DEFAULT_CHAIN as EChain]}`,
 				disabledDeny: true,
 				onConfirm: () => {
-					state.client?.switchChain(CHAIN_IDS[env.PUBLIC_DEFAULT_CHAIN as EChain]);
+					state.client?.switchChain(CHAIN_IDS[PUBLIC_DEFAULT_CHAIN as EChain]);
 				},
 				onConfirmLabel: 'Change network'
 			} as IModalConfirmationProps
