@@ -27,7 +27,7 @@
 		on:clickOutside={handleClickOutside}
 		style={`width: ${width}`}
 	>
-		<div class="w-full"><slot name="header" /></div>
+		<div class="header w-full"><slot name="header" /></div>
 		<div class="w-full"><slot name="content" /></div>
 		{#if $$slots.footer}
 			<div class="w-full"><slot name="footer" /></div>
@@ -60,27 +60,34 @@
 		background-color: #131313;
 
 		min-width: 375px;
+		max-width: 512px;
 		min-height: 200px;
-		padding: 20px;
+
 		gap: 20px;
 
 		max-height: 90vh;
 		overflow: scroll;
+
+		border: 1px solid var(--default-border);
 
 		@media @size_md {
 			min-width: 475px;
 		}
 
 		@media @size_lg {
-			min-width: 600px;
-		}
-
-		@media @size_2xl {
-			min-width: 800px;
+			min-width: 512px;
 		}
 
 		&::-webkit-scrollbar {
 			display: none;
+		}
+
+		& > div {
+			padding: 20px;
+		}
+
+		.header {
+			border-bottom: 1px solid var(--default-border);
 		}
 	}
 </style>

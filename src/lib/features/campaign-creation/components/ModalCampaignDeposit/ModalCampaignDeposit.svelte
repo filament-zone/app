@@ -8,8 +8,8 @@
 </script>
 
 <Modal classNames="max-w-96" closeOnClickOutside>
-	<div slot="header" class="text-center">
-		<Typography variant="h2">Deposit Campaign Collateral</Typography>
+	<div slot="header">
+		<Typography variant="h5">Deposit Campaign Collateral</Typography>
 	</div>
 	<div slot="content">
 		<Typography variant="caption">
