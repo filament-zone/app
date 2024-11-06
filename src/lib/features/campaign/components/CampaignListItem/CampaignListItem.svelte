@@ -2,11 +2,7 @@
 	import moment from 'moment/moment.js';
 	import { campaignStore, CampaignTimeLineItem } from '$lib/features';
 	import { Badge, Button, Divider, Typography } from '$lib/components';
-	import {
-		type ICampaignListItemProps,
-		EButtonColorVariant,
-		ECampaignTimeLineItem
-	} from '$lib/types';
+	import { type ICampaignListItemProps, EButtonVariant, ECampaignTimeLineItem } from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 
@@ -71,11 +67,8 @@
 		</div>
 		<Divider />
 		<div class="flex flex-row justify-between gap-8">
-			<Button colorVariant={EButtonColorVariant.SECONDARY}>Delete</Button>
-			<Button
-				colorVariant={EButtonColorVariant.PRIMARY}
-				on:click={initiateCampaign.bind(null, campaign)}>Initiate</Button
-			>
+			<Button styleVariant={EButtonVariant.SECONDARY}>Delete</Button>
+			<Button on:click={initiateCampaign.bind(null, campaign)}>Initiate</Button>
 		</div>
 	</div>
 </div>

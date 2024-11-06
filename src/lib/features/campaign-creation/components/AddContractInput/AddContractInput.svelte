@@ -3,7 +3,6 @@
 	import { networkOptions } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import {
-		EButtonColorVariant,
 		EButtonSizeVariant,
 		type IAddContractInputProps,
 		EInputSizeVariant,
@@ -86,7 +85,6 @@
 					/>
 					<Input placeholder="Search ..." RightIcon={SearchIcon} bind:value={inputAddressValue} />
 					<Button
-						colorVariant={EButtonColorVariant.PRIMARY}
 						sizeVariant={direction === 'col'
 							? EButtonSizeVariant.FULL_WIDTH
 							: EButtonSizeVariant.PRIMARY}

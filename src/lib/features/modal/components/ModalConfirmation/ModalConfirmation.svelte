@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { Modal, modalStore } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
-	import {
-		EButtonColorVariant,
-		EButtonSizeVariant,
-		type IModalConfirmationProps
-	} from '$lib/types';
+	import { EButtonVariant, EButtonSizeVariant, type IModalConfirmationProps } from '$lib/types';
 
 	const { modalConfig, closeModal } = modalStore;
 
@@ -22,7 +18,7 @@
 			{#if !state?.disabledDeny}
 				<Button
 					data-testid="confirmation-modal-cancel"
-					colorVariant={EButtonColorVariant.SECONDARY}
+					styleVariant={EButtonVariant.SECONDARY}
 					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={() => {
 						if (state?.onDeny) {
@@ -34,7 +30,6 @@
 			{/if}
 			<Button
 				data-testid="confirmation-modal-confirm"
-				colorVariant={EButtonColorVariant.PRIMARY}
 				sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 				on:click={() => {
 					if (state?.onConfirm) {

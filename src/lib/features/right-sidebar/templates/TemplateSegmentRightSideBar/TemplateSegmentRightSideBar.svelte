@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { EButtonColorVariant, type ITemplateSegmentRightSideBarProps } from '$lib/types';
+	import { EButtonVariant, type ITemplateSegmentRightSideBarProps } from '$lib/types';
 
 	export let label: ITemplateSegmentRightSideBarProps['label'];
 	export let onButtonClick: ITemplateSegmentRightSideBarProps['onButtonClick'];
 	export let buttonLabel: ITemplateSegmentRightSideBarProps['buttonLabel'] = 'Save Changes';
 	export let description: ITemplateSegmentRightSideBarProps['description'] = 'Segment';
 	export let buttonColorVariant: ITemplateSegmentRightSideBarProps['buttonColorVariant'] =
-		EButtonColorVariant.PRIMARY;
+		EButtonVariant.PRIMARY;
 </script>
 
 <div class="flex flex-col justify-between h-full">
@@ -19,7 +19,7 @@
 		<slot />
 	</div>
 	<div class="flex flex-row justify-end">
-		<Button value={buttonLabel} colorVariant={buttonColorVariant} on:click={onButtonClick} />
+		<Button value={buttonLabel} styleVariant={buttonColorVariant} on:click={onButtonClick} />
 	</div>
 </div>
 
