@@ -19,6 +19,10 @@ jobs:
 
     name: Build
     runs-on: ${{ matrix.os }}
+    env:
+      PUBLIC_DEFAULT_CHAIN: ${{ secrets.PUBLIC_DEFAULT_CHAIN }}
+      PUBLIC_HUB_API: ${{ secrets.PUBLIC_HUB_API }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
