@@ -213,7 +213,9 @@ export async function load() {
 				},
 				meta: {
 					cellStyle: {
-						width: '100px'
+						display: 'flex',
+						'justify-content': 'flex-end',
+						width: '100% !important'
 					}
 				}
 			}

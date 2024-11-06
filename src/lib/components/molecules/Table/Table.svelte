@@ -340,8 +340,8 @@
 		width: 100%;
 		table-layout: fixed;
 		border-collapse: separate;
-		border-spacing: 0 8px;
-		--table-border-radius: 2px;
+		border-spacing: 0 10px;
+		--table-border-radius: 10px;
 
 		.header {
 			background-color: var(--background);
@@ -372,17 +372,21 @@
 			}
 
 			td {
-				padding: 16px 12px;
+				padding: 10px 12px;
 				color: #ffffff;
 				font-family: var(--secondary-font);
 				font-size: 0.875rem;
+				border-top: 1px solid var(--default-border);
+				border-bottom: 1px solid var(--default-border);
 
 				&:first-child {
+					border-left: 1px solid var(--default-border);
 					border-top-left-radius: var(--table-border-radius);
 					border-bottom-left-radius: var(--table-border-radius);
 				}
 
 				&:last-child {
+					border-right: 1px solid var(--default-border);
 					border-top-right-radius: var(--table-border-radius);
 					border-bottom-right-radius: var(--table-border-radius);
 				}
