@@ -8,8 +8,8 @@
 </script>
 
 <Modal classNames="max-w-96">
-	<div slot="header" class="text-center">
-		<Typography variant="h2">Connect Wallet</Typography>
+	<div slot="header">
+		<Typography variant="h5">Connect Wallet</Typography>
 	</div>
 	<div slot="content" class="text-center flex flex-col gap-12">
 		<Typography variant="h4">Choose wallet to connect</Typography>

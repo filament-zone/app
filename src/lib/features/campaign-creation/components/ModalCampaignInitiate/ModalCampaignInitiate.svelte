@@ -44,8 +44,8 @@
 </script>
 
 <Modal classNames="max-w-96">
-	<div slot="header" class="text-center">
-		<Typography variant="h2">Initiate Campaign</Typography>
+	<div slot="header">
+		<Typography variant="h5">Initiate Campaign</Typography>
 	</div>
 	<div slot="content">
 		<Typography variant="subtitle2"

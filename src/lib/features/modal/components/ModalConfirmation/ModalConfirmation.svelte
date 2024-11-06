@@ -9,8 +9,8 @@
 </script>
 
 <Modal classNames="max-w-96">
-	<div slot="header" class="text-center">
-		<Typography variant="h2">{state?.title ?? 'Confirmation modal'}</Typography>
+	<div slot="header">
+		<Typography variant="h5">{state?.title ?? 'Confirmation modal'}</Typography>
 	</div>
 	<div slot="content" class="text-center flex flex-col gap-12">
 		<Typography variant="h4">{state?.description ?? 'Are you sure?'}</Typography>
