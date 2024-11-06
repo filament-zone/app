@@ -18,7 +18,7 @@
 		"build-storybook": "storybook build"
 	},
 	"devDependencies": {
-		"@chromatic-com/storybook": "^1.7.0",
+		"@chromatic-com/storybook": "^2.0.2",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@playwright/test": "^1.48.2",
@@ -43,7 +43,7 @@
 		"chartjs-plugin-datalabels": "^2.2.0",
 		"eslint": "^9.13.0",
 		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-storybook": "^0.10.1",
+		"eslint-plugin-storybook": "^0.11.0",
 		"eslint-plugin-svelte": "^2.46.0",
 		"ethereum-cryptography": "^3.0.0",
 		"ethers": "^6.13.4",
