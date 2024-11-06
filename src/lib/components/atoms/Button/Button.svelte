@@ -1,24 +1,21 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { EButtonSizeVariant, EButtonStyleVariant, EButtonColorVariant } from './Button.enums';
+	import { EButtonSizeVariant, EButtonVariant } from './Button.enums';
 	import type { IButtonProps } from '$lib/types';
 
 	export let sizeVariant: EButtonSizeVariant = EButtonSizeVariant.PRIMARY;
-	export let styleVariant: EButtonStyleVariant = EButtonStyleVariant.PRIMARY;
-	export let colorVariant: EButtonColorVariant = EButtonColorVariant.PRIMARY;
+	export let styleVariant: EButtonVariant = EButtonVariant.PRIMARY;
 	export let LeftIcon: IButtonProps['LeftIcon'] = null;
 	export let disabled: boolean = false;
 
 	const isOnHover = writable<boolean>(false);
-
-	$: variant = styleVariant !== EButtonStyleVariant.PRIMARY ? styleVariant : colorVariant;
 </script>
 
 <button
 	{...$$props}
 	on:mouseenter={() => isOnHover.set(true)}
 	on:mouseleave={() => isOnHover.set(false)}
-	class={`button w-${sizeVariant} style-${variant} ${$$props.class || ''}`}
+	class={`button w-${sizeVariant} style-${disabled ? 'disabled' : styleVariant} ${$$props.class || ''}`}
 	on:click
 	{disabled}
 >
@@ -101,10 +98,6 @@
 			background-color: var(--text-color);
 			color: var(--fill-color);
 			border-color: var(--fill-color);
-		}
-
-		&:disabled {
-			opacity: 0.6;
 		}
 	}
 </style>
