@@ -1,10 +1,10 @@
 import { type ComponentType, SvelteComponent } from 'svelte';
-import { EButtonSizeVariant, EButtonColorVariant } from '$lib/types';
+import { EButtonSizeVariant, EButtonVariant } from '$lib/types';
 
 declare const __propDef: {
 	props: {
 		sizeVariant?: EButtonSizeVariant;
-		colorVariant?: EButtonColorVariant;
+		styleVariant?: EButtonVariant;
 		LeftIcon?: ComponentType<SvelteComponent> | null;
 		customStyles?: Record<string, unknown> | null;
 		disabled?: boolean;
