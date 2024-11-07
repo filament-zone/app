@@ -1,7 +1,6 @@
-// import { ethers, SigningKey } from 'ethers';
-// import { hexToBytes } from 'ethereum-cryptography/utils';
-// import { serialize_call, new_serialized_tx, new_unsigned_tx } from 'filament-hub-wasm';
-import { EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
+import { ethers, SigningKey } from 'ethers';
+import { hexToBytes } from 'ethereum-cryptography/utils';
+import { EventEmitter, EWalletProvider, HubApiClient, WalletClientConnector } from '$lib/services';
 
 export class HubService {
 	private WalletClientConnector: WalletClientConnector;
@@ -22,36 +21,38 @@ export class HubService {
 		eventEmitter: EventEmitter;
 	}): Promise<null | void> {
 		eventEmitter.emit('transaction:start', { id, msg });
-
+		const { serialize_call, new_serialized_tx, new_unsigned_tx } = await import(
+			'@filament-zone/filament/filament_hub_wasm'
+		);
 		try {
 			await this.WalletClientConnector.connect();
 
-			// const chainId = BigInt(4321);
+			const chainId = BigInt(4321);
 
-			// const serializedCall = serialize_call(JSON.stringify(msg));
+			const serializedCall = serialize_call(JSON.stringify(msg));
 
-			// const newUnsignedTx = new_unsigned_tx(serializedCall, chainId);
-			//
-			// const signature = await this.WalletClientConnector.Client.Signer?.signMessage(newUnsignedTx);
+			const newUnsignedTx = new_unsigned_tx(serializedCall, chainId);
 
-			// if (!signature) {
-			// 	return null;
-			// }
+			const signature = await this.WalletClientConnector.Client.Signer?.signMessage(newUnsignedTx);
 
-			// const messageHashHex = ethers.hashMessage(serializedCall);
-			// const messageHash = hexToBytes(messageHashHex);
+			if (!signature) {
+				return null;
+			}
 
-			// const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
+			const messageHashHex = ethers.hashMessage(serializedCall);
+			const messageHash = hexToBytes(messageHashHex);
 
-			// const serializedSignedTx = new_serialized_tx(
-			// 	ethers.getBytes(signature),
-			// 	ethers.getBytes(recoveredPublicKey),
-			// 	serializedCall,
-			// 	chainId
-			// );
+			const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
+
+			const serializedSignedTx = new_serialized_tx(
+				ethers.getBytes(signature),
+				ethers.getBytes(recoveredPublicKey),
+				serializedCall,
+				chainId
+			);
 
 			eventEmitter.emit('transaction:send:start', { id });
-			// await HubApiClient.sendTx(serializedSignedTx);
+			await HubApiClient.sendTx(serializedSignedTx);
 			eventEmitter.emit('transaction:send:success', { id });
 
 			eventEmitter.emit('transaction:success', { id });
