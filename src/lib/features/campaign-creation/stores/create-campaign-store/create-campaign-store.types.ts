@@ -9,6 +9,7 @@ export interface ICampaignStore {
 	initiateCampaign: (campaign: ICampaign) => void;
 	depositToCampaign: (campaign: ICampaign) => void;
 	setTokenAllowance: () => void;
-	createHubTx: () => void;
+	createHubTx: (msg: object) => () => Promise<void>;
+	sendTestHubTx: () => Promise<void>;
 	getDelegates: () => void;
 }

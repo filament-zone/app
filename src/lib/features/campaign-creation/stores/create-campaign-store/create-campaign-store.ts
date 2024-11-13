@@ -71,6 +71,46 @@ const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
 	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
 };
 
+const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
+	campaignDetails.set({ ...campaign });
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
+};
+
+const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
+	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
+};
+
+const createHubTx: ICampaignStore['createHubTx'] = (msg) => {
+	const { processHubTransaction } = hubStore;
+
+	return processHubTransaction.bind(null, { msg });
+};
+
+const createCampaign: ICampaignStore['createCampaign'] = async () => {
+	const hubTx = createHubTx({
+		Init: {
+			title: get(campaignDetails).title,
+			description: get(campaignDetails).description,
+			criteria: get(campaignDetails).criteria,
+			evictions: get(campaignDetails).evictedDelegates
+		}
+	});
+	await hubTx();
+	return true;
+};
+
+const sendTestHubTx: ICampaignStore['sendTestHubTx'] = async () => {
+	const hubTx = createHubTx({
+		bank: {
+			freeze: {
+				token_id: 'token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6'
+			}
+		}
+	});
+
+	await hubTx();
+};
+
 const getDelegates = async () => {
 	const { newTransaction } = transactionStore;
 
@@ -83,34 +123,6 @@ const getDelegates = async () => {
 	});
 };
 
-const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
-	campaignDetails.set({ ...campaign });
-	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
-};
-
-const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
-	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
-};
-
-const createHubTx = () => {
-	const { processHubTransaction } = hubStore;
-	const msg = {
-		Init: {
-			title: get(campaignDetails).title,
-			description: get(campaignDetails).description,
-			criteria: get(campaignDetails).criteria,
-			evictions: get(campaignDetails).evictedDelegates
-		}
-	};
-	return processHubTransaction.bind(null, { msg });
-};
-
-const createCampaign: ICampaignStore['createCampaign'] = async () => {
-	const hubTx = createHubTx();
-	await hubTx();
-	return true;
-};
-
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
@@ -120,5 +132,6 @@ export const campaignStore: ICampaignStore = {
 	depositToCampaign,
 	setTokenAllowance,
 	createHubTx,
+	sendTestHubTx,
 	getDelegates
 };

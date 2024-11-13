@@ -21,7 +21,6 @@ export const processHubTransaction: IHubStore['processHubTransaction'] = async (
 		const id = uuidv4();
 
 		eventEmitter.on('transaction:start', (payload) => {
-			console.log('transaction:start', payload);
 			updateTransactionState({
 				id: (payload as ITransactionStartPayload).id,
 				status: 'processing'
