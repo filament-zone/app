@@ -2,10 +2,7 @@
 	import { Button } from '$lib/components';
 	import { campaignStore } from '$lib/features';
 
-	const { createHubTx } = campaignStore;
-	const testSendToHub = () => {
-		createHubTx();
-	};
+	const { sendTestHubTx } = campaignStore;
 </script>
 
-<Button on:click={testSendToHub}>Test Run the hub tx</Button>
+<Button on:click={sendTestHubTx}>Test Run the hub tx</Button>

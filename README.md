@@ -6,13 +6,24 @@
 
 ## Getting Started
 
-1. Install dependencies:
+1. Create a GitHub Token:
+
+   - Go to [GitHub Personal Access Tokens](https://github.com/settings/tokens)
+   - Click on `Generate new token (Classic)`
+   - Select `repo` and `read:packages` scopes
+   - Click on `Generate token`
+
+2. Add the Token to .npm
+
+- Replace ${GITHUB_TOKEN} with your generated token
+
+3. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the development server:
+4. Start the development server:
    ```bash
    npm run dev
    ```
