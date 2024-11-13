@@ -11,4 +11,5 @@ export interface ICampaignStore {
 	setTokenAllowance: () => void;
 	createHubTx: (msg: object) => () => Promise<void>;
 	sendTestHubTx: () => Promise<void>;
+	getDelegates: () => void;
 }

@@ -1,6 +1,12 @@
 import { get, writable } from 'svelte/store';
-import { hubStore, modalStore } from '$lib/features';
-import { EModalVariant, type ICampaign, type ICampaignStore } from '$lib/types';
+import { hubStore, modalStore, transactionStore } from '$lib/features';
+import {
+	EContract,
+	EDelegatesABI,
+	EModalVariant,
+	type ICampaign,
+	type ICampaignStore
+} from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/features/campaign/campaign.types';
 
 const initCampaignDetails: ICampaign = {
@@ -105,6 +111,18 @@ const sendTestHubTx: ICampaignStore['sendTestHubTx'] = async () => {
 	await hubTx();
 };
 
+const getDelegates = async () => {
+	const { newTransaction } = transactionStore;
+
+	const getDataDelegatesTx = newTransaction(EContract.FILAMENT_SC, EDelegatesABI.GET_ALL_DELEGATES);
+
+	await getDataDelegatesTx?.run();
+
+	getDataDelegatesTx?.onSuccess((payload) => {
+		console.log('delegates', payload.data);
+	});
+};
+
 export const campaignStore: ICampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
@@ -114,5 +132,6 @@ export const campaignStore: ICampaignStore = {
 	depositToCampaign,
 	setTokenAllowance,
 	createHubTx,
-	sendTestHubTx
+	sendTestHubTx,
+	getDelegates
 };

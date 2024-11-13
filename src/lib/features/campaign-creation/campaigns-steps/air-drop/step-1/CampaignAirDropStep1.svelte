@@ -15,7 +15,7 @@
 
 	const data = derived(page, () => $page.data);
 
-	const { campaignDetails, toggleDelegate } = campaignStore;
+	const { campaignDetails, toggleDelegate, getDelegates } = campaignStore;
 
 	onMount(() => {
 		campaignDetails.update((prev) => ({
@@ -26,6 +26,8 @@
 			activeDelegates: $data.step1Data.activeDelegates,
 			evictedDelegates: $data.step1Data.evictedDelegates
 		}));
+
+		getDelegates();
 	});
 
 	const delegateColumnDef: (delegateType: EDelegateType) => ITableProps['columnDef'] = (
