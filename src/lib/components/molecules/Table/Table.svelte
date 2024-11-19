@@ -272,30 +272,31 @@
 			</div>
 		{/if}
 	</div>
-	{#if $tableClient.getRowModel().rows.length}
-		<div class="overflow-x-auto">
-			<table>
-				<tbody>
-					{#each $tableClient.getHeaderGroups() as headerGroup}
-						<tr class="header">
-							{#each headerGroup.headers as header, index}
-								<th
-									class={`${isHeaderSticky(headerGroup.headers, index) ? 'sticky' : ''} p-2`}
-									style={`${isHeaderSticky(headerGroup.headers, index)}; width: ${header.getSize()}px`}
-								>
-									{#if !header.isPlaceholder}
-										<svelte:component
-											this={flexRender(header.column.columnDef.header, header.getContext())}
-										/>
-									{/if}
-								</th>
-							{/each}
-						</tr>
-					{/each}
+
+	<div class="overflow-x-auto">
+		<table>
+			<tbody>
+				{#each $tableClient.getHeaderGroups() as headerGroup}
+					<tr class="header">
+						{#each headerGroup.headers as header, index}
+							<th
+								class={`${isHeaderSticky(headerGroup.headers, index) ? 'sticky' : ''} p-2`}
+								style={`${isHeaderSticky(headerGroup.headers, index)}; width: ${header.getSize()}px`}
+							>
+								{#if !header.isPlaceholder}
+									<svelte:component
+										this={flexRender(header.column.columnDef.header, header.getContext())}
+									/>
+								{/if}
+							</th>
+						{/each}
+					</tr>
+				{/each}
+				{#if $tableClient.getRowModel().rows.length}
 					{#each $tableClient.getRowModel().rows as row}
 						<tr
 							class={`data-row ${onRowClick ? 'isHoverable' : ''}`}
-							on:click={() => {
+							on:mousedown={() => {
 								if (onRowClick) {
 									onRowClick(row);
 								}
@@ -318,16 +319,16 @@
 							{/each}
 						</tr>
 					{/each}
-				</tbody>
-			</table>
-		</div>
-	{/if}
-	{#if !$tableClient.getRowModel().rows.length}
-		<div class="flex justify-center items-center w-full h-[412px]">
-			<Typography variant="h5">NO DATA</Typography>
-		</div>
-	{/if}
+				{/if}
+			</tbody>
+		</table>
+	</div>
 
+	{#if !$tableClient.getRowModel().rows.length}
+		<div class="flex justify-center items-center w-full h-[128px]">
+			<Typography variant="h5">Table contains no data</Typography>
+		</div>
+	{/if}
 	{#if pagination}
 		<div class="mt-[16px]">
 			<Pagination {pagination} {onPageChange} />
