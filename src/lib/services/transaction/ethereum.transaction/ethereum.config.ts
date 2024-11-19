@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/public';
 import { delegatesABI } from '$lib/services';
-import { type JsonInterface, EContract } from '$lib/types';
+import { type JsonInterface } from '$lib/types';
+import { EContract } from '$lib/services/transaction/ethereum.transaction/ethereum.enums';
 
 export const SC_ABI_CONFIG: Record<EContract, JsonInterface> | null = {
 	[EContract.FILAMENT_SC]: delegatesABI.abi
