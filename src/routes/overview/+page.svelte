@@ -1,5 +1,11 @@
 <script>
-	import { Card, Table, TrendDisplay } from '$lib/components';
+	import {
+		Card,
+		LineChartWithControls,
+		PrimaryDoughnutChart,
+		TrendDisplay,
+		Typography
+	} from '$lib/components';
 
 	export let data;
 </script>
@@ -17,5 +23,27 @@
 			</Card>
 		{/each}
 	</div>
-	<Table {...data.tableData} />
+	<Card label="Total Supply" class="w-full">
+		<Typography variant="h6">{data.totalSupply}</Typography>
+		<div class="flex flex-col lg:flex-row gap-8 w-full mt-8 pb-4">
+			<PrimaryDoughnutChart
+				chartData={data.inflationChartData}
+				centerText={['Inflation', '4.13%']}
+				class="w-full"
+			/>
+			<PrimaryDoughnutChart
+				chartData={data.supplyChartData}
+				centerText={['Supply', '2.43B']}
+				class="w-full"
+			/>
+		</div>
+	</Card>
+	<div class="flex flex-col gap-4">
+		<Typography variant="h5">Charts</Typography>
+		<LineChartWithControls {...data.tvlData} />
+		<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+			<LineChartWithControls {...data.stakedData} />
+			<LineChartWithControls {...data.newAddressesData} />
+		</div>
+	</div>
 </div>

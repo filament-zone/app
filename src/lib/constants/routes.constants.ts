@@ -3,11 +3,10 @@ export const routes = {
 	OVERVIEW: { ROOT: '/overview' },
 	GOVERNANCE: {
 		ROOT: '/governance',
-		SUBPAGE_1: { ROOT: '/governance/subpage-1' },
-		SUBPAGE_2: { ROOT: '/governance/subpage-2' },
-		SUBPAGE_3: {
-			ROOT: '/governance/subpage-3',
-			CREATE_PROPOSAL: '/governance/subpage-3/create-proposal'
+		PROPOSALS: { ROOT: '/governance/proposals' },
+		STAKING: {
+			ROOT: '/governance/staking',
+			CREATE_PROPOSAL: '/governance/staking/create-proposal'
 		}
 	},
 	CAMPAIGNS: {

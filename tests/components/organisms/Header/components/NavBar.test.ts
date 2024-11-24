@@ -14,14 +14,11 @@ test.describe('NavBarComponent', () => {
 		page
 	}) => {
 		await page.getByTestId('nav-item-governance').click();
-		await page.getByTestId('list-item-governance/subpage-1').click();
-		await expect(page).toHaveURL('/governance/subpage-1');
+		await page.getByTestId('list-item-governance/proposals').click();
+		await expect(page).toHaveURL('/governance/proposals');
 		await page.getByTestId('nav-item-governance').click();
-		await page.getByTestId('list-item-governance/subpage-2').click();
-		await expect(page).toHaveURL('/governance/subpage-2');
-		await page.getByTestId('nav-item-governance').click();
-		await page.getByTestId('list-item-governance/subpage-3').click();
-		await expect(page).toHaveURL('/governance/subpage-3');
+		await page.getByTestId('list-item-governance/staking').click();
+		await expect(page).toHaveURL('/governance/staking');
 	});
 
 	test('should navigate to the page-3 when a link is clicked', async ({ page }) => {

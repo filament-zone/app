@@ -9,7 +9,7 @@
 
 	beforeUpdate(() => {
 		if ($page?.url?.pathname === routes.GOVERNANCE.ROOT) {
-			goto(routes.GOVERNANCE.SUBPAGE_1.ROOT);
+			goto(routes.GOVERNANCE.STAKING.ROOT);
 		}
 	});
 </script>

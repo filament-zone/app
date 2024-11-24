@@ -12,22 +12,17 @@
 		{
 			label: `Governance`,
 			value: 'governance',
-			path: routes.GOVERNANCE.SUBPAGE_1.ROOT,
+			path: routes.GOVERNANCE.PROPOSALS.ROOT,
 			subItems: [
 				{
-					label: 'subpage-1',
-					value: 'governance/subpage-1',
-					path: routes.GOVERNANCE.SUBPAGE_1.ROOT
+					label: 'Proposals',
+					value: 'governance/proposals',
+					path: routes.GOVERNANCE.PROPOSALS.ROOT
 				},
 				{
-					label: 'subpage-2',
-					value: 'governance/subpage-2',
-					path: routes.GOVERNANCE.SUBPAGE_2.ROOT
-				},
-				{
-					label: 'subpage-3',
-					value: 'governance/subpage-3',
-					path: routes.GOVERNANCE.SUBPAGE_3.ROOT
+					label: 'Staking',
+					value: 'governance/staking',
+					path: routes.GOVERNANCE.STAKING.ROOT
 				}
 			]
 		},
