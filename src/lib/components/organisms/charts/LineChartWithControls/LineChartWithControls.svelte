@@ -38,9 +38,11 @@
 		direction: change > 0 ? 'up' : 'down'
 	};
 
-	$: lineColors = trendDisplayData.direction === 'up' ? ['#00C48C'] : ['#FF5C5C'];
+	$: lineColors = trendDisplayData.direction === 'up' ? ['#7dfa79'] : ['#ff74a4'];
 	$: backgroundColors =
-		trendDisplayData.direction === 'up' ? ['rgba(0, 196, 140, 0.1)'] : ['rgba(255, 92, 92, 0.1)'];
+		trendDisplayData.direction === 'up'
+			? ['rgba(125, 250, 121, 0.1)']
+			: ['rgba(255, 116, 164, 0.1)'];
 </script>
 
 <Card {label}>

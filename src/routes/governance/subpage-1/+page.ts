@@ -48,7 +48,7 @@ export async function load() {
 		datasets: [
 			{
 				data: [40.35, 70.12],
-				backgroundColor: ['#05dbdb', '#fbff4f']
+				backgroundColor: ['#d9ffe0', '#b5fdc3']
 			}
 		]
 	};
@@ -58,7 +58,7 @@ export async function load() {
 		datasets: [
 			{
 				data: [40.35, 70.12, 33.23],
-				backgroundColor: ['#05dbdb', '#fbff4f', '#FFCE56']
+				backgroundColor: ['#d9ffe0', '#b5fdc3', '#7dfa97']
 			}
 		]
 	};
