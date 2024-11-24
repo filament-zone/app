@@ -13,9 +13,10 @@
    - Select `repo` and `read:packages` scopes
    - Click on `Generate token`
 
-2. Add the Token to .npm
+2. Add the Token to .npmrc:
 
 - Replace ${GITHUB_TOKEN} with your generated token
+- Do not commit changes and do not push them to origin
 
 3. Install dependencies:
 
