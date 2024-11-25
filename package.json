@@ -24,7 +24,7 @@
 		"@filament-zone/filament": "^0.1.0-16b8903",
 		"@playwright/test": "^1.48.2",
 		"@poppanator/sveltekit-svg": "^4.2.1",
-		"@storybook/addon-essentials": "^8.4.2",
+		"@storybook/addon-essentials": "^8.4.5",
 		"@storybook/addon-interactions": "^8.4.2",
 		"@storybook/addon-links": "^8.4.2",
 		"@storybook/addon-svelte-csf": "^4.1.7",
