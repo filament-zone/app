@@ -22,16 +22,14 @@
 <style lang="less">
 	textarea {
 		border-radius: 4px;
-		background: var(--background-100);
+		background: var(--highlight-bg) !important;
 		border: 0.4px solid var(--default);
 		color: #fff;
-		font-family: 'ff-meta-serif-web-pro', serif;
-		font-size: 13px;
+		font-family: var(--secondary-font);
 		font-style: normal;
 		font-weight: 400;
-		line-height: 13px;
 
-		padding: 6px 14px;
+		padding: 4px 14px;
 		width: 100%;
 		min-height: 30px;
 
@@ -39,8 +37,6 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-
-		background-color: transparent;
 
 		&::placeholder:not(:disabled) {
 			opacity: 0.4;
