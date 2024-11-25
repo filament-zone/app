@@ -1,12 +1,14 @@
 <script lang="ts">
-	import moment from 'moment';
-	import { DaysRow, Input, Typography, Calendar, Label } from '$lib/components';
+	import moment, { type Moment } from 'moment';
+	import { DaysRow, Input, Typography, Calendar, Label, Button } from '$lib/components';
 	import { clickOutside } from '$lib/actions';
 	import {
 		CalendarMode,
 		type ICalendarProps,
 		type IDatePickerProps,
-		EInputSizeVariant
+		EInputSizeVariant,
+		EButtonSizeVariant,
+		EButtonVariant
 	} from '$lib/types';
 	import CloseIcon from '$lib/assets/icons/close_24px.svg?component';
 	import CalendarIcon from '$lib/assets/icons/calendar-1.svg?component';
@@ -19,9 +21,8 @@
 	export let closeOnClickOutside: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'] = false;
 	export let disabled: IDatePickerProps<CalendarMode.SINGLE>['disabled'] = false;
 
-	$: initialDate = (value.date ? moment(value.date) : moment()) as unknown as string;
-
-	$: localDate = { date: initialDate } as { date: string | null };
+	$: initialDate = (value?.date ? moment(value.date) : moment()) as Moment;
+	$: localDate = { date: initialDate.toISOString() } as { date: string | null };
 
 	let isPopoverOpen = false;
 
@@ -62,7 +63,7 @@
 
 	const handleCancel = () => {
 		isPopoverOpen = false;
-		localDate = { date: initialDate };
+		localDate = { date: initialDate.toISOString() };
 	};
 
 	const handleClosePopover = () => {
@@ -94,7 +95,7 @@
 						handleOpenPopover();
 					}
 				}}
-				value={value.date ? moment(value.date).format('MM / DD / YYYY') : undefined}
+				value={initialDate.format('MM / DD / YYYY')}
 				placeholder="Date"
 				RightIcon={CalendarIcon}
 				{disabled}
@@ -133,20 +134,25 @@
 						mode={CalendarMode.SINGLE}
 					/>
 				{/each}
-				<Typography
-					variant="caption"
-					color="white"
+				<Button
+					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={addNextYearMonths}
-					class="text-center py-4 cursor-pointer">Next Year</Typography
+					class="mt-2">Next Year</Button
 				>
-			</div>
-			<div class="border-t-2 border-white p-4 flex flex-row justify-end gap-6">
-				<Typography variant="caption" color="white" on:click={handleCancel} class="cursor-pointer"
-					>Cancel</Typography
-				>
-				<Typography variant="caption" color="white" on:click={handleSave} class="cursor-pointer"
-					>OK</Typography
-				>
+				<div class="flex flex-row gap-2 mt-2">
+					<Button
+						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+						styleVariant={EButtonVariant.NEGATIVE}
+						on:click={handleCancel}
+						class="cursor-pointer">Cancel</Button
+					>
+					<Button
+						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+						styleVariant={EButtonVariant.POSITIVE}
+						on:click={handleSave}
+						class="cursor-pointer">Save</Button
+					>
+				</div>
 			</div>
 		</div>
 	{/if}
