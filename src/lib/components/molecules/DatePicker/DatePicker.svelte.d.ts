@@ -17,7 +17,7 @@ declare const __propDef: {
 };
 
 type IDatePickerProps_<T> = typeof __propDef.props & {
-	value: ICalendarProps<T>['value'];
+	value?: ICalendarProps<T>['value'];
 	onChange: ICalendarProps<T>['onChange'];
 	label: ICalendarProps<T>['label'];
 	disabled: ICalendarProps<T>['disabled'];
