@@ -102,6 +102,10 @@
 	}
 
 	.disabled {
+		.input-container {
+			background: var(--background);
+		}
+
 		input {
 			opacity: 0.6;
 			cursor: not-allowed;
