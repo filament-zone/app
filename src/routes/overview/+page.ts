@@ -106,7 +106,7 @@ export async function load() {
 				}
 			]
 		},
-		label: 'New Addresses',
+		label: 'Total Delegators',
 		formatter: formatLargeNumber
 	};
 
