@@ -10,12 +10,11 @@ declare const __propDef: {
 		readonly?: boolean;
 		RightIcon?: ComponentType<SvelteComponent> | string | null;
 		RightIconProps?: object;
-		leftLabel?: string | null;
-		LeftIcon?: ComponentType<SvelteComponent> | string | null;
+		LeftContent?: ComponentType<SvelteComponent> | string | null;
 		colorVariant?: EInputColorVariant;
 		onInput?: (e: Event<HTMLInputElement>) => void;
 		hideLeftBorder?: boolean;
-		inputClassNames?: string;
+		classNames?: string;
 		textColor?: string;
 	};
 	events: {

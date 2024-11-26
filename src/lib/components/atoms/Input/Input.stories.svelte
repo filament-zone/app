@@ -29,13 +29,10 @@
 			hideLeftBorder: {
 				control: false
 			},
-			inputClassNames: {
+			classNames: {
 				control: false
 			},
-			leftLabel: {
-				control: false
-			},
-			LeftIcon: {
+			LeftContent: {
 				control: false
 			},
 			RightIcon: {
@@ -83,6 +80,6 @@
 		placeholder: 'Placeholder',
 		sizeVariant: EInputSizeVariant.MEDIUM,
 		label: 'Input Label',
-		LeftIcon: CopyIcon
+		LeftContent: CopyIcon
 	}}
 />

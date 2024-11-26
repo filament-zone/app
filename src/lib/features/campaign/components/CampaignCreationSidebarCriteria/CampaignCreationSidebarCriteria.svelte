@@ -81,7 +81,7 @@
 					<Input
 						label="Mapping"
 						bind:value={$editableCriteriaState.tvl}
-						LeftIcon="$"
+						LeftContent="$"
 						RightIcon="TVL"
 					/>
 					<div class="mt-[43px]">
@@ -90,7 +90,7 @@
 					<Input
 						labelGap
 						bind:value={$editableCriteriaState.weight}
-						LeftIcon="x"
+						LeftContent="x"
 						RightIcon="Point(s)"
 					/>
 				</div>

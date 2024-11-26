@@ -152,7 +152,7 @@ export async function load() {
 		},
 		inputProps: {
 			placeholder: 'Search validators...',
-			LeftIcon: SearchIcon
+			LeftContent: SearchIcon
 		},
 		dropdownProps: {
 			options: [

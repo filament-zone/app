@@ -45,7 +45,7 @@
 					bind:value={$campaignDetails.relativeShare}
 					placeholder="Type here..."
 					sizeVariant={EInputSizeVariant.SMALL}
-					LeftIcon="~"
+					LeftContent="~"
 					RightIcon="%"
 					textColor="var(--filaMint)"
 				/>
@@ -95,7 +95,7 @@
 						bind:value={$campaignDetails.budgetTo}
 						placeholder="Type here..."
 						sizeVariant={EInputSizeVariant.MEDIUM}
-						LeftIcon="$"
+						LeftContent="$"
 					/>
 				</div>
 			</div>
@@ -115,7 +115,7 @@
 				placeholder="Type here..."
 				bind:value={$campaignDetails.bond}
 				sizeVariant={EInputSizeVariant.MEDIUM}
-				LeftIcon="Bond"
+				LeftContent="Bond"
 				RightIcon="FILA"
 				textColor="var(--filaMint)"
 			/>

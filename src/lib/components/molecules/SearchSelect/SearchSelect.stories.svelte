@@ -15,7 +15,7 @@
 		},
 		inputProps: {
 			placeholder: 'Search validators...',
-			LeftIcon: SearchIcon
+			LeftContent: SearchIcon
 		},
 		dropdownProps: {
 			options: [

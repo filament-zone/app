@@ -30,11 +30,11 @@
 			process has progressed.
 		</Typography>
 		<div class="flex flex-row gap-2 my-8">
-			<Input label="Required Collateral" value="40,000" LeftIcon="FILA" RightIcon="TVL" />
+			<Input label="Required Collateral" value="40,000" LeftContent="FILA" RightIcon="TVL" />
 			<div class="mt-[42px]">
 				<ArrowRight />
 			</div>
-			<Input labelGap value="48,345" LeftIcon="$" RightIcon="Point(s)" />
+			<Input labelGap value="48,345" LeftContent="$" RightIcon="Point(s)" />
 		</div>
 		<Typography variant="caption">Please make sure that yous address has enough funds.</Typography>
 		<Button on:click={setTokenAllowance} class="ml-auto mt-8" variant="secondary"

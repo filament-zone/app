@@ -51,7 +51,7 @@ export async function load() {
 		},
 		inputProps: {
 			placeholder: 'Search proposals...',
-			LeftIcon: SearchIcon
+			LeftContent: SearchIcon
 		},
 		dropdownProps: {
 			options: [

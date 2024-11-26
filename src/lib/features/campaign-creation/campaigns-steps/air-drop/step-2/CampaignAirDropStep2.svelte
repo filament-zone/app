@@ -203,7 +203,7 @@
 						type="number"
 						sizeVariant={EInputSizeVariant.MEDIUM}
 						bind:value={$campaignDetails.snapshotTotal}
-						LeftIcon="#"
+						LeftContent="#"
 					/>
 					<DatePicker
 						label="Snapshot End Date"

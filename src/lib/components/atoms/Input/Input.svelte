@@ -10,15 +10,14 @@
 	export let value: IInputProps['value'] = '';
 	export let disabled: IInputProps['disabled'] = false;
 	export let readonly: IInputProps['readonly'] = false;
-	export let leftLabel: IInputProps['leftLabel'] = '';
 	export let RightIcon: IInputProps['RightIcon'] = null;
 	export let RightIconProps: IInputProps['RightIconProps'] = {};
-	export let LeftIcon: IInputProps['LeftIcon'] = null;
+	export let LeftContent: IInputProps['LeftContent'] = null;
 	export let max: IInputProps['max'] = '';
 	export let min: IInputProps['min'] = '';
 	export let onInput: IInputProps['onInput'] = () => {};
 	export let hideLeftBorder: IInputProps['hideLeftBorder'] = false;
-	export let inputClassNames: IInputProps['inputClassNames'] = '';
+	export let classNames: IInputProps['classNames'] = '';
 	export let textColor: IInputProps['textColor'] = '';
 </script>
 
@@ -41,17 +40,14 @@
 					: ''
 			} ${$$props.style}`}
 		>
-			{#if leftLabel}
-				<div class="left-label">{leftLabel}</div>
-			{/if}
-			{#if LeftIcon}
+			{#if LeftContent}
 				<div class="box mr-2">
-					{#if typeof LeftIcon === 'string'}
+					{#if typeof LeftContent === 'string'}
 						<Typography variant="labelSmall" class="mr-2" style="font-size:12px"
-							>{LeftIcon}</Typography
+							>{LeftContent}</Typography
 						>
 					{:else}
-						<svelte:component this={LeftIcon} stroke="white" width="12px" height="12px" />
+						<svelte:component this={LeftContent} stroke="white" width="12px" height="12px" />
 					{/if}
 				</div>
 			{/if}
@@ -63,7 +59,7 @@
 				on:input={onInput}
 				{min}
 				{max}
-				class={inputClassNames}
+				class={classNames}
 				style="color: {textColor}"
 			/>
 			{#if RightIcon}
