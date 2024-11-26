@@ -1,4 +1,5 @@
 import { flexRender } from '@tanstack/svelte-table';
+import { modalStore } from '$lib/features';
 import {
 	Dropdown,
 	SearchSelect,
@@ -8,6 +9,7 @@ import {
 import SearchIcon from '$lib/assets/icons/search.svg?component';
 import FilamentLogo from '$lib/assets/logos/logo-filament.svg?component';
 import {
+	EModalVariant,
 	type IDropdownProps,
 	type ISearchSelectProps,
 	type ITableProps,
@@ -32,6 +34,8 @@ type TValidatorsTableData = {
 };
 
 export async function load() {
+	const { openModal } = modalStore;
+
 	const cards = [
 		{
 			label: 'Available Balance',
@@ -118,6 +122,25 @@ export async function load() {
 			{
 				accessorKey: 'rewards',
 				header: 'Rewards'
+			},
+			{
+				accessorKey: 'options',
+				header: '',
+				cell: (info) => {
+					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
+					return flexRender(TableValidatorOptionsComponent, {
+						...value,
+						buttonLabel: 'Claim Rewards',
+						disabled: true
+					});
+				},
+				meta: {
+					cellStyle: {
+						display: 'flex',
+						'justify-content': 'flex-end',
+						width: '100% !important'
+					}
+				}
 			}
 		],
 		data: defaultDelegationsData
@@ -209,7 +232,17 @@ export async function load() {
 				header: '',
 				cell: (info) => {
 					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
-					return flexRender(TableValidatorOptionsComponent, { ...value });
+					return flexRender(TableValidatorOptionsComponent, {
+						...value,
+						buttonLabel: 'Stake',
+						buttonOnClick: () => {
+							openModal({ variant: EModalVariant.VALIDATOR_STAKE, state: { validatorId: value } });
+						},
+						options: [
+							{ value: 'redelegate', label: 'Redelegate', disabled: true },
+							{ value: 'unstake', label: 'Unstake', disabled: true }
+						]
+					});
 				},
 				meta: {
 					cellStyle: {
