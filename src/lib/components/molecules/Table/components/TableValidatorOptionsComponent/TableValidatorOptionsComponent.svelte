@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, List, MenuPopover } from '$lib/components';
-	import MoreHorizontalIcon from '$lib/assets/icons/more-horizontal.svg?component';
+	import MoreVerticalIcon from '$lib/assets/icons/more-vertical.svg?component';
 	import { type ITableValidatorOptionsComponentProps } from '$lib/types';
 
 	export let buttonOnClick: ITableValidatorOptionsComponentProps['buttonOnClick'];
@@ -14,7 +14,7 @@
 	{#if options}
 		<MenuPopover>
 			<div slot="trigger" class="cursor-pointer">
-				<MoreHorizontalIcon />
+				<MoreVerticalIcon />
 			</div>
 			<List slot="content" {options} />
 		</MenuPopover>
