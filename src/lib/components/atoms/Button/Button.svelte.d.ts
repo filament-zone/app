@@ -1,20 +1,22 @@
 import { type ComponentType, SvelteComponent } from 'svelte';
-import { EButtonSizeVariant, EButtonVariant } from '$lib/types';
+import { EButtonSizeVariant, EButtonStyleVariant } from '$lib/types';
 
 declare const __propDef: {
 	props: {
 		sizeVariant?: EButtonSizeVariant;
-		styleVariant?: EButtonVariant;
-		LeftIcon?: ComponentType<SvelteComponent> | null;
-		customStyles?: Record<string, unknown> | null;
-		disabled?: boolean;
+		styleVariant?: EButtonStyleVariant;
+		LeftContent?: ComponentType<SvelteComponent> | null;
 	};
 	events: {
 		[evt: string]: CustomEvent<unknown>;
 	};
 	slots: object;
 };
-type IButtonProps_ = typeof __propDef.props;
+
+type CustomProps = typeof __propDef.props;
+
+type IButtonProps_ = CustomProps & Omit<Partial<HTMLButtonElement>, keyof CustomProps>;
+
 export type { IButtonProps_ as IButtonProps };
 export type IButtonEvents = typeof __propDef.events;
 export type IButtonSlots = typeof __propDef.slots;

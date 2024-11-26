@@ -1,7 +1,7 @@
 <script context="module">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Footer } from '$lib/components';
-	import { EButtonVariant, EButtonSizeVariant } from '$lib/types';
+	import { EButtonStyleVariant, EButtonSizeVariant } from '$lib/types';
 
 	export const meta = {
 		title: 'Organisms/Footer',
@@ -15,5 +15,5 @@
 
 <Story
 	name="Footer Base"
-	args={{ colorVariant: EButtonVariant.PRIMARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ colorVariant: EButtonStyleVariant.PRIMARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />

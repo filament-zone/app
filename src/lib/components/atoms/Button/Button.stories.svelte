@@ -1,14 +1,14 @@
 <script context="module">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Button } from '$lib/components';
-	import { EButtonVariant, EButtonSizeVariant } from '$lib/types';
+	import { EButtonStyleVariant, EButtonSizeVariant } from '$lib/types';
 
 	export const meta = {
 		title: 'Atoms/Button',
 		component: Button,
 		argTypes: {
 			styleVariant: {
-				options: Object.values(EButtonVariant),
+				options: Object.values(EButtonStyleVariant),
 				control: {
 					type: 'select'
 				}
@@ -22,7 +22,7 @@
 			Icon: {
 				control: false
 			},
-			LeftIcon: {
+			LeftContent: {
 				control: false
 			}
 		}
@@ -35,23 +35,23 @@
 
 <Story
 	name="Primary"
-	args={{ styleVariant: EButtonVariant.PRIMARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ styleVariant: EButtonStyleVariant.PRIMARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />
 <Story
 	name="Secondary"
-	args={{ styleVariant: EButtonVariant.SECONDARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ styleVariant: EButtonStyleVariant.SECONDARY, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />
 <Story
 	name="Positive"
-	args={{ styleVariant: EButtonVariant.POSITIVE, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ styleVariant: EButtonStyleVariant.POSITIVE, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />
 <Story
 	name="Negative"
-	args={{ styleVariant: EButtonVariant.NEGATIVE, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ styleVariant: EButtonStyleVariant.NEGATIVE, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />
 <Story
 	name="Highlight"
-	args={{ styleVariant: EButtonVariant.HIGHLIGHT, sizeVariant: EButtonSizeVariant.PRIMARY }}
+	args={{ styleVariant: EButtonStyleVariant.HIGHLIGHT, sizeVariant: EButtonSizeVariant.PRIMARY }}
 />
 <Story
 	name="Disabled"

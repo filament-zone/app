@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/components';
-	import { EButtonVariant, type ITemplateSegmentRightSideBarProps } from '$lib/types';
+	import { EButtonStyleVariant, type ITemplateSegmentRightSideBarProps } from '$lib/types';
 
 	export let label: ITemplateSegmentRightSideBarProps['label'];
 	export let onButtonClick: ITemplateSegmentRightSideBarProps['onButtonClick'];
 	export let buttonLabel: ITemplateSegmentRightSideBarProps['buttonLabel'] = 'Save Changes';
 	export let description: ITemplateSegmentRightSideBarProps['description'] = 'Segment';
 	export let buttonColorVariant: ITemplateSegmentRightSideBarProps['buttonColorVariant'] =
-		EButtonVariant.PRIMARY;
+		EButtonStyleVariant.PRIMARY;
 </script>
 
 <div class="flex flex-col justify-between h-full">

@@ -3,7 +3,7 @@
 	import { Button, Divider, NavBar } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
-	import { EButtonVariant, EModalVariant } from '$lib/types';
+	import { EButtonStyleVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
 	import { Typography } from '$lib/components';
@@ -40,7 +40,7 @@
 						isWalletMenuOpen = !isWalletMenuOpen;
 					}
 				}}
-				styleVariant={EButtonVariant.HIGHLIGHT}
+				styleVariant={EButtonStyleVariant.HIGHLIGHT}
 				>{$wallet.address ? shortCutTransactionHash($wallet.address) : 'Connect Wallet'}</Button
 			>
 			{#if isWalletMenuOpen}

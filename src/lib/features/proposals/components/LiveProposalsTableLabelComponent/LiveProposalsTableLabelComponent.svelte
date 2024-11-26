@@ -9,7 +9,7 @@
 
 <div class="flex flex-col items-end md:flex-row md:gap-4">
 	<SearchSelect {...searchSelectProps} />
-	<Button LeftIcon={UploadIcon} {...buttonProps} on:click={buttonProps.onClick}
+	<Button LeftContent={UploadIcon} {...buttonProps} on:click={buttonProps.onClick}
 		>Create new proposal</Button
 	>
 </div>

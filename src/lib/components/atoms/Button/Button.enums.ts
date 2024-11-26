@@ -3,7 +3,7 @@ export enum EButtonSizeVariant {
 	FULL_WIDTH = 'full-width'
 }
 
-export enum EButtonVariant {
+export enum EButtonStyleVariant {
 	PRIMARY = 'primary',
 	SECONDARY = 'secondary',
 	POSITIVE = 'positive',

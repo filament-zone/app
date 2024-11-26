@@ -4,7 +4,7 @@
 	import { routes } from '$lib/constants';
 	import { airDropCampaignCreationConfig, campaignStore } from '$lib/features';
 	import { Button } from '$lib/components';
-	import { EButtonVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
+	import { EButtonStyleVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
 	import CloseIcon from '$lib/assets/icons/x.svg?component';
 
 	import ArrowIcon from '$lib/assets/icons/arrow-1.svg?component';
@@ -44,7 +44,7 @@
 		<div class="flex flex-row gap-2">
 			{#if $currentStep > 1}
 				<Button
-					styleVariant={EButtonVariant.SECONDARY}
+					styleVariant={EButtonStyleVariant.SECONDARY}
 					on:click={() => {
 						if (handleBack) {
 							handleBack();
@@ -69,8 +69,8 @@
 			<Button
 				on:click={localHandleNext}
 				styleVariant={$currentStep === $steps.length - 1
-					? EButtonVariant.SECONDARY
-					: EButtonVariant.PRIMARY}
+					? EButtonStyleVariant.SECONDARY
+					: EButtonStyleVariant.PRIMARY}
 				Icon={$currentStep === $steps.length - 1 ? PlusIcon : ArrowIcon}
 				{disabled}
 			>

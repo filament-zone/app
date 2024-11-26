@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { EButtonSizeVariant, EButtonVariant } from './Button.enums';
+	import { EButtonSizeVariant, EButtonStyleVariant } from './Button.enums';
 	import type { IButtonProps } from '$lib/types';
 
-	export let sizeVariant: EButtonSizeVariant = EButtonSizeVariant.PRIMARY;
-	export let styleVariant: EButtonVariant = EButtonVariant.PRIMARY;
-	export let LeftIcon: IButtonProps['LeftIcon'] = null;
-	export let disabled: boolean = false;
+	export let sizeVariant: IButtonProps['sizeVariant'] = EButtonSizeVariant.PRIMARY;
+	export let styleVariant: IButtonProps['styleVariant'] = EButtonStyleVariant.PRIMARY;
+	export let LeftContent: IButtonProps['LeftContent'] = null;
 
 	const isOnHover = writable<boolean>(false);
 </script>
@@ -15,12 +14,11 @@
 	{...$$props}
 	on:mouseenter={() => isOnHover.set(true)}
 	on:mouseleave={() => isOnHover.set(false)}
-	class={`button w-${sizeVariant} style-${disabled ? 'disabled' : styleVariant} ${$$props.class || ''}`}
+	class={`button w-${sizeVariant} style-${$$props.disabled ? 'disabled' : styleVariant} ${$$props.class || ''}`}
 	on:click
-	{disabled}
 >
-	{#if LeftIcon}
-		<svelte:component this={LeftIcon} width="12px" height="12px" />
+	{#if LeftContent}
+		<svelte:component this={LeftContent} width="12px" height="12px" />
 	{/if}
 	<span class="typography_button"><slot /></span>
 </button>

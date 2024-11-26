@@ -8,7 +8,7 @@
 		type IDatePickerProps,
 		EInputSizeVariant,
 		EButtonSizeVariant,
-		EButtonVariant
+		EButtonStyleVariant
 	} from '$lib/types';
 	import CloseIcon from '$lib/assets/icons/close_24px.svg?component';
 	import CalendarIcon from '$lib/assets/icons/calendar-1.svg?component';
@@ -142,13 +142,13 @@
 				<div class="flex flex-row gap-2 mt-2">
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-						styleVariant={EButtonVariant.NEGATIVE}
+						styleVariant={EButtonStyleVariant.NEGATIVE}
 						on:click={handleCancel}
 						class="cursor-pointer">Cancel</Button
 					>
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-						styleVariant={EButtonVariant.POSITIVE}
+						styleVariant={EButtonStyleVariant.POSITIVE}
 						on:click={handleSave}
 						class="cursor-pointer">Save</Button
 					>
