@@ -1,8 +1,12 @@
 import { SvelteComponent } from 'svelte';
+import { IListProps } from '$lib/types';
 
 declare const __propDef: {
 	props: {
-		validatorId: string;
+		buttonOnClick: () => void;
+		buttonLabel: string;
+		options?: IListProps['options'];
+		disabled?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;
