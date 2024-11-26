@@ -10,7 +10,7 @@
 	export let chartCanvasInstance: IAbstractLineChartProps['chartCanvasInstance'];
 	export let chartData: IAbstractLineChartProps['chartData'];
 	export let chartOptions: IAbstractLineChartProps['chartInstance']['options'];
-	export let className: IAbstractLineChartProps['className'];
+	export let className: IAbstractLineChartProps['className'] = '';
 	export let plugins: IAbstractLineChartProps['plugins'] = [];
 	export let styles: string;
 
@@ -47,7 +47,11 @@
 		chartInstance?.destroy();
 	});
 
-	$: if (chartInstance && chartData) {
+	$: if (
+		chartInstance &&
+		chartData &&
+		JSON.stringify(chartData) !== JSON.stringify(chartInstance.data)
+	) {
 		chartInstance.data = chartData;
 		chartInstance.update();
 	}

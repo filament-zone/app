@@ -79,7 +79,8 @@ export async function load() {
 		label: 'TVL',
 		formatter: (value: number) => formatLargeNumber(value, '$'),
 		useLastValue: true,
-		toggleOptions: [EChartDateRange['1d'], EChartDateRange['6m'], EChartDateRange['all']]
+		toggleOptions: [EChartDateRange['1d'], EChartDateRange['6m'], EChartDateRange['all']],
+		toggleValue: EChartDateRange['6m']
 	};
 
 	const stakedData = {

@@ -4,7 +4,6 @@ import type { ChartInstance } from '$lib/types';
 declare const __propDef: {
 	props: {
 		data: ChartInstance<'line'>['data'];
-		styles: string;
 		lineColors: string[];
 		backgroundColors: string[];
 	};

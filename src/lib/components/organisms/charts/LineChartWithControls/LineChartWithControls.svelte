@@ -2,18 +2,21 @@
 	import { Card, SecondaryLineChart, TrendDisplay, Toggle } from '$lib/components';
 	import { calculatePercentageChange, updateChartDateRange } from '$lib/helpers';
 	import { defaultToggleOptions } from '$lib/constants';
-	import { EChartDateRange, type ILineChartWithControlsProps } from '$lib/types';
+	import {
+		EChartDateRange,
+		EToggleSizeVariant,
+		type ILineChartWithControlsProps
+	} from '$lib/types';
 
 	export let chartData: ILineChartWithControlsProps['data'];
-	export let styles: ILineChartWithControlsProps['styles'] = 'height: 400px';
 	export let label: ILineChartWithControlsProps['label'];
-	export let toggleOptions: ILineChartWithControlsProps['toggleOptions'];
+	export let toggleOptions: ILineChartWithControlsProps['toggleOptions'] = [];
 	export let formatter: ILineChartWithControlsProps['formatter'];
 	export let useLastValue: ILineChartWithControlsProps['useLastValue'] = false;
 	export let toggleValue: ILineChartWithControlsProps['toggleValue']['value'] =
 		EChartDateRange['3m'];
 
-	$: localOptions = (toggleOptions ? [...toggleOptions] : [...defaultToggleOptions]).map(
+	$: localOptions = (toggleOptions.length ? [...toggleOptions] : [...defaultToggleOptions]).map(
 		(option) => ({ value: option, label: option.toUpperCase() })
 	);
 
@@ -46,9 +49,13 @@
 </script>
 
 <Card {label}>
-	<div class="flex flex-col md:flex-row justify-between items-center">
+	<div class="flex flex-col md:flex-row justify-between">
 		<TrendDisplay {...trendDisplayData} />
-		<Toggle options={localOptions} bind:value={toggleValue} />
+		<Toggle
+			options={localOptions}
+			bind:value={toggleValue}
+			sizeVariant={EToggleSizeVariant.NORMAL}
+		/>
 	</div>
-	<SecondaryLineChart data={localChartData} {styles} {lineColors} {backgroundColors} />
+	<SecondaryLineChart data={localChartData} {lineColors} {backgroundColors} />
 </Card>

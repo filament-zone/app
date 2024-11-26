@@ -67,7 +67,6 @@
 			x2: {
 				offset: true,
 				position: 'bottom',
-				labels: data?.labels,
 				ticks: {
 					font: {
 						size: 14,
