@@ -120,7 +120,7 @@
 				multiple factors such as t?: string | null;he voting power of a delegate.
 			</Typography>
 			<Input
-				label="Max. evictable governance"
+				label="Max. evictable delegate"
 				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
 				bind:value={$campaignDetails.maxEvictableDelegates}
