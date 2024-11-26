@@ -38,8 +38,8 @@ export const eligibilityCriteriaColumnDefCommon = [
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.PRIMARY,
-				LeftIcon: '$',
-				RightIcon: 'TVL'
+				LeftContent: '$',
+				RightContent: 'TVL'
 			});
 		}
 	},
@@ -58,8 +58,8 @@ export const eligibilityCriteriaColumnDefCommon = [
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
-				LeftIcon: 'X',
-				RightIcon: 'Point(s)'
+				LeftContent: 'X',
+				RightContent: 'Point(s)'
 			});
 		}
 	}

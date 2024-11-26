@@ -36,8 +36,8 @@ export const delegatesColumnDefCommon = [
 			return flexRender(Badge, {
 				label: votingPower.toLocaleString(),
 				colorVariant: EBadgeColorVariant.PRIMARY,
-				LeftIcon: 'VP',
-				RightIcon: 'FILA'
+				LeftContent: 'VP',
+				RightContent: 'FILA'
 			});
 		}
 	},
@@ -56,8 +56,8 @@ export const delegatesColumnDefCommon = [
 			return flexRender(Badge, {
 				label: evictionCost.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
-				LeftIcon: 'EC',
-				RightIcon: 'FILA'
+				LeftContent: 'EC',
+				RightContent: 'FILA'
 			});
 		}
 	}

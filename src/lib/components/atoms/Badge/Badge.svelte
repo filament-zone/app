@@ -5,8 +5,8 @@
 	export let label: IBadgeProps['label'];
 	export let colorVariant: IBadgeProps['colorVariant'] = EBadgeColorVariant.PRIMARY;
 	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FULL;
-	export let LeftIcon: IBadgeProps['LeftIcon'] = null;
-	export let RightIcon: IBadgeProps['RightIcon'] = null;
+	export let LeftContent: IBadgeProps['LeftContent'] = null;
+	export let RightContent: IBadgeProps['RightContent'] = null;
 
 	function getColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
@@ -47,25 +47,28 @@
 	on:click
 	aria-hidden="true"
 >
-	{#if LeftIcon}
+	{#if LeftContent}
 		<div class="item item-1 mr-2">
-			{#if typeof LeftIcon === 'string'}
-				<Typography variant="caption" color={getIconTextColor(colorVariant)}>{LeftIcon}</Typography>
+			{#if typeof LeftContent === 'string'}
+				<Typography variant="caption" color={getIconTextColor(colorVariant)}
+					>{LeftContent}</Typography
+				>
 			{:else}
-				<svelte:component this={LeftIcon} stroke="white" width="12px" height="12px" />
+				<svelte:component this={LeftContent} stroke="white" width="12px" height="12px" />
 			{/if}
 		</div>
 	{/if}
 	<div class="item item-2">
 		<Typography variant="caption" color={getColor(colorVariant)}>{label}</Typography>
 	</div>
-	{#if RightIcon}
+	{#if RightContent}
 		<div class="item item-3 ml-2">
-			{#if typeof RightIcon === 'string'}
-				<Typography variant="caption" color={getIconTextColor(colorVariant)}>{RightIcon}</Typography
+			{#if typeof RightContent === 'string'}
+				<Typography variant="caption" color={getIconTextColor(colorVariant)}
+					>{RightContent}</Typography
 				>
 			{:else}
-				<svelte:component this={RightIcon} />
+				<svelte:component this={RightContent} />
 			{/if}
 		</div>
 	{/if}

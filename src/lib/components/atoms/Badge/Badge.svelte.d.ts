@@ -6,8 +6,8 @@ declare const __propDef: {
 		label: string;
 		colorVariant: EBadgeColorVariant;
 		widthVariant: EBadgeWidthVariant;
-		LeftIcon?: ComponentType<SvelteComponent> | string | null;
-		RightIcon?: ComponentType<SvelteComponent> | string | null;
+		LeftContent?: ComponentType<SvelteComponent> | string | null;
+		RightContent?: ComponentType<SvelteComponent> | string | null;
 	};
 	events: {
 		[evt: string]: CustomEvent;
