@@ -7,7 +7,6 @@ export type ChartInstance<TType extends ChartType = ChartType> = Chart<
 >;
 
 export enum EChartDateRange {
-	'1d' = '1d',
 	'1w' = '1w',
 	'1m' = '1m',
 	'3m' = '3m',

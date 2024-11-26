@@ -14,10 +14,6 @@ export const updateChartDateRange: (
 	let startDate;
 
 	switch (toggleValue) {
-		case EChartDateRange['1d']:
-			startDate = new Date(currentDate);
-			startDate.setDate(startDate.getDate() - 1);
-			break;
 		case EChartDateRange['1w']:
 			startDate = new Date(currentDate);
 			startDate.setDate(startDate.getDate() - 7);

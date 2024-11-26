@@ -1,6 +1,7 @@
-import { EChartDateRange, type IPrimaryDoughnutChartProps } from '$lib/types';
+import { type IPrimaryDoughnutChartProps } from '$lib/types';
 import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
 import { formatLargeNumber } from '$lib/utils';
+import { defaultToggleOptions } from '$lib/constants';
 
 export async function load() {
 	const cards = [
@@ -78,9 +79,7 @@ export async function load() {
 		},
 		label: 'TVL',
 		formatter: (value: number) => formatLargeNumber(value, '$'),
-		useLastValue: true,
-		toggleOptions: [EChartDateRange['1d'], EChartDateRange['6m'], EChartDateRange['all']],
-		toggleValue: EChartDateRange['6m']
+		useLastValue: true
 	};
 
 	const stakedData = {
@@ -118,6 +117,10 @@ export async function load() {
 		supplyChartData,
 		tvlData,
 		stakedData,
-		newAddressesData
+		newAddressesData,
+		defaultToggleOptions: defaultToggleOptions.map((option) => ({
+			value: option,
+			label: option.toUpperCase()
+		}))
 	};
 }

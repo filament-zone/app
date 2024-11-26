@@ -21,9 +21,14 @@
 	);
 
 	let localChartData: ILineChartWithControlsProps['data'];
+	let localToggleValue: ILineChartWithControlsProps['toggleValue']['value'];
 
 	$: {
-		localChartData = updateChartDateRange(chartData, toggleValue);
+		localToggleValue = toggleValue;
+	}
+
+	$: {
+		localChartData = updateChartDateRange(chartData, localToggleValue);
 	}
 
 	$: totalValue = Number(
@@ -37,7 +42,7 @@
 	$: trendDisplayData = {
 		value: formatter ? formatter(value) : value,
 		change: change > 0 ? `+${change}%` : `${change}%`,
-		period: `(${toggleValue})`,
+		period: `(${localToggleValue})`,
 		direction: change > 0 ? 'up' : 'down'
 	};
 
@@ -53,7 +58,7 @@
 		<TrendDisplay {...trendDisplayData} />
 		<Toggle
 			options={localOptions}
-			bind:value={toggleValue}
+			bind:value={localToggleValue}
 			sizeVariant={EToggleSizeVariant.NORMAL}
 		/>
 	</div>

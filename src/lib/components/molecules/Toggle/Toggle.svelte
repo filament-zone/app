@@ -127,7 +127,6 @@
 		display: flex;
 		align-items: flex-start;
 		gap: 0.625rem;
-		height: 30px;
 		border-radius: 2px;
 		background: var(--content1);
 		width: fit-content;

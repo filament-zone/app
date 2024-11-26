@@ -3,11 +3,15 @@
 		Card,
 		LineChartWithControls,
 		PrimaryDoughnutChart,
+		Toggle,
 		TrendDisplay,
 		Typography
 	} from '$lib/components';
+	import { EChartDateRange, EToggleSizeVariant } from '$lib/types';
 
 	export let data;
+
+	let sharedTimeRangeValue = EChartDateRange['3m'];
 </script>
 
 <div class="flex flex-col w-full gap-4">
@@ -39,11 +43,19 @@
 		</div>
 	</Card>
 	<div class="flex flex-col gap-4">
-		<Typography variant="h5">Charts</Typography>
-		<LineChartWithControls {...data.tvlData} />
+		<div class="flex flex-col">
+			<Typography variant="h5">Charts</Typography>
+			<Typography variant="h6">Shared Time Range</Typography>
+			<Toggle
+				options={data.defaultToggleOptions}
+				bind:value={sharedTimeRangeValue}
+				sizeVariant={EToggleSizeVariant.NORMAL}
+			/>
+		</div>
+		<LineChartWithControls {...{ ...data.tvlData, toggleValue: sharedTimeRangeValue }} />
 		<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-			<LineChartWithControls {...data.stakedData} />
-			<LineChartWithControls {...data.newAddressesData} />
+			<LineChartWithControls {...{ ...data.stakedData, toggleValue: sharedTimeRangeValue }} />
+			<LineChartWithControls {...{ ...data.newAddressesData, toggleValue: sharedTimeRangeValue }} />
 		</div>
 	</div>
 </div>
