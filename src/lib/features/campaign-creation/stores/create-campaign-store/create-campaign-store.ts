@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { hubStore, modalStore, transactionStore } from '$lib/features';
+import { hubStore, modalStore, toastsStore, transactionStore } from '$lib/features';
 import {
 	EContract,
 	EDelegatesABI,
@@ -43,6 +43,7 @@ const initCampaignDetails: ICampaign = {
 const campaignDetails = writable({ ...initCampaignDetails });
 
 const { openModal } = modalStore;
+const { send } = toastsStore;
 
 const toggleDelegate: ICampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
@@ -50,8 +51,12 @@ const toggleDelegate: ICampaignStore['toggleDelegate'] = (delegateId: string) =>
 		const evictedIndex = details.evictedDelegates.indexOf(delegateId);
 
 		if (activeIndex !== -1) {
-			details.activeDelegates.splice(activeIndex, 1);
-			details.evictedDelegates.push(delegateId);
+			if (details.evictedDelegates.length === 3) {
+				send({ message: 'You can only evict 3 delegates at a time' });
+			} else {
+				details.activeDelegates.splice(activeIndex, 1);
+				details.evictedDelegates.push(delegateId);
+			}
 		} else if (evictedIndex !== -1) {
 			details.evictedDelegates.splice(evictedIndex, 1);
 			details.activeDelegates.push(delegateId);
