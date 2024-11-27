@@ -6,8 +6,8 @@
 <div class="flex flex-row h-svh">
 	<div class="flex flex-col w-full">
 		<Header />
-		<div class="flex w-full justify-center overflow-auto overflow-x-hidden h-full">
-			<div class="p-4 w-full max-w-[1440px]">
+		<div class="flex w-full justify-center">
+			<div class="p-4 w-full max-w-[1440px] h-[calc(100svh-126px)] overflow-scroll">
 				<slot />
 			</div>
 		</div>

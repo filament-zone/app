@@ -8,7 +8,9 @@
 	setContext('stepBarStore', createStepBarStore(data.initSteps));
 </script>
 
-<PageHeader label={`New Airdrop`} />
-<StepBar />
-<slot />
-<NavigationFooter />
+<div class="flex flex-col h-full">
+	<PageHeader label={`New Airdrop`} />
+	<StepBar />
+	<slot />
+	<NavigationFooter />
+</div>

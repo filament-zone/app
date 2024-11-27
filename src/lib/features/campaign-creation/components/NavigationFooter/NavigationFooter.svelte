@@ -39,7 +39,7 @@
 	};
 </script>
 
-<div class="flex w-full justify-center items-end">
+<div class="flex w-full justify-center items-end mt-auto">
 	<div class=" flex flex-row justify-between mt-auto flex-1 max-w-screen-2xl py-8">
 		<div class="flex flex-row gap-2">
 			{#if $currentStep > 1}
