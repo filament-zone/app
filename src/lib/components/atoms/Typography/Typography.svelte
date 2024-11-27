@@ -321,7 +321,7 @@
 	}
 
 	.typography_caption {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 12px;
 		font-weight: 400;
 		line-height: 1.5;

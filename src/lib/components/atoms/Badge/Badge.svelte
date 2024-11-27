@@ -7,36 +7,24 @@
 	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FULL;
 	export let LeftContent: IBadgeProps['LeftContent'] = null;
 	export let RightContent: IBadgeProps['RightContent'] = null;
+	export let textColor: IBadgeProps['textColor'] = '';
 
 	function getColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
 			case EBadgeColorVariant.PRIMARY:
 				return 'var(--primary-white)';
 			case EBadgeColorVariant.SECONDARY:
-				return '#898989';
+				return 'var(--gray-200)';
 			case EBadgeColorVariant.SUCCESS:
-				return 'var(--default)';
-			case EBadgeColorVariant.DANGER:
-				return 'var(--primary-white)';
-			case EBadgeColorVariant.WARNING:
-				return 'var(--default)';
-			case EBadgeColorVariant.INFO:
-				return 'var(--primary-white)';
-			case EBadgeColorVariant.LIGHT:
-				return 'var(--default)';
+				return 'var(--upOnly)';
+			case EBadgeColorVariant.REJECTED:
+				return 'var(--rugged)';
+			case EBadgeColorVariant.IN_PROGRESS:
+				return 'var(--purpleCow)';
+			case EBadgeColorVariant.FAILED:
+				return 'var(--yellowPaper)';
 			default:
-				return 'var(--default)';
-		}
-	}
-
-	function getIconTextColor(colorVariant: EBadgeColorVariant): string {
-		switch (colorVariant) {
-			case EBadgeColorVariant.PRIMARY:
-				return '#898989';
-			case EBadgeColorVariant.SECONDARY:
-				return '#898989';
-			default:
-				return '#898989';
+				return 'var(--primary-white)';
 		}
 	}
 </script>
@@ -50,23 +38,21 @@
 	{#if LeftContent}
 		<div class="item item-1 mr-2">
 			{#if typeof LeftContent === 'string'}
-				<Typography variant="caption" color={getIconTextColor(colorVariant)}
-					>{LeftContent}</Typography
-				>
+				<span class="side-content">{LeftContent}</span>
 			{:else}
 				<svelte:component this={LeftContent} stroke="white" width="12px" height="12px" />
 			{/if}
 		</div>
 	{/if}
 	<div class="item item-2">
-		<Typography variant="caption" color={getColor(colorVariant)}>{label}</Typography>
+		<Typography variant="caption" color={textColor ? textColor : getColor(colorVariant)}
+			>{label}</Typography
+		>
 	</div>
 	{#if RightContent}
 		<div class="item item-3 ml-2">
 			{#if typeof RightContent === 'string'}
-				<Typography variant="caption" color={getIconTextColor(colorVariant)}
-					>{RightContent}</Typography
-				>
+				<span class="side-content">{RightContent}</span>
 			{:else}
 				<svelte:component this={RightContent} />
 			{/if}
@@ -86,43 +72,41 @@
 		height: 35px;
 
 		&.primary {
-			border: 1px solid var(--default-border);
-			background: #282828;
+			box-shadow: 0 0 0 1px var(--default-border);
+			background-color: var(--darkNet);
 		}
 
 		&.secondary {
-			border: 1px solid var(--default-border);
-			background-color: var(--content1);
+			box-shadow: 0 0 0 1px var(--default-border);
+			background-color: var(--darkNet-100);
 		}
 
 		&.success {
-			box-shadow: 0 0 0 0.1px var(--green-200);
-			background-color: var(--green-100);
+			box-shadow: 0 0 0 0.4px var(--upOnly);
+			background-color: var(--darkNet);
 		}
 
-		&.danger {
-			box-shadow: 0 0 0 0.1px var(--red-200);
-			background-color: var(--red-100);
+		&.in-progress {
+			box-shadow: 0 0 0 0.4px var(--purpleCow);
+			background-color: var(--darkNet);
 		}
 
-		&.warning {
-			box-shadow: 0 0 0 0.1px var(--orange-200);
-			background-color: var(--yellow);
+		&.rejected {
+			box-shadow: 0 0 0 0.4px var(--rugged);
+			background-color: var(--darkNet);
 		}
 
-		&.info {
-			box-shadow: 0 0 0 0.1px var(--blue-200);
-			background-color: var(--blue-100);
+		&.failed {
+			box-shadow: 0 0 0 0.4px var(--yellowPaper);
+			background-color: var(--darkNet);
 		}
 
-		&.light {
-			box-shadow: 0 0 0 0.1px var(--filaMint-600);
-			background-color: var(--foreground);
-		}
-
-		&.dark {
-			box-shadow: 0 0 0 0.1px var(--filaMint-700);
-			background-color: var(--background);
+		.side-content {
+			font-family: var(--primary-font);
+			font-size: 12px;
+			font-weight: 400;
+			line-height: 1.5;
+			color: var(--gray-200);
 		}
 	}
 </style>

@@ -2,10 +2,9 @@ export enum EBadgeColorVariant {
 	PRIMARY = 'primary',
 	SECONDARY = 'secondary',
 	SUCCESS = 'success',
-	DANGER = 'danger',
-	WARNING = 'warning',
-	INFO = 'info',
-	LIGHT = 'light'
+	IN_PROGRESS = 'in-progress',
+	REJECTED = 'rejected',
+	FAILED = 'failed'
 }
 
 export enum EBadgeWidthVariant {

@@ -58,7 +58,7 @@ export const eligibilityCriteriaColumnDefCommon = [
 			return flexRender(Badge, {
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
-				LeftContent: 'X',
+				LeftContent: 'x',
 				RightContent: 'Point(s)'
 			});
 		}

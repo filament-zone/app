@@ -8,6 +8,7 @@ declare const __propDef: {
 		widthVariant: EBadgeWidthVariant;
 		LeftContent?: ComponentType<SvelteComponent> | string | null;
 		RightContent?: ComponentType<SvelteComponent> | string | null;
+		textColor?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

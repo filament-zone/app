@@ -5,7 +5,6 @@ export enum EProposalType {
 
 export enum EProposalStatus {
 	OPEN = 'open',
-	PASSED = 'passed',
 	REJECTED = 'rejected',
 	FAILED = 'failed'
 }

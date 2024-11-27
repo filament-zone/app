@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Badge } from '$lib/components';
-	import { EBadgeColorVariant, EBadgeWidthVariant } from '$lib/types';
+	import { EBadgeColorVariant } from '$lib/types';
 
 	export const meta = {
 		title: 'Atoms/Badge',
@@ -17,8 +17,7 @@
 	name="Primary"
 	args={{
 		label: 'Badge Label',
-		colorVariant: EBadgeColorVariant.PRIMARY,
-		widthVariant: EBadgeWidthVariant.FIT_CONTENT
+		colorVariant: EBadgeColorVariant.PRIMARY
 	}}
 />
 <Story
@@ -28,12 +27,13 @@
 <Story
 	name="Success"
 	args={{
-		label: 'Badge Label',
-		colorVariant: EBadgeColorVariant.SUCCESS,
-		widthVariant: EBadgeWidthVariant.FIT_CONTENT
+		label: 'Success',
+		colorVariant: EBadgeColorVariant.SUCCESS
 	}}
 />
-<Story name="Danger" args={{ label: 'Badge Label', colorVariant: EBadgeColorVariant.DANGER }} />
-<Story name="Warning" args={{ label: 'Badge Label', colorVariant: EBadgeColorVariant.WARNING }} />
-<Story name="Info" args={{ label: 'Badge Label', colorVariant: EBadgeColorVariant.INFO }} />
-<Story name="Light" args={{ label: 'Badge Label', colorVariant: EBadgeColorVariant.LIGHT }} />
+<Story
+	name="In Progress"
+	args={{ label: 'In Progress', colorVariant: EBadgeColorVariant.IN_PROGRESS }}
+/>
+<Story name="Rejected" args={{ label: 'Rejected', colorVariant: EBadgeColorVariant.REJECTED }} />
+<Story name="Failed" args={{ label: 'Failed', colorVariant: EBadgeColorVariant.FAILED }} />
