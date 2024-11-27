@@ -22,7 +22,7 @@
 <style lang="less">
 	textarea {
 		border-radius: 4px;
-		background: var(--highlight-bg) !important;
+		background: var(--highlight-bg);
 		border: 0.4px solid var(--default);
 		color: #fff;
 		font-family: var(--secondary-font);
@@ -44,6 +44,12 @@
 
 		&:focus-visible {
 			outline: none;
+		}
+
+		&:disabled {
+			background-color: var(--darkNet);
+			cursor: not-allowed;
+			opacity: 0.6;
 		}
 	}
 </style>

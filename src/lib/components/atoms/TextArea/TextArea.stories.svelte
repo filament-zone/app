@@ -13,3 +13,4 @@
 </Template>
 
 <Story name="Primary" args={{ placeholder: 'Placeholder' }} />
+<Story name="Disabled" args={{ placeholder: 'Placeholder', disabled: true }} />

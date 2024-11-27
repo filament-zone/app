@@ -99,7 +99,7 @@
 
 	.disabled {
 		.input-container {
-			background: var(--background);
+			background: var(--darkNet);
 		}
 
 		input {
