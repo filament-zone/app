@@ -36,9 +36,7 @@ export const load = async () => {
 				{ value: 'all', label: 'All' },
 				{ value: 'balance', label: 'Balance' },
 				{ value: 'defi', label: 'DeFi' },
-				{ value: 'governance', label: 'Governance' },
-				{ value: 'nft', label: 'NFT' },
-				{ value: 'total', label: 'Gaming' }
+				{ value: 'nft', label: 'NFT' }
 			],
 			eligibilityCriteriaTypeOptions: Object.values(EEligibilityCriteriaType).map(
 				(criteriaType) => {
