@@ -24,7 +24,7 @@
 		style="width: {leftPercentage}%;  border-bottom-right-radius: {borderRadius}; border-top-right-radius: {borderRadius};"
 	></div>
 	{#if displayLabel}
-		<Typography variant="caption" class="absolute left-1/2 -translate-x-1/2"
+		<Typography variant="caption" class="absolute left-1/2 -translate-x-1/2" color="var(--filaMint)"
 			>{usedPercentage}%</Typography
 		>
 	{/if}
