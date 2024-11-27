@@ -16,6 +16,7 @@ declare const __propDef: {
 		toggleValue: IToggleProps<string>['value'];
 		formatter?: typeof formatLargeNumber;
 		useLastValue?: boolean;
+		displayToggle?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

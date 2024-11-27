@@ -15,6 +15,7 @@
 	export let useLastValue: ILineChartWithControlsProps['useLastValue'] = false;
 	export let toggleValue: ILineChartWithControlsProps['toggleValue']['value'] =
 		EChartDateRange['3m'];
+	export let displayToggle: ILineChartWithControlsProps['displayToggle'] = true;
 
 	$: localOptions = (toggleOptions.length ? [...toggleOptions] : [...defaultToggleOptions]).map(
 		(option) => ({ value: option, label: option.toUpperCase() })
@@ -56,11 +57,13 @@
 <Card {label}>
 	<div class="flex flex-col md:flex-row justify-between">
 		<TrendDisplay {...trendDisplayData} />
-		<Toggle
-			options={localOptions}
-			bind:value={localToggleValue}
-			sizeVariant={EToggleSizeVariant.NORMAL}
-		/>
+		{#if displayToggle}
+			<Toggle
+				options={localOptions}
+				bind:value={localToggleValue}
+				sizeVariant={EToggleSizeVariant.NORMAL}
+			/>
+		{/if}
 	</div>
 	<SecondaryLineChart data={localChartData} {lineColors} {backgroundColors} />
 </Card>

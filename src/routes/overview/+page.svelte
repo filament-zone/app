@@ -43,19 +43,24 @@
 		</div>
 	</Card>
 	<div class="flex flex-col gap-4">
-		<div class="flex flex-col">
+		<div class="flex flex-row justify-between">
 			<Typography variant="h5">Charts</Typography>
-			<Typography variant="h6">Shared Time Range</Typography>
 			<Toggle
 				options={data.defaultToggleOptions}
 				bind:value={sharedTimeRangeValue}
 				sizeVariant={EToggleSizeVariant.NORMAL}
 			/>
 		</div>
-		<LineChartWithControls {...{ ...data.tvlData, toggleValue: sharedTimeRangeValue }} />
+		<LineChartWithControls
+			{...{ ...data.tvlData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+		/>
 		<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
-			<LineChartWithControls {...{ ...data.stakedData, toggleValue: sharedTimeRangeValue }} />
-			<LineChartWithControls {...{ ...data.newAddressesData, toggleValue: sharedTimeRangeValue }} />
+			<LineChartWithControls
+				{...{ ...data.stakedData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+			/>
+			<LineChartWithControls
+				{...{ ...data.newAddressesData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+			/>
 		</div>
 	</div>
 </div>
