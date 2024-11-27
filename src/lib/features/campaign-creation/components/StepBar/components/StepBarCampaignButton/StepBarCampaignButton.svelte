@@ -55,7 +55,7 @@
 		border-radius: 2px;
 
 		&.isActive {
-			background-color: var(--content2);
+			background-color: var(--darkNet-100);
 
 			span {
 				color: var(--blueChip);
@@ -70,7 +70,7 @@
 		}
 
 		&.isCompleted {
-			background-color: var(--content2);
+			background-color: var(--darkNet-100);
 
 			span {
 				color: var(--upOnly);

@@ -42,7 +42,7 @@
 		display: flex;
 		flex-direction: column;
 		box-shadow: 0 0 0 0.1px var(--primary-white);
-		background: var(--content1);
+		background: var(--darkNet);
 		border-radius: 4px;
 		padding: 8px;
 

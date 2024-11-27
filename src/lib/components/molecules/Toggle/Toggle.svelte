@@ -128,7 +128,7 @@
 		align-items: flex-start;
 		gap: 0.625rem;
 		border-radius: 2px;
-		background: var(--content1);
+		background: var(--darkNet);
 		width: fit-content;
 	}
 

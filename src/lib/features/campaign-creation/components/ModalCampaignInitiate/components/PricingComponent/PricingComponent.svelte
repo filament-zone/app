@@ -16,7 +16,7 @@
 	aria-hidden="true"
 >
 	<div class="flex flex-row items-center justify-start p-4 gap-4 w-full">
-		<CheckmarkCircleIcon fill="var(--green-100)" />
+		<CheckmarkCircleIcon fill="var(--upOnly-400)" />
 		<Typography variant="subtitle2">{label}</Typography>
 	</div>
 	<div class="p-4 w-full">
@@ -25,7 +25,7 @@
 			<Typography variant="overline">Balance: 54,300</Typography>
 		</div>
 		<div class="pricing-component">
-			<Typography variant="overline" color="var(--green-100)">40,000</Typography>
+			<Typography variant="overline" color="var(--upOnly-400)">40,000</Typography>
 			<Dropdown
 				options={dropdownOptions}
 				sizeVariant={EDropdownSizeVariant.SMALL}

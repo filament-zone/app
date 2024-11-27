@@ -17,9 +17,9 @@
 	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
 			case 'success':
-				return 'var(--green-100)';
+				return 'var(--upOnly-400)';
 			case 'processing':
-				return 'var(--purple-100)';
+				return 'var(--purpleCow-100)';
 			default:
 				return 'var(--gray-200)';
 		}
@@ -48,7 +48,7 @@
 			{#if renderLine('top')}
 				<div style={renderLine('top')} />
 			{/if}
-			<CheckmarkCircleIcon fill="var(--green-100)" />
+			<CheckmarkCircleIcon fill="var(--upOnly-400)" />
 			{#if renderLine('bottom')}
 				<div style={renderLine('bottom')} />
 			{/if}
