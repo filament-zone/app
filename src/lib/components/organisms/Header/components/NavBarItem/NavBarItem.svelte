@@ -5,7 +5,8 @@
 	import { clickOutside } from '$lib/actions';
 	import { List, Typography } from '$lib/components';
 	import type { IListItemOption, INavBarItemOption } from '$lib/types';
-	import { ChevronDownIcon } from 'svelte-feather-icons';
+
+	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
 	export let option: INavBarItemOption;
 
