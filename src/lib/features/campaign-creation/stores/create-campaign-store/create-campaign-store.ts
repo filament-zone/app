@@ -31,7 +31,6 @@ const initCampaignDetails: ICampaign = {
 	relativeShare: null,
 	totalAirDropSupply: null,
 	tokenContractAddress: null,
-	indexer: null,
 	budgetFrom: null,
 	budgetTo: null,
 	bond: null

@@ -59,7 +59,6 @@ function generateMockCampaign(): ICampaign {
 		relativeShare: (Math.random() * 100).toFixed(2),
 		totalAirDropSupply: (Math.random() * 10000).toFixed(2),
 		tokenContractAddress: `0x${Math.random().toString(36).substring(2, 42)}`,
-		indexer: `Indexer-${Math.random().toString(36).substring(2, 10)}`,
 		budgetFrom: (Math.random() * 5000).toFixed(2),
 		budgetTo: (Math.random() * 10000).toFixed(2),
 		bond: (Math.random() * 100).toFixed(2),

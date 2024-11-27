@@ -61,7 +61,6 @@ export const load = async () => {
 		relativeShare: 5,
 		totalAirDropSupply: 5,
 		tokenContractAddress: 5,
-		indexer: 'internal',
 		budgetFrom: 5,
 		budgetTo: 10,
 		bond: 5,
@@ -69,10 +68,6 @@ export const load = async () => {
 			visibilityOptions: [
 				{ value: 'public', label: 'Public' },
 				{ value: 'hidden', label: 'Hidden' }
-			],
-			indexerOptions: [
-				{ value: 'internal', label: 'Internal' },
-				{ value: 'external', label: 'External' }
 			]
 		}
 	};

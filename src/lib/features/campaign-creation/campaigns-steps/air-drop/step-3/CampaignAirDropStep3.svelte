@@ -17,7 +17,6 @@
 			relativeShare: $data.step3Data.relativeShare,
 			totalAirDropSupply: $data.step3Data.totalAirDropSupply,
 			tokenContractAddress: $data.step3Data.tokenContractAddress,
-			indexer: $data.step3Data.indexer,
 			budgetFrom: $data.step3Data.budgetFrom,
 			budgetTo: $data.step3Data.budgetTo,
 			bond: $data.step3Data.bond
@@ -73,31 +72,24 @@
 				selecting an internal Indexer you can outsource this process and negotiate freely. We
 				recommend to rely on trusted Indexers.
 			</Typography>
-			<div class="flex flex-row gap-4 justify-between">
-				<Toggle
-					label="Indexer"
-					bind:value={$campaignDetails.indexer}
-					options={$data.step3Data.meta.indexerOptions}
-					sizeVariant={EToggleSizeVariant.NORMAL}
+
+			<div class="flex flex-row gap-4">
+				<Input
+					label="Budget"
+					bind:value={$campaignDetails.budgetFrom}
+					placeholder="Type here..."
+					sizeVariant={EInputSizeVariant.MEDIUM}
+					RightIcon="FILA"
+					textColor="var(--filaMint)"
 				/>
-				<div class="flex flex-row gap-4">
-					<Input
-						label="Budget"
-						bind:value={$campaignDetails.budgetFrom}
-						placeholder="Type here..."
-						sizeVariant={EInputSizeVariant.MEDIUM}
-						RightIcon="FILA"
-						textColor="var(--filaMint)"
-					/>
-					<ArrowRight class="mt-[43px]" />
-					<Input
-						labelGap
-						bind:value={$campaignDetails.budgetTo}
-						placeholder="Type here..."
-						sizeVariant={EInputSizeVariant.MEDIUM}
-						LeftContent="$"
-					/>
-				</div>
+				<ArrowRight class="mt-[43px]" />
+				<Input
+					labelGap
+					bind:value={$campaignDetails.budgetTo}
+					placeholder="Type here..."
+					sizeVariant={EInputSizeVariant.MEDIUM}
+					LeftContent="$"
+				/>
 			</div>
 		</div>
 	</Container>

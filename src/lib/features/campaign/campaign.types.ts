@@ -56,7 +56,6 @@ export interface ICampaign {
 	relativeShare: string | null;
 	totalAirDropSupply: string | null;
 	tokenContractAddress: string | null;
-	indexer: string | null;
 	budgetFrom: string | null;
 	budgetTo: string | null;
 	bond: string | null;
