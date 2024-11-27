@@ -14,7 +14,7 @@
 			case EBadgeColorVariant.PRIMARY:
 				return 'var(--primary-white)';
 			case EBadgeColorVariant.SECONDARY:
-				return 'var(--gray-200)';
+				return 'var(--gray-100)';
 			case EBadgeColorVariant.SUCCESS:
 				return 'var(--upOnly)';
 			case EBadgeColorVariant.REJECTED:
@@ -63,7 +63,6 @@
 <style lang="less">
 	.badge {
 		display: flex;
-		position: relative;
 		align-items: center;
 		width: fit-content;
 		gap: 0.5rem;
