@@ -58,14 +58,14 @@
 			background-color: var(--darkNet-100);
 
 			span {
-				color: var(--blueChip);
+				color: var(--purpleCow);
 				font-weight: 600;
 			}
 
 			.box {
 				font-weight: 600;
 				background-color: unset;
-				color: var(--blueChip);
+				color: var(--purpleCow);
 			}
 		}
 
