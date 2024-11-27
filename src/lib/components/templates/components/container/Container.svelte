@@ -13,7 +13,9 @@
 			<slot name="header" />
 		</div>
 	</div>
-	<slot />
+	<div class="slot-container">
+		<slot />
+	</div>
 </div>
 
 <style lang="less">
@@ -24,8 +26,9 @@
 		justify-content: center;
 		height: fit-content;
 		padding: 20px;
-		background-color: var(--background-100);
-		box-shadow: 0 0 0 1px #66666611;
+		background-color: var(--background-200);
+		border: 0.5px solid var(--default-border);
+		border-radius: 4px;
 
 		.label-box {
 			display: flex;
@@ -33,9 +36,10 @@
 			justify-content: center;
 			align-items: center;
 			gap: 10px;
-			background-color: rgba(10, 11, 14, 0.7);
+			background-color: var(--background-300);
 			padding: 8px 0.875rem;
 			border-radius: 4px;
+			border: 0.5px solid var(--default-border);
 			span {
 				color: #fff;
 				font-family: 'ff-meta-serif-web-pro', serif;
@@ -44,6 +48,14 @@
 				font-weight: 400;
 				line-height: 0.875rem;
 			}
+		}
+
+		.slot-container {
+			width: 100%;
+			background-color: var(--background-300);
+			padding: 16px;
+			border-radius: 4px;
+			border: 0.5px solid var(--default-border);
 		}
 	}
 </style>
