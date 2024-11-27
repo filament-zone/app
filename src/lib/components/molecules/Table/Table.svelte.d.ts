@@ -1,7 +1,7 @@
 import { type ComponentType, SvelteComponent } from 'svelte';
 import '@tanstack/svelte-table';
 import type { RowData } from '@tanstack/table-core';
-import type { ColumnDef, Row } from '@tanstack/svelte-table';
+import type { ColumnDef, Row, SortingState } from '@tanstack/svelte-table';
 import type { IPaginationProps } from 'types';
 
 declare const __propDef: {
@@ -14,6 +14,7 @@ declare const __propDef: {
 		pagination?: IPaginationProps['pagination'] | null;
 		onPageChange?: IPaginationProps['onPageChange'];
 		onRowClick?: ((row: Row<RowData>) => void) | null;
+		sortingState?: SortingState;
 	};
 	events: {
 		[evt: string]: CustomEvent;

@@ -25,7 +25,7 @@
 	></div>
 	{#if displayLabel}
 		<Typography variant="caption" class="absolute left-1/2 -translate-x-1/2" color="var(--filaMint)"
-			>{usedPercentage}%</Typography
+			>{usedPercentage.toFixed(0)}%</Typography
 		>
 	{/if}
 </div>

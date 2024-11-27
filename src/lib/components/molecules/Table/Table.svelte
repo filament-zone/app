@@ -28,6 +28,7 @@
 	export let pagination: ITableProps['pagination'] = null;
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 	export let onRowClick: ITableProps['onRowClick'] = null;
+	export let sortingState: ITableProps['sortingState'] = [];
 
 	let columnVisibility: VisibilityState = {};
 
@@ -46,7 +47,7 @@
 		}));
 	};
 
-	let sorting: SortingState = [];
+	let sorting: SortingState = sortingState?.length ? [...sortingState] : [];
 
 	const setSorting: OnChangeFn<SortingState> = (updater) => {
 		if (updater instanceof Function) {

@@ -60,27 +60,29 @@
 		tableLabel: 'Active Delegates',
 		...$data.step1Data.activeDelegatesTable,
 		data: [
-			...$data.delegates
-				.filter((delegate: IDelegate) => $campaignDetails.activeDelegates.includes(delegate.id))
-				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
+			...$data.delegates.filter((delegate: IDelegate) =>
+				$campaignDetails.activeDelegates.includes(delegate.id)
+			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
 		onRowClick: (row: Row<IEligibilityCriteria>) => {
 			toggleDelegate(row.original.id as string);
-		}
+		},
+		sortingState: [{ id: 'votingPower', desc: true }]
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
 	$: evictedDelegatesTable = {
 		...$data.step1Data.evictedDelegatesTable,
 		data: [
-			...$data.delegates
-				.filter((delegate: IDelegate) => $campaignDetails.evictedDelegates.includes(delegate.id))
-				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
+			...$data.delegates.filter((delegate: IDelegate) =>
+				$campaignDetails.evictedDelegates.includes(delegate.id)
+			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.EVICTED),
 		onRowClick: (row: Row<IEligibilityCriteria>) => {
 			toggleDelegate(row.original.id as string);
-		}
+		},
+		sortingState: [{ id: 'votingPower', desc: true }]
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 </script>
 

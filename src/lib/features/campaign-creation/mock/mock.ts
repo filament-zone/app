@@ -93,8 +93,8 @@ export const generateMockDelegates = (count: number = 10): IDelegate[] => {
 			id: uuidv4(),
 			name: `#${index + 1} ${randomName}`,
 			value: Math.random().toFixed(2),
-			votingPower: Math.floor(Math.random() * 1_000_000_000).toLocaleString(),
-			evictionCost: Math.floor(Math.random() * 20_000).toLocaleString()
+			votingPower: Math.floor(Math.random() * 1_000_000_000),
+			evictionCost: Math.floor(Math.random() * 20_000)
 		};
 	});
 };

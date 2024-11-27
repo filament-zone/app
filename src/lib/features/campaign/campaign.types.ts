@@ -4,8 +4,8 @@ export interface IDelegate {
 	id: string;
 	name: string;
 	value: string;
-	votingPower: string;
-	evictionCost: string;
+	votingPower: number;
+	evictionCost: number;
 }
 
 export interface IContract {
