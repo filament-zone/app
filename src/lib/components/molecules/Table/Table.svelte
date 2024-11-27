@@ -342,7 +342,7 @@
 		table-layout: fixed;
 		border-collapse: separate;
 		border-spacing: 0 10px;
-		--table-border-radius: 10px;
+		--table-border-radius: 4px;
 
 		.header {
 			background-color: var(--background);
