@@ -4,16 +4,21 @@
 		createSvelteTable,
 		flexRender,
 		getCoreRowModel,
+		getSortedRowModel,
 		type OnChangeFn,
 		type VisibilityState,
 		type TableOptions,
 		type Cell,
-		type Header
+		type Header,
+		type SortingState
 	} from '@tanstack/svelte-table';
 	import type { RowData } from '@tanstack/table-core';
 	import { Typography, Pagination } from '$lib/components';
 	import { stylesObjectToString } from '$lib/helpers';
 	import type { ITableProps } from '$lib/types';
+
+	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
+	import ChevronUpIcon from '$lib/assets/icons/chevron-up.svg?component';
 
 	export let tableLabel: ITableProps['tableLabel'] = '';
 	export let tableRightLabel: ITableProps['tableRightLabel'] = '';
@@ -23,167 +28,6 @@
 	export let pagination: ITableProps['pagination'] = null;
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 	export let onRowClick: ITableProps['onRowClick'] = null;
-
-	//console log data
-	// const test = [
-	// 	{
-	// 		environment: 'evm',
-	// 		supported_criteria: [
-	// 			{
-	// 				type: 'bank',
-	// 				name: 'Token balances',
-	// 				description: 'Snapshot an ERC20 token balance for a given chain',
-	// 				chains: [
-	// 					'ethereum',
-	// 					'bnb',
-	// 					'base',
-	// 					'polygon',
-	// 					'avalanche',
-	// 					'chiliz',
-	// 					'gnosis',
-	// 					'cronos',
-	// 					'fantom',
-	// 					'arbitrum',
-	// 					'palm',
-	// 					'optimism',
-	// 					'linea',
-	// 					'moonbeam',
-	// 					'flow',
-	// 					'opbnb',
-	// 					'zksync',
-	// 					'polygon zkevm',
-	// 					'zetachain',
-	// 					'blast',
-	// 					'mantle'
-	// 				],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
-	// 					{ type: 'historic', price_per_snapshot: 1500 }
-	// 				],
-	// 				category: 'balance'
-	// 			},
-	// 			{
-	// 				type: 'nft-holders',
-	// 				name: 'NFT holders',
-	// 				description: 'Snapshot the holders on an NFT collection',
-	// 				chains: [
-	// 					'ethereum',
-	// 					'bnb',
-	// 					'base',
-	// 					'polygon',
-	// 					'avalanche',
-	// 					'chiliz',
-	// 					'gnosis',
-	// 					'cronos',
-	// 					'fantom',
-	// 					'arbitrum',
-	// 					'palm',
-	// 					'optimism',
-	// 					'linea',
-	// 					'moonbeam',
-	// 					'flow',
-	// 					'opbnb',
-	// 					'zksync',
-	// 					'polygon zkevm',
-	// 					'zetachain',
-	// 					'blast',
-	// 					'mantle'
-	// 				],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
-	// 					{ type: 'historic', price_per_snapshot: 1500 }
-	// 				],
-	// 				category: 'nft'
-	// 			},
-	// 			{
-	// 				type: 'gas-fees',
-	// 				name: 'Gas fees',
-	// 				description: 'Snapshot the gas fees spent for a given chain',
-	// 				chains: [
-	// 					'scroll',
-	// 					'linea',
-	// 					'blast',
-	// 					'zora',
-	// 					'fantom',
-	// 					'arbitrum',
-	// 					'ethereum',
-	// 					'zkevm',
-	// 					'base',
-	// 					'bnb',
-	// 					'avalanche_c',
-	// 					'gnosis',
-	// 					'polygon',
-	// 					'mantle',
-	// 					'optimism',
-	// 					'zksync',
-	// 					'sei'
-	// 				],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
-	// 					{ type: 'historic', price_per_snapshot: 1500 }
-	// 				],
-	// 				category: 'balance'
-	// 			},
-	// 			{
-	// 				type: 'uniswap-v3-lp',
-	// 				name: 'Liquidity providers on a Uniswap V3 pool',
-	// 				description: 'Snapshot the liquidity providers on a Uniswap V3 pool',
-	// 				chains: ['ethereum'],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 4000 },
-	// 					{ type: 'historic', price_per_snapshot: 5000 }
-	// 				],
-	// 				category: 'defi'
-	// 			},
-	// 			{
-	// 				type: 'uniswap-v3-volume',
-	// 				name: 'Volume on a Uniswap V3 pool',
-	// 				description: 'Snapshot the volume per address on a Uniswap V3 pool',
-	// 				chains: ['ethereum'],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 3000 },
-	// 					{ type: 'historic', price_per_snapshot: 4000 }
-	// 				],
-	// 				category: 'defi'
-	// 			},
-	// 			{
-	// 				type: 'trading-profit',
-	// 				name: 'Trading profit',
-	// 				description: 'Snapshot the trading profit in dollars($) per address on a given chain',
-	// 				chains: [
-	// 					'ethereum',
-	// 					'bnb',
-	// 					'base',
-	// 					'polygon',
-	// 					'avalanche',
-	// 					'chiliz',
-	// 					'gnosis',
-	// 					'cronos',
-	// 					'fantom',
-	// 					'arbitrum',
-	// 					'palm',
-	// 					'optimism',
-	// 					'linea',
-	// 					'moonbeam',
-	// 					'flow',
-	// 					'opbnb',
-	// 					'zksync',
-	// 					'polygon zkevm',
-	// 					'zetachain',
-	// 					'blast',
-	// 					'mantle'
-	// 				],
-	// 				pricing: [
-	// 					{ type: 'upcoming', price_per_snapshot: 1000 },
-	// 					{ type: 'historic', price_per_snapshot: 1500 }
-	// 				],
-	// 				category: 'defi'
-	// 			}
-	// 		]
-	// 	}
-	// ];
-	//
-	// console.log(test);
 
 	let columnVisibility: VisibilityState = {};
 
@@ -202,14 +46,34 @@
 		}));
 	};
 
+	let sorting: SortingState = [];
+
+	const setSorting: OnChangeFn<SortingState> = (updater) => {
+		if (updater instanceof Function) {
+			sorting = updater(sorting);
+		} else {
+			sorting = updater;
+		}
+		options.update((old) => ({
+			...old,
+			state: {
+				...old.state,
+				sorting
+			}
+		}));
+	};
+
 	const options = writable<TableOptions<RowData>>({
 		data: data,
 		columns: columnDef,
-		getCoreRowModel: getCoreRowModel(),
 		state: {
-			columnVisibility
+			columnVisibility,
+			sorting
 		},
-		onColumnVisibilityChange: setColumnVisibility
+		onSortingChange: setSorting,
+		onColumnVisibilityChange: setColumnVisibility,
+		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel()
 	});
 
 	$: {
@@ -280,13 +144,23 @@
 					<tr class="header">
 						{#each headerGroup.headers as header, index}
 							<th
-								class={`${isHeaderSticky(headerGroup.headers, index) ? 'sticky' : ''} p-2`}
+								class={`p-2`}
+								class:cursor-pointer={header.column.getCanSort()}
+								class:select-none={header.column.getCanSort()}
+								on:click={header.column.getToggleSortingHandler()}
 								style={`${isHeaderSticky(headerGroup.headers, index)}; width: ${header.getSize()}px`}
 							>
 								{#if !header.isPlaceholder}
-									<svelte:component
-										this={flexRender(header.column.columnDef.header, header.getContext())}
-									/>
+									<div class="flex flex-row gap-2">
+										<svelte:component
+											this={flexRender(header.column.columnDef.header, header.getContext())}
+										/>
+										{#if header.column.getIsSorted().toString() === 'asc'}
+											<ChevronUpIcon />
+										{:else if header.column.getIsSorted().toString() === 'desc'}
+											<ChevronDownIcon />
+										{/if}
+									</div>
 								{/if}
 							</th>
 						{/each}
