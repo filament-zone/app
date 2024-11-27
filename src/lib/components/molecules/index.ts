@@ -10,3 +10,4 @@ export * from './InputTokenField';
 export * from './MenuPopover';
 export * from './Breadcrumbs';
 export * from './DatePicker';
+export * from './Tooltip';
