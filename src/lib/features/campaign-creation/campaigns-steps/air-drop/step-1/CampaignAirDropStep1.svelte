@@ -123,6 +123,7 @@
 			</Typography>
 			<Input
 				label="Max. evictable delegate"
+				tooltipContent="This limitation is defined by the protocol governance and might change over time to adapt to changing requirements."
 				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
 				bind:value={$campaignDetails.maxEvictableDelegates}

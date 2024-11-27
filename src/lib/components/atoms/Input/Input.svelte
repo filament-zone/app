@@ -19,12 +19,13 @@
 	export let hideLeftBorder: IInputProps['hideLeftBorder'] = false;
 	export let classNames: IInputProps['classNames'] = '';
 	export let textColor: IInputProps['textColor'] = '';
+	export let tooltipContent: IInputProps['tooltipContent'] = '';
 </script>
 
 <div class={`${$$props.class} rounded-none size-variant-${sizeVariant}`}>
 	<div class={` color-variant-${colorVariant} relative`} class:disabled>
 		{#if label && !labelGap}
-			<Label value={label} />
+			<Label value={label} {tooltipContent} />
 		{/if}
 		{#if !label && labelGap}
 			<div style="height: 30px" />

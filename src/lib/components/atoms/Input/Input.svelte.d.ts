@@ -16,6 +16,7 @@ declare const __propDef: {
 		hideLeftBorder?: boolean;
 		classNames?: string;
 		textColor?: string;
+		tooltipContent?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

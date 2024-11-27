@@ -3,6 +3,7 @@ import { SvelteComponent } from 'svelte';
 declare const __propDef: {
 	props: {
 		value: string;
+		tooltipContent?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
