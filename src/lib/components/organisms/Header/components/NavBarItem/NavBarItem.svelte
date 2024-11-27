@@ -63,10 +63,12 @@
 			color={mainRouteSelected ? 'var(--filaMint)' : 'var(--primary-white)'}
 			styles={`white-space: nowrap; ${mainRouteSelected && 'font-weight: 600'}`}
 			>{generateLabel()}</Typography
-		>{#if option.subItems}
-			<span class={mainRouteSelected ? 'filament-icon' : 'white-icon'}>
-				<ChevronDownIcon class="w-4 h-4" />
-			</span>
+		>
+		{#if option.subItems}
+			<ChevronDownIcon
+				style="transform: scale(0.7);"
+				stroke={mainRouteSelected ? 'var(--filaMint)' : 'var(--primary-white)'}
+			/>
 		{/if}
 	</div>
 	{#if option.subItems && $isOpen}
@@ -106,14 +108,6 @@
 		.selected {
 			border-bottom: 1.5px solid var(--filaMint);
 			font-weight: 700;
-		}
-
-		.white-icon {
-			color: white;
-		}
-
-		.filament-icon {
-			color: var(--filaMint);
 		}
 	}
 </style>
