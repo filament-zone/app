@@ -14,7 +14,7 @@
 	.card {
 		display: flex;
 		flex-direction: column;
-		box-shadow: 0 0 0 0.1px var(--primary-white);
+		border: 0.5px solid var(--default-border);
 		background-color: var(--darkNet);
 		border-radius: 4px;
 	}
