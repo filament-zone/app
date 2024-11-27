@@ -76,7 +76,7 @@
 				if (!isSelected) {
 					return 'var(--primary-white)';
 				} else {
-					return 'var(--filaMint-500)';
+					return 'var(--filaMint)';
 				}
 		}
 	};
@@ -157,9 +157,9 @@
 	.toggle-secondary {
 		padding: 0 1rem;
 		&.selected {
-			color: red;
+			color: red !important;
 			margin-bottom: -1px;
-			border-bottom: 1px solid var(--filaMint-500);
+			border-bottom: 1px solid var(--filaMint);
 		}
 	}
 </style>

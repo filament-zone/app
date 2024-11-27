@@ -5,9 +5,7 @@ export enum ECampaignType {
 export enum EEligibilityCriteriaCategory {
 	BALANCE = 'balance',
 	DEFI = 'defi',
-	GOVERNANCE = 'governance',
-	NFT = 'nft',
-	GAMING = 'gaming'
+	NFT = 'nft'
 }
 
 export enum EEligibilityCriteriaType {
