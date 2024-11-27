@@ -141,13 +141,15 @@
 
 	.toggle-primary {
 		display: flex;
-		padding: 8px;
+		padding: 4px 8px;
 		justify-content: center;
 		align-items: center;
 		gap: 0.625rem;
 		border-radius: 4px;
 		transition: background-color 0.3s;
 		cursor: pointer;
+		background-color: var(--highlight-bg);
+		border: 0.5px solid var(--default);
 
 		&.selected {
 			background-color: var(--foreground);
