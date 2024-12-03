@@ -20,6 +20,24 @@
 	export let classNames: IInputProps['classNames'] = '';
 	export let textColor: IInputProps['textColor'] = '';
 	export let tooltipContent: IInputProps['tooltipContent'] = '';
+
+	const handleInput: IInputProps['onInput'] = (event) => {
+		const inputValue = (event.target as HTMLInputElement).value;
+		if (!onInput) {
+			return;
+		}
+
+		if ($$props.type === 'bigint') {
+			try {
+				const bigintValue = BigInt(inputValue);
+				onInput(bigintValue);
+			} catch {
+				onInput(null);
+			}
+		} else {
+			onInput(inputValue);
+		}
+	};
 </script>
 
 <div class={`${$$props.class} rounded-none size-variant-${sizeVariant}`}>
@@ -57,7 +75,7 @@
 				bind:value
 				{disabled}
 				{readonly}
-				on:input={onInput}
+				on:input={handleInput}
 				{min}
 				{max}
 				class={classNames}

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { Table } from '$lib/components';
-	import { campaignStore, eligibilityCriteriaColumnDefCommon } from '$lib/features';
+	import {
+		campaignStore,
+		eligibilityCriteriaColumnDefCommon,
+		checkIsCriteriaCompleted
+	} from '$lib/features';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
 
@@ -13,7 +17,7 @@
 		...$data.step2Data.eligibilityCriteriaTable,
 		data: [
 			...$campaignDetails.criteria.filter((item) => {
-				const isCompleted = item.completed;
+				const isCompleted = checkIsCriteriaCompleted(item);
 				if (toggleValue === 'all' && isCompleted) {
 					return true;
 				}

@@ -11,11 +11,11 @@ import type {
 	TUpdateTransactionState
 } from '$lib/features/hub/hob.store.types';
 
-const hubService = new HubService();
-
 export const transactionsStore = writable<ITransactionState[]>([]);
 
 export const processHubTransaction: IHubStore['processHubTransaction'] = async ({ msg }) => {
+	const hubService = new HubService();
+
 	try {
 		const eventEmitter = new EventEmitter();
 		const id = uuidv4();
