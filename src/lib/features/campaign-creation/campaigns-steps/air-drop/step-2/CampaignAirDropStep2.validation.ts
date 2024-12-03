@@ -1,5 +1,6 @@
 import * as yup from 'yup';
-import type { IEligibilityCriteria } from '$lib/features/campaign/campaign.types';
+import { checkIsCriteriaCompleted } from '$lib/features';
+import type { Criterion } from '@filament-zone/filament/Criterion';
 
 export const campaignAirDropStep2ValidationSchema = yup.object().shape({
 	snapshotDate: yup.string().required('Snapshot Date is required'),
@@ -11,9 +12,9 @@ export const campaignAirDropStep2ValidationSchema = yup.object().shape({
 		.test(
 			'Returns true if at least one completed',
 			'Complete at least one criterion',
-			(value: IEligibilityCriteria[] | undefined) => {
+			(value: Criterion[] | undefined) => {
 				if (Array.isArray(value)) {
-					return !!value?.find((item) => item.completed);
+					return !!value?.find((item) => checkIsCriteriaCompleted(item));
 				}
 			}
 		)
