@@ -1,23 +1,28 @@
-<script>
+<script lang="ts">
+	import { beforeUpdate } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { CampaignListItem } from '$lib/features';
+	import { HubApiClient } from '$lib/services';
+	import { CampaignListItem, walletStore } from '$lib/features';
 	import { Button, Container, Toggle } from '$lib/components/';
 	import { routes } from '$lib/constants';
 	import { EToggleVariant } from '$lib/types';
-	// import { onMount } from 'svelte';
-	// import { HubApiClient } from '$lib/services';
 
 	export let data;
 
 	$: toggleValue = 'all';
+	const { wallet } = walletStore;
 
-	// onMount(async () => {
-	// 	const campaignListNew = await HubApiClient.getCampaignsByEthAddr(
-	// 		'0x32b3FC59E06B8d37c726D8d4D2Deb1A52FA57316'
-	// 	);
+	beforeUpdate(async () => {
+		const allCampaigns = await HubApiClient.getAllCampaigns();
+		console.log('allCampaigns', allCampaigns);
 
-	// console.log('campaignListNew', campaignListNew);
-	// });
+		if (!$wallet.address) {
+			return;
+		}
+
+		const campaignsById = await HubApiClient.getCampaignsByEthAddr($wallet.address);
+		console.log('campaignsById', campaignsById);
+	});
 </script>
 
 <Container label="Airdrops list">

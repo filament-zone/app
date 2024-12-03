@@ -8,13 +8,13 @@ export class HubApiClient {
 		await hubApiClient(HUB_URLS.SEND_TX, { body: { body: base64Tx }, method: 'POST' });
 	}
 
-	static async getCampaignsByAddr(addr: string): Promise<void> {
-		await hubApiClient(HUB_URLS.CAMPAIGNS_BY_ADDRESS.replace(':address', addr), { method: 'GET' });
-	}
-
 	static async getCampaignsByEthAddr(addr: string): Promise<void> {
 		return await hubApiClient(HUB_URLS.CAMPAIGNS_BY_ETH_ADDRESS.replace(':address', addr), {
 			method: 'GET'
 		});
+	}
+
+	static async getAllCampaigns(): Promise<void> {
+		return await hubApiClient(HUB_URLS.CAMPAIGNS, { method: 'GET' });
 	}
 }
