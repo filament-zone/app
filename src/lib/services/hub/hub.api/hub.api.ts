@@ -1,6 +1,7 @@
 import { hubApiClient } from '$lib/services';
 import { uint8ArrayToBase64 } from '$lib/helpers';
-import { HUB_URLS } from '$lib/types';
+import { HUB_URLS, type ICampaign } from '$lib/types';
+import { generateMockCampaigns } from '$lib/features';
 
 export class HubApiClient {
 	static async sendTx(serializedTx: Uint8Array): Promise<void> {
@@ -16,5 +17,17 @@ export class HubApiClient {
 
 	static async getAllCampaigns(): Promise<void> {
 		return await hubApiClient(HUB_URLS.CAMPAIGNS, { method: 'GET' });
+	}
+
+	static async getCampaignById(campaignId: string): Promise<ICampaign> {
+		// return await hubApiClient(HUB_URLS.CAMPAIGN_BY_ID.replace(':campaignId', campaignId), {
+		// 	method: 'GET'
+		// });
+		console.log('GET  getCampaignById', campaignId);
+		return await new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(generateMockCampaigns(1)[0]);
+			}, 2000);
+		});
 	}
 }

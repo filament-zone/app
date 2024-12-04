@@ -42,8 +42,9 @@ export const generateMockEligibilityCriteria = (quantity: number): Criterion[] =
 
 function generateMockCampaign(): ICampaign {
 	return {
+		id: uuidv4(),
 		createdAt: new Date().toISOString(),
-		title: `Campaign ${Math.random().toString(36).substring(7)}`,
+		title: `Campaign test title ${Math.floor(Math.random() * 100)}`,
 		description: `This is a mock campaign description.`,
 		maxEvictableDelegates: Math.floor(Math.random() * 100).toString(),
 		activeDelegates: Array.from({ length: 3 }, () => uuidv4()),

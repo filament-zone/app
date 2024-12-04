@@ -6,3 +6,4 @@ export * from './charts.helpers';
 export * from './style.helpers';
 export * from './validation.helpers';
 export * from './data.helpers';
+export * from './url.helpers';

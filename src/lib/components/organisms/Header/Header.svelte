@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { Button, Divider, NavBar } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash } from '$lib/helpers';
@@ -14,8 +15,11 @@
 	let isWalletMenuOpen = false;
 </script>
 
-<div class="flex flex-col w-full sticky top-0 z-50">
-	<div class="flex flex-row items-center h-[54px] px-4 bg-background" data-testid="header">
+<div class="flex flex-col w-full sticky top-0 z-50 bg-background">
+	<div class="h-[5px]">
+		<ProgressBar color="#b1ffe3" />
+	</div>
+	<div class="flex flex-row items-center pt-[5px] pb-[10px] px-4" data-testid="header">
 		<div
 			class="cursor-pointer flex gap-3"
 			on:click={() => {
