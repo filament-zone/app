@@ -1,5 +1,6 @@
 import { HubApiClient } from '$lib/services';
-import type { IPrimaryDoughnutChartProps } from '$lib/components/molecules/charts/DoughnutChart/PrimaryDoughnutChart/PrimaryDoughnutChart.svelte';
+import { generateRandomTickerData } from '$lib/features';
+import type { IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
@@ -15,8 +16,11 @@ export async function load({ params }) {
 		]
 	};
 
+	const tickerData: { name: string; date: string; status: string }[] = generateRandomTickerData(15);
+
 	return {
 		campaign,
-		chartData
+		chartData,
+		tickerData
 	};
 }

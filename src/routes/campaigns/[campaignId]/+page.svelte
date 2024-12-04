@@ -1,4 +1,5 @@
 <script lang="ts">
+	import moment from 'moment/moment.js';
 	import { Badge, Button, Container, PrimaryDoughnutChart } from '$lib/components';
 	import { EButtonSizeVariant } from '$lib/types';
 
@@ -24,7 +25,21 @@
 			</div>
 		</Container>
 		<Container label="Ticker">
-			<span class="campaign-label">Ticker Content</span>
+			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-scroll">
+				{#each data.tickerData as item}
+					<div class="ticker-item">
+						<div class="ticker-item__name">{item?.name}</div>
+						<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
+						<div class="ticker-item__status">
+							<span
+								style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? 'var(--upOnly-600)' : 'var(--rugged-600)'}`}
+							>
+								{item?.status}</span
+							>
+						</div>
+					</div>
+				{/each}
+			</div>
 		</Container>
 	</div>
 </div>
@@ -37,5 +52,59 @@
 		font-style: normal;
 		font-weight: 450;
 		line-height: 20px;
+	}
+
+	.ticker-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		gap: 4px;
+		border-radius: 4px;
+		border: 0.5px solid var(--default-border);
+		background: var(--highlight-bg, #1b1b1b);
+		padding: 4px 8px;
+		position: relative;
+
+		.ticker-item__name {
+			color: #fffef6;
+			font-family: var(--secondary-font);
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 500;
+			line-height: 12px;
+		}
+
+		.ticker-item__date {
+			color: var(--primary-white);
+			font-family: var(--primary-font);
+			font-size: 13px;
+			font-style: normal;
+			font-weight: 450;
+			line-height: 12px;
+			letter-spacing: 0.65px;
+			opacity: 0.5;
+
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.ticker-item__status {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 6px 8px;
+			border-radius: 4px;
+			background: var(--darkNet);
+			width: 70px;
+			height: 24px;
+
+			span {
+				font-family: var(--primary-font);
+				font-size: 12px;
+				font-weight: 500;
+			}
+		}
 	}
 </style>
