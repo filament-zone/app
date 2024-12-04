@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Container } from '$lib/components';
+	import { Badge, Button, Container, PrimaryDoughnutChart } from '$lib/components';
+	import { EButtonSizeVariant } from '$lib/types';
 
 	export let data;
 </script>
@@ -12,7 +13,15 @@
 	</div>
 	<div class="flex flex-col min-w-[384px] gap-4">
 		<Container label="Voting">
-			<span class="campaign-label">Voting Content</span>
+			<div class="flex flex-col gap-4">
+				<Badge label="Turnout: 48%" />
+				<PrimaryDoughnutChart
+					chartData={data.chartData}
+					centerText={['Text', '2.43B']}
+					class="w-full"
+				/>
+				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH}>Vote</Button>
+			</div>
 		</Container>
 		<Container label="Ticker">
 			<span class="campaign-label">Ticker Content</span>
