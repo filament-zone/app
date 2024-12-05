@@ -1,7 +1,10 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
+	import { goto } from '$app/navigation';
 	import { campaignStore, CampaignTimeLineItem } from '$lib/features';
 	import { Badge, Button, Divider, Typography } from '$lib/components';
+	import { routes } from '$lib/constants';
+	import { replaceUrlParams } from '$lib/helpers';
 	import {
 		type ICampaignListItemProps,
 		EButtonStyleVariant,
@@ -11,10 +14,18 @@
 	export let campaign: ICampaignListItemProps['campaign'];
 
 	const { initiateCampaign } = campaignStore;
+
+	const handleOpenCampaignDetails = () => {
+		goto(
+			replaceUrlParams(routes.CAMPAIGNS.CAMPAIGN_ID.ROOT, {
+				campaignId: campaign.id ?? 'mock-campaign-id'
+			})
+		);
+	};
 </script>
 
 <div class="campaign-list-item-container">
-	<div class="header">
+	<div class="header" on:click={handleOpenCampaignDetails} aria-hidden="true">
 		<Typography variant="h4">{campaign.title}</Typography>
 	</div>
 	<div class="content">
@@ -90,6 +101,7 @@
 		.header {
 			padding: 16px;
 			border-bottom: 1px solid #272727;
+			cursor: pointer;
 		}
 
 		.content {
