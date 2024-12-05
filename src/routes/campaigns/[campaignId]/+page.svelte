@@ -1,18 +1,24 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import moment from 'moment/moment.js';
-	import { CampaignSummary, CampaignTimeLineItem } from '$lib/features';
+	import { CampaignSummary, CampaignTimeLineItem, modalStore } from '$lib/features';
 	import { Badge, Button, Container, Divider, PrimaryDoughnutChart } from '$lib/components';
-	import { EButtonSizeVariant, ECampaignTimeLineItem } from '$lib/types';
+	import { EButtonSizeVariant, ECampaignTimeLineItem, EModalVariant } from '$lib/types';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
 	export let data;
 
+	const { openModal } = modalStore;
+
 	let isTimelineOpen = false;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
+	};
+
+	const handleVote = () => {
+		openModal({ variant: EModalVariant.CAMPAIGN_VOTE });
 	};
 </script>
 
@@ -34,9 +40,9 @@
 							aria-hidden="true"
 						>
 							{#if isTimelineOpen}
-								<ChevronRightIcon />
+								<ChevronRightIcon style="transform: scale(0.7);" />
 							{:else}
-								<ChevronDownIcon />
+								<ChevronDownIcon style="transform: scale(0.7);" />
 							{/if}
 						</div>
 					</div>
@@ -82,7 +88,7 @@
 					centerText={['Text', '2.43B']}
 					class="w-full"
 				/>
-				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH}>Vote</Button>
+				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote}>Vote</Button>
 			</div>
 		</Container>
 		<Container label="Ticker">
