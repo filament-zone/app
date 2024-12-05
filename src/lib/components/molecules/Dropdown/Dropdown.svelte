@@ -3,8 +3,9 @@
 	import { writable } from 'svelte/store';
 	import { clickOutside } from '$lib/actions';
 	import { ListItem, Input, SelectedItemMulti } from '$lib/components';
-	import ChevronRight from '$lib/assets/icons/chevron-right.svg?component';
 	import { EDropdownSizeVariant, type IDropdownOption, type IDropdownProps } from '$lib/types';
+	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
+	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
 	export let label: IDropdownProps['label'] = '';
 	export let sizeVariant: IDropdownProps['sizeVariant'] = EDropdownSizeVariant.FULL_WIDTH;
@@ -223,7 +224,7 @@
 			class="w-full"
 			readonly={isReadonly()}
 			{leftLabel}
-			RightIcon={!disabled ? ChevronRight : null}
+			RightIcon={!disabled ? ($isOpen ? ChevronDownIcon : ChevronRightIcon) : null}
 			LeftIcon={getLeftIcon()}
 			{sizeVariant}
 			placeholder={displaySelectedValues && isMulti && value?.length ? '' : placeholder}
