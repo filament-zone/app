@@ -52,7 +52,6 @@
 
 	$: activeDelegatesTable = {
 		tableLabel: 'Active Delegates',
-		...$data.step1Data.activeDelegatesTable,
 		data: [
 			...$data.delegates.filter((delegate: IDelegate) =>
 				$campaignDetails.activeDelegates.includes(delegate.id)

@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { Table } from '$lib/components';
-	import {
-		campaignStore,
-		eligibilityCriteriaColumnDefCommon,
-		checkIsCriteriaCompleted
-	} from '$lib/features';
-	import { derived } from 'svelte/store';
-	import { page } from '$app/stores';
+	import { eligibilityCriteriaColumnDefCommon, checkIsCriteriaCompleted } from '$lib/features';
+	import { type ICampaignSummaryProps } from '$lib/types';
 
-	const data = derived(page, () => $page.data);
-	const { campaignDetails } = campaignStore;
+	export let campaign: ICampaignSummaryProps['campaign'];
 
 	$: toggleValue = 'all';
 
 	$: eligibilityCriteriaTable = {
-		...$data.step2Data.eligibilityCriteriaTable,
 		data: [
-			...$campaignDetails.criteria.filter((item) => {
+			...campaign.criteria.filter((item) => {
 				const isCompleted = checkIsCriteriaCompleted(item);
 				if (toggleValue === 'all' && isCompleted) {
 					return true;

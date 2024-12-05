@@ -1,5 +1,5 @@
 import { HubApiClient } from '$lib/services';
-import { generateRandomTickerData } from '$lib/features';
+import { generateMockDelegates, generateRandomTickerData } from '$lib/features';
 import type { IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
@@ -18,9 +18,12 @@ export async function load({ params }) {
 
 	const tickerData: { name: string; date: string; status: string }[] = generateRandomTickerData(15);
 
+	const delegates = generateMockDelegates();
+
 	return {
 		campaign,
 		chartData,
-		tickerData
+		tickerData,
+		delegates
 	};
 }
