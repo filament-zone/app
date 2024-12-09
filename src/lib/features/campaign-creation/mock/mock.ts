@@ -42,8 +42,9 @@ export const generateMockEligibilityCriteria = (quantity: number): Criterion[] =
 
 function generateMockCampaign(): ICampaign {
 	return {
+		id: uuidv4(),
 		createdAt: new Date().toISOString(),
-		title: `Campaign ${Math.random().toString(36).substring(7)}`,
+		title: `Campaign test title ${Math.floor(Math.random() * 100)}`,
 		description: `This is a mock campaign description.`,
 		maxEvictableDelegates: Math.floor(Math.random() * 100).toString(),
 		activeDelegates: Array.from({ length: 3 }, () => uuidv4()),
@@ -106,3 +107,32 @@ export const generateSnapshotIntervalOptions = (): IDropdownProps['options'] => 
 	}
 	return options;
 };
+
+function getRandomDate(start: Date, end: Date): string {
+	const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+	return date.toISOString().split('T')[0];
+}
+
+function getRandomStatus(): string {
+	const statuses = ['Approved', 'Rejected'];
+	return statuses[Math.floor(Math.random() * statuses.length)];
+}
+
+function getRandomName(): string {
+	const names = ['ZachXBT', 'Alice', 'Bob', 'Charlie', 'Dave'];
+	return names[Math.floor(Math.random() * names.length)];
+}
+
+export function generateRandomTickerData(
+	count: number
+): { name: string; date: string; status: string }[] {
+	const data = [];
+	for (let i = 0; i < count; i++) {
+		data.push({
+			name: getRandomName(),
+			date: getRandomDate(new Date(2021, 0, 1), new Date(2021, 11, 31)),
+			status: getRandomStatus()
+		});
+	}
+	return data;
+}

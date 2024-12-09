@@ -11,3 +11,4 @@ export * from './MenuPopover';
 export * from './Breadcrumbs';
 export * from './DatePicker';
 export * from './Tooltip';
+export * from './ToggleContentContainer';

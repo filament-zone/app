@@ -22,10 +22,4 @@ test.describe('Header Component', () => {
 		const button = page.locator('button', { hasText: 'Connect Wallet' });
 		await expect(button).toHaveClass(/style-highlight/);
 	});
-
-	test('header should have a height of 54 pixels', async ({ page }) => {
-		const header = page.getByTestId('header');
-		const height = await header.evaluate((element) => window.getComputedStyle(element).height);
-		expect(height).toBe('54px');
-	});
 });

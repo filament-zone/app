@@ -57,7 +57,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: #131313;
+		background-color: var(--darkNet);
 
 		min-width: 375px;
 		max-width: 512px;

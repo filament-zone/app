@@ -4,7 +4,7 @@
 
 	export let label: IBadgeProps['label'];
 	export let colorVariant: IBadgeProps['colorVariant'] = EBadgeColorVariant.PRIMARY;
-	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FULL;
+	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FIT_CONTENT;
 	export let LeftContent: IBadgeProps['LeftContent'] = null;
 	export let RightContent: IBadgeProps['RightContent'] = null;
 	export let textColor: IBadgeProps['textColor'] = '';
@@ -31,7 +31,7 @@
 
 <div
 	{...$$props}
-	class={`badge ${$$props.class} ${colorVariant} ${widthVariant}`}
+	class={`${widthVariant} badge ${$$props.class} ${colorVariant} `}
 	on:click
 	aria-hidden="true"
 >
@@ -64,7 +64,6 @@
 	.badge {
 		display: flex;
 		align-items: center;
-		width: fit-content;
 		gap: 0.5rem;
 		border-radius: 4px;
 		padding: 8px;
