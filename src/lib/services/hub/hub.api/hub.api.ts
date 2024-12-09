@@ -5,7 +5,7 @@ import { HUB_URLS } from '$lib/types';
 export class HubApiClient {
 	static async sendTx(serializedTx: Uint8Array): Promise<void> {
 		const base64Tx = uint8ArrayToBase64(serializedTx);
-		await hubApiClient(HUB_URLS.SEND_TX, { body: { body: base64Tx }, method: 'POST' });
+		await hubApiClient(HUB_URLS.SEND_TX, { body: { transactions: [base64Tx] }, method: 'POST' });
 	}
 
 	static async getCampaignsByEthAddr(addr: string): Promise<void> {
