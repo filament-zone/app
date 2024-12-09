@@ -24,6 +24,10 @@ export const eligibilityCriteriaColumnDefCommon = [
 				});
 			}
 
+			if (!label) {
+				return '';
+			}
+
 			return flexRender(Badge, {
 				label,
 				colorVariant: EBadgeColorVariant.PRIMARY
@@ -35,11 +39,11 @@ export const eligibilityCriteriaColumnDefCommon = [
 		header: 'TVL',
 		cell: (info) => {
 			const value = info.getValue() as IEligibilityCriteria['tvl'];
+
 			return flexRender(Badge, {
-				label: value?.toLocaleString(),
+				label: value?.toLocaleString() ?? '0',
 				colorVariant: EBadgeColorVariant.PRIMARY,
-				LeftContent: '$',
-				RightContent: 'TVL'
+				LeftContent: '$'
 			});
 		}
 	},

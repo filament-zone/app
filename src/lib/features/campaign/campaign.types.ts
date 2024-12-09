@@ -1,4 +1,6 @@
-import { EEligibilityCriteriaCategory, EEligibilityCriteriaType } from '$lib/types';
+import type { CriterionCategory } from '@filament-zone/filament/CriterionCategory';
+import { EEligibilityCriteriaType } from '$lib/types';
+import type { Criterion } from '@filament-zone/filament/Criterion';
 
 export interface IDelegate {
 	id: string;
@@ -18,16 +20,32 @@ export enum ECampaignTimeSettings {
 	RECURRING = 'RECURRING'
 }
 
-export interface IEligibilityCriteria {
+export interface ICriteriaInput {
+	name: string;
+	type: string;
+	options?: string[];
+}
+
+export interface IEligibilityCriteria extends Criterion {
 	id: string | null;
-	name: string | null;
-	category: EEligibilityCriteriaCategory | null;
 	type: EEligibilityCriteriaType | null;
 	tvl: string | null;
-	weight: string | null;
 	contracts: IContract[] | null;
-	completed?: boolean;
+	inputs?: ICriteriaInput[];
 }
+
+export type TCriterionPayload = {
+	name: string;
+	category: CriterionCategory;
+	weight: bigint;
+	parameters: {
+		tvl: string;
+		type: string;
+	};
+
+	contracts: IContract[];
+	inputs: ICriteriaInput[];
+};
 
 export interface ICampaign {
 	createdAt?: string | null;
@@ -49,7 +67,7 @@ export interface ICampaign {
 	snapshotInterval: string | null;
 	snapshotTotal: string | null;
 	snapshotEndDateRecurring: string | null;
-	criteria: IEligibilityCriteria[];
+	criteria: Criterion[];
 	// STEP 2 VALUES END
 	// START STEP-3
 	visibility: string | null;

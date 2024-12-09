@@ -1,5 +1,5 @@
-import type { IEligibilityCriteria } from '$lib/types';
+import type { Criterion } from '@filament-zone/filament/Criterion';
 
 export interface ICampaignCreationSidebarCriteriaState {
-	criteriaId: IEligibilityCriteria['id'];
+	name: Criterion['name'];
 }

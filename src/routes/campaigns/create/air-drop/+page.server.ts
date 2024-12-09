@@ -16,16 +16,11 @@ export const load = async () => {
 		evictedDelegates: []
 	};
 
-	const eligibilityCriteriaTable = {
-		tableLabel: '',
-		data: generateMockEligibilityCriteria(15)
-	};
-
 	const step2Data = {
 		snapshotDate: '2024-12-31',
 		snapshotInterval: '10',
 		snapshotTotal: '5',
-		eligibilityCriteriaTable,
+		criteria: generateMockEligibilityCriteria(3),
 		meta: {
 			timeSettingsOptions: [
 				{ value: ECampaignTimeSettings.ONE_TIME, label: 'One Time' },
@@ -34,9 +29,11 @@ export const load = async () => {
 			snapshotIntervalOptions: generateSnapshotIntervalOptions(),
 			eligibilityCriteriaCategoryOptions: [
 				{ value: 'all', label: 'All' },
-				{ value: 'balance', label: 'Balance' },
-				{ value: 'defi', label: 'DeFi' },
-				{ value: 'nft', label: 'NFT' }
+				{ value: 'Balance', label: 'Balance' },
+				{ value: 'Defi', label: 'DeFi' },
+				{ value: 'Nft', label: 'NFT' },
+				{ value: 'Gaming', label: 'Gaming' },
+				{ value: 'Governance', label: 'Governance' }
 			],
 			eligibilityCriteriaTypeOptions: Object.values(EEligibilityCriteriaType).map(
 				(criteriaType) => {

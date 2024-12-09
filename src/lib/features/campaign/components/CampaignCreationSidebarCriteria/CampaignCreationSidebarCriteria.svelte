@@ -1,51 +1,42 @@
 <script lang="ts">
 	import { derived, writable } from 'svelte/store';
 	import { page } from '$app/stores';
-	import {
-		AddContractInput,
-		campaignStore,
-		checkIsCriteriaCompleted,
-		RightSideBar,
-		rightSideBarStore
-	} from '$lib/features';
+	import { campaignStore, RightSideBar, rightSideBarStore } from '$lib/features';
 	import { Button, Dropdown, Input } from '$lib/components';
-	import {
-		type IEligibilityCriteria,
-		type ICampaignCreationSidebarCriteriaState
-	} from '$lib/types';
-	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+
+	import type { Criterion } from '@filament-zone/filament/Criterion';
+	import { type IDropdownOption } from '$lib/types';
 
 	const data = derived(page, () => $page.data);
 
 	const { activeRightSideBar, closeRightSideBar } = rightSideBarStore;
 	const { campaignDetails } = campaignStore;
 
-	$: sidebarState = $activeRightSideBar.state as ICampaignCreationSidebarCriteriaState;
+	$: sidebarState = $activeRightSideBar.state as Criterion;
 
-	$: selectedCriteria = {} as IEligibilityCriteria;
+	$: selectedCriteria = { parameters: {} } as Criterion;
 
 	$: {
-		if (sidebarState?.criteriaId) {
+		if (sidebarState?.name) {
 			selectedCriteria = {
-				...$campaignDetails.criteria.find((criteria) => criteria.id === sidebarState?.criteriaId)
-			} as IEligibilityCriteria;
+				...$campaignDetails.criteria.find((criteria) => criteria.name === sidebarState?.name)
+			} as Criterion;
 		}
 	}
 
-	$: editableCriteriaState = writable<IEligibilityCriteria>(selectedCriteria);
+	$: editableCriteriaState = writable<Criterion>(selectedCriteria);
 
 	const handleSaveChanges = () => {
 		editableCriteriaState.update((criteria) => {
 			return {
-				...criteria,
-				completed: checkIsCriteriaCompleted(criteria)
+				...criteria
 			};
 		});
 
 		campaignDetails.update((details) => {
-			if (sidebarState?.criteriaId) {
+			if (sidebarState?.name) {
 				const newCriteriaArr = details.criteria.map((criteria) =>
-					criteria.id === $editableCriteriaState.id ? $editableCriteriaState : criteria
+					criteria.name === $editableCriteriaState.name ? $editableCriteriaState : criteria
 				);
 				return { ...details, criteria: newCriteriaArr };
 			} else {
@@ -59,11 +50,19 @@
 	const handleDelete = () => {
 		campaignDetails.update((details) => {
 			const newCriteriaArr = details.criteria.filter(
-				(criteria) => criteria.id !== $editableCriteriaState.id
+				(criteria) => criteria.name !== $editableCriteriaState.name
 			);
 			return { ...details, criteria: newCriteriaArr };
 		});
 		closeRightSideBar();
+	};
+
+	$: categoryOptions = $data.step2Data.meta.eligibilityCriteriaCategoryOptions?.filter(
+		(option: IDropdownOption) => option.value !== 'all'
+	);
+
+	const onWeightChange = (value: bigint) => {
+		editableCriteriaState.update((criteria) => ({ ...criteria, weight: value }));
 	};
 </script>
 
@@ -72,32 +71,30 @@
 		<div class="flex flex-col justify-between h-full">
 			<div class="flex flex-col gap-4">
 				<Input label="Criterion Name" bind:value={$editableCriteriaState.name} />
+				<!--				<Dropdown-->
+				<!--					label="Criterion Type"-->
+				<!--					options={$data.step2Data.meta.eligibilityCriteriaTypeOptions}-->
+				<!--					disabled-->
+				<!--				/>-->
 				<Dropdown
-					label="Criterion Type"
-					bind:value={$editableCriteriaState.type}
-					options={$data.step2Data.meta.eligibilityCriteriaTypeOptions}
+					label="Category"
+					options={categoryOptions}
+					bind:value={$editableCriteriaState.category}
 				/>
 				<div class="flex flex-row gap-2">
+					<!--					<Input label="Mapping" LeftContent="$" RightIcon="TVL" />-->
+					<!--					<div class="mt-[43px]">-->
+					<!--						<ArrowRight />-->
+					<!--					</div>-->
 					<Input
-						label="Mapping"
-						bind:value={$editableCriteriaState.tvl}
-						LeftContent="$"
-						RightIcon="TVL"
-					/>
-					<div class="mt-[43px]">
-						<ArrowRight />
-					</div>
-					<Input
-						labelGap
-						bind:value={$editableCriteriaState.weight}
+						label="Weight"
+						onInput={onWeightChange}
 						LeftContent="x"
 						RightIcon="Point(s)"
+						type="bigint"
 					/>
 				</div>
-				<AddContractInput
-					label="List of contracts"
-					bind:contracts={$editableCriteriaState.contracts}
-				/>
+				<!--				<AddContractInput label="List of contracts" />-->
 			</div>
 			<div class="flex flex-row justify-between">
 				<Button class="self-end" on:click={handleDelete}>Delete</Button>

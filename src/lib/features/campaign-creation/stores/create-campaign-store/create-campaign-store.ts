@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { hubStore, modalStore, toastsStore, transactionStore } from '$lib/features';
+import { type CallMessage } from '@filament-zone/filament/CallMessage';
 import {
 	EContract,
 	EDelegatesABI,
@@ -91,12 +92,17 @@ const createHubTx: ICampaignStore['createHubTx'] = (msg) => {
 };
 
 const createCampaign: ICampaignStore['createCampaign'] = async () => {
-	const hubTx = createHubTx({
-		Init: {
-			title: get(campaignDetails).title,
-			description: get(campaignDetails).description,
+	const payload: CallMessage = {
+		Draft: {
+			title: get(campaignDetails).title as string,
+			description: get(campaignDetails).description as string,
 			criteria: get(campaignDetails).criteria,
 			evictions: get(campaignDetails).evictedDelegates
+		}
+	};
+	const hubTx = createHubTx({
+		core: {
+			...payload
 		}
 	});
 	await hubTx();
