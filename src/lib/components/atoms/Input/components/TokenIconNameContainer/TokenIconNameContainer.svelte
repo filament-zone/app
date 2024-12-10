@@ -20,7 +20,7 @@
 		gap: 2px;
 		padding: 0 8px;
 		border-radius: 4px 0 0 4px;
-		box-shadow: 0 0 0 0.3px var(--gray-200);
+		border: 0.5px solid var(--gray-200);
 		background: var(--background-100);
 		border-left: 0;
 		height: 30px;

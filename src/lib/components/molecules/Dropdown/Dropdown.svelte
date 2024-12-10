@@ -264,7 +264,7 @@
 		position: relative;
 	}
 	.multi-selected-items-container {
-		border: 0.4px solid var(--default);
+		border: 0.5px solid var(--default-border);
 		border-right: none;
 		border-bottom-left-radius: 4px;
 		border-top-left-radius: 4px;
@@ -275,7 +275,7 @@
 	.list-container {
 		width: 100%;
 		background-color: black;
-		border: 0.4px solid var(--default);
+		border: 0.5px solid var(--default-border);
 		position: absolute;
 		left: 0;
 		z-index: 1000;

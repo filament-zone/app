@@ -2,8 +2,7 @@
 	import { Modal, modalStore } from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
 	import type { TToggleContentContainerSelected } from '$lib/types';
-	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
-	import MinusCircleIcon from '$lib/assets/icons/minus-circle.svg?component';
+	import { CheckCircleIcon, MinusCircleIcon } from 'svelte-feather-icons';
 
 	const { closeModal } = modalStore;
 
@@ -27,10 +26,7 @@
 		<ToggleContentContainer bind:selected={toggleSelected}>
 			<ToggleContentCard slot="first">
 				<div slot="label" class="flex flex-row gap-4">
-					{#if toggleSelected === 'isFirst'}
-						<CheckmarkCircleIcon fill="var(--upOnly-400)" />
-					{:else}
-						<CheckmarkCircleIcon fill="var(--gray-200)" />{/if}
+					<CheckCircleIcon class={toggleSelected === 'isFirst' ? 'text-upOnly' : 'text-gray'} />
 					<Typography variant="caption">Yes</Typography>
 				</div>
 				<Typography variant="caption" slot="content"
@@ -41,10 +37,7 @@
 			</ToggleContentCard>
 			<ToggleContentCard slot="second">
 				<div slot="label" class="flex flex-row gap-4">
-					{#if toggleSelected === 'isSecond'}
-						<MinusCircleIcon fill="var(--rugged-400)" stroke="var(--rugged-400)" />
-					{:else}
-						<MinusCircleIcon fill="var(--gray-200)" />{/if}
+					<MinusCircleIcon class={toggleSelected === 'isSecond' ? 'text-rugged' : 'text-gray'} />
 					<Typography variant="caption">No</Typography>
 				</div>
 				>

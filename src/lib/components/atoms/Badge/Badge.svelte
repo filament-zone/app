@@ -70,32 +70,32 @@
 		height: 35px;
 
 		&.primary {
-			box-shadow: 0 0 0 1px var(--default-border);
+			border: 0.5px solid var(--default-border);
 			background-color: var(--darkNet);
 		}
 
 		&.secondary {
-			box-shadow: 0 0 0 1px var(--default-border);
+			border: 0.5px solid var(--default-border);
 			background-color: var(--darkNet-100);
 		}
 
 		&.success {
-			box-shadow: 0 0 0 0.4px var(--upOnly);
+			border: 0.5px solid var(--upOnly);
 			background-color: var(--darkNet);
 		}
 
 		&.in-progress {
-			box-shadow: 0 0 0 0.4px var(--purpleCow);
+			border: 0.5px solid var(--purpleCow);
 			background-color: var(--darkNet);
 		}
 
 		&.rejected {
-			box-shadow: 0 0 0 0.4px var(--rugged);
+			border: 0.5px solid var(--rugged);
 			background-color: var(--darkNet);
 		}
 
 		&.failed {
-			box-shadow: 0 0 0 0.4px var(--yellowPaper);
+			border: 0.5px solid var(--yellowPaper);
 			background-color: var(--darkNet);
 		}
 

@@ -237,7 +237,7 @@
 	}
 
 	.current-day {
-		box-shadow: 0 0 0 0.1px #fff;
+		border: 0.5px solid var(--primary-white);
 		border-radius: 50%;
 		color: white !important;
 	}

@@ -64,6 +64,7 @@
 		"svelte": "^4.2.19",
 		"svelte-check": "^4.0.7",
 		"svelte-device-info": "^1.0.6",
+		"svelte-feather-icons": "^4.2.0",
 		"svelte-portal": "^2.2.1",
 		"tailwindcss": "^3.4.15",
 		"tslib": "^2.8.1",

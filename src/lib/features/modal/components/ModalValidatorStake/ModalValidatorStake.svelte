@@ -43,7 +43,7 @@
 
 <style lang="less">
 	.estimate-container {
-		box-shadow: 0 0 0 0.3px var(--gray-200);
+		border: 0.5px solid var(--gray-200);
 		border-radius: 4px;
 	}
 </style>
