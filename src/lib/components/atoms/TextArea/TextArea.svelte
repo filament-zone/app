@@ -23,7 +23,7 @@
 	textarea {
 		border-radius: 4px;
 		background: var(--highlight-bg);
-		border: 0.4px solid var(--default);
+		border: 0.5px solid var(--default-border);
 		color: #fff;
 		font-family: var(--secondary-font);
 		font-style: normal;

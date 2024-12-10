@@ -149,7 +149,7 @@
 		transition: background-color 0.3s;
 		cursor: pointer;
 		background-color: var(--highlight-bg);
-		border: 0.5px solid var(--default);
+		border: 0.5px solid var(--default-border);
 
 		&.selected {
 			background-color: var(--foreground);

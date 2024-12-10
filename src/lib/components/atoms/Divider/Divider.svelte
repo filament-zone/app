@@ -3,6 +3,6 @@
 <style lang="less">
 	.divider {
 		width: 100%;
-		box-shadow: 0 0 0 0.3px var(--gray-200);
+		border: 0.5px solid var(--gray-200);
 	}
 </style>

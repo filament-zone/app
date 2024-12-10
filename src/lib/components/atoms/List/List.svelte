@@ -28,7 +28,7 @@
 		width: 100%;
 		min-width: 200px;
 		background-color: black;
-		box-shadow: 0 0 0 0.5px #242424;
+		border: 0.5px solid #242424;
 		left: 0;
 		top: 34px;
 		z-index: 1000;

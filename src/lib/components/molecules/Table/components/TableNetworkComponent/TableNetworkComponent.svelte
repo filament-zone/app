@@ -30,7 +30,7 @@
 	.aviability-indicator {
 		background-color: green;
 		border-radius: 3px;
-		box-shadow: 0 0 5px 2px green;
+		border: 0.5px solid green;
 		display: block;
 		height: 5px;
 		width: 5px;

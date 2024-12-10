@@ -16,6 +16,7 @@ export const routes = {
 			ROOT: '/campaigns/create',
 			AIR_DROP: { ROOT: `/campaigns/create/air-drop` }
 		},
+		CAMPAIGN_ID: { ROOT: '/campaigns/:campaignId' },
 		CHECK_THE_HUB: { ROOT: '/campaigns/check-the-hub' }
 	}
 };

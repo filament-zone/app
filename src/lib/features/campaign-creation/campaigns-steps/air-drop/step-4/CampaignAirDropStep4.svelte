@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
-	import { Container, Toggle, Typography } from '$lib/components';
-	import {
-		CampaignAirDropStep4Criteria,
-		CampaignAirDropStep4Delegates,
-		CampaignAirDropStep4Description,
-		CampaignAirDropStep4Votes,
-		createStepBarStore,
-		StepBar
-	} from '$lib/features';
-	import { EToggleVariant, type IToggleProps } from '$lib/types';
+	import { Container, Typography } from '$lib/components';
+	import { createStepBarStore, CampaignSummary, campaignStore } from '$lib/features';
+
+	const { campaignDetails } = campaignStore;
 
 	const summarySteps = [
 		{ value: 1, label: '1', description: 'Initiated', isActive: true, isCompleted: false },
@@ -32,15 +26,6 @@
 	];
 	const summaryContextId = 'summaryStepBarStore';
 	setContext(summaryContextId, createStepBarStore(summarySteps));
-
-	const toggleOptions: IToggleProps<string>['options'] = [
-		{ value: 'description', label: 'Description' },
-		{ value: 'criteria', label: 'Criteria' },
-		{ value: 'governance', label: 'Delegates' },
-		{ value: 'votes', label: 'Votes' }
-	];
-
-	$: toggleValue = toggleOptions[0].value;
 </script>
 
 <Container label="Campaign Preview">
@@ -48,16 +33,6 @@
 		<Typography variant="h5"
 			>EtherLend Protocol Airdrop: Empowering DeFi Lending on Ethereum
 		</Typography>
-		<StepBar contextId={summaryContextId} />
-		<Toggle options={toggleOptions} variant={EToggleVariant.SECONDARY} bind:value={toggleValue} />
-		{#if toggleValue === 'description'}
-			<CampaignAirDropStep4Description />
-		{:else if toggleValue === 'criteria'}
-			<CampaignAirDropStep4Criteria />
-		{:else if toggleValue === 'governance'}
-			<CampaignAirDropStep4Delegates />
-		{:else if toggleValue === 'votes'}
-			<CampaignAirDropStep4Votes />
-		{/if}
+		<CampaignSummary campaign={$campaignDetails} />
 	</div>
 </Container>

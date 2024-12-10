@@ -48,6 +48,7 @@ export type TCriterionPayload = {
 };
 
 export interface ICampaign {
+	id?: string;
 	createdAt?: string | null;
 	collateralStatus?: {
 		date?: string | null;

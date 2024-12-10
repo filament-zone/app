@@ -1,39 +1,26 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import { Modal, modalStore, PricingComponent } from '$lib/features';
-	import { Button, Typography } from '$lib/components';
+	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
 	import type { IDropdownProps } from '$lib/types';
+	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
 	const { closeModal } = modalStore;
 
+	let toggleSelected = 'isFirst';
+
 	const campaignInitiateState = writable({
 		isPayNow: {
-			selected: true,
+			selected: toggleSelected === 'isFirst',
 			quantity: 40000,
 			token: 'usdt'
 		},
 		isBond: {
-			selected: false,
+			selected: toggleSelected === 'isSecond',
 			quantity: 40000,
 			token: 'bFila'
 		}
 	});
-
-	const togglePayNow = () => {
-		campaignInitiateState.update((state) => {
-			state.isPayNow.selected = true;
-			state.isBond.selected = false;
-			return state;
-		});
-	};
-
-	const toggleBond = () => {
-		campaignInitiateState.update((state) => {
-			state.isPayNow.selected = false;
-			state.isBond.selected = true;
-			return state;
-		});
-	};
 
 	const dropdownOptionsPayNow: IDropdownProps['options'] = [
 		{ value: 'usdt', label: 'USDT' },
@@ -57,49 +44,39 @@
 		<Typography variant="subtitle2">
 			The pricing is determined algorithmically by the Filament Hub.
 		</Typography>
-		<PricingComponent
-			class="mt-8"
-			label="Pay Now"
-			requiredLabel={dropdownOptionsPayNow.find(
-				(option) => option.value === $campaignInitiateState.isPayNow.token
-			)?.label}
-			isActive={$campaignInitiateState.isPayNow.selected}
-			on:click={togglePayNow}
-			bind:dropdownValue={$campaignInitiateState.isPayNow.token}
-			dropdownOptions={dropdownOptionsPayNow}
-		/>
-		<div class="divider">
-			<Typography variant="subtitle2">or</Typography>
-		</div>
-		<PricingComponent
-			label="Deposit Bond"
-			requiredLabel={dropdownOptionsBond.find(
-				(option) => option.value === $campaignInitiateState.isBond.token
-			)?.label}
-			isActive={$campaignInitiateState.isBond.selected}
-			on:click={toggleBond}
-			bind:dropdownValue={$campaignInitiateState.isBond.token}
-			dropdownOptions={dropdownOptionsBond}
-		/>
-		<Button on:click={closeModal} class="ml-auto mt-8" variant="secondary">Initiate Campaign</Button
-		>
+
+		<ToggleContentContainer bind:selected={toggleSelected}>
+			<ToggleContentCard slot="first">
+				<div class="flex flex-row gap-2" slot="label">
+					<CheckmarkCircleIcon fill="var(--upOnly-400)" />
+					<Typography variant="caption" slot="label">Pay Now</Typography>
+				</div>
+				<PricingComponent
+					slot="content"
+					requiredLabel={dropdownOptionsPayNow.find(
+						(option) => option.value === $campaignInitiateState.isPayNow.token
+					)?.label}
+					bind:dropdownValue={$campaignInitiateState.isPayNow.token}
+					dropdownOptions={dropdownOptionsPayNow}
+				/>
+			</ToggleContentCard>
+			<ToggleContentCard slot="second">
+				<div class="flex flex-row gap-2" slot="label">
+					<CheckmarkCircleIcon fill="var(--upOnly-400)" />
+					<Typography variant="caption" slot="label">Deposit Bond</Typography>
+				</div>
+				<PricingComponent
+					slot="content"
+					requiredLabel={dropdownOptionsBond.find(
+						(option) => option.value === $campaignInitiateState.isBond.token
+					)?.label}
+					bind:dropdownValue={$campaignInitiateState.isBond.token}
+					dropdownOptions={dropdownOptionsBond}
+				/>
+			</ToggleContentCard>
+		</ToggleContentContainer>
+		<Button on:click={closeModal} class="ml-auto mt-8" variant="secondary">
+			Initiate Campaign
+		</Button>
 	</div>
 </Modal>
-
-<style lang="less">
-	.divider {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		margin: 20px 0;
-	}
-
-	.divider::before,
-	.divider::after {
-		content: '';
-		flex: 1;
-		border-bottom: 1px solid #ffffff;
-		margin: 0 10px;
-	}
-</style>

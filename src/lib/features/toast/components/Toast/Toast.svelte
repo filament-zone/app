@@ -17,7 +17,7 @@
 		background-color: #333;
 		color: white;
 		border-radius: 2px;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		border: 0.5px solid var(--default-border);
 		transition: transform 0.3s ease-in-out;
 		font-family: var(--primary-font);
 	}

@@ -5,7 +5,6 @@ declare const __propDef: {
 	props: {
 		label: string;
 		requiredLabel: string;
-		isActive: boolean;
 		dropdownValue: IDropdownProps['value'];
 		dropdownOptions: IDropdownProps['options'];
 	};

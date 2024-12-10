@@ -124,7 +124,7 @@
 			&.selected {
 				border-radius: 4px;
 				background-color: var(--filaMint-700);
-				color: var(--filaMint-100);
+				color: var(--upOnly-100);
 			}
 		}
 	}

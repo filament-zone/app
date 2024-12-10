@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
+	import { derived, writable } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { clickOutside } from '$lib/actions';
 	import { List, Typography } from '$lib/components';
 	import type { IListItemOption, INavBarItemOption } from '$lib/types';
-
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
 	export let option: INavBarItemOption;
@@ -15,6 +14,8 @@
 	const handleClickOutside = () => {
 		isOpen.set(false);
 	};
+
+	const data = derived(page, () => $page.data);
 
 	$: currentPath = $page?.url?.pathname ?? '';
 	$: mainRouteSelected = currentPath.split('/')[1] === option.path?.split('/')[1];
@@ -37,9 +38,33 @@
 		}
 	}
 
+	type RouteConfig = {
+		condition: () => boolean | undefined;
+		getLabel: () => string;
+	};
+
+	const routeLabelMap: Record<string, RouteConfig> = {
+		campaignDetails: {
+			condition: () => $page.route.id?.includes('campaignId'),
+			getLabel: () => $data.campaign.title || ''
+		}
+	};
+
+	const getCustomLabel = () => {
+		for (const key in routeLabelMap) {
+			const { condition, getLabel } = routeLabelMap[key];
+			if (condition()) {
+				return getLabel();
+			}
+		}
+		return '';
+	};
+
 	$: generateLabel = () => {
 		if (option.subItems?.length && currentPath.split('/')[1] === option.path?.split('/')[1]) {
-			return `${option.label} / ${currentPath.split('/')[2]}`;
+			const customLabel = getCustomLabel();
+			const defaultLabel = currentPath.split('/')[2];
+			return `${option.label} / ${customLabel || defaultLabel}`;
 		}
 		return option.label;
 	};

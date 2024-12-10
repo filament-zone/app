@@ -41,7 +41,7 @@
 	.wallet-container {
 		display: flex;
 		flex-direction: column;
-		box-shadow: 0 0 0 0.1px var(--primary-white);
+		border: 0.5px solid var(--primary-white);
 		background: var(--darkNet);
 		border-radius: 4px;
 		padding: 8px;
