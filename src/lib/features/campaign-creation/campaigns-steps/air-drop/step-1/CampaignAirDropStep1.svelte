@@ -5,13 +5,7 @@
 	import { page } from '$app/stores';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
 	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
-	import {
-		EDelegateType,
-		EInputSizeVariant,
-		type IDelegate,
-		type IEligibilityCriteria,
-		type ITableProps
-	} from '$lib/types';
+	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
 
 	const data = derived(page, () => $page.data);
 
@@ -65,7 +59,7 @@
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
-		onRowClick: (row: Row<IEligibilityCriteria>) => {
+		onRowClick: (row: Row<IDelegate>) => {
 			toggleDelegate(row.original.id as string);
 		},
 		sortingState: [{ id: 'votingPower', desc: true }]
@@ -79,7 +73,7 @@
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.EVICTED),
-		onRowClick: (row: Row<IEligibilityCriteria>) => {
+		onRowClick: (row: Row<IDelegate>) => {
 			toggleDelegate(row.original.id as string);
 		},
 		sortingState: [{ id: 'votingPower', desc: true }]

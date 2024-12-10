@@ -1,12 +1,4 @@
-import type { IEligibilityCriteria } from '$lib/types';
+import type { Criterion } from '@filament-zone/filament/Criterion';
 
-export const checkIsCriteriaCompleted = (criteria: IEligibilityCriteria) =>
-	Object.entries(criteria).every(([key, value]) => {
-		if (key === 'completed') {
-			return true;
-		}
-		if (key === 'contracts') {
-			return value.length;
-		}
-		return Boolean(value);
-	});
+export const checkIsCriteriaCompleted = (criteria: Criterion) =>
+	Object.values(criteria).every((value) => Boolean(value));

@@ -30,9 +30,9 @@
 		EToggleVariant,
 		type ICalendarProps,
 		type ICampaignCreationSidebarCriteriaState,
-		type IEligibilityCriteria,
 		type ITableProps
 	} from '$lib/types';
+	import type { Criterion } from '@filament-zone/filament/Criterion';
 
 	const data = derived(page, () => $page.data);
 	const { openRightSideBar, activeRightSideBar } = rightSideBarStore;
@@ -44,12 +44,7 @@
 			snapshotDate: $data.step2Data.snapshotDate,
 			snapshotInterval: $data.step2Data.snapshotInterval,
 			snapshotTotal: $data.step2Data.snapshotTotal,
-			criteria: $data.step2Data.eligibilityCriteriaTable.data.map((item: IEligibilityCriteria) => {
-				return {
-					...item,
-					completed: checkIsCriteriaCompleted(item)
-				};
-			})
+			criteria: $data.step2Data.criteria
 		}));
 	});
 
@@ -59,11 +54,11 @@
 			accessorKey: 'completed',
 			header: ' ',
 			cell: (value) => {
-				const isCompleted = value.getValue() as IEligibilityCriteria['completed'];
+				const isCompleted = checkIsCriteriaCompleted(value.row.original as Criterion);
 				const isSettingsCircleGreen =
 					!!$activeRightSideBar.state &&
-					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).criteriaId ===
-						(value.row.original as IEligibilityCriteria).id;
+					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).name ===
+						(value.row.original as Criterion).name;
 
 				return flexRender(HoverableCell, {
 					id: value.row.id,
@@ -77,11 +72,10 @@
 					cursor: 'pointer'
 				},
 				onClick: (cell) => {
-					const selectedCriteriaId = cell.getContext().row.original
-						.id as IEligibilityCriteria['id'];
+					const selectedCriteriaName = cell.getContext().row.original.name as Criterion['name'];
 					openRightSideBar({
 						variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA,
-						state: { criteriaId: selectedCriteriaId }
+						state: { name: selectedCriteriaName }
 					});
 				}
 			}
@@ -91,30 +85,23 @@
 	$: toggleValue = 'all';
 
 	$: eligibilityCriteriaTable = {
-		...$data.step2Data.eligibilityCriteriaTable,
+		tableLabel: '',
 		data: [
-			...$campaignDetails.criteria
-				.filter((item) => {
-					if (toggleValue === 'all') {
-						return true;
-					}
-					if (toggleValue === item.category) {
-						return true;
-					}
-				})
-				.map((criteria) => {
-					return {
-						...criteria,
-						completed: checkIsCriteriaCompleted(criteria)
-					};
-				})
+			...$campaignDetails.criteria.filter((item) => {
+				if (toggleValue === 'all') {
+					return true;
+				}
+				if (toggleValue === item.category) {
+					return true;
+				}
+			})
 		],
 		columnDef: [...eligibilityCriteriaColumnDef],
-		onRowClick: (row: Row<IEligibilityCriteria>) => {
-			const selectedCriteriaId = row.original.id as IEligibilityCriteria['id'];
+		onRowClick: (row: Row<Criterion>) => {
+			const selectedCriteriaName = row.original.name as Criterion['name'];
 			openRightSideBar({
 				variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA,
-				state: { criteriaId: selectedCriteriaId }
+				state: { name: selectedCriteriaName }
 			});
 		}
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;

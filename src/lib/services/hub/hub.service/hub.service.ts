@@ -1,4 +1,5 @@
 import { ethers, SigningKey } from 'ethers';
+import JSONBig from 'json-bigint';
 import { hexToBytes } from 'ethereum-cryptography/utils';
 import { EventEmitter, EWalletProvider, HubApiClient, WalletClientConnector } from '$lib/services';
 
@@ -26,10 +27,10 @@ export class HubService {
 		);
 		try {
 			await this.WalletClientConnector.connect();
-
 			const chainId = BigInt(4321);
 
-			const serializedCall = serialize_call(JSON.stringify(msg));
+			const payload = JSONBig.stringify(msg);
+			const serializedCall = serialize_call(payload);
 
 			const newUnsignedTx = new_unsigned_tx(serializedCall, chainId);
 
