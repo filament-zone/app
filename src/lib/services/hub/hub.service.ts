@@ -1,7 +1,7 @@
-import { ethers, SigningKey } from 'ethers';
+import { ethers } from 'ethers';
 import JSONBig from 'json-bigint';
-import { hexToBytes } from 'ethereum-cryptography/utils';
-import { EventEmitter, EWalletProvider, HubApiClient, WalletClientConnector } from '$lib/services';
+import { EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
+import { TransactionHubApiClient } from '$lib/api';
 
 export class HubService {
 	private WalletClientConnector: WalletClientConnector;
@@ -15,10 +15,12 @@ export class HubService {
 	public async processHubTransaction({
 		id,
 		msg,
+		nonce,
 		eventEmitter
 	}: {
 		id: string;
 		msg: object;
+		nonce: number;
 		eventEmitter: EventEmitter;
 	}): Promise<null | void> {
 		eventEmitter.emit('transaction:start', { id, msg });
@@ -32,7 +34,7 @@ export class HubService {
 			const payload = JSONBig.stringify(msg);
 			const serializedCall = serialize_call(payload);
 
-			const newUnsignedTx = new_unsigned_tx(serializedCall, chainId);
+			const newUnsignedTx = new_unsigned_tx(serializedCall, chainId, BigInt(nonce));
 
 			const signature = await this.WalletClientConnector.Client.Signer?.signMessage(newUnsignedTx);
 
@@ -40,20 +42,15 @@ export class HubService {
 				return null;
 			}
 
-			const messageHashHex = ethers.hashMessage(serializedCall);
-			const messageHash = hexToBytes(messageHashHex);
-
-			const recoveredPublicKey = SigningKey.recoverPublicKey(messageHash, signature);
-
 			const serializedSignedTx = new_serialized_tx(
 				ethers.getBytes(signature),
-				ethers.getBytes(recoveredPublicKey),
 				serializedCall,
-				chainId
+				chainId,
+				BigInt(nonce)
 			);
 
 			eventEmitter.emit('transaction:send:start', { id });
-			await HubApiClient.sendTx(serializedSignedTx);
+			await TransactionHubApiClient.sendTx(serializedSignedTx);
 			eventEmitter.emit('transaction:send:success', { id });
 
 			eventEmitter.emit('transaction:success', { id });

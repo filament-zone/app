@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 import { walletStore } from '$lib/features';
 import { EventEmitter, EWalletProvider, HubService } from '$lib/services';
+import { AccountHubApiClient } from '$lib/api';
 import type {
 	IHubStore,
 	ITransactionErrorPayload,
@@ -56,9 +57,18 @@ export const processHubTransaction: IHubStore['processHubTransaction'] = async (
 
 		transactionsStore.update((transactions) => [...transactions, transactionState]);
 
+		if (!get(wallet).address) {
+			return;
+		}
+
+		const {
+			data: { nonce }
+		} = await AccountHubApiClient.getAccountInfoByEthAddr(get(wallet).address as string);
+
 		await hubService.processHubTransaction({
 			id,
 			msg,
+			nonce: nonce,
 			eventEmitter
 		});
 	} catch (error) {
