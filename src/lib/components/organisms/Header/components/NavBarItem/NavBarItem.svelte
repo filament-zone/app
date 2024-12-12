@@ -46,7 +46,7 @@
 	const routeLabelMap: Record<string, RouteConfig> = {
 		campaignDetails: {
 			condition: () => $page.route.id?.includes('campaignId'),
-			getLabel: () => $data.campaign.title || ''
+			getLabel: () => $data?.campaign?.title || ''
 		}
 	};
 
