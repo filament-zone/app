@@ -47,6 +47,10 @@
 		campaignDetails: {
 			condition: () => $page.route.id?.includes('campaignId'),
 			getLabel: () => $data?.campaign?.title || ''
+		},
+		create: {
+			condition: () => $page.route.id?.includes('create'),
+			getLabel: () => 'Create'
 		}
 	};
 

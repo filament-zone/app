@@ -1,21 +1,22 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
+	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/constants';
-	import { airDropCampaignCreationConfig, campaignStore } from '$lib/features';
+	import { campaignStore } from '$lib/features';
 	import { Button } from '$lib/components';
+	import { replaceUrlParams } from '$lib/helpers';
 	import { EButtonStyleVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
-	import CloseIcon from '$lib/assets/icons/x.svg?component';
 
+	import CloseIcon from '$lib/assets/icons/x.svg?component';
 	import ArrowIcon from '$lib/assets/icons/arrow-1.svg?component';
 	import PlusIcon from '$lib/assets/icons/plus.svg?component';
-	import { validateForm } from '$lib/helpers';
 
 	export let handleBack: INavigationFooterProps['handleBack'] = () => {};
 	export let disabled: INavigationFooterProps['disabled'] = false;
 
-	const { campaignDetails, clearCampaignDetails, createCampaign } = campaignStore;
-	const { nextStep, currentStep, setCurrentStep, steps, isLastStep, isPreLastStep } =
+	const { clearCampaignDetails, createCampaign } = campaignStore;
+	const { currentStep, steps, isLastStep, isPreLastStep, validateCurrentStep } =
 		getContext<IStepBarStore>('stepBarStore');
 
 	$: localHandleNext = async () => {
@@ -26,15 +27,15 @@
 			}
 			return;
 		}
-		let isValid;
-
-		isValid = await validateForm(
-			$campaignDetails as unknown as Record<string, unknown>,
-			airDropCampaignCreationConfig.validationsSchemas[$currentStep - 1]
-		);
+		const isValid = await validateCurrentStep();
 
 		if (isValid) {
-			nextStep();
+			goto(
+				replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+					campaignType: 'air-drop',
+					step: ($currentStep + 1).toString()
+				})
+			);
 		}
 	};
 </script>
@@ -49,7 +50,17 @@
 						if (handleBack) {
 							handleBack();
 						}
-						setCurrentStep($currentStep - 1);
+						if ($page.route.id?.includes('create')) {
+							goto(
+								replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+									campaignType: 'air-drop',
+									step: ($currentStep - 1).toString()
+								})
+							);
+						} else if ($page.route.id?.includes('edit')) {
+							// TODO: implement edit campaign route
+							// goto(routes.CAMPAIGNS.MANAGE.EDIT.ROOT);
+						}
 					}}
 					{disabled}>Back</Button
 				>
@@ -58,7 +69,7 @@
 				Icon={CloseIcon}
 				on:click={() => {
 					clearCampaignDetails();
-					goto(routes.CAMPAIGNS.ROOT);
+					goto(routes.CAMPAIGNS.MANAGE.ROOT);
 				}}
 				{disabled}
 			>

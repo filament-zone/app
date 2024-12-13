@@ -8,4 +8,5 @@ export interface IStepBarStore {
 	nextStep: () => void;
 	isLastStep: Readable<boolean>;
 	isPreLastStep: Readable<boolean>;
+	validateCurrentStep: () => Promise<boolean>;
 }

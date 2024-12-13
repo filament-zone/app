@@ -21,8 +21,8 @@
 	export let closeOnClickOutside: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'] = false;
 	export let disabled: IDatePickerProps<CalendarMode.SINGLE>['disabled'] = false;
 
-	$: initialDate = (value?.date ? moment(value.date) : moment()) as Moment;
-	$: localDate = { date: initialDate.toISOString() } as { date: string | null };
+	$: initialDate = (value?.date ? moment(value.date) : '') as Moment;
+	$: localDate = { date: initialDate ? initialDate?.toISOString() : '' } as { date: string | null };
 
 	let isPopoverOpen = false;
 
@@ -95,7 +95,7 @@
 						handleOpenPopover();
 					}
 				}}
-				value={initialDate.format('MM / DD / YYYY')}
+				value={initialDate ? initialDate.format('MM / DD / YYYY') : ''}
 				placeholder="Date"
 				RightIcon={CalendarIcon}
 				{disabled}

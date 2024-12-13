@@ -21,7 +21,7 @@
 		"@chromatic-com/storybook": "^2.0.2",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
-		"@filament-zone/filament": "^0.1.0-bb4a176",
+		"@filament-zone/filament": "^0.1.0-4c47597",
 		"@playwright/test": "^1.48.2",
 		"@poppanator/sveltekit-svg": "^4.2.1",
 		"@prgm/sveltekit-progress-bar": "^2.0.0",

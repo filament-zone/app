@@ -18,7 +18,7 @@
 	const handleOpenCampaignDetails = () => {
 		goto(
 			replaceUrlParams(routes.CAMPAIGNS.CAMPAIGN_ID.ROOT, {
-				campaignId: campaign.id ?? 'mock-campaign-id'
+				campaignId: campaign.id.toString()
 			})
 		);
 	};

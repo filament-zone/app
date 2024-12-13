@@ -42,15 +42,15 @@ test.describe('NavBarComponent', () => {
 
 		// Repeat similar steps for the 'create' link
 		await page.getByTestId('nav-item-campaigns').click();
-		await page.waitForSelector('[data-testid="list-item-campaigns/create"]');
+		await page.waitForSelector('[data-testid="list-item-campaigns/manage/create"]');
 		await page.evaluate(() => {
-			const element = document.querySelector('[data-testid="list-item-campaigns/create"]');
+			const element = document.querySelector('[data-testid="list-item-campaigns/manage/create"]');
 			if (element) {
 				(element as HTMLElement).click();
 			}
 		});
 
 		await page.waitForNavigation();
-		await expect(page.url()).toContain('/campaigns/create');
+		await expect(page.url()).toContain('/campaigns/manage/create');
 	});
 });

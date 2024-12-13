@@ -2,7 +2,8 @@
 	import { writable } from 'svelte/store';
 	import { CampaignTimeLineItem, Modal, modalStore } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
-	import { ECampaignTimeLineItem, type ICampaignTimeLineItemProps } from '$lib/types';
+	import { type ICampaignTimeLineItemProps } from '$lib/types';
+	import { ECampaignTimeLineItem } from '$lib/features/campaign/components/CampaignListItem/components/CampaginTimeLineItem/CampaignTimeLineItem.enums';
 
 	const { closeModal } = modalStore;
 

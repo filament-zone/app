@@ -1,5 +1,5 @@
 import { PUBLIC_FILAMENT_SC_ADDRESS } from '$env/static/public';
-import delegatesABI from '$lib/services/transaction/ethereum.transaction/ethereum.transaction.config/campaign-creation/delegates/delegates.json';
+import delegatesABI from '$lib/services/transaction/ethereum.transaction/ethereum.transaction.config/campaign/delegates/delegates.json';
 import { type JsonInterface } from '$lib/types';
 import { EContract } from '$lib/services/transaction/ethereum.transaction/ethereum.enums';
 

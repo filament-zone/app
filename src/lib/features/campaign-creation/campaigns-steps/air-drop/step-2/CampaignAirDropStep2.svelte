@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import moment from 'moment/moment.js';
 	import { page } from '$app/stores';
@@ -37,16 +36,6 @@
 	const data = derived(page, () => $page.data);
 	const { openRightSideBar, activeRightSideBar } = rightSideBarStore;
 	const { campaignDetails } = campaignStore;
-
-	onMount(() => {
-		campaignDetails.update((prev) => ({
-			...prev,
-			snapshotDate: $data.step2Data.snapshotDate,
-			snapshotInterval: $data.step2Data.snapshotInterval,
-			snapshotTotal: $data.step2Data.snapshotTotal,
-			criteria: $data.step2Data.criteria
-		}));
-	});
 
 	$: eligibilityCriteriaColumnDef = [
 		...eligibilityCriteriaColumnDefCommon,
@@ -88,10 +77,11 @@
 		tableLabel: '',
 		data: [
 			...$campaignDetails.criteria.filter((item) => {
-				if (toggleValue === 'all') {
+				const isCompleted = checkIsCriteriaCompleted(item);
+				if (toggleValue === 'all' && isCompleted) {
 					return true;
 				}
-				if (toggleValue === item.category) {
+				if (toggleValue === item.category && isCompleted) {
 					return true;
 				}
 			})
@@ -109,28 +99,52 @@
 	const handleChangeDateOneTime: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
 		value: ICalendarProps<CalendarMode.SINGLE>['value']
 	) => {
-		campaignDetails.update((prev) => ({ ...prev, snapshotDate: value.date }));
+		campaignDetails.update((prev) => ({
+			...prev,
+			timeSettings: {
+				...prev.timeSettings,
+				[ECampaignTimeSettings.ONE_TIME]: {
+					...prev.timeSettings[ECampaignTimeSettings.ONE_TIME],
+					date: value.date
+				}
+			}
+		}));
 	};
 
 	$: setSnapshotEndDate = () => {
 		if (
-			$campaignDetails.snapshotStartDateRecurring &&
-			$campaignDetails.snapshotInterval &&
-			$campaignDetails.snapshotTotal
+			$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING]?.startDate &&
+			$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING]?.interval &&
+			$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING]?.total
 		) {
-			const value = moment($campaignDetails.snapshotStartDateRecurring).add(
-				+$campaignDetails.snapshotInterval * +$campaignDetails.snapshotTotal,
+			const value = moment(
+				$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].startDate
+			).add(
+				+$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].interval *
+					+$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].total,
 				'days'
 			);
 
 			campaignDetails.update((prev) => ({
 				...prev,
-				snapshotEndDateRecurring: value.toLocaleString()
+				timeSettings: {
+					...prev.timeSettings,
+					[ECampaignTimeSettings.RECURRING]: {
+						...prev.timeSettings[ECampaignTimeSettings.RECURRING],
+						endDate: value.toLocaleString()
+					}
+				}
 			}));
 		} else {
 			campaignDetails.update((prev) => ({
 				...prev,
-				snapshotEndDateRecurring: null
+				timeSettings: {
+					...prev.timeSettings,
+					[ECampaignTimeSettings.RECURRING]: {
+						...prev.timeSettings[ECampaignTimeSettings.RECURRING],
+						endDate: null
+					}
+				}
 			}));
 		}
 	};
@@ -138,7 +152,16 @@
 	const handleChangeDateRecurring: ICalendarProps<CalendarMode.SINGLE>['onChange'] = (
 		value: ICalendarProps<CalendarMode.SINGLE>['value']
 	) => {
-		campaignDetails.update((prev) => ({ ...prev, snapshotStartDateRecurring: value.date }));
+		campaignDetails.update((prev) => ({
+			...prev,
+			timeSettings: {
+				...prev.timeSettings,
+				[ECampaignTimeSettings.RECURRING]: {
+					...prev.timeSettings[ECampaignTimeSettings.RECURRING],
+					startDate: value.date
+				}
+			}
+		}));
 		setSnapshotEndDate();
 	};
 
@@ -162,39 +185,40 @@
 			</Typography>
 			<Toggle
 				label="Time settings"
-				bind:value={$campaignDetails.timeSettings}
-				options={$data.step2Data.meta.timeSettingsOptions}
+				bind:value={$campaignDetails.timeSettings.selectedType}
+				options={$data.pageData.step2Data.meta.timeSettingsOptions}
 			/>
-			{#if $campaignDetails.timeSettings === ECampaignTimeSettings.ONE_TIME}
+			{#if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.ONE_TIME}
 				<DatePicker
 					label="Snapshot Date"
-					value={{ date: $campaignDetails.snapshotDate }}
+					value={{ date: $campaignDetails.timeSettings['ONE_TIME'].date }}
 					onChange={handleChangeDateOneTime}
 				/>
-			{:else if $campaignDetails.timeSettings === ECampaignTimeSettings.RECURRING}
+			{:else if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.RECURRING}
 				<div class="flex flex-row justify-between">
 					<DatePicker
 						label="Snapshot Start Date"
-						value={{ date: $campaignDetails.snapshotStartDateRecurring }}
+						value={{
+							date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].startDate
+						}}
 						onChange={handleChangeDateRecurring}
 					/>
 					<Dropdown
 						label="Snapshot Interval"
 						sizeVariant={EDropdownSizeVariant.MEDIUM}
-						options={$data.step2Data.meta.snapshotIntervalOptions}
-						bind:value={$campaignDetails.snapshotInterval}
+						options={$data.pageData.step2Data.meta.snapshotIntervalOptions}
+						bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].interval}
 					/>
 					<Input
 						label="Total Snapshots"
-						placeholder="10"
 						type="number"
 						sizeVariant={EInputSizeVariant.MEDIUM}
-						bind:value={$campaignDetails.snapshotTotal}
+						bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].total}
 						LeftContent="#"
 					/>
 					<DatePicker
 						label="Snapshot End Date"
-						value={{ date: $campaignDetails.snapshotEndDateRecurring }}
+						value={{ date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].endDate }}
 						disabled
 					/>
 				</div>
@@ -210,7 +234,7 @@
 				configure the weights as preferred.
 			</Typography>
 			<Toggle
-				options={$data.step2Data.meta.eligibilityCriteriaCategoryOptions}
+				options={$data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions}
 				variant={EToggleVariant.SECONDARY}
 				bind:value={toggleValue}
 			/>

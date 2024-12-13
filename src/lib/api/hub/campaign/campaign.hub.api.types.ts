@@ -1,6 +1,5 @@
-import type { CriterionCategory } from '@filament-zone/filament/CriterionCategory';
-import { EEligibilityCriteriaType } from '$lib/types';
-import type { Criterion } from '@filament-zone/filament/Criterion';
+import type { Campaign, Criterion, CriterionCategory } from '@filament-zone/filament';
+import type { EEligibilityCriteriaType } from '$lib/api/hub/campaign/campaign.hub.api.enums';
 
 export interface IDelegate {
 	id: string;
@@ -47,27 +46,32 @@ export type TCriterionPayload = {
 	inputs: ICriteriaInput[];
 };
 
-export interface ICampaign {
-	id?: string;
+export interface ICampaign extends Campaign {
 	createdAt?: string | null;
 	collateralStatus?: {
 		date?: string | null;
 		status?: string | null;
 	};
+
 	// STEP 1 VALUES START
-	title: string | null;
-	description: string | null;
-	maxEvictableDelegates: string | null;
-	activeDelegates: string[];
-	evictedDelegates: string[];
+	// title: string,
+	// description: string,
+	// evictions: Array<string>,
 	// STEP 1 VALUES END
+
 	// STEP 2 VALUES START
-	timeSettings: ECampaignTimeSettings | null;
-	snapshotDate: string | null;
-	snapshotStartDateRecurring: string | null;
-	snapshotInterval: string | null;
-	snapshotTotal: string | null;
-	snapshotEndDateRecurring: string | null;
+	timeSettings: {
+		selectedType: ECampaignTimeSettings | null;
+		[ECampaignTimeSettings.ONE_TIME]: {
+			date: string | null;
+		};
+		[ECampaignTimeSettings.RECURRING]: {
+			startDate: string | null;
+			endDate: string | null;
+			interval: string | null;
+			total: string | null;
+		};
+	};
 	criteria: Criterion[];
 	// STEP 2 VALUES END
 	// START STEP-3

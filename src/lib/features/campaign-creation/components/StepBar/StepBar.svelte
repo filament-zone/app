@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
+	import { derived } from 'svelte/store';
+	import { page } from '$app/stores';
 	import { Dots, StepBarCampaignButton } from '$lib/features';
-	import { type IStepBarProps, type IStepBarStore } from '$lib/types';
 	import { eventListener } from '$lib/helpers';
+	import { type IStepBarProps, type IStepBarStore } from '$lib/types';
 
 	export let contextId: IStepBarProps['contextId'] = 'stepBarStore';
+	const data = derived(page, () => $page.data);
 
-	const { steps, currentStep } = getContext<IStepBarStore>(contextId);
-	const getColor = (step: number) => ($currentStep > step ? '#21F879' : '#A8A8A8');
+	const { steps } = getContext<IStepBarStore>(contextId);
+	const getColor = (step: number) => ($data.currentStep > step ? '#21F879' : '#A8A8A8');
 
 	let gaps: number[] | null = [];
 	let container: HTMLDivElement;
@@ -48,7 +51,7 @@
 		<div class="flex flex-row justify-between items-center w-full">
 			{#each $steps as step, index}
 				<div class="flex flex-row step-button">
-					<StepBarCampaignButton {step} {contextId} />
+					<StepBarCampaignButton {step} />
 				</div>
 				{#if index < $steps.length - 1}
 					<div class="mx-2 flex flex-row justify-between flex-grow dots-wrapper">
