@@ -1,1 +1,1 @@
-export * from './campaign-creation';
+export * from './campaign';

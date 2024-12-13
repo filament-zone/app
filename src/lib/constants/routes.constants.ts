@@ -11,10 +11,10 @@ export const routes = {
 	},
 	CAMPAIGNS: {
 		ROOT: '/campaigns',
-		MANAGE: { ROOT: '/campaigns/manage' },
-		CREATE: {
-			ROOT: '/campaigns/create',
-			AIR_DROP: { ROOT: `/campaigns/create/air-drop` }
+		MANAGE: {
+			ROOT: '/campaigns/manage',
+			CREATE: { ROOT: '/campaigns/manage/create/:campaignType/:step' },
+			EDIT: { ROOT: '/campaigns/manage/edit/:campaignId/:step' }
 		},
 		CAMPAIGN_ID: { ROOT: '/campaigns/:campaignId' },
 		CHECK_THE_HUB: { ROOT: '/campaigns/check-the-hub' }

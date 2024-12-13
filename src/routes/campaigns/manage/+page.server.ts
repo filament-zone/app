@@ -1,4 +1,4 @@
-import { generateMockCampaigns } from '$lib/features';
+import { CampaignHubApiClient } from '$lib/api';
 
 export const load = async () => {
 	const campaignToggleOptions = [
@@ -8,10 +8,10 @@ export const load = async () => {
 		{ value: 'draft', label: 'Draft' }
 	];
 
-	const campaignList = generateMockCampaigns(2);
+	const { data } = await CampaignHubApiClient.getCampaigns();
 
 	return {
 		campaignToggleOptions,
-		campaignList
+		campaignList: data
 	};
 };

@@ -1,1 +1,1 @@
-export * from './campaign-creation/index.types';
+export * from './campaign/index.types';

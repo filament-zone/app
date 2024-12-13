@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { campaignStore } from '$lib/features';
@@ -9,19 +8,6 @@
 
 	const data = derived(page, () => $page.data);
 	const { campaignDetails } = campaignStore;
-
-	onMount(() => {
-		campaignDetails.update((prev) => ({
-			...prev,
-			visibility: $data.step3Data.visibility,
-			relativeShare: $data.step3Data.relativeShare,
-			totalAirDropSupply: $data.step3Data.totalAirDropSupply,
-			tokenContractAddress: $data.step3Data.tokenContractAddress,
-			budgetFrom: $data.step3Data.budgetFrom,
-			budgetTo: $data.step3Data.budgetTo,
-			bond: $data.step3Data.bond
-		}));
-	});
 </script>
 
 <div class="flex flex-col gap-5">
@@ -36,7 +22,7 @@
 				<Toggle
 					label="Visibility"
 					bind:value={$campaignDetails.visibility}
-					options={$data.step3Data.meta.visibilityOptions}
+					options={$data.pageData.step3Data.meta.visibilityOptions}
 					sizeVariant={EToggleSizeVariant.NORMAL}
 				/>
 				<Input

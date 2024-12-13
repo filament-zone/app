@@ -5,7 +5,7 @@
 
 	export let data;
 
-	setContext('stepBarStore', createStepBarStore(data.initSteps));
+	setContext('stepBarStore', createStepBarStore(data.layoutData.initSteps));
 </script>
 
 <div class="flex flex-col h-full">

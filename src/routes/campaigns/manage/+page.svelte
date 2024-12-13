@@ -1,35 +1,26 @@
 <script lang="ts">
-	import { beforeUpdate } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { HubApiClient } from '$lib/services';
-	import { CampaignListItem, walletStore } from '$lib/features';
-	import { Button, Container, Toggle } from '$lib/components/';
+	import { CampaignListItem } from '$lib/features';
+	import { Button, Container, Toggle } from '$lib/components';
 	import { routes } from '$lib/constants';
+	import { replaceUrlParams } from '$lib/helpers';
 	import { EToggleVariant } from '$lib/types';
 
 	export let data;
 
 	$: toggleValue = 'all';
-	const { wallet } = walletStore;
-
-	beforeUpdate(async () => {
-		const allCampaigns = await HubApiClient.getAllCampaigns();
-		console.log('allCampaigns', allCampaigns);
-
-		if (!$wallet.address) {
-			return;
-		}
-
-		const campaignsById = await HubApiClient.getCampaignsByEthAddr($wallet.address);
-		console.log('campaignsById', campaignsById);
-	});
 </script>
 
 <Container label="Airdrops list">
 	<div slot="header">
 		<Button
 			on:click={() => {
-				goto(routes.CAMPAIGNS.CREATE.AIR_DROP.ROOT);
+				goto(
+					replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+						campaignType: 'air-drop',
+						step: '1'
+					})
+				);
 			}}
 		>
 			Create

@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { hubStore, modalStore, toastsStore, transactionStore } from '$lib/features';
+import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation/mock/mock';
 import { type CallMessage } from '@filament-zone/filament/CallMessage';
 import {
 	EContract,
@@ -8,36 +9,48 @@ import {
 	type ICampaign,
 	type ICampaignStore
 } from '$lib/types';
-import { ECampaignTimeSettings } from '$lib/features/campaign/campaign.types';
+import { ECampaignTimeSettings } from '$lib/api/hub/campaign/campaign.hub.api.types';
 
 const initCampaignDetails: ICampaign = {
-	// STEP 1 START
-	title: null,
-	description: null,
-	maxEvictableDelegates: null,
-	activeDelegates: [],
-	evictedDelegates: [],
-	// STEP 1 END
-	// STEP 2 START
-	timeSettings: ECampaignTimeSettings.RECURRING,
-	snapshotDate: null,
-	snapshotStartDateRecurring: null,
-	snapshotInterval: null,
-	snapshotTotal: null,
-	snapshotEndDateRecurring: null,
-	criteria: [],
-	// STEP 2 END
-	// STEP 3 START
-	visibility: null,
-	relativeShare: null,
-	totalAirDropSupply: null,
-	tokenContractAddress: null,
-	budgetFrom: null,
-	budgetTo: null,
-	bond: null
-	// STEP 3 END
-	// STEP 4 START
-	// STEP 4 END
+	id: 0n,
+	campaigner: '',
+	phase: 'Draft',
+	delegates: [],
+	indexer: '',
+	// // STEP 1 START
+	title: '',
+	description: '',
+	evictions: [],
+	// // STEP 1 END
+
+	// // STEP 2 START
+
+	// TODO: need to be added to the hub api - timeSettings
+	timeSettings: {
+		selectedType: ECampaignTimeSettings.RECURRING,
+		[ECampaignTimeSettings.ONE_TIME]: {
+			date: ''
+		},
+		[ECampaignTimeSettings.RECURRING]: {
+			startDate: '',
+			endDate: '',
+			interval: '',
+			total: ''
+		}
+	},
+	criteria: generateMockEligibilityCriteria(3),
+	// // STEP 2 END
+
+	// // STEP 3 START
+	// TODO: need to be added to the hub api - visibility, relativeShare, totalAirDropSupply, tokenContractAddress, budgetFrom, budgetTo, bond
+	visibility: 'public',
+	relativeShare: '5',
+	totalAirDropSupply: '5',
+	tokenContractAddress: '5',
+	budgetFrom: '5',
+	budgetTo: '10',
+	bond: '5'
+	// // STEP 3 END
 };
 
 const campaignDetails = writable({ ...initCampaignDetails });
@@ -47,21 +60,16 @@ const { send } = toastsStore;
 
 const toggleDelegate: ICampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
-		const activeIndex = details.activeDelegates.indexOf(delegateId);
-		const evictedIndex = details.evictedDelegates.indexOf(delegateId);
+		const evictedIndex = details.evictions.indexOf(delegateId);
 
-		if (activeIndex !== -1) {
-			if (details.evictedDelegates.length === 3) {
+		if (evictedIndex === -1) {
+			if (details.evictions.length === 3) {
 				send({ message: 'You can only evict 3 delegates at a time' });
 			} else {
-				details.activeDelegates.splice(activeIndex, 1);
-				details.evictedDelegates.push(delegateId);
+				details.evictions.push(delegateId);
 			}
-		} else if (evictedIndex !== -1) {
-			details.evictedDelegates.splice(evictedIndex, 1);
-			details.activeDelegates.push(delegateId);
 		} else {
-			details.activeDelegates.push(delegateId);
+			details.evictions.splice(evictedIndex, 1);
 		}
 		return details;
 	});
@@ -97,7 +105,8 @@ const createCampaign: ICampaignStore['createCampaign'] = async () => {
 			title: get(campaignDetails).title as string,
 			description: get(campaignDetails).description as string,
 			criteria: get(campaignDetails).criteria,
-			evictions: get(campaignDetails).evictedDelegates
+			evictions: get(campaignDetails).evictions
+			// delegates: get(campaignDetails).delegates
 		}
 	};
 	const hubTx = createHubTx({

@@ -1,20 +1,12 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-	import { type IStepBarCampaignButtonProps, type IStepBarStore } from '$lib/types';
+	import { type IStepBarCampaignButtonProps } from '$lib/types';
 
 	export let step: IStepBarCampaignButtonProps['step'];
-	export let contextId: IStepBarCampaignButtonProps['contextId'];
-
-	const { setCurrentStep } = getContext<IStepBarStore>(contextId);
 </script>
 
 {#if step.description}
 	<div>
-		<button
-			on:click={setCurrentStep.bind(null, step.value)}
-			class:isCompleted={step.isCompleted}
-			class:isActive={step.isActive}
-		>
+		<button class:isCompleted={step.isCompleted} class:isActive={step.isActive}>
 			<span>{step.description}</span>
 			<div class="box">
 				{#if step.isCompleted}

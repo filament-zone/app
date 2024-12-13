@@ -14,14 +14,20 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 		($currentStep) => $currentStep === get(steps).length - 1
 	);
 
-	const setCurrentStep = async (value: IStepBarCampaignOption['value']) => {
+	const validateCurrentStep = async () => {
 		const { campaignDetails } = campaignStore;
 
+		const isValid = await validateForm(
+			get(campaignDetails) as unknown as Record<string, unknown>,
+			airDropCampaignCreationConfig.validationsSchemas[get(currentStep) - 1]
+		);
+
+		return isValid;
+	};
+
+	const setCurrentStep = async (value: IStepBarCampaignOption['value']) => {
 		if (value > get(currentStep)) {
-			const isValid = await validateForm(
-				get(campaignDetails) as unknown as Record<string, unknown>,
-				airDropCampaignCreationConfig.validationsSchemas[get(currentStep) - 1]
-			);
+			const isValid = validateCurrentStep();
 
 			if (!isValid) {
 				return;
@@ -65,6 +71,7 @@ export const createStepBarStore = (stepsArg: IStepBarCampaignOption[]) => {
 		setCurrentStep,
 		nextStep,
 		isLastStep,
-		isPreLastStep
+		isPreLastStep,
+		validateCurrentStep
 	};
 };

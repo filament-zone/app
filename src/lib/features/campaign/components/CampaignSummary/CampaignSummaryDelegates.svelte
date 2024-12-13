@@ -8,12 +8,12 @@
 	export let campaign: ICampaignSummaryProps['campaign'];
 
 	const data = derived(page, () => $page.data);
-
+	console.log('CAMPAIGN SUMMARY DELEGATES DATA:', $data);
 	$: activeDelegatesTable = {
 		data: [
-			...$data.delegates
-				.filter((delegate: IDelegate) => campaign.activeDelegates.includes(delegate.id))
-				.sort((a: IDelegate, b: IDelegate) => Number(b.votingPower) - Number(a.votingPower))
+			...$data.pageData.delegates.filter((delegate: IDelegate) =>
+				campaign.evictions?.includes(delegate.id)
+			)
 		],
 		columnDef: delegatesColumnDefCommon
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;

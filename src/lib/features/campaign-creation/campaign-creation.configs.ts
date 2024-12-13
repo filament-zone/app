@@ -1,5 +1,5 @@
 import { type IDropdownOption } from '$lib/types';
-import { ENetwork } from '$lib/features/campaign/campaign.enums';
+import { ENetwork } from '$lib/api/hub/campaign/campaign.hub.api.enums';
 
 export const networkOptions: IDropdownOption[] = [
 	{ value: ENetwork.ETHEREUM, label: 'Ethereum' },

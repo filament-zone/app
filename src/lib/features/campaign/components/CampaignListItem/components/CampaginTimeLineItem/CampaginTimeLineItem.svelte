@@ -2,9 +2,10 @@
 	import moment from 'moment/moment.js';
 	import { Typography } from '$lib/components';
 	import { capitalizeFirstLetter } from '$lib/helpers';
-	import { type ICampaignTimeLineItemProps, ECampaignTimeLineItem } from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import ProcessingCircleIcon from '$lib/assets/icons/processing-circle.svg?component';
+	import { type ICampaignTimeLineItemProps } from '$lib/types';
+	import { ECampaignTimeLineItem } from '$lib/features/campaign/components/CampaignListItem/components/CampaginTimeLineItem/CampaignTimeLineItem.enums';
 
 	export let iconStatus: ICampaignTimeLineItemProps['iconStatus'];
 	export let title: ICampaignTimeLineItemProps['title'];

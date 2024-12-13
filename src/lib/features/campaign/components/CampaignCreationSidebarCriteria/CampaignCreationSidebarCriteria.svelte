@@ -57,7 +57,7 @@
 		closeRightSideBar();
 	};
 
-	$: categoryOptions = $data.step2Data.meta.eligibilityCriteriaCategoryOptions?.filter(
+	$: categoryOptions = $data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions?.filter(
 		(option: IDropdownOption) => option.value !== 'all'
 	);
 

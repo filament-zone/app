@@ -6,7 +6,9 @@ export const campaignAirDropStep1ValidationSchema = yup.object().shape({
 		.string()
 		.max(50, 'Should be less than 50 characters')
 		.required('Description is required'),
-	maxEvictableDelegates: yup.string().required('Max Evictable Delegates is required'),
-	activeDelegates: yup.array().min(1, 'Select at least one Active Delegate'),
-	evictedDelegates: yup.array()
+
+	evictions: yup
+		.array()
+		.min(1, 'You must evict at least 1 delegate')
+		.max(3, 'You can only evict max 3 delegates at a time')
 });

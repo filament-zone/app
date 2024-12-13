@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
-	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import { page } from '$app/stores';
+	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
 	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
 	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
@@ -12,15 +12,6 @@
 	const { campaignDetails, toggleDelegate, getDelegates } = campaignStore;
 
 	onMount(() => {
-		campaignDetails.update((prev) => ({
-			...prev,
-			title: $data.step1Data.title,
-			description: $data.step1Data.description,
-			maxEvictableDelegates: $data.step1Data.maxEvictableDelegates,
-			activeDelegates: $data.step1Data.activeDelegates,
-			evictedDelegates: $data.step1Data.evictedDelegates
-		}));
-
 		getDelegates();
 	});
 
@@ -53,8 +44,8 @@
 	$: activeDelegatesTable = {
 		tableLabel: 'Active Delegates',
 		data: [
-			...$data.delegates.filter((delegate: IDelegate) =>
-				$campaignDetails.activeDelegates.includes(delegate.id)
+			...$data.pageData.delegates.filter(
+				(delegate: IDelegate) => !$campaignDetails.evictions?.includes(delegate.id)
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
@@ -65,10 +56,10 @@
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 
 	$: evictedDelegatesTable = {
-		...$data.step1Data.evictedDelegatesTable,
+		tableLabel: 'Evicted Delegates',
 		data: [
-			...$data.delegates.filter((delegate: IDelegate) =>
-				$campaignDetails.evictedDelegates.includes(delegate.id)
+			...$data.pageData.delegates.filter((delegate: IDelegate) =>
+				$campaignDetails.evictions?.includes(delegate.id)
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.EVICTED),
@@ -119,7 +110,7 @@
 				tooltipContent="This limitation is defined by the protocol governance and might change over time to adapt to changing requirements."
 				placeholder="Type here..."
 				sizeVariant={EInputSizeVariant.MEDIUM}
-				bind:value={$campaignDetails.maxEvictableDelegates}
+				value={3}
 				disabled
 			/>
 			<Table {...activeDelegatesTable} />
