@@ -118,18 +118,6 @@ const createCampaign: ICampaignStore['createCampaign'] = async () => {
 	return true;
 };
 
-const sendTestHubTx: ICampaignStore['sendTestHubTx'] = async () => {
-	const hubTx = createHubTx({
-		bank: {
-			freeze: {
-				token_id: 'token_1rwrh8gn2py0dl4vv65twgctmlwck6esm2as9dftumcw89kqqn3nqrduss6'
-			}
-		}
-	});
-
-	await hubTx();
-};
-
 const getDelegates = async () => {
 	const { newTransaction } = transactionStore;
 
@@ -151,6 +139,5 @@ export const campaignStore: ICampaignStore = {
 	depositToCampaign,
 	setTokenAllowance,
 	createHubTx,
-	sendTestHubTx,
 	getDelegates
 };
