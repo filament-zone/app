@@ -25,7 +25,7 @@
 
 <Modal classNames="max-w-96">
 	<div slot="header">
-		<Typography variant="h5">{`Stake to: ${state?.validatorId ?? '{validatorId}'}`}</Typography>
+		<Typography variant="h5">{`Stake to: ${state?.validator?.label}`}</Typography>
 	</div>
 	<div slot="content">
 		<Typography variant="h6">Current stake amount: 0 FILA</Typography>

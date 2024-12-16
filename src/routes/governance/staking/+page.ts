@@ -13,23 +13,23 @@ import {
 	type IDropdownProps,
 	type ISearchSelectProps,
 	type ITableProps,
-	type ITableValidatorComponentProps
+	type IValidator
 } from '$lib/types';
 
-type TDelegationsTableData = {
+export type TDelegationsTableData = {
 	id: string;
-	validator: ITableValidatorComponentProps;
+	validator: IValidator;
 	staked: string;
 	rewards: string;
 };
 
 type TValidatorsTableData = {
 	id: string;
-	validator: ITableValidatorComponentProps;
+	validator: IValidator;
 	votingPower: string;
 	commission: string;
 	options: {
-		validatorId: TValidatorsTableData['id'];
+		validator: IValidator;
 	};
 };
 
@@ -55,10 +55,11 @@ export async function load() {
 		}
 	];
 
-	const defaultDelegationsData: TDelegationsTableData[] = [
+	const mockedDelegations: TDelegationsTableData[] = [
 		{
 			id: '1',
 			validator: {
+				id: '1',
 				Icon: FilamentLogo,
 				label: 'Filament Network'
 			},
@@ -68,6 +69,7 @@ export async function load() {
 		{
 			id: '2',
 			validator: {
+				id: '2',
 				Icon: FilamentLogo,
 				label: 'Filament Network Secondary'
 			},
@@ -127,11 +129,13 @@ export async function load() {
 				accessorKey: 'options',
 				header: '',
 				cell: (info) => {
-					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
+					const validator = info.getValue() as unknown as TValidatorsTableData['validator'];
 					return flexRender(TableValidatorOptionsComponent, {
-						...value,
 						buttonLabel: 'Claim Rewards',
-						disabled: true
+						disabled: true,
+						buttonOnClick: () => {
+							console.log('claim rewards', validator);
+						}
 					});
 				},
 				meta: {
@@ -143,7 +147,7 @@ export async function load() {
 				}
 			}
 		],
-		data: defaultDelegationsData
+		data: mockedDelegations
 	};
 
 	const searchSelectProps: ISearchSelectProps = {
@@ -164,35 +168,45 @@ export async function load() {
 		}
 	};
 
-	const defaultValidatorsData: TValidatorsTableData[] = [
+	const mockedValidators: TValidatorsTableData[] = [
 		{
 			id: '1',
 			validator: {
+				id: '1',
 				Icon: FilamentLogo,
 				label: 'Filament Network'
 			},
 			votingPower: '141,212 FILA',
 			commission: '14% (max 15%)',
 			options: {
-				validatorId: '1'
+				validator: {
+					id: '1',
+					Icon: FilamentLogo,
+					label: 'Filament Network'
+				}
 			}
 		},
 		{
 			id: '2',
 			validator: {
+				id: '2',
 				Icon: FilamentLogo,
 				label: 'Filament Network Secondary'
 			},
 			votingPower: '232,123 FILA',
 			commission: '10% (max 20%)',
 			options: {
-				validatorId: '2'
+				validator: {
+					id: '2',
+					Icon: FilamentLogo,
+					label: 'Filament Network Secondary'
+				}
 			}
 		}
 	];
 
 	const tableAllValidatorsData: ITableProps = {
-		tableLabel: 'All Delegates',
+		tableLabel: 'All Validators',
 		tableRightLabel: SearchSelect,
 		tableRightLabelProps: { ...searchSelectProps },
 		columnDef: [
@@ -231,12 +245,14 @@ export async function load() {
 				accessorKey: 'options',
 				header: '',
 				cell: (info) => {
-					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
+					const { validator } = info.getValue() as unknown as TValidatorsTableData['options'];
 					return flexRender(TableValidatorOptionsComponent, {
-						...value,
 						buttonLabel: 'Stake',
 						buttonOnClick: () => {
-							openModal({ variant: EModalVariant.VALIDATOR_STAKE, state: { validatorId: value } });
+							openModal({
+								variant: EModalVariant.VALIDATOR_STAKE,
+								state: { validator }
+							});
 						},
 						options: [
 							{ value: 'redelegate', label: 'Redelegate', disabled: true },
@@ -253,7 +269,7 @@ export async function load() {
 				}
 			}
 		],
-		data: defaultValidatorsData
+		data: mockedValidators
 	};
 
 	return {

@@ -1,10 +1,13 @@
 import { type ComponentType, SvelteComponent } from 'svelte';
 
+export interface IValidator {
+	id: string;
+	label: string;
+	Icon: ComponentType<SvelteComponent<unknown, unknown, unknown>>;
+}
+
 declare const __propDef: {
-	props: {
-		Icon: ComponentType<SvelteComponent<unknown, unknown, unknown>>;
-		label: string;
-	};
+	props: IValidator;
 	events: {
 		[evt: string]: CustomEvent;
 	};

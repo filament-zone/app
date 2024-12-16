@@ -3,7 +3,7 @@
 	import MoreVerticalIcon from '$lib/assets/icons/more-vertical.svg?component';
 	import { type ITableValidatorOptionsComponentProps } from '$lib/types';
 
-	export let buttonOnClick: ITableValidatorOptionsComponentProps['buttonOnClick'];
+	export let buttonOnClick: ITableValidatorOptionsComponentProps['buttonOnClick'] = () => {};
 	export let buttonLabel: ITableValidatorOptionsComponentProps['buttonLabel'];
 	export let options: ITableValidatorOptionsComponentProps['options'];
 	export let disabled: ITableValidatorOptionsComponentProps['disabled'];
