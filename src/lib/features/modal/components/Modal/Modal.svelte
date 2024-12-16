@@ -63,8 +63,6 @@
 		max-width: 512px;
 		min-height: 200px;
 
-		gap: 20px;
-
 		max-height: 90vh;
 		overflow: scroll;
 

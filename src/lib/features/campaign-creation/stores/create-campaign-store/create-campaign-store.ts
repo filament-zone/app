@@ -1,15 +1,14 @@
 import { get, writable } from 'svelte/store';
-import { hubStore, modalStore, toastsStore, transactionStore } from '$lib/features';
+import { hubStore, toastsStore, transactionStore } from '$lib/features';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation/mock/mock';
 import { type CallMessage } from '@filament-zone/filament/CallMessage';
 import {
 	EContract,
 	EDelegatesABI,
-	EModalVariant,
+	ECampaignTimeSettings,
 	type ICampaign,
-	type ICampaignStore
+	type ICreateCampaignStore
 } from '$lib/types';
-import { ECampaignTimeSettings } from '$lib/api/hub/campaign/campaign.hub.api.types';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
@@ -55,10 +54,9 @@ const initCampaignDetails: ICampaign = {
 
 const campaignDetails = writable({ ...initCampaignDetails });
 
-const { openModal } = modalStore;
 const { send } = toastsStore;
 
-const toggleDelegate: ICampaignStore['toggleDelegate'] = (delegateId: string) => {
+const toggleDelegate: ICreateCampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
 		const evictedIndex = details.evictions.indexOf(delegateId);
 
@@ -79,27 +77,13 @@ const clearCampaignDetails = () => {
 	campaignDetails.set({ ...initCampaignDetails });
 };
 
-const initiateCampaign: ICampaignStore['initiateCampaign'] = (campaign) => {
-	campaignDetails.set({ ...campaign });
-	openModal({ variant: EModalVariant.CAMPAIGN_INITIATE });
-};
-
-const depositToCampaign: ICampaignStore['depositToCampaign'] = (campaign) => {
-	campaignDetails.set({ ...campaign });
-	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT });
-};
-
-const setTokenAllowance: ICampaignStore['setTokenAllowance'] = () => {
-	openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
-};
-
-const createHubTx: ICampaignStore['createHubTx'] = (msg) => {
+const createHubTx: ICreateCampaignStore['createHubTx'] = (msg) => {
 	const { processHubTransaction } = hubStore;
 
 	return processHubTransaction.bind(null, { msg });
 };
 
-const createCampaign: ICampaignStore['createCampaign'] = async () => {
+const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 	const payload: CallMessage = {
 		Draft: {
 			title: get(campaignDetails).title as string,
@@ -130,14 +114,11 @@ const getDelegates = async () => {
 	});
 };
 
-export const campaignStore: ICampaignStore = {
+export const campaignStore: ICreateCampaignStore = {
 	campaignDetails,
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
-	initiateCampaign,
-	depositToCampaign,
-	setTokenAllowance,
 	createHubTx,
 	getDelegates
 };

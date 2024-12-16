@@ -1,26 +1,16 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { Modal, modalStore, PricingComponent } from '$lib/features';
+	import { initiateCampaignStore, Modal, modalStore, PricingComponent } from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
-	import type { IDropdownProps } from '$lib/types';
+	import {
+		ECampaignInitiateSelected,
+		EModalVariant,
+		type IDropdownProps,
+		type TToggleContentContainerSelected
+	} from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
-	const { closeModal } = modalStore;
-
-	let toggleSelected = 'isFirst';
-
-	const campaignInitiateState = writable({
-		isPayNow: {
-			selected: toggleSelected === 'isFirst',
-			quantity: 40000,
-			token: 'usdt'
-		},
-		isBond: {
-			selected: toggleSelected === 'isSecond',
-			quantity: 40000,
-			token: 'bFila'
-		}
-	});
+	const { openModal } = modalStore;
+	const { campaignInitiateState } = initiateCampaignStore;
 
 	const dropdownOptionsPayNow: IDropdownProps['options'] = [
 		{ value: 'usdt', label: 'USDT' },
@@ -28,6 +18,26 @@
 	];
 
 	const dropdownOptionsBond: IDropdownProps['options'] = [{ value: 'bFila', label: 'bFILA' }];
+
+	const handleInitiateCampaign = () => {
+		openModal({ variant: EModalVariant.CAMPAIGN_DEPOSIT_TIMELINE });
+	};
+
+	const handleSelect = (value: TToggleContentContainerSelected) => {
+		campaignInitiateState.update((prev) => ({
+			...prev,
+			selected:
+				value === 'isFirst' ? ECampaignInitiateSelected.isPayNow : ECampaignInitiateSelected.isBond
+		}));
+	};
+
+	$: selected = (
+		$campaignInitiateState.selected === ECampaignInitiateSelected.isPayNow ? 'isFirst' : 'isSecond'
+	) as TToggleContentContainerSelected;
+
+	$: {
+		handleSelect(selected);
+	}
 </script>
 
 <Modal classNames="max-w-96">
@@ -35,17 +45,18 @@
 		<Typography variant="h5">Initiate Campaign</Typography>
 	</div>
 	<div slot="content">
-		<Typography variant="subtitle2"
-			>To prevent campaign spam and facilitate the participation of all governance in the
-			administration, the Filament hub requires campaigners to deposit a collateral bond. Campaigns
-			can only be initiated if a collateral has been deposited.
-		</Typography>
-		<br />
-		<Typography variant="subtitle2">
-			The pricing is determined algorithmically by the Filament Hub.
-		</Typography>
-
-		<ToggleContentContainer bind:selected={toggleSelected}>
+		<div class="mb-6">
+			<Typography variant="h6">
+				To prevent campaign spam and facilitate the participation of all governance in the
+				administration, the Filament hub requires campaigners to deposit a collateral bond.
+				Campaigns can only be initiated if a collateral has been deposited.
+			</Typography>
+			<br />
+			<Typography variant="h6">
+				The pricing is determined algorithmically by the Filament Hub.
+			</Typography>
+		</div>
+		<ToggleContentContainer bind:selected>
 			<ToggleContentCard slot="first">
 				<div class="flex flex-row gap-2" slot="label">
 					<CheckmarkCircleIcon fill="var(--upOnly-400)" />
@@ -75,7 +86,7 @@
 				/>
 			</ToggleContentCard>
 		</ToggleContentContainer>
-		<Button on:click={closeModal} class="ml-auto mt-8" variant="secondary">
+		<Button on:click={handleInitiateCampaign} class="ml-auto mt-8" variant="secondary">
 			Initiate Campaign
 		</Button>
 	</div>

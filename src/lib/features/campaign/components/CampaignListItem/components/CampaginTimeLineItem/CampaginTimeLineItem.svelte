@@ -1,6 +1,6 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
-	import { Typography } from '$lib/components';
+	import { Button, Typography } from '$lib/components';
 	import { capitalizeFirstLetter } from '$lib/helpers';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import ProcessingCircleIcon from '$lib/assets/icons/processing-circle.svg?component';
@@ -14,13 +14,15 @@
 	export let status: ICampaignTimeLineItemProps['status'];
 	export let isFirst: ICampaignTimeLineItemProps['isFirst'] = false;
 	export let isLast: ICampaignTimeLineItemProps['isLast'] = false;
+	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
+	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
 
 	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
 			case 'success':
 				return 'var(--upOnly-400)';
 			case 'processing':
-				return 'var(--purpleCow-100)';
+				return 'var(--purpleCow-500)';
 			default:
 				return 'var(--gray-200)';
 		}
@@ -71,12 +73,20 @@
 			</Typography>
 		</div>
 	</div>
-	<div class="flex flex-col justify-center items-end w-3/12">
-		{#if date}
-			<Typography variant="caption">{moment(date).format('MMMM D, YYYY')}</Typography>
+	<div class="flex flex-col justify-center items-end w-4/12">
+		{#if onButtonClick}
+			<Button on:click={onButtonClick}>{buttonLabel}</Button>
+		{:else if status === 'to-do'}
+			<Typography variant="caption" color={getStatusColor(status)}>
+				{capitalizeFirstLetter(status)}
+			</Typography>
+		{:else}
+			<Typography variant="caption" class="text-right"
+				>{moment(date).format('MMMM D, YYYY')}</Typography
+			>
+			<Typography variant="caption" color={getStatusColor(status)}>
+				{capitalizeFirstLetter(status)}
+			</Typography>
 		{/if}
-		<Typography variant="caption" color={getStatusColor(status)}>
-			{capitalizeFirstLetter(status)}
-		</Typography>
 	</div>
 </div>

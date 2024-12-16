@@ -1,9 +1,9 @@
 <script context="module">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { ModalCampaignDepositTimeline } from '$lib/features';
+	import { ModalCampaignInitiateTimeline } from '$lib/features';
 
 	export const meta = {
-		title: 'Features/Modal/Campaign Deposit Time Line'
+		title: 'Features/Modal/Campaign Initiate Time Line'
 	};
 </script>
 
@@ -11,4 +11,4 @@
 	<svelte:component this={args.modal} {...args} />
 </Template>
 
-<Story name="Primary" args={{ modal: ModalCampaignDepositTimeline }} />
+<Story name="Primary" args={{ modal: ModalCampaignInitiateTimeline }} />

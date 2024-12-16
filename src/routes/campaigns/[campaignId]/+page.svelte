@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 	import moment from 'moment/moment.js';
+	import { routes } from '$lib/constants';
 	import { CampaignSummary, CampaignTimeLineItem, modalStore } from '$lib/features';
 	import { Badge, Button, Container, Divider, PrimaryDoughnutChart } from '$lib/components';
 	import { EButtonSizeVariant, ECampaignTimeLineItem, EModalVariant } from '$lib/types';
@@ -25,6 +27,12 @@
 <div class="flex flex-col xl:flex-row gap-4">
 	<div class="w-full">
 		<Container label="Campaign Preview">
+			<Button
+				slot="header"
+				on:click={() => {
+					goto(routes.CAMPAIGNS.MANAGE.ROOT);
+				}}>Back to list</Button
+			>
 			<div class="flex flex-col gap-4">
 				<div>
 					<span class="campaign-label">{data.campaign.title}</span>

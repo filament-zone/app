@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { campaignStore, Modal } from '$lib/features';
+	import { Modal } from '$lib/features';
 	import { Button, Input, Typography } from '$lib/components';
 
 	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
-
-	const { setTokenAllowance } = campaignStore;
 </script>
 
 <Modal classNames="max-w-96" closeOnClickOutside>
@@ -12,7 +10,7 @@
 		<Typography variant="h5">Deposit Campaign Collateral</Typography>
 	</div>
 	<div slot="content">
-		<Typography variant="caption">
+		<Typography variant="h6">
 			To prevent campaign spam and facilitate the participation of all governance in the
 			administration, the Filament hub requires campaigners to deposit a collateral. <strong
 				>Campaigns can only be initiated if the collateral has been deposited.</strong
@@ -37,8 +35,6 @@
 			<Input labelGap value="48,345" LeftContent="$" RightIcon="Point(s)" />
 		</div>
 		<Typography variant="caption">Please make sure that yous address has enough funds.</Typography>
-		<Button on:click={setTokenAllowance} class="ml-auto mt-8" variant="secondary"
-			>Set Token Allowance</Button
-		>
+		<Button class="ml-auto mt-8" variant="secondary">Set Token Allowance</Button>
 	</div>
 </Modal>

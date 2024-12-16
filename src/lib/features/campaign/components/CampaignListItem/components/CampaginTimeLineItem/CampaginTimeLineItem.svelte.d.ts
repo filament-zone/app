@@ -6,10 +6,12 @@ declare const __propDef: {
 		iconStatus: ECampaignTimeLineItem;
 		title: string;
 		description: string;
-		date: string;
+		date?: string;
 		status: string;
 		isLast?: boolean;
 		isFirst?: boolean;
+		onButtonClick?: () => void;
+		buttonLabel?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
