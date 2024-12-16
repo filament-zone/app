@@ -1,19 +1,20 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
 	import { goto } from '$app/navigation';
-	import { campaignStore, CampaignTimeLineItem } from '$lib/features';
+	import { CampaignTimeLineItem, modalStore } from '$lib/features';
 	import { Badge, Button, Divider, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
 	import {
 		type ICampaignListItemProps,
 		EButtonStyleVariant,
-		ECampaignTimeLineItem
+		ECampaignTimeLineItem,
+		EModalVariant
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 
-	const { initiateCampaign } = campaignStore;
+	const { openModal } = modalStore;
 
 	const handleOpenCampaignDetails = () => {
 		goto(
@@ -25,21 +26,22 @@
 </script>
 
 <div class="campaign-list-item-container">
-	<div class="header" on:click={handleOpenCampaignDetails} aria-hidden="true">
+	<div class="header" aria-hidden="true">
 		<Typography variant="h4">{campaign.title}</Typography>
+		<Button on:click={handleOpenCampaignDetails}>Campaign Details</Button>
 	</div>
 	<div class="content">
 		<div class="flex flex-row justify-between">
 			<div class="flex flex-col">
 				<Typography variant="h6">Status</Typography>
-				<Badge label="READY" />
+				<Badge label="Draft" />
 			</div>
 			<div class="flex flex-col w-auto">
-				<Typography variant="h6">Collateral</Typography>
+				<Typography variant="h6">Collateral Bond</Typography>
 				<div class="flex flex-row w-[250px] gap-8">
 					<div>
 						<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
-							>50,000 FILA</Typography
+							>Not initiated</Typography
 						>
 					</div>
 				</div>
@@ -57,17 +59,16 @@
 			<div class="flex flex-col">
 				<CampaignTimeLineItem
 					iconStatus={ECampaignTimeLineItem.PROCESSING}
-					title="Deposit Collateral"
-					description="In order to initiate the campaign you have to deposit the campaign collateral."
-					status={campaign.collateralStatus?.status}
+					title="Voting phase"
+					description="The campaign is in the voting phase"
+					status={'to-do'}
 					isLast
 				/>
 				<CampaignTimeLineItem
-					iconStatus={ECampaignTimeLineItem.CHECKED}
-					title="Signed Deposit Transaction"
-					description="The campaign draft has been finalized and saved"
-					date={campaign.collateralStatus?.date}
-					status={'success'}
+					iconStatus={ECampaignTimeLineItem.PROCESSING}
+					title="Initiate Campaign"
+					description="The campaign is being initiated"
+					status={'to-do'}
 				/>
 
 				<CampaignTimeLineItem
@@ -83,7 +84,9 @@
 		<Divider />
 		<div class="flex flex-row justify-between gap-8">
 			<Button styleVariant={EButtonStyleVariant.SECONDARY}>Delete</Button>
-			<Button on:click={initiateCampaign.bind(null, campaign)}>Initiate</Button>
+			<Button on:click={openModal.bind(null, { variant: EModalVariant.CAMPAIGN_INITIATE })}
+				>Initiate</Button
+			>
 		</div>
 	</div>
 </div>
@@ -102,6 +105,10 @@
 			padding: 16px;
 			border-bottom: 1px solid #272727;
 			cursor: pointer;
+
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
 		}
 
 		.content {
