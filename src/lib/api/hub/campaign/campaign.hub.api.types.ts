@@ -1,5 +1,5 @@
 import type { Campaign, Criterion, CriterionCategory } from '@filament-zone/filament';
-import type { EEligibilityCriteriaType } from '$lib/api/hub/campaign/campaign.hub.api.enums';
+import { ECampaignTimeSettings, EEligibilityCriteriaType } from '$lib/types';
 
 export interface IDelegate {
 	id: string;
@@ -12,11 +12,6 @@ export interface IDelegate {
 export interface IContract {
 	network: string;
 	address: string;
-}
-
-export enum ECampaignTimeSettings {
-	ONE_TIME = 'ONE_TIME',
-	RECURRING = 'RECURRING'
 }
 
 export interface ICriteriaInput {
@@ -47,17 +42,11 @@ export type TCriterionPayload = {
 };
 
 export interface ICampaign extends Campaign {
+	// OTHER VALUES COMMON
 	createdAt?: string | null;
-	collateralStatus?: {
-		date?: string | null;
-		status?: string | null;
-	};
+	// OTHER VALUES COMMON
 
-	// STEP 1 VALUES START
-	// title: string,
-	// description: string,
-	// evictions: Array<string>,
-	// STEP 1 VALUES END
+	// STEP 1 VALUES title, description, evictions comes from Campaign type
 
 	// STEP 2 VALUES START
 	timeSettings: {
@@ -74,6 +63,7 @@ export interface ICampaign extends Campaign {
 	};
 	criteria: Criterion[];
 	// STEP 2 VALUES END
+
 	// START STEP-3
 	visibility: string | null;
 	relativeShare: string | null;
@@ -83,6 +73,4 @@ export interface ICampaign extends Campaign {
 	budgetTo: string | null;
 	bond: string | null;
 	// END STEP-3
-	// START STEP-4
-	// END STEP-4
 }

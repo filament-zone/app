@@ -13,7 +13,7 @@
 
 	const { openModal } = modalStore;
 
-	let isTimelineOpen = false;
+	let isTimelineOpen = true;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
@@ -58,25 +58,26 @@
 						<div class="flex flex-col" transition:fade>
 							<CampaignTimeLineItem
 								iconStatus={ECampaignTimeLineItem.PROCESSING}
-								title="Deposit Collateral"
-								description="In order to initiate the campaign you have to deposit the campaign collateral."
-								status={data.campaign.collateralStatus?.status}
+								title="Voting phase"
+								description="The campaign is in the voting phase"
+								status={'to-do'}
+								date=""
 								isLast
 							/>
 							<CampaignTimeLineItem
-								iconStatus={ECampaignTimeLineItem.CHECKED}
-								title="Signed Deposit Transaction"
-								description="The campaign draft has been finalized and saved"
-								date={data.campaign.collateralStatus?.date}
-								status={'success'}
+								iconStatus={ECampaignTimeLineItem.PROCESSING}
+								title="Initiate Campaign"
+								description="The campaign is being initiated"
+								date=""
+								status={'to-do'}
 							/>
 
 							<CampaignTimeLineItem
 								iconStatus={ECampaignTimeLineItem.CHECKED}
 								title="Campaign Draft"
 								description="The campaign draft has been finalized and saved"
-								date={data.campaign.collateralStatus?.date}
 								status={'success'}
+								date=""
 								isFirst
 							/>
 						</div>

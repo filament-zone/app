@@ -2,13 +2,8 @@ import { get, writable } from 'svelte/store';
 import { hubStore, toastsStore, transactionStore } from '$lib/features';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation/mock/mock';
 import { type CallMessage } from '@filament-zone/filament/CallMessage';
-import {
-	EContract,
-	EDelegatesABI,
-	ECampaignTimeSettings,
-	type ICampaign,
-	type ICreateCampaignStore
-} from '$lib/types';
+import { EContract, EDelegatesABI, type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import { ECampaignTimeSettings } from '$lib/api/hub/campaign/campaign.hub.api.enums';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,

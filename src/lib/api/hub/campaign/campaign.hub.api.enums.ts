@@ -13,3 +13,8 @@ export enum ENetwork {
 	ARPITRUM = 'arpitrum',
 	SCROLL = 'scroll'
 }
+
+export enum ECampaignTimeSettings {
+	ONE_TIME = 'ONE_TIME',
+	RECURRING = 'RECURRING'
+}

@@ -75,7 +75,6 @@
 					iconStatus={ECampaignTimeLineItem.CHECKED}
 					title="Campaign Draft"
 					description="The campaign draft has been finalized and saved"
-					date={campaign.collateralStatus?.date}
 					status={'success'}
 					isFirst
 				/>

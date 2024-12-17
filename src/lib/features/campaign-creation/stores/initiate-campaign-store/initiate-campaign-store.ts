@@ -1,9 +1,6 @@
 import { writable } from 'svelte/store';
-import {
-	ECampaignInitiateSelected,
-	type ICampaignInitiateState,
-	type IInitiateCampaignStore
-} from '$lib/types';
+import { type ICampaignInitiateState, type IInitiateCampaignStore } from '$lib/types';
+import { ECampaignInitiateSelected } from '$lib/features/campaign-creation/stores/initiate-campaign-store/initiate-campaign-store.enums';
 
 const initCampaignInitiateState: ICampaignInitiateState = {
 	selected: ECampaignInitiateSelected.isPayNow,
