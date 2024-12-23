@@ -5,9 +5,9 @@ import { modalStore, toastsStore } from '$lib/features';
 import { EWalletProviderError, WalletClientConnector } from '$lib/services';
 import { writeToLocalStorage } from '$lib/utils';
 import { shortCutTransactionHash } from '$lib/helpers';
-import { CHAIN_IDS, CHAIN_NAMES } from '$lib/constants';
+import { CHAINS } from '$lib/constants';
 import {
-	EChain,
+	type ChainId,
 	EModalVariant,
 	EWalletProvider,
 	type IAccountBalance,
@@ -122,15 +122,15 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 wallet.subscribe((state) => {
 	const { openModal } = modalStore;
 
-	if (state.chain?.chainId && state.chain.chainId !== CHAIN_IDS[PUBLIC_DEFAULT_CHAIN as EChain]) {
+	if (state.chain?.chainId && state.chain.chainId !== BigInt(PUBLIC_DEFAULT_CHAIN)) {
 		openModal({
 			variant: EModalVariant.CONFIRMATION,
 			state: {
 				title: 'Change Network',
-				description: `You are on a wrong network, click "Change network" to switch to ${CHAIN_NAMES[PUBLIC_DEFAULT_CHAIN as EChain]}`,
+				description: `You are on a wrong network, click "Change network" to switch to ${CHAINS[PUBLIC_DEFAULT_CHAIN as ChainId].name}`,
 				disabledDeny: true,
 				onConfirm: () => {
-					state.client?.switchChain(CHAIN_IDS[PUBLIC_DEFAULT_CHAIN as EChain]);
+					state.client?.switchChain(BigInt(PUBLIC_DEFAULT_CHAIN));
 				},
 				onConfirmLabel: 'Change network'
 			} as IModalConfirmationProps

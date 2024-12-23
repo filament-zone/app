@@ -67,8 +67,3 @@ export interface IAccountBalance {
 export interface IWalletClientBuilder {
 	build: () => WalletClient | null;
 }
-
-export enum EChain {
-	ETHEREUM_MAINNET = 'ethereum-mainnet',
-	SEPOLIA_TESTNET = 'sepolia-testnet'
-}

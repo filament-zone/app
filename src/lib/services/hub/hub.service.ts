@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import JSONBig from 'json-bigint';
+import { PUBLIC_THE_HUB_CHAIN_ID } from '$env/static/public';
 import { EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
 import { TransactionHubApiClient } from '$lib/api';
 
@@ -29,7 +30,7 @@ export class HubService {
 		);
 		try {
 			await this.WalletClientConnector.connect();
-			const chainId = BigInt(4321);
+			const chainId = BigInt(PUBLIC_THE_HUB_CHAIN_ID);
 
 			const payload = JSONBig.stringify(msg);
 			const serializedCall = serialize_call(payload);
