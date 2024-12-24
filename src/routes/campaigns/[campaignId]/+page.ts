@@ -1,10 +1,15 @@
 import { CampaignHubApiClient } from '$lib/api';
-import { generateMockDelegates, generateRandomTickerData } from '$lib/features';
+import {
+	generateMockCampaign,
+	generateMockDelegates,
+	generateRandomTickerData
+} from '$lib/features';
 import type { IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
-	const { data } = await CampaignHubApiClient.getCampaignById(campaignId);
+
+	const res = await CampaignHubApiClient.getCampaignById(campaignId);
 
 	const chartData: IPrimaryDoughnutChartProps['chartData'] = {
 		labels: ['Onchain Gov', 'Vesting', 'Circulating'],
@@ -21,7 +26,7 @@ export async function load({ params }) {
 	const delegates = generateMockDelegates();
 
 	return {
-		campaign: data,
+		campaign: res?.data ?? generateMockCampaign(),
 		chartData,
 		tickerData,
 		delegates
