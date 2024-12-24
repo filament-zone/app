@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { CriterionCategory } from '@filament-zone/filament/CriterionCategory';
-import { type IDelegate, type IDropdownProps } from '$lib/types';
+import {
+	ECampaignTimeSettings,
+	type ICampaign,
+	type IDelegate,
+	type IDropdownProps
+} from '$lib/types';
 import type { Criterion } from '@filament-zone/filament/Criterion';
 import { EEligibilityCriteriaType } from '$lib/api/hub/campaign/campaign.hub.api.enums';
 
@@ -96,4 +101,41 @@ export function generateRandomTickerData(
 		});
 	}
 	return data;
+}
+
+export function generateMockCampaign(): ICampaign {
+	return {
+		// From `Campaign` type
+		id: BigInt(Math.floor(Math.random() * 1_000_000)), // Random ID as `bigint`
+		campaigner: `Campaigner_${Math.random().toString(36).substring(2, 7)}`, // Random campaigner name
+		phase: 'Distribution', // Replace with an appropriate value if `Phase` is an enum or type
+		title: `Campaign ${Math.random().toString(36).substring(7)}`,
+		description: `This is a mock campaign description.`,
+		criteria: generateMockEligibilityCriteria(3), // Reuse criteria generator
+		evictions: Array.from({ length: 2 }, () => uuidv4()), // Mock evicted delegates
+		delegates: Array.from({ length: 3 }, () => uuidv4()), // Mock active delegates
+		indexer: null, // Set null as a placeholder for `indexer`
+
+		// From `ICampaign` type
+		createdAt: new Date().toISOString(),
+		timeSettings: {
+			selectedType: ECampaignTimeSettings.ONE_TIME,
+			[ECampaignTimeSettings.ONE_TIME]: {
+				date: new Date().toISOString()
+			},
+			[ECampaignTimeSettings.RECURRING]: {
+				startDate: new Date().toISOString(),
+				endDate: null, // Set a default null
+				interval: `${Math.floor(Math.random() * 10) + 1} days`, // Random interval in days
+				total: (Math.random() * 100).toFixed(2) // Random total
+			}
+		},
+		visibility: 'public', // Mock visibility (could be updated if required)
+		relativeShare: (Math.random() * 100).toFixed(2), // Random relative share
+		totalAirDropSupply: (Math.random() * 10000).toFixed(2), // Random airDrop supply
+		tokenContractAddress: `0x${Math.random().toString(36).substring(2, 42)}`, // Mock Ethereum address
+		budgetFrom: (Math.random() * 5000).toFixed(2), // Random budget (from)
+		budgetTo: (Math.random() * 10000).toFixed(2), // Random budget (to)
+		bond: (Math.random() * 100).toFixed(2) // Random bond value
+	};
 }

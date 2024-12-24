@@ -23,6 +23,8 @@
 				return 'var(--upOnly-400)';
 			case 'processing':
 				return 'var(--purpleCow-500)';
+			case 'ongoing':
+				return 'var(--purpleCow-500)';
 			default:
 				return 'var(--gray-200)';
 		}

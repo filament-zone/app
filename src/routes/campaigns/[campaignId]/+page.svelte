@@ -58,18 +58,18 @@
 						<div class="flex flex-col" transition:fade>
 							<CampaignTimeLineItem
 								iconStatus={ECampaignTimeLineItem.PROCESSING}
-								title="Voting phase"
-								description="The campaign is in the voting phase"
-								status={'to-do'}
-								date=""
+								title="Confirm Token Distribution"
+								description="In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed."
+								status={'ongoing'}
+								date={new Date()}
 								isLast
 							/>
 							<CampaignTimeLineItem
-								iconStatus={ECampaignTimeLineItem.PROCESSING}
+								iconStatus={ECampaignTimeLineItem.CHECKED}
 								title="Initiate Campaign"
 								description="The campaign is being initiated"
-								date=""
-								status={'to-do'}
+								date="2024.12.20"
+								status={'success'}
 							/>
 
 							<CampaignTimeLineItem
@@ -77,7 +77,7 @@
 								title="Campaign Draft"
 								description="The campaign draft has been finalized and saved"
 								status={'success'}
-								date=""
+								date="2024.12.15"
 								isFirst
 							/>
 						</div>
