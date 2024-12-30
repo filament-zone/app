@@ -1,21 +1,27 @@
 import { PUBLIC_HUB_API } from '$env/static/public';
 import { ofetch, type FetchOptions, FetchError } from 'ofetch';
-import type { TErrorHandler } from '$lib/types';
+import type { IBaseResponse, TErrorHandler } from '$lib/types';
 
 const defaultErrorHandler = (statusCode: number) => {
 	switch (statusCode) {
 		case 400:
-			throw new Error('Bad Request: Check your input parameters.');
+			console.error('Bad Request: Check your input parameters.');
+			break;
 		case 401:
-			throw new Error('Unauthorized: Please login again.');
+			console.error('Unauthorized: Please login again.');
+			break;
 		case 403:
-			throw new Error('Forbidden: You do not have access to this resource.');
+			console.error('Forbidden: You do not have access to this resource.');
+			break;
 		case 404:
-			throw new Error('Not Found: The requested resource does not exist.');
+			console.error('Not Found: The requested resource does not exist.');
+			break;
 		case 500:
-			throw new Error('Internal Server Error: Please try again later.');
+			console.error('Internal Server Error: Please try again later.');
+			break;
 		default:
-			throw new Error(`Unexpected Error: ${statusCode}`);
+			console.error(`Unexpected Error: ${statusCode}`);
+			break;
 	}
 };
 
@@ -30,8 +36,8 @@ const hubApiClient = ofetch.create({
 const request = async <T>(
 	url: string,
 	options?: FetchOptions<'json'>,
-	errorHandler?: TErrorHandler<T>
-): Promise<T> => {
+	errorHandler?: TErrorHandler<IBaseResponse<T>>
+): Promise<IBaseResponse<T>> => {
 	try {
 		return await hubApiClient(url, options);
 	} catch (error) {
@@ -42,15 +48,33 @@ const request = async <T>(
 				if (errorHandler) {
 					const result = errorHandler(statusCode);
 					if (result !== undefined) {
-						return result as T;
+						return result as IBaseResponse<T>;
+					} else {
+						defaultErrorHandler(statusCode);
 					}
 				} else {
 					defaultErrorHandler(statusCode);
 				}
 			}
+
+			return {
+				data: undefined,
+				error: {
+					status: statusCode || 500,
+					message: error.message || 'An unexpected error occurred'
+				}
+			} as IBaseResponse<T>;
 		}
 
-		throw new Error('Network Error: Unable to reach the server.');
+		console.error('Unknown error occurred:', error);
+
+		return {
+			data: undefined,
+			error: {
+				status: 500,
+				message: 'A network error occurred. Please try again later.'
+			}
+		} as IBaseResponse<T>;
 	}
 };
 

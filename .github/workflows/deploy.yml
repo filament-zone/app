@@ -22,6 +22,7 @@ jobs:
     env:
       PUBLIC_DEFAULT_CHAIN: ${{ secrets.PUBLIC_DEFAULT_CHAIN }}
       PUBLIC_HUB_API: ${{ secrets.PUBLIC_HUB_API }}
+      PUBLIC_THE_HUB_CHAIN_ID: ${{ secrets.PUBLIC_HUB_API}}
       PUBLIC_FILAMENT_SC_ADDRESS: §{{ secrets.PUBLIC_FILAMENT_SC_ADDRESS }}
 
     steps:

@@ -26,9 +26,7 @@
 			Create
 		</Button>
 	</div>
-	{#if data.campaignList.length === 0}
-		<Typography class="text-center" variant="h4">No campaigns found</Typography>
-	{:else}
+	{#if data.campaignList?.length}
 		<div class="flex flex-col w-full">
 			<div class="flex justify-between gap-8 w-full mb-4">
 				<Toggle
@@ -43,5 +41,7 @@
 				{/each}
 			</div>
 		</div>
+	{:else}
+		<Typography class="text-center" variant="h4">No campaigns found</Typography>
 	{/if}
 </Container>

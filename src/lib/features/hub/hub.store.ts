@@ -61,14 +61,16 @@ export const processHubTransaction: IHubStore['processHubTransaction'] = async (
 			return;
 		}
 
-		const {
-			data: { nonce }
-		} = await AccountHubApiClient.getAccountInfoByEthAddr(get(wallet).address as string);
+		const res = await AccountHubApiClient.getAccountInfoByEthAddr(get(wallet).address as string);
+
+		if (!res?.data?.nonce) {
+			return;
+		}
 
 		await hubService.processHubTransaction({
 			id,
 			msg,
-			nonce: nonce,
+			nonce: res?.data?.nonce,
 			eventEmitter
 		});
 	} catch (error) {

@@ -39,7 +39,7 @@
 				</div>
 				<Divider />
 				<div>
-					<div class="flex flex-row items-center gap-4">
+					<div class="flex flex-row justify-between gap-4">
 						<span class="time-line">Timeline</span>
 						<div
 							class="cursor-pointer"
@@ -54,34 +54,35 @@
 							{/if}
 						</div>
 					</div>
-					{#if isTimelineOpen}
-						<div class="flex flex-col" transition:fade>
-							<CampaignTimeLineItem
-								iconStatus={ECampaignTimeLineItem.PROCESSING}
-								title="Voting phase"
-								description="The campaign is in the voting phase"
-								status={'to-do'}
-								date=""
-								isLast
-							/>
-							<CampaignTimeLineItem
-								iconStatus={ECampaignTimeLineItem.PROCESSING}
-								title="Initiate Campaign"
-								description="The campaign is being initiated"
-								date=""
-								status={'to-do'}
-							/>
-
-							<CampaignTimeLineItem
-								iconStatus={ECampaignTimeLineItem.CHECKED}
-								title="Campaign Draft"
-								description="The campaign draft has been finalized and saved"
-								status={'success'}
-								date=""
-								isFirst
-							/>
-						</div>
-					{/if}
+					<div class="flex flex-col">
+						<CampaignTimeLineItem
+							iconStatus={ECampaignTimeLineItem.PROCESSING}
+							title="Confirm Token Distribution"
+							description="In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed."
+							status={'ongoing'}
+							date={new Date()}
+							isLast
+						/>
+						{#if isTimelineOpen}
+							<div transition:fade>
+								<CampaignTimeLineItem
+									iconStatus={ECampaignTimeLineItem.CHECKED}
+									title="Initiate Campaign"
+									description="The campaign is being initiated"
+									date="2024.12.20"
+									status={'success'}
+								/>
+								<CampaignTimeLineItem
+									iconStatus={ECampaignTimeLineItem.CHECKED}
+									title="Campaign Draft"
+									description="The campaign draft has been finalized and saved"
+									status={'success'}
+									date="2024.12.15"
+									isFirst
+								/>
+							</div>
+						{/if}
+					</div>
 				</div>
 				<Divider />
 				<CampaignSummary campaign={data.campaign} />
@@ -91,7 +92,10 @@
 	<div class="flex flex-col min-w-[384px] gap-4">
 		<Container label="Voting">
 			<div class="flex flex-col gap-4">
-				<Badge label="Turnout: 48%" />
+				<div class="flex flex-row justify-between">
+					<Badge label="Turnout:" RightContent="48%" RightContentColorVariant="purple" />
+					<Badge label="Time Left:" RightContent="7D 42M" RightContentColorVariant="purple" />
+				</div>
 				<PrimaryDoughnutChart
 					chartData={data.chartData}
 					centerText={['Text', '2.43B']}
@@ -192,5 +196,8 @@
 				font-weight: 500;
 			}
 		}
+	}
+
+	.right-content {
 	}
 </style>

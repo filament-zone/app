@@ -8,10 +8,10 @@ export const load = async () => {
 		{ value: 'draft', label: 'Draft' }
 	];
 
-	const { data } = await CampaignHubApiClient.getCampaigns();
+	const res = await CampaignHubApiClient.getCampaigns();
 
 	return {
 		campaignToggleOptions,
-		campaignList: data
+		campaignList: res?.data
 	};
 };

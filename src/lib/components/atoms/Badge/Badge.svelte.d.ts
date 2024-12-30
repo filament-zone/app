@@ -9,6 +9,7 @@ declare const __propDef: {
 		LeftContent?: ComponentType<SvelteComponent> | string | null;
 		RightContent?: ComponentType<SvelteComponent> | string | null;
 		textColor?: string;
+		RightContentColorVariant?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
