@@ -8,6 +8,7 @@
 	export let LeftContent: IBadgeProps['LeftContent'] = null;
 	export let RightContent: IBadgeProps['RightContent'] = null;
 	export let textColor: IBadgeProps['textColor'] = '';
+	export let RightContentColorVariant: IBadgeProps['RightContentColorVariant'] = '';
 
 	function getColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
@@ -52,7 +53,7 @@
 	{#if RightContent}
 		<div class="item item-3 ml-2">
 			{#if typeof RightContent === 'string'}
-				<span class="side-content">{RightContent}</span>
+				<span class="side-content content-variant-{RightContentColorVariant}">{RightContent}</span>
 			{:else}
 				<svelte:component this={RightContent} />
 			{/if}
@@ -105,6 +106,15 @@
 			font-weight: 400;
 			line-height: 1.5;
 			color: var(--gray-200);
+		}
+
+		.content-variant-purple {
+			color: var(--Purple-CoW, #b7abfc);
+			font-family: var(--secondary-font);
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 700;
+			line-height: normal;
 		}
 	}
 </style>
