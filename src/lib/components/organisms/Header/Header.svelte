@@ -19,9 +19,9 @@
 	<div class="h-[5px]">
 		<ProgressBar color="#b1ffe3" />
 	</div>
-	<div class="flex flex-row items-center pt-[5px] pb-[10px] px-4" data-testid="header">
+	<div class="flex flex-row items-center pt-[5px] px-4" data-testid="header">
 		<div
-			class="cursor-pointer flex gap-3"
+			class="cursor-pointer flex gap-3 pb-[10px]"
 			on:click={() => {
 				goto(routes.HOME);
 			}}
@@ -34,7 +34,7 @@
 		<div class="ml-12 flex h-full items-center justify-middle">
 			<NavBar />
 		</div>
-		<div class="relative ml-auto">
+		<div class="relative ml-auto pb-[10px]">
 			<Button
 				data-testid="connect-wallet-button"
 				on:click={() => {

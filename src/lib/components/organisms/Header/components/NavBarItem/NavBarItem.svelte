@@ -116,7 +116,7 @@
 
 		.nav-item {
 			display: flex;
-			padding: 0 12px;
+			padding: 0 12px 10px 12px;
 			height: 100%;
 			align-items: center;
 			font-weight: inherit;
