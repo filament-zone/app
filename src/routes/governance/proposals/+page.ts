@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import { flexRender } from '@tanstack/svelte-table';
 import {
 	LiveProposalsTableLabelComponent,
@@ -8,6 +9,7 @@ import {
 import { Badge, TableDateTimeComponent } from '$lib/components';
 import { routes } from '$lib/constants';
 import SearchIcon from '$lib/assets/icons/search.svg?component';
+import { type ComponentType, SvelteComponent } from 'svelte';
 import {
 	EBadgeColorVariant,
 	EProposalStatus,
@@ -15,7 +17,6 @@ import {
 	type ISearchSelectProps,
 	type ITableProps
 } from '$lib/types';
-import { goto } from '$app/navigation';
 
 type TAllProposalsTableData = {
 	id: string;
@@ -91,7 +92,9 @@ export async function load() {
 		}
 	];
 
-	const tableLiveProposalsData: ITableProps = {
+	const tableLiveProposalsData: ITableProps & {
+		tableRightLabel: ComponentType<SvelteComponent>;
+	} = {
 		tableLabel: 'Live Proposals',
 		tableRightLabel: LiveProposalsTableLabelComponent,
 		tableRightLabelProps: { ...tableRightLabelProps },

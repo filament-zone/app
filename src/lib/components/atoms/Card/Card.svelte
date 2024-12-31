@@ -7,15 +7,22 @@
 
 <div class={`card ${$$props.class} p-2`}>
 	<Typography variant="caption">{label}</Typography>
-	<slot />
+	<div class="card-content">
+		<slot />
+	</div>
 </div>
 
 <style lang="less">
 	.card {
 		display: flex;
 		flex-direction: column;
-		border: 0.5px solid var(--default-border);
-		background-color: var(--darkNet);
 		border-radius: 4px;
+
+		.card-content {
+			margin-top: 8px;
+			padding: 16px;
+			border: 1px solid var(--default-border);
+			background: var(--highlight-bg, #1b1b1b);
+		}
 	}
 </style>

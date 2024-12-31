@@ -8,6 +8,7 @@ import {
 } from '$lib/components';
 import SearchIcon from '$lib/assets/icons/search.svg?component';
 import FilamentLogo from '$lib/assets/logos/logo-filament.svg?component';
+import { type ComponentType, SvelteComponent } from 'svelte';
 import {
 	EModalVariant,
 	type IDropdownProps,
@@ -89,7 +90,7 @@ export async function load() {
 		isSearchable: true
 	};
 
-	const tableDelegationsData: ITableProps = {
+	const tableDelegationsData: ITableProps & { tableRightLabel: ComponentType<SvelteComponent> } = {
 		tableLabel: 'My Delegations',
 		tableRightLabel: Dropdown,
 		tableRightLabelProps: { ...dropdownProps },
@@ -205,72 +206,73 @@ export async function load() {
 		}
 	];
 
-	const tableAllValidatorsData: ITableProps = {
-		tableLabel: 'All Validators',
-		tableRightLabel: SearchSelect,
-		tableRightLabelProps: { ...searchSelectProps },
-		columnDef: [
-			{
-				accessorKey: 'id',
-				header: '#',
-				size: 30,
-				meta: {
-					class: 'sticky',
-					cellStyle: {
-						color: 'var(--gray-200)'
+	const tableAllValidatorsData: ITableProps & { tableRightLabel: ComponentType<SvelteComponent> } =
+		{
+			tableLabel: 'All Validators',
+			tableRightLabel: SearchSelect,
+			tableRightLabelProps: { ...searchSelectProps },
+			columnDef: [
+				{
+					accessorKey: 'id',
+					header: '#',
+					size: 30,
+					meta: {
+						class: 'sticky',
+						cellStyle: {
+							color: 'var(--gray-200)'
+						}
+					}
+				},
+				{
+					accessorKey: 'validator',
+					header: 'Validator',
+					size: 200,
+					cell: (info) => {
+						const value = info.getValue() as unknown as TValidatorsTableData['validator'];
+						return flexRender(TableValidatorComponent, { ...value });
+					},
+					meta: {
+						class: 'sticky'
+					}
+				},
+				{
+					accessorKey: 'votingPower',
+					header: 'Voting Power'
+				},
+				{
+					accessorKey: 'commission',
+					header: 'Commission'
+				},
+				{
+					accessorKey: 'options',
+					header: '',
+					cell: (info) => {
+						const { validator } = info.getValue() as unknown as TValidatorsTableData['options'];
+						return flexRender(TableValidatorOptionsComponent, {
+							buttonLabel: 'Stake',
+							buttonOnClick: () => {
+								openModal({
+									variant: EModalVariant.VALIDATOR_STAKE,
+									state: { validator }
+								});
+							},
+							options: [
+								{ value: 'redelegate', label: 'Redelegate', disabled: true },
+								{ value: 'unstake', label: 'Unstake', disabled: true }
+							]
+						});
+					},
+					meta: {
+						cellStyle: {
+							display: 'flex',
+							'justify-content': 'flex-end',
+							width: '100% !important'
+						}
 					}
 				}
-			},
-			{
-				accessorKey: 'validator',
-				header: 'Validator',
-				size: 200,
-				cell: (info) => {
-					const value = info.getValue() as unknown as TValidatorsTableData['validator'];
-					return flexRender(TableValidatorComponent, { ...value });
-				},
-				meta: {
-					class: 'sticky'
-				}
-			},
-			{
-				accessorKey: 'votingPower',
-				header: 'Voting Power'
-			},
-			{
-				accessorKey: 'commission',
-				header: 'Commission'
-			},
-			{
-				accessorKey: 'options',
-				header: '',
-				cell: (info) => {
-					const { validator } = info.getValue() as unknown as TValidatorsTableData['options'];
-					return flexRender(TableValidatorOptionsComponent, {
-						buttonLabel: 'Stake',
-						buttonOnClick: () => {
-							openModal({
-								variant: EModalVariant.VALIDATOR_STAKE,
-								state: { validator }
-							});
-						},
-						options: [
-							{ value: 'redelegate', label: 'Redelegate', disabled: true },
-							{ value: 'unstake', label: 'Unstake', disabled: true }
-						]
-					});
-				},
-				meta: {
-					cellStyle: {
-						display: 'flex',
-						'justify-content': 'flex-end',
-						width: '100% !important'
-					}
-				}
-			}
-		],
-		data: mockedValidators
-	};
+			],
+			data: mockedValidators
+		};
 
 	return {
 		cards,

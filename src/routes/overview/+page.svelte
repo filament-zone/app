@@ -3,6 +3,7 @@
 		Card,
 		Container,
 		LineChartWithControls,
+		Metrics,
 		PrimaryDoughnutChart,
 		Toggle,
 		TrendDisplay,
@@ -16,7 +17,7 @@
 </script>
 
 <div class="flex flex-col w-full gap-4">
-	<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+	<Metrics>
 		{#each data.cards as card}
 			<Card label={card.label} class="w-full">
 				<TrendDisplay
@@ -27,7 +28,8 @@
 				/>
 			</Card>
 		{/each}
-	</div>
+	</Metrics>
+
 	<Container label="Total Supply" class="w-full">
 		<Typography variant="h6" slot="header">{data.totalSupply}</Typography>
 		<div class="flex flex-col lg:flex-row gap-8 w-full mt-8 pb-4">
