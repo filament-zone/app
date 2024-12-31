@@ -11,3 +11,4 @@ export * from './MenuPopover/index.types';
 export * from './Breadcrumbs/index.types';
 export * from './DatePicker/index.types';
 export * from './ToggleContentContainer/index.types';
+export * from './Metrics/index.types';
