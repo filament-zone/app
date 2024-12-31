@@ -7,7 +7,7 @@ declare const __propDef: {
 		title: string;
 		description: string;
 		date?: string;
-		status: string;
+		status?: string;
 		isLast?: boolean;
 		isFirst?: boolean;
 		onButtonClick?: () => void;

@@ -7,13 +7,13 @@ declare const __propDef: {
 	};
 	slots: object;
 };
-type IModalCampaignDepositProps_ = typeof __propDef.props;
-export type { IModalCampaignDepositProps_ as IModalCampaignDepositProps };
-export type IModalCampaignDepositEvents = typeof __propDef.events;
-export type IModalCampaignDepositSlots = typeof __propDef.slots;
+type IModalCampaignVoteProps_ = typeof __propDef.props;
+export type { IModalCampaignVoteProps_ as IModalCampaignVoteProps };
+export type IModalCampaignVoteEvents = typeof __propDef.events;
+export type IModalCampaignVoteSlots = typeof __propDef.slots;
 
-export default class ModalCampaignDeposit extends SvelteComponent<
-	IModalCampaignDepositProps,
-	IModalCampaignDepositEvents,
-	IModalCampaignDepositSlots
+export default class ModalCampaignVote extends SvelteComponent<
+	IModalCampaignVoteProps,
+	IModalCampaignVoteEvents,
+	IModalCampaignVoteSlots
 > {}

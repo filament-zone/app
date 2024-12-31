@@ -75,20 +75,24 @@
 			</Typography>
 		</div>
 	</div>
-	<div class="flex flex-col justify-center items-end w-4/12">
-		{#if onButtonClick}
+	{#if onButtonClick}
+		<div class="flex flex-col justify-center items-end w-4/12">
 			<Button on:click={onButtonClick}>{buttonLabel}</Button>
-		{:else if status === 'to-do'}
+		</div>
+	{:else if status === 'to-do'}
+		<div class="flex flex-col justify-center items-end w-4/12">
 			<Typography variant="caption" color={getStatusColor(status)}>
 				{capitalizeFirstLetter(status)}
 			</Typography>
-		{:else}
+		</div>
+	{:else if date && status}
+		<div class="flex flex-col justify-center items-end w-4/12">
 			<Typography variant="caption" class="text-right"
 				>{moment(date).format('MMMM D, YYYY')}</Typography
 			>
 			<Typography variant="caption" color={getStatusColor(status)}>
 				{capitalizeFirstLetter(status)}
 			</Typography>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>

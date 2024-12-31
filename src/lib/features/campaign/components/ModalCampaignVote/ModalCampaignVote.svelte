@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { Modal, modalStore } from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
-	import type { TToggleContentContainerSelected } from '$lib/types';
+	import { EModalVariant, type TToggleContentContainerSelected } from '$lib/types';
 	import { CheckCircleIcon, MinusCircleIcon } from 'svelte-feather-icons';
 
-	const { closeModal } = modalStore;
+	const { openModal } = modalStore;
 
 	let toggleSelected: TToggleContentContainerSelected = 'isFirst';
+
+	const handleVote = () => {
+		openModal({ variant: EModalVariant.CAMPAIGN_VOTE_TIMELINE });
+	};
 </script>
 
 <Modal classNames="max-w-96">
@@ -49,7 +53,7 @@
 			</ToggleContentCard>
 		</ToggleContentContainer>
 
-		<Button on:click={closeModal} class="ml-auto mt-8" variant="secondary">Confirm</Button>
+		<Button on:click={handleVote} class="ml-auto mt-8" variant="secondary">Confirm</Button>
 	</div>
 </Modal>
 
