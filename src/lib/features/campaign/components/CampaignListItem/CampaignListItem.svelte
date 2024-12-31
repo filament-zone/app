@@ -1,18 +1,19 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
 	import { goto } from '$app/navigation';
-	import { CampaignTimeLineItem, modalStore } from '$lib/features';
-	import { Badge, Button, Divider, Typography } from '$lib/components';
+	import { modalStore } from '$lib/features';
+	import { Badge, Button, CampaignTimeLine, Divider, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
 	import {
 		type ICampaignListItemProps,
 		EButtonStyleVariant,
-		ECampaignTimeLineItem,
-		EModalVariant
+		EModalVariant,
+		ECampaignTimeLineItem
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
+	export let isOwner: ICampaignListItemProps['isOwner'] = false;
 
 	const { openModal } = modalStore;
 
@@ -23,6 +24,29 @@
 			})
 		);
 	};
+
+	export const campaignTimeLineConfig = [
+		{
+			iconStatus: ECampaignTimeLineItem.PROCESSING,
+			title: 'Voting phase',
+			description: 'The campaign is in the voting phase',
+			status: 'to-do',
+			isLast: true
+		},
+		{
+			iconStatus: ECampaignTimeLineItem.PROCESSING,
+			title: 'Initiate Campaign',
+			description: 'The campaign is being initiated',
+			status: 'to-do'
+		},
+		{
+			iconStatus: ECampaignTimeLineItem.CHECKED,
+			title: 'Campaign Draft',
+			description: 'The campaign draft has been finalized and saved',
+			status: 'success',
+			isFirst: true
+		}
+	];
 </script>
 
 <div class="campaign-list-item-container">
@@ -36,16 +60,18 @@
 				<Typography variant="h6">Status</Typography>
 				<Badge label="Draft" />
 			</div>
-			<div class="flex flex-col w-auto">
-				<Typography variant="h6">Collateral Bond</Typography>
-				<div class="flex flex-row w-[250px] gap-8">
-					<div>
-						<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
-							>Not initiated</Typography
-						>
+			{#if !isOwner}
+				<div class="flex flex-col w-auto">
+					<Typography variant="h6">Collateral Bond</Typography>
+					<div class="flex flex-row w-[250px] gap-8">
+						<div>
+							<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
+								>Not initiated</Typography
+							>
+						</div>
 					</div>
 				</div>
-			</div>
+			{/if}
 			<div class="flex flex-col">
 				<Typography variant="h6">Created at</Typography>
 				<Typography variant="h6"
@@ -54,39 +80,16 @@
 			</div>
 		</div>
 		<Divider />
-		<div>
-			<Typography variant="caption">Timeline</Typography>
-			<div class="flex flex-col">
-				<CampaignTimeLineItem
-					iconStatus={ECampaignTimeLineItem.PROCESSING}
-					title="Voting phase"
-					description="The campaign is in the voting phase"
-					status={'to-do'}
-					isLast
-				/>
-				<CampaignTimeLineItem
-					iconStatus={ECampaignTimeLineItem.PROCESSING}
-					title="Initiate Campaign"
-					description="The campaign is being initiated"
-					status={'to-do'}
-				/>
-
-				<CampaignTimeLineItem
-					iconStatus={ECampaignTimeLineItem.CHECKED}
-					title="Campaign Draft"
-					description="The campaign draft has been finalized and saved"
-					status={'success'}
-					isFirst
-				/>
+		<CampaignTimeLine options={campaignTimeLineConfig} isOpen />
+		{#if isOwner}
+			<Divider />
+			<div class="flex flex-row justify-between gap-8">
+				<Button styleVariant={EButtonStyleVariant.SECONDARY}>Delete</Button>
+				<Button on:click={openModal.bind(null, { variant: EModalVariant.CAMPAIGN_INITIATE })}
+					>Initiate</Button
+				>
 			</div>
-		</div>
-		<Divider />
-		<div class="flex flex-row justify-between gap-8">
-			<Button styleVariant={EButtonStyleVariant.SECONDARY}>Delete</Button>
-			<Button on:click={openModal.bind(null, { variant: EModalVariant.CAMPAIGN_INITIATE })}
-				>Initiate</Button
-			>
-		</div>
+		{/if}
 	</div>
 </div>
 

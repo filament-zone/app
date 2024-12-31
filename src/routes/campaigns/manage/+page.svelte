@@ -35,11 +35,19 @@
 					bind:value={toggleValue}
 				/>
 			</div>
-			<div class="flex flex-col gap-4 w-full">
-				{#each data.campaignList as campaignItem}
-					<CampaignListItem campaign={campaignItem} />
-				{/each}
-			</div>
+			{#if toggleValue === 'yourCampaigns'}
+				<div class="grid grid-cols-2 gap-4 w-full">
+					{#each data.campaignList as campaignItem}
+						<CampaignListItem campaign={campaignItem} isOwner />
+					{/each}
+				</div>
+			{:else}
+				<div class="flex flex-col gap-4 w-full">
+					{#each data.campaignList as campaignItem}
+						<CampaignListItem campaign={campaignItem} />
+					{/each}
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<Typography class="text-center" variant="h4">No campaigns found</Typography>

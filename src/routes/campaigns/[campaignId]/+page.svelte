@@ -1,23 +1,21 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import moment from 'moment/moment.js';
 	import { routes } from '$lib/constants';
-	import { CampaignSummary, CampaignTimeLineItem, modalStore } from '$lib/features';
-	import { Badge, Button, Container, Divider, PrimaryDoughnutChart } from '$lib/components';
-	import { EButtonSizeVariant, ECampaignTimeLineItem, EModalVariant } from '$lib/types';
-	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
-	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
+	import { CampaignSummary, modalStore } from '$lib/features';
+	import {
+		Badge,
+		Button,
+		CampaignTimeLine,
+		Container,
+		Divider,
+		PrimaryDoughnutChart
+	} from '$lib/components';
+	import { EButtonSizeVariant, EModalVariant } from '$lib/types';
 
 	export let data;
 
 	const { openModal } = modalStore;
-
-	let isTimelineOpen = false;
-
-	const handleTimeLineClick = () => {
-		isTimelineOpen = !isTimelineOpen;
-	};
 
 	const handleVote = () => {
 		openModal({ variant: EModalVariant.CAMPAIGN_VOTE });
@@ -38,52 +36,7 @@
 					<span class="campaign-label">{data.campaign.title}</span>
 				</div>
 				<Divider />
-				<div>
-					<div class="flex flex-row justify-between gap-4">
-						<span class="time-line">Timeline</span>
-						<div
-							class="cursor-pointer"
-							style="color: var(--primary-white)"
-							on:click={handleTimeLineClick}
-							aria-hidden="true"
-						>
-							{#if isTimelineOpen}
-								<ChevronRightIcon style="transform: scale(0.7);" />
-							{:else}
-								<ChevronDownIcon style="transform: scale(0.7);" />
-							{/if}
-						</div>
-					</div>
-					<div class="flex flex-col">
-						<CampaignTimeLineItem
-							iconStatus={ECampaignTimeLineItem.PROCESSING}
-							title="Confirm Token Distribution"
-							description="In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed."
-							status={'ongoing'}
-							date={new Date()}
-							isLast
-						/>
-						{#if isTimelineOpen}
-							<div transition:fade>
-								<CampaignTimeLineItem
-									iconStatus={ECampaignTimeLineItem.CHECKED}
-									title="Initiate Campaign"
-									description="The campaign is being initiated"
-									date="2024.12.20"
-									status={'success'}
-								/>
-								<CampaignTimeLineItem
-									iconStatus={ECampaignTimeLineItem.CHECKED}
-									title="Campaign Draft"
-									description="The campaign draft has been finalized and saved"
-									status={'success'}
-									date="2024.12.15"
-									isFirst
-								/>
-							</div>
-						{/if}
-					</div>
-				</div>
+				<CampaignTimeLine options={data.timeLineProps} />
 				<Divider />
 				<CampaignSummary campaign={data.campaign} />
 			</div>
@@ -132,16 +85,6 @@
 		font-style: normal;
 		font-weight: 450;
 		line-height: 20px;
-	}
-
-	.time-line {
-		color: var(--primary-white);
-		font-family: var(--primary-font);
-		font-size: 13px;
-		font-style: normal;
-		font-weight: 450;
-		line-height: 12px;
-		letter-spacing: 0.65px;
 	}
 
 	.ticker-item {
@@ -196,8 +139,5 @@
 				font-weight: 500;
 			}
 		}
-	}
-
-	.right-content {
 	}
 </style>

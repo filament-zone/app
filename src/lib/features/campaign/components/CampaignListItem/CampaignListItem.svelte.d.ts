@@ -4,6 +4,7 @@ import type { ICampaign } from '$lib/types';
 declare const __propDef: {
 	props: {
 		campaign: ICampaign;
+		isOwner?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

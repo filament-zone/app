@@ -1,17 +1,28 @@
 import { CampaignHubApiClient } from '$lib/api';
+import { generateMockCampaign } from '$lib/features';
+import type { ICampaign } from '$lib/api/hub/campaign/campaign.hub.api.types';
 
 export const load = async () => {
 	const campaignToggleOptions = [
 		{ value: 'all', label: 'All' },
-		{ value: 'active', label: 'Active' },
+		{ value: 'proposals', label: 'Proposals' },
+		{ value: 'votings', label: 'Votings' },
+		{ value: 'distributions', label: 'Distributions' },
 		{ value: 'finished', label: 'Finished' },
-		{ value: 'draft', label: 'Draft' }
+		{ value: 'yourCampaigns', label: 'Your Campaigns' }
 	];
 
 	const res = await CampaignHubApiClient.getCampaigns();
+	const mockedCampaigns: ICampaign[] = [];
+
+	if (!res.data?.length) {
+		for (let i = 0; i < 100; i++) {
+			mockedCampaigns.push(generateMockCampaign());
+		}
+	}
 
 	return {
 		campaignToggleOptions,
-		campaignList: res?.data
+		campaignList: res?.data ?? mockedCampaigns
 	};
 };

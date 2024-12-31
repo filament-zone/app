@@ -4,7 +4,7 @@ import {
 	generateMockDelegates,
 	generateRandomTickerData
 } from '$lib/features';
-import type { IPrimaryDoughnutChartProps } from '$lib/types';
+import { type IPrimaryDoughnutChartProps, ECampaignTimeLineItem } from '$lib/types';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
@@ -25,10 +25,38 @@ export async function load({ params }) {
 
 	const delegates = generateMockDelegates();
 
+	const timeLineProps = [
+		{
+			iconStatus: ECampaignTimeLineItem.PROCESSING,
+			title: 'Confirm Token Distribution',
+			description:
+				'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
+			status: 'ongoing',
+			date: new Date(),
+			isLast: true
+		},
+		{
+			iconStatus: ECampaignTimeLineItem.CHECKED,
+			title: 'Initiate Campaign',
+			description: 'The campaign is being initiated',
+			status: 'success',
+			date: '2024.12.20'
+		},
+		{
+			iconStatus: ECampaignTimeLineItem.CHECKED,
+			title: 'Campaign Draft',
+			description: 'The campaign draft has been finalized and saved',
+			status: 'success',
+			date: '2024.12.15',
+			isFirst: true
+		}
+	];
+
 	return {
 		campaign: res?.data ?? generateMockCampaign(),
 		chartData,
 		tickerData,
-		delegates
+		delegates,
+		timeLineProps
 	};
 }
