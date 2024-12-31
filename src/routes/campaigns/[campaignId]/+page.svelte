@@ -13,7 +13,7 @@
 
 	const { openModal } = modalStore;
 
-	let isTimelineOpen = true;
+	let isTimelineOpen = false;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;

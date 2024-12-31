@@ -3,6 +3,7 @@
 	import { Button, Container, Input, Table, Typography } from '$lib/components';
 	import { distributionInsightsColumnDef, distributionAllocationColumnDef } from '$lib/features';
 	import { EInputSizeVariant } from '$lib/types';
+	import { shortCutTransactionHash } from '$lib/helpers/index.js';
 
 	$: insightsTable = {
 		data: [
@@ -20,7 +21,7 @@
 		data: [
 			{
 				number: '1',
-				address: '0x01ed3152fC4C092faA6C16Fa3AFc9B8D0BDC2491',
+				address: shortCutTransactionHash('0x01ed3152fc4c092faa6c16fa3afc9b8d0bdc2491'),
 				percentage: '12%',
 				totalAllocation: 213428103
 			}
