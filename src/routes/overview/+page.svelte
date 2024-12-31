@@ -1,6 +1,7 @@
 <script>
 	import {
 		Card,
+		Container,
 		LineChartWithControls,
 		PrimaryDoughnutChart,
 		Toggle,
@@ -27,8 +28,8 @@
 			</Card>
 		{/each}
 	</div>
-	<Card label="Total Supply" class="w-full">
-		<Typography variant="h6">{data.totalSupply}</Typography>
+	<Container label="Total Supply" class="w-full">
+		<Typography variant="h6" slot="header">{data.totalSupply}</Typography>
 		<div class="flex flex-col lg:flex-row gap-8 w-full mt-8 pb-4">
 			<PrimaryDoughnutChart
 				chartData={data.inflationChartData}
@@ -41,26 +42,34 @@
 				class="w-full"
 			/>
 		</div>
-	</Card>
-	<div class="flex flex-col gap-4">
-		<div class="flex flex-row justify-between">
-			<Typography variant="h5">Charts</Typography>
-			<Toggle
-				options={data.defaultToggleOptions}
-				bind:value={sharedTimeRangeValue}
-				sizeVariant={EToggleSizeVariant.NORMAL}
-			/>
-		</div>
-		<LineChartWithControls
-			{...{ ...data.tvlData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+	</Container>
+	<Container label="Charts" class="w-full">
+		<Toggle
+			options={data.defaultToggleOptions}
+			bind:value={sharedTimeRangeValue}
+			sizeVariant={EToggleSizeVariant.NORMAL}
+			slot="header"
 		/>
-		<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+		<div class="flex flex-col gap-4">
 			<LineChartWithControls
-				{...{ ...data.stakedData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+				{...{
+					...data.tvlData,
+					toggleValue: sharedTimeRangeValue,
+					displayToggle: false
+				}}
 			/>
-			<LineChartWithControls
-				{...{ ...data.newAddressesData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
-			/>
+			<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+				<LineChartWithControls
+					{...{
+						...data.stakedData,
+						toggleValue: sharedTimeRangeValue,
+						displayToggle: false
+					}}
+				/>
+				<LineChartWithControls
+					{...{ ...data.newAddressesData, toggleValue: sharedTimeRangeValue, displayToggle: false }}
+				/>
+			</div>
 		</div>
-	</div>
+	</Container>
 </div>

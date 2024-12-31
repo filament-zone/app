@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, SecondaryLineChart, TrendDisplay, Toggle } from '$lib/components';
+	import { SecondaryLineChart, TrendDisplay, Toggle, Container } from '$lib/components';
 	import { calculatePercentageChange, updateChartDateRange } from '$lib/helpers';
 	import { defaultToggleOptions } from '$lib/constants';
 	import {
@@ -54,8 +54,8 @@
 			: ['rgba(255, 116, 164, 0.1)'];
 </script>
 
-<Card {label}>
-	<div class="flex flex-col md:flex-row justify-between">
+<Container {label} class="w-full">
+	<div class="flex flex-col md:flex-row justify-between" slot="header">
 		<TrendDisplay {...trendDisplayData} />
 		{#if displayToggle}
 			<Toggle
@@ -66,4 +66,4 @@
 		{/if}
 	</div>
 	<SecondaryLineChart data={localChartData} {lineColors} {backgroundColors} />
-</Card>
+</Container>
