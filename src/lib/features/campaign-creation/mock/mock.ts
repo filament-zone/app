@@ -7,7 +7,7 @@ import {
 	type IDropdownProps
 } from '$lib/types';
 import type { Criterion } from '@filament-zone/filament/Criterion';
-import { EEligibilityCriteriaType } from '$lib/api/hub/campaign/campaign.hub.api.enums';
+import { EEligibilityCriteriaType } from '$lib/api/campaign/campaign.hub.api.enums';
 
 export const generateMockEligibilityCriteria = (quantity: number): Criterion[] => {
 	const categories = ['Balance', 'Defi', 'Gaming', 'Governance', 'Nft'] as CriterionCategory[];
