@@ -18,7 +18,7 @@
 	const { openModal } = modalStore;
 
 	const handleVote = () => {
-		openModal({ variant: EModalVariant.CAMPAIGN_VOTE });
+		openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: data.campaign.id } });
 	};
 </script>
 

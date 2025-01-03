@@ -1,4 +1,4 @@
-import { CampaignHubApiClient } from '$lib/api';
+import { CampaignApi } from '$lib/api';
 import {
 	generateMockCampaign,
 	generateMockDelegates,
@@ -9,7 +9,7 @@ import { type IPrimaryDoughnutChartProps, ECampaignTimeLineItem } from '$lib/typ
 export async function load({ params }) {
 	const campaignId = params.campaignId;
 
-	const res = await CampaignHubApiClient.getCampaignById(campaignId);
+	const res = await CampaignApi.getCampaignById(campaignId);
 
 	const chartData: IPrimaryDoughnutChartProps['chartData'] = {
 		labels: ['Onchain Gov', 'Vesting', 'Circulating'],

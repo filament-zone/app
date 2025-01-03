@@ -3,7 +3,7 @@ import { campaignTypes } from '$lib/features';
 import { routes } from '$lib/constants';
 import type { LayoutServerLoad } from './$types';
 import { type TStepBarConfig } from '$lib/types';
-import { ECampaignType } from '$lib/api/hub/campaign/campaign.hub.api.enums';
+import { ECampaignType } from '$lib/api/campaign/campaign.hub.api.enums';
 
 export const load: LayoutServerLoad = async ({ params }) => {
 	const initSteps: TStepBarConfig = {
