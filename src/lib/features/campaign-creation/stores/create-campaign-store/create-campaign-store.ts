@@ -4,6 +4,7 @@ import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation
 import { type ICampaign, type ICreateCampaignStore } from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 import { CampaignApi } from '$lib/api';
+import type { VoteOption } from '@filament-zone/filament/VoteOption';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
@@ -89,6 +90,26 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 	return true;
 };
 
+const voteCampaign: ICreateCampaignStore['voteCampaign'] = async (voteOption, campaignId) => {
+	let payload: VoteOption;
+	if (voteOption === 'Yes') {
+		payload = { Yes: { weights: [1n] } };
+	} else {
+		payload = 'No';
+	}
+
+	const tx = await CampaignApi.voteCampaign({
+		campaign_id: BigInt(campaignId),
+		option: payload
+	});
+
+	tx.onSuccess((res) => {
+		console.log('voteCampaign API res', res);
+	});
+
+	await tx.run();
+};
+
 const getDelegates = async () => {
 	await CampaignApi.getDelegates();
 };
@@ -98,5 +119,6 @@ export const campaignStore: ICreateCampaignStore = {
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
-	getDelegates
+	getDelegates,
+	voteCampaign
 };

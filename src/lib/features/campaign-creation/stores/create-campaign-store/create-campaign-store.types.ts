@@ -7,4 +7,5 @@ export interface ICreateCampaignStore {
 	createCampaign: () => Promise<boolean>;
 	toggleDelegate: (delegateId: IDelegate['id']) => void;
 	getDelegates: () => void;
+	voteCampaign: (voteOption: string, campaignId: number) => void;
 }

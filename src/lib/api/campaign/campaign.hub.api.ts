@@ -44,6 +44,22 @@ export class CampaignApi {
 		});
 	}
 
+	static async voteCampaign(
+		payload: Extract<CallMessage, { VoteCriteria: unknown }>['VoteCriteria']
+	) {
+		return new TransactionClientAdapter({
+			payload: {
+				core: {
+					vote_criteria: {
+						...payload
+					}
+				}
+			},
+			walletProvider: EWalletProvider.METAMASK,
+			client: EClient.THE_HUB
+		});
+	}
+
 	static async getDelegates() {
 		return await ethereumApiClient.callContractMethod(
 			SC_ADDRESS_CONFIG[EContract.FILAMENT_SC],

@@ -1,16 +1,15 @@
 import { ethers } from 'ethers';
+import { AccountHubApiClient } from '$lib/api';
 import { WalletClientConnector, EventEmitter } from '$lib/services';
-
 import { PUBLIC_THE_HUB_CHAIN_ID } from '$env/static/public';
 import JSONBig from 'json-bigint';
-
 import type { IEventEmitter } from '$lib/services/event-emitter/event-emitter.types';
 
 export class HubTransactionPrepare {
 	private readonly WalletClientConnector: WalletClientConnector;
 	private readonly eventEmitter: IEventEmitter;
 	private readonly msg: object;
-	private readonly nonce: number;
+	private nonce: number;
 
 	constructor({
 		payload,
@@ -35,9 +34,23 @@ export class HubTransactionPrepare {
 
 		try {
 			await this.WalletClientConnector.connect();
+			let address;
+			await this.WalletClientConnector.getAccountInfo((data) => {
+				address = (data as Array<{ address: string; chain: object }>)?.[0]?.address;
+			});
+
+			if (!address) {
+				return null;
+			}
+
+			const res = await AccountHubApiClient.getAccountInfoByEthAddr(address);
+
+			this.nonce = res.data?.nonce ? res.data?.nonce : 0;
+
 			const chainId = BigInt(PUBLIC_THE_HUB_CHAIN_ID);
 
 			const payload = JSONBig.stringify(this.msg);
+
 			const serializedCall = serialize_call(payload);
 
 			const newUnsignedTx = new_unsigned_tx(serializedCall, chainId, BigInt(this.nonce));
