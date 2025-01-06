@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { CampaignApi } from '$lib/api';
+	import { modalStore } from '$lib/features';
 	import { TimeLineItem, Typography } from '$lib/components';
-	import { ETimeLineItem, type ICampaignTimeLineProps, type ITimeLineItemProps } from '$lib/types';
+	import {
+		EModalVariant,
+		ETimeLineItem,
+		type ICampaignTimeLineProps,
+		type ITimeLineItemProps
+	} from '$lib/types';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
@@ -10,6 +16,8 @@
 	export let isOpen: ICampaignTimeLineProps['isOpen'] = false;
 
 	let isTimelineOpen = isOpen;
+
+	const { openModal } = modalStore;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
@@ -55,6 +63,9 @@
 		Criteria: [
 			{
 				...timeLineInitVoteData,
+				onButtonClick: async () => {
+					openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
+				},
 				buttonLabel: 'Vote'
 			},
 			{

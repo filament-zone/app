@@ -44,6 +44,20 @@ export class CampaignApi {
 		});
 	}
 
+	static async initCampaign(payload: Extract<CallMessage, { Init: unknown }>['Init']) {
+		return new TransactionClientAdapter({
+			payload: {
+				core: {
+					init: {
+						...payload
+					}
+				}
+			},
+			walletProvider: EWalletProvider.METAMASK,
+			client: EClient.THE_HUB
+		});
+	}
+
 	static async voteCampaign(
 		payload: Extract<CallMessage, { VoteCriteria: unknown }>['VoteCriteria']
 	) {
