@@ -5,6 +5,10 @@ export class EthereumContract {
 	public readonly contract: BaseContract & Omit<ContractInterface, keyof BaseContract>;
 
 	constructor(scAddress: string, provider: WalletClientConnector, abi: InterfaceAbi) {
-		this.contract = new ethers.Contract(scAddress, abi, provider.Client.Signer);
+		const newProvier = new ethers.JsonRpcProvider(
+			'https://ethereum-sepolia-rpc.publicnode.com',
+			11155111n
+		);
+		this.contract = new ethers.Contract(scAddress, abi, newProvier);
 	}
 }

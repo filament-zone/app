@@ -1,9 +1,10 @@
 import { get, writable } from 'svelte/store';
-import { hubStore, toastsStore, transactionStore } from '$lib/features';
+import { toastsStore } from '$lib/features';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation/mock/mock';
-import { type CallMessage } from '@filament-zone/filament/CallMessage';
-import { EContract, EDelegatesABI, type ICampaign, type ICreateCampaignStore } from '$lib/types';
-import { ECampaignTimeSettings } from '$lib/api/hub/campaign/campaign.hub.api.enums';
+import { type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
+import { CampaignApi } from '$lib/api';
+import type { VoteOption } from '@filament-zone/filament/VoteOption';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
@@ -72,41 +73,45 @@ const clearCampaignDetails = () => {
 	campaignDetails.set({ ...initCampaignDetails });
 };
 
-const createHubTx: ICreateCampaignStore['createHubTx'] = (msg) => {
-	const { processHubTransaction } = hubStore;
-
-	return processHubTransaction.bind(null, { msg });
-};
-
 const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
-	const payload: CallMessage = {
-		Draft: {
-			title: get(campaignDetails).title as string,
-			description: get(campaignDetails).description as string,
-			criteria: get(campaignDetails).criteria,
-			evictions: get(campaignDetails).evictions
-			// delegates: get(campaignDetails).delegates
-		}
-	};
-	const hubTx = createHubTx({
-		core: {
-			...payload
-		}
+	const tx = await CampaignApi.createCampaign({
+		title: get(campaignDetails).title as string,
+		description: get(campaignDetails).description as string,
+		criteria: get(campaignDetails).criteria,
+		evictions: []
 	});
-	await hubTx();
+
+	tx.onSuccess((res) => {
+		console.log('createCampaign API onSuccess res', res);
+	});
+
+	await tx.run();
+
 	return true;
 };
 
-const getDelegates = async () => {
-	const { newTransaction } = transactionStore;
+const voteCampaign: ICreateCampaignStore['voteCampaign'] = async (voteOption, campaignId) => {
+	let payload: VoteOption;
+	if (voteOption === 'Yes') {
+		payload = { Yes: { weights: [1n] } };
+	} else {
+		payload = 'No';
+	}
 
-	const getDataDelegatesTx = newTransaction(EContract.FILAMENT_SC, EDelegatesABI.GET_ALL_DELEGATES);
-
-	await getDataDelegatesTx?.run();
-
-	getDataDelegatesTx?.onSuccess((payload) => {
-		console.log('delegates', payload.data);
+	const tx = await CampaignApi.voteCampaign({
+		campaign_id: BigInt(campaignId),
+		option: payload
 	});
+
+	tx.onSuccess((res) => {
+		console.log('voteCampaign API res', res);
+	});
+
+	await tx.run();
+};
+
+const getDelegates = async () => {
+	await CampaignApi.getDelegates();
 };
 
 export const campaignStore: ICreateCampaignStore = {
@@ -114,6 +119,6 @@ export const campaignStore: ICreateCampaignStore = {
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
-	createHubTx,
-	getDelegates
+	getDelegates,
+	voteCampaign
 };

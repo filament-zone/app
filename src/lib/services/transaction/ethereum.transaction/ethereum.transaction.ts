@@ -2,10 +2,10 @@ import type { InterfaceAbi } from 'ethers';
 import { WalletClientConnector, TransactionRequest, EventEmitter } from '$lib/services';
 import type {
 	ErrorTransactionSubscriber,
-	TransactionConstructorProps,
 	ITransaction,
 	SuccessTransactionSubscriber,
-	IEventEmitter
+	IEventEmitter,
+	IEthTxProps
 } from '$lib/types';
 
 export class EthereumTransaction implements ITransaction {
@@ -17,14 +17,7 @@ export class EthereumTransaction implements ITransaction {
 	private readonly args: unknown[];
 	private readonly abi: InterfaceAbi;
 
-	constructor({
-		scAddress,
-		abi,
-		method,
-		args,
-		walletProvider,
-		eventEmitter
-	}: TransactionConstructorProps) {
+	constructor({ scAddress, abi, method, args, walletProvider, eventEmitter }: IEthTxProps) {
 		this.EventEmitter = eventEmitter ?? new EventEmitter();
 
 		this.WalletClientConnector = new WalletClientConnector({

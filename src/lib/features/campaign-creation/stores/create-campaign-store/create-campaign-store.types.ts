@@ -6,6 +6,6 @@ export interface ICreateCampaignStore {
 	clearCampaignDetails: () => void;
 	createCampaign: () => Promise<boolean>;
 	toggleDelegate: (delegateId: IDelegate['id']) => void;
-	createHubTx: (msg: object) => () => Promise<void>;
 	getDelegates: () => void;
+	voteCampaign: (voteOption: string, campaignId: number) => void;
 }

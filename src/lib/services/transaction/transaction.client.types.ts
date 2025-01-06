@@ -1,5 +1,5 @@
 import { type EthersError, type InterfaceAbi } from 'ethers';
-import { EWalletProvider, EWalletProviderError } from '$lib/services';
+import { EWalletProvider, EWalletProviderError, WalletClientConnector } from '$lib/services';
 import type { IEventEmitter } from '$lib/services/event-emitter/event-emitter.types';
 
 export type SuccessTransactionSubscriber = (payload: SuccessTransactionResponseCb) => void;
@@ -13,14 +13,30 @@ export interface ITransaction {
 	onFailure: (fn: ErrorTransactionSubscriber) => ITransaction;
 }
 
-export interface TransactionConstructorProps {
+export enum EClient {
+	THE_HUB = 'THE_HUB',
+	ETHEREUM = 'ETHEREUM'
+}
+
+export interface ITxProps {
+	client: EClient;
+	eventEmitter?: IEventEmitter;
+	walletProvider: EWalletProvider;
+	walletClientConnector?: WalletClientConnector;
+}
+
+export interface IEthTxProps extends ITxProps {
 	scAddress: string;
 	abi: InterfaceAbi;
 	method: string;
 	args: unknown[];
-	walletProvider: EWalletProvider;
-	eventEmitter?: IEventEmitter;
 }
+
+export interface IHubTxProps extends ITxProps {
+	payload: object;
+}
+
+export type TransactionConstructorProps = IEthTxProps | IHubTxProps;
 
 export interface TransactionError {
 	code: EWalletProviderError;
