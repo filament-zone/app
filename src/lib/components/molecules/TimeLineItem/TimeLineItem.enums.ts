@@ -1,4 +1,4 @@
-export enum ECampaignTimeLineItem {
+export enum ETimeLineItem {
 	CHECKED = 'checked',
 	PROCESSING = 'processing'
 }

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { CampaignTimeLineItem, initiateCampaignStore, Modal, modalStore } from '$lib/features';
-	import { Button, Typography } from '$lib/components';
-	import { type ICampaignTimeLineItemProps } from '$lib/types';
-	import { ECampaignTimeLineItem } from '$lib/features/campaign/components/CampaignListItem/components/CampaginTimeLineItem/CampaignTimeLineItem.enums';
+	import { initiateCampaignStore, Modal, modalStore } from '$lib/features';
+	import { Button, Typography, TimeLineItem } from '$lib/components';
+	import { type ITimeLineItemProps, ETimeLineItem } from '$lib/types';
 
 	const { closeModal } = modalStore;
 	const { signTokenAllowance, signDepositTransaction, hubConfirm } = initiateCampaignStore;
@@ -24,7 +23,7 @@
 	};
 
 	const timeLineItemFilamentHubConfirmationProps = {
-		iconStatus: ECampaignTimeLineItem.PROCESSING,
+		iconStatus: ETimeLineItem.PROCESSING,
 		title: 'Filament Hub Confirmation',
 		description: 'Confirm',
 		buttonLabel: 'Confirm'
@@ -33,15 +32,15 @@
 	const modalConfig: Record<
 		number,
 		{
-			timeLineItemSignTokenAllowanceProps: ICampaignTimeLineItemProps;
-			timeLineItemSignDepositTransactionProps: ICampaignTimeLineItemProps;
-			timeLineItemFilamentHubConfirmationProps: ICampaignTimeLineItemProps;
+			timeLineItemSignTokenAllowanceProps: ITimeLineItemProps;
+			timeLineItemSignDepositTransactionProps: ITimeLineItemProps;
+			timeLineItemFilamentHubConfirmationProps: ITimeLineItemProps;
 		}
 	> = {
 		1: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ECampaignTimeLineItem.PROCESSING,
+				iconStatus: ETimeLineItem.PROCESSING,
 				status: 'to-do',
 				onButtonClick: () => {
 					signTokenAllowance();
@@ -51,7 +50,7 @@
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'to-do',
-				iconStatus: ECampaignTimeLineItem.PROCESSING
+				iconStatus: ETimeLineItem.PROCESSING
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
@@ -62,13 +61,13 @@
 		2: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ECampaignTimeLineItem.CHECKED,
+				iconStatus: ETimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'to-do',
-				iconStatus: ECampaignTimeLineItem.PROCESSING,
+				iconStatus: ETimeLineItem.PROCESSING,
 				onButtonClick: () => {
 					signDepositTransaction();
 					step.set(3);
@@ -77,24 +76,24 @@
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'to-do',
-				iconStatus: ECampaignTimeLineItem.PROCESSING
+				iconStatus: ETimeLineItem.PROCESSING
 			}
 		},
 		3: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ECampaignTimeLineItem.CHECKED,
+				iconStatus: ETimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'success',
-				iconStatus: ECampaignTimeLineItem.CHECKED
+				iconStatus: ETimeLineItem.CHECKED
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'to-do',
-				iconStatus: ECampaignTimeLineItem.PROCESSING,
+				iconStatus: ETimeLineItem.PROCESSING,
 				onButtonClick: () => {
 					hubConfirm();
 					step.set(4);
@@ -104,18 +103,18 @@
 		4: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ECampaignTimeLineItem.CHECKED,
+				iconStatus: ETimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'success',
-				iconStatus: ECampaignTimeLineItem.CHECKED
+				iconStatus: ETimeLineItem.CHECKED
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'processing',
-				iconStatus: ECampaignTimeLineItem.PROCESSING,
+				iconStatus: ETimeLineItem.PROCESSING,
 				description: 'This can take up to 10 minutes. You can close the window in the meantime.',
 				isLast: true
 			}
@@ -129,9 +128,9 @@
 	</div>
 	<div slot="content">
 		<div>
-			<CampaignTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
-			<CampaignTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
-			<CampaignTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+			<TimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
+			<TimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
+			<TimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
 		</div>
 		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
 	</div>

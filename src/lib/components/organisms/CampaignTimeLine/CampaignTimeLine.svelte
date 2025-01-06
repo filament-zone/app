@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { CampaignTimeLineItem } from '$lib/features';
+	import { TimeLineItem, Typography } from '$lib/components';
 	import { type ICampaignTimeLineProps } from '$lib/types';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
-	import { Typography } from '$lib/components';
 
 	export let options: ICampaignTimeLineProps['options'];
 	export let isOpen: ICampaignTimeLineProps['isOpen'] = false;
@@ -33,11 +32,11 @@
 		</div>
 	</div>
 	<div class="flex flex-col">
-		<CampaignTimeLineItem {...options[0]} />
+		<TimeLineItem {...options[0]} />
 		{#if isTimelineOpen}
 			<div transition:fade>
 				{#each options.slice(1) as option}
-					<CampaignTimeLineItem {...option} />
+					<TimeLineItem {...option} />
 				{/each}
 			</div>
 		{/if}

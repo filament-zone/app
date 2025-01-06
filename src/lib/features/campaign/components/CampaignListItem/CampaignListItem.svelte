@@ -9,7 +9,7 @@
 		type ICampaignListItemProps,
 		EButtonStyleVariant,
 		EModalVariant,
-		ECampaignTimeLineItem
+		ETimeLineItem
 	} from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
@@ -27,20 +27,20 @@
 
 	export const campaignTimeLineConfig = [
 		{
-			iconStatus: ECampaignTimeLineItem.PROCESSING,
+			iconStatus: ETimeLineItem.PROCESSING,
 			title: 'Voting phase',
 			description: 'The campaign is in the voting phase',
 			status: 'to-do',
 			isLast: true
 		},
 		{
-			iconStatus: ECampaignTimeLineItem.PROCESSING,
+			iconStatus: ETimeLineItem.PROCESSING,
 			title: 'Initiate Campaign',
 			description: 'The campaign is being initiated',
 			status: 'to-do'
 		},
 		{
-			iconStatus: ECampaignTimeLineItem.CHECKED,
+			iconStatus: ETimeLineItem.CHECKED,
 			title: 'Campaign Draft',
 			description: 'The campaign draft has been finalized and saved',
 			status: 'success',

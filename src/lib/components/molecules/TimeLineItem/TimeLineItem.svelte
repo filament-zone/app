@@ -4,20 +4,19 @@
 	import { capitalizeFirstLetter } from '$lib/helpers';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import ProcessingCircleIcon from '$lib/assets/icons/processing-circle.svg?component';
-	import { type ICampaignTimeLineItemProps } from '$lib/types';
-	import { ECampaignTimeLineItem } from '$lib/features/campaign/components/CampaignListItem/components/CampaginTimeLineItem/CampaignTimeLineItem.enums';
+	import { type ITimeLineItemProps, ETimeLineItem } from '$lib/types';
 
-	export let iconStatus: ICampaignTimeLineItemProps['iconStatus'];
-	export let title: ICampaignTimeLineItemProps['title'];
-	export let description: ICampaignTimeLineItemProps['description'];
-	export let date: ICampaignTimeLineItemProps['date'];
-	export let status: ICampaignTimeLineItemProps['status'];
-	export let isFirst: ICampaignTimeLineItemProps['isFirst'] = false;
-	export let isLast: ICampaignTimeLineItemProps['isLast'] = false;
-	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
+	export let iconStatus: ITimeLineItemProps['iconStatus'];
+	export let title: ITimeLineItemProps['title'];
+	export let description: ITimeLineItemProps['description'];
+	export let date: ITimeLineItemProps['date'];
+	export let status: ITimeLineItemProps['status'];
+	export let isFirst: ITimeLineItemProps['isFirst'] = false;
+	export let isLast: ITimeLineItemProps['isLast'] = false;
+	export let onButtonClick: ITimeLineItemProps['onButtonClick'];
+	export let buttonLabel: ITimeLineItemProps['buttonLabel'];
 
-	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
+	const getStatusColor: (status: ITimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
 			case 'success':
 				return 'var(--upOnly-400)';
@@ -30,7 +29,7 @@
 		}
 	};
 
-	$: lineBackground = iconStatus === ECampaignTimeLineItem.CHECKED ? '#4D4D4D' : '#272727';
+	$: lineBackground = iconStatus === ETimeLineItem.CHECKED ? '#4D4D4D' : '#272727';
 
 	const renderLine = (position: 'top' | 'bottom') => {
 		if ((position === 'top' && !isLast) || (position === 'bottom' && !isFirst)) {
@@ -49,7 +48,7 @@
 
 <div class="flex flex-row h-[72px]">
 	<div class="flex justify-center items-center w-1/12 relative">
-		{#if iconStatus === ECampaignTimeLineItem.CHECKED}
+		{#if iconStatus === ETimeLineItem.CHECKED}
 			{#if renderLine('top')}
 				<div style={renderLine('top')} />
 			{/if}
@@ -57,7 +56,7 @@
 			{#if renderLine('bottom')}
 				<div style={renderLine('bottom')} />
 			{/if}
-		{:else if iconStatus === ECampaignTimeLineItem.PROCESSING}
+		{:else if iconStatus === ETimeLineItem.PROCESSING}
 			{#if renderLine('top')}
 				<div style={renderLine('top')} />
 			{/if}
