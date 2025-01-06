@@ -1,8 +1,8 @@
 import { SvelteComponent } from 'svelte';
-import { ITimeLineItemProps } from '$lib/types';
+import { type ICampaign } from '$lib/types';
 
 declare const __propDef: {
-	props: { options: ITimeLineItemProps[]; isOpen?: boolean };
+	props: { campaign: ICampaign; isOpen?: boolean };
 	events: {
 		[evt: string]: CustomEvent;
 	};

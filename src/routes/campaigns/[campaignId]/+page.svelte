@@ -36,7 +36,9 @@
 					<span class="campaign-label">{data.campaign.title}</span>
 				</div>
 				<Divider />
-				<CampaignTimeLine options={data.timeLineProps} />
+				{#if data.campaign}
+					<CampaignTimeLine campaign={data.campaign} />
+				{/if}
 				<Divider />
 				<CampaignSummary campaign={data.campaign} />
 			</div>

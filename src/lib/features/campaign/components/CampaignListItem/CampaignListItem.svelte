@@ -5,12 +5,7 @@
 	import { Badge, Button, CampaignTimeLine, Divider, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
-	import {
-		type ICampaignListItemProps,
-		EButtonStyleVariant,
-		EModalVariant,
-		ETimeLineItem
-	} from '$lib/types';
+	import { type ICampaignListItemProps, EButtonStyleVariant, EModalVariant } from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
 	export let isOwner: ICampaignListItemProps['isOwner'] = false;
@@ -24,29 +19,6 @@
 			})
 		);
 	};
-
-	export const campaignTimeLineConfig = [
-		{
-			iconStatus: ETimeLineItem.PROCESSING,
-			title: 'Voting phase',
-			description: 'The campaign is in the voting phase',
-			status: 'to-do',
-			isLast: true
-		},
-		{
-			iconStatus: ETimeLineItem.PROCESSING,
-			title: 'Initiate Campaign',
-			description: 'The campaign is being initiated',
-			status: 'to-do'
-		},
-		{
-			iconStatus: ETimeLineItem.CHECKED,
-			title: 'Campaign Draft',
-			description: 'The campaign draft has been finalized and saved',
-			status: 'success',
-			isFirst: true
-		}
-	];
 </script>
 
 <div class="campaign-list-item-container">
@@ -80,7 +52,9 @@
 			</div>
 		</div>
 		<Divider />
-		<CampaignTimeLine options={campaignTimeLineConfig} isOpen />
+		{#if campaign}
+			<CampaignTimeLine {campaign} isOpen />
+		{/if}
 		{#if isOwner}
 			<Divider />
 			<div class="flex flex-row justify-between gap-8">

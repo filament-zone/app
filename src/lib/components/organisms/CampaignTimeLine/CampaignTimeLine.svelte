@@ -1,17 +1,72 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import { CampaignApi } from '$lib/api';
 	import { TimeLineItem, Typography } from '$lib/components';
-	import { type ICampaignTimeLineProps } from '$lib/types';
+	import { ETimeLineItem, type ICampaignTimeLineProps, type ITimeLineItemProps } from '$lib/types';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
-	export let options: ICampaignTimeLineProps['options'];
+	export let campaign: ICampaignTimeLineProps['campaign'];
 	export let isOpen: ICampaignTimeLineProps['isOpen'] = false;
 
 	let isTimelineOpen = isOpen;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
+	};
+
+	const phase = campaign?.phase ?? 'draft';
+
+	const timeLineDraftCommonData: ITimeLineItemProps = {
+		iconStatus: ETimeLineItem.CHECKED,
+		title: 'Campaign Draft',
+		description: 'The campaign draft has been finalized and saved',
+		status: 'success',
+		date: new Date().toLocaleString(),
+		isFirst: true
+	};
+	const timeLineInitCommonData: ITimeLineItemProps = {
+		iconStatus: ETimeLineItem.PROCESSING,
+		title: 'Initiate Campaign',
+		description: 'The campaign is being initiated',
+		status: 'to-do',
+		onButtonClick: async () => {
+			const tx = await CampaignApi.initCampaign({ campaign_id: BigInt(campaign?.id) });
+
+			tx.onSuccess(() => {
+				console.log('success vote');
+			});
+
+			await tx.run();
+		},
+		buttonLabel: 'Initiate Campaign'
+	};
+	const timeLineInitVoteData: ITimeLineItemProps = {
+		iconStatus: ETimeLineItem.PROCESSING,
+		title: 'Confirm Token Distribution',
+		description:
+			'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
+		status: 'to-do',
+		isLast: true
+	};
+
+	const options: Record<string, ITimeLineItemProps[]> = {
+		Draft: [timeLineInitVoteData, timeLineInitCommonData, timeLineDraftCommonData],
+		Criteria: [
+			{
+				...timeLineInitVoteData,
+				buttonLabel: 'Vote'
+			},
+			{
+				...timeLineInitCommonData,
+				iconStatus: ETimeLineItem.CHECKED,
+				status: 'success',
+				date: new Date().toLocaleString(),
+				onButtonClick: null,
+				buttonLabel: null
+			},
+			timeLineDraftCommonData
+		]
 	};
 </script>
 
@@ -32,10 +87,10 @@
 		</div>
 	</div>
 	<div class="flex flex-col">
-		<TimeLineItem {...options[0]} />
+		<TimeLineItem {...options[phase][0]} />
 		{#if isTimelineOpen}
 			<div transition:fade>
-				{#each options.slice(1) as option}
+				{#each options[phase].slice(1) as option}
 					<TimeLineItem {...option} />
 				{/each}
 			</div>

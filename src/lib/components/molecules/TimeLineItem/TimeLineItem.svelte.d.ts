@@ -10,8 +10,8 @@ declare const __propDef: {
 		status?: string;
 		isLast?: boolean;
 		isFirst?: boolean;
-		onButtonClick?: () => void;
-		buttonLabel?: string;
+		onButtonClick?: (() => Promise<void> | void) | null;
+		buttonLabel?: string | null;
 	};
 	events: {
 		[evt: string]: CustomEvent;
