@@ -12,10 +12,13 @@
 </script>
 
 <Divider />
-<div class="flex flex-row justify-center items-center h-[72px] py-4 gap-4">
-	<img src={LogoFilament} alt="logo-filament-footer" />
-	<Typography variant="h5">Filament Zone</Typography>
-	<div class="divider-vertical" />
+<div class="relative flex flex-row justify-between items-center h-[72px] p-4 opacity-50">
+	<div>
+		<img src={LogoFilament} alt="logo-filament-footer" />
+	</div>
+	<div class="absolute left-1/2 transform -translate-x-1/2">
+		<Typography variant="h5">Airdrops that work, powered by Filament.</Typography>
+	</div>
 	<div class="flex flex-row gap-4">
 		<img
 			src={LogoGitGub}
@@ -23,6 +26,7 @@
 			class="cursor-pointer"
 			on:click={handleClickSocialIcon.bind(null, 'GITHUB')}
 			aria-hidden="true"
+			style="height: 26px"
 		/>
 		<img
 			src={LogoLinkedIn}
@@ -30,6 +34,7 @@
 			class="cursor-pointer"
 			on:click={handleClickSocialIcon.bind(null, 'LINKEDIN')}
 			aria-hidden="true"
+			style="height: 26px"
 		/>
 		<img
 			src={LogoTwitter}
@@ -37,13 +42,7 @@
 			class="cursor-pointer"
 			on:click={handleClickSocialIcon.bind(null, 'TWITTER')}
 			aria-hidden="true"
+			style="height: 26px"
 		/>
 	</div>
 </div>
-
-<style lang="less">
-	.divider-vertical {
-		height: 100%;
-		border: 0.5px solid var(--gray-200);
-	}
-</style>

@@ -6,15 +6,13 @@
 	export let change: ITrendDisplayProps['change'];
 	export let period: ITrendDisplayProps['period'];
 	export let direction: ITrendDisplayProps['direction'];
+
+	const color = direction === 'up' ? 'var(--upOnly)' : 'var(--rugged)';
 </script>
 
-<div class="flex flex-row gap-2">
-	<Typography variant="h6">{value}</Typography>
-	<Typography
-		variant="h6"
-		color={`${direction === 'up' ? 'var(--upOnly)' : 'var(--rugged)'}`}
-		class="text-nowrap"
-	>
+<div class="flex flex-row gap-2 items-center">
+	<Typography variant="body2">{value}</Typography>
+	<Typography variant="h5" {color} class="text-nowrap">
 		{change}
 		{period}
 	</Typography>

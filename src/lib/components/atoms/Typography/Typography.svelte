@@ -47,7 +47,7 @@
 	@import '$lib/styles/layout.less';
 
 	.typography_h1 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 26px;
 		font-weight: 700;
 		line-height: 1.2;
@@ -74,7 +74,7 @@
 	}
 
 	.typography_h2 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 22px;
 		font-weight: 600;
 		line-height: 1.3;
@@ -101,7 +101,7 @@
 	}
 
 	.typography_h3 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 19px;
 		font-weight: 500;
 		line-height: 1.4;
@@ -128,7 +128,7 @@
 	}
 
 	.typography_h4 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 16px;
 		font-weight: 500;
 		line-height: 1.5;
@@ -155,7 +155,7 @@
 	}
 
 	.typography_h5 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 18px;
 		font-weight: 600;
 		line-height: 1.6;
@@ -182,7 +182,7 @@
 	}
 
 	.typography_h6 {
-		font-family: 'ff-meta-serif-web-pro', serif;
+		font-family: var(--primary-font);
 		font-size: 10px;
 		font-weight: 400;
 		--size: 16px;
@@ -213,7 +213,7 @@
 	}
 
 	.typography_subtitle1 {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 13px;
 		font-weight: 400;
 		line-height: 1.7;
@@ -240,7 +240,7 @@
 	}
 
 	.typography_subtitle2 {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 11px;
 		font-weight: 400;
 		line-height: 1.7;
@@ -267,7 +267,7 @@
 	}
 
 	.typography_body1 {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 13px;
 		font-weight: 400;
 		line-height: 1.5;
@@ -294,29 +294,29 @@
 	}
 
 	.typography_body2 {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 11px;
 		font-weight: 400;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 13px;
+			font-size: 12px;
 		}
 
 		@media @size_md {
-			font-size: 14px;
+			font-size: 13px;
 		}
 
 		@media @size_lg {
-			font-size: 16px;
+			font-size: 15px;
 		}
 
 		@media @size_xl {
-			font-size: 19px;
+			font-size: 18px;
 		}
 
 		@media @size_2xl {
-			font-size: 22px;
+			font-size: 20px;
 		}
 	}
 
@@ -375,7 +375,7 @@
 	}
 
 	.typography_labelSmall {
-		font-family: 'fira-sans', sans-serif;
+		font-family: var(--secondary-font);
 		font-size: 6px;
 		font-weight: 400;
 		line-height: 1.5;

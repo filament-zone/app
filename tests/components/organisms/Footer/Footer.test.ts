@@ -6,7 +6,6 @@ test.describe('Filament Zone Component', () => {
 	});
 
 	test('should render Filament Zone header and logos', async ({ page }) => {
-		await expect(page.locator('text=Filament Zone')).toBeVisible();
 		await expect(page.locator('img[alt="logo-filament-footer"]')).toBeVisible();
 		await expect(page.locator('img[alt="logo-github"]')).toBeVisible();
 		await expect(page.locator('img[alt="logo-linkedin"]')).toBeVisible();

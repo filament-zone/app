@@ -3,6 +3,7 @@ import { SvelteComponent } from 'svelte';
 declare const __propDef: {
 	props: {
 		label: string;
+		variant: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

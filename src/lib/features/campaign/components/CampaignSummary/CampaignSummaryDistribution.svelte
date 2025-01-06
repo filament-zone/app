@@ -14,7 +14,8 @@
 				averageAllocation: 500
 			}
 		],
-		columnDef: [...distributionInsightsColumnDef]
+		columnDef: [...distributionInsightsColumnDef],
+		headerBackground: 'transparent'
 	};
 
 	$: allocationTable = {
@@ -26,7 +27,8 @@
 				totalAllocation: 213428103
 			}
 		],
-		columnDef: [...distributionAllocationColumnDef]
+		columnDef: [...distributionAllocationColumnDef],
+		headerBackground: 'transparent'
 	};
 </script>
 

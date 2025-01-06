@@ -11,7 +11,7 @@
 		Divider,
 		PrimaryDoughnutChart
 	} from '$lib/components';
-	import { EButtonSizeVariant, EModalVariant } from '$lib/types';
+	import { EButtonSizeVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
 
 	export let data;
 
@@ -48,8 +48,18 @@
 		<Container label="Voting">
 			<div class="flex flex-col gap-4">
 				<div class="flex flex-row justify-between">
-					<Badge label="Turnout:" RightContent="48%" RightContentColorVariant="purple" />
-					<Badge label="Time Left:" RightContent="7D 42M" RightContentColorVariant="purple" />
+					<Badge
+						label="Turnout:"
+						RightContent="48%"
+						RightContentColorVariant="purple"
+						colorVariant={EBadgeColorVariant.SECONDARY}
+					/>
+					<Badge
+						label="Time Left:"
+						RightContent="7D 42M"
+						RightContentColorVariant="purple"
+						colorVariant={EBadgeColorVariant.SECONDARY}
+					/>
 				</div>
 				<PrimaryDoughnutChart
 					chartData={data.chartData}
@@ -67,7 +77,7 @@
 						<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
 						<div class="ticker-item__status">
 							<span
-								style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? 'var(--upOnly-600)' : 'var(--rugged-600)'}`}
+								style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? '#00F58C' : '#FF679B'}`}
 							>
 								{item?.status}</span
 							>
