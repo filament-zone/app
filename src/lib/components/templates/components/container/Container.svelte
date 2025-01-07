@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let label: string;
+	export let variant: string = 'primary';
 </script>
 
-<div class="base-container gap-6 w-full">
+<div class="base-container variant-{variant} gap-6 w-full">
 	<div class="flex flex-row justify-between w-full">
 		{#if label}
 			<div class="label-box">
@@ -29,6 +30,18 @@
 		background-color: var(--background-200);
 		border: 0.5px solid var(--default-border);
 		border-radius: 4px;
+
+		&.variant-secondary {
+			background-color: transparent;
+
+			.slot-container {
+				border: 0;
+			}
+
+			.label-box {
+				border: 0;
+			}
+		}
 
 		.label-box {
 			display: flex;

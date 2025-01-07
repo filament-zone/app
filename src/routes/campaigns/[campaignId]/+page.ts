@@ -16,7 +16,7 @@ export async function load({ params }) {
 		datasets: [
 			{
 				data: [40.35, 70.12, 33.23],
-				backgroundColor: ['#d9ffe0', '#b5fdc3', '#7dfa97']
+				backgroundColor: ['#FF74A4', '#7DFA97', '#B7ABFC']
 			}
 		]
 	};

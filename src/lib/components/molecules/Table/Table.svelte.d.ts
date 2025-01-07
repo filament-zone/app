@@ -15,6 +15,7 @@ declare const __propDef: {
 		onPageChange?: IPaginationProps['onPageChange'];
 		onRowClick?: ((row: Row<RowData>) => void) | null;
 		sortingState?: SortingState;
+		headerBackground?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;
