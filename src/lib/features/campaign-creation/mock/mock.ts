@@ -108,7 +108,7 @@ export function generateMockCampaign(): ICampaign {
 		// From `Campaign` type
 		id: BigInt(Math.floor(Math.random() * 1_000_000)), // Random ID as `bigint`
 		campaigner: `Campaigner_${Math.random().toString(36).substring(2, 7)}`, // Random campaigner name
-		phase: 'Distribution', // Replace with an appropriate value if `Phase` is an enum or type
+		phase: 'Draft', // Replace with an appropriate value if `Phase` is an enum or type
 		title: `Campaign ${Math.random().toString(36).substring(7)}`,
 		description: `This is a mock campaign description.`,
 		criteria: generateMockEligibilityCriteria(3), // Reuse criteria generator

@@ -23,7 +23,7 @@
 		isTimelineOpen = !isTimelineOpen;
 	};
 
-	const phase = campaign?.phase ?? 'draft';
+	const phase = campaign?.phase ?? 'Draft';
 
 	const timeLineDraftCommonData: ITimeLineItemProps = {
 		iconStatus: ETimeLineItem.CHECKED,
