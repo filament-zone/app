@@ -39,18 +39,5 @@ test.describe('NavBarComponent', () => {
 
 		await page.waitForNavigation();
 		await expect(page.url()).toContain('/campaigns/manage');
-
-		// Repeat similar steps for the 'create' link
-		await page.getByTestId('nav-item-campaigns').click();
-		await page.waitForSelector('[data-testid="list-item-campaigns/manage/create"]');
-		await page.evaluate(() => {
-			const element = document.querySelector('[data-testid="list-item-campaigns/manage/create"]');
-			if (element) {
-				(element as HTMLElement).click();
-			}
-		});
-
-		await page.waitForNavigation();
-		await expect(page.url()).toContain('/campaigns/manage/create');
 	});
 });

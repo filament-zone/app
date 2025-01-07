@@ -6,7 +6,7 @@
 	import { type ISecondaryLineChartProps } from '$lib/types';
 
 	export const meta = {
-		title: 'Molecules/Charts/LineChart/Plain',
+		title: 'Molecules/Charts/LineChart',
 		component: PlainLineChart
 	};
 
