@@ -90,7 +90,10 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 	return true;
 };
 
-const voteCampaign: ICreateCampaignStore['voteCampaign'] = async (voteOption, campaignId) => {
+const voteCampaignCriteria: ICreateCampaignStore['voteCampaignCriteria'] = async (
+	voteOption,
+	campaignId
+) => {
 	let payload: VoteOption;
 	if (voteOption === 'Yes') {
 		payload = { Yes: { weights: [1n] } };
@@ -98,13 +101,13 @@ const voteCampaign: ICreateCampaignStore['voteCampaign'] = async (voteOption, ca
 		payload = 'No';
 	}
 
-	const tx = await CampaignApi.voteCampaign({
+	const tx = await CampaignApi.voteCampaignCriteria({
 		campaign_id: BigInt(campaignId),
 		option: payload
 	});
 
-	tx.onSuccess((res) => {
-		console.log('voteCampaign API res', res);
+	tx.onSuccess(() => {
+		send({ message: 'Campaign voted successfully' });
 	});
 
 	await tx.run();
@@ -120,5 +123,5 @@ export const campaignStore: ICreateCampaignStore = {
 	createCampaign,
 	toggleDelegate,
 	getDelegates,
-	voteCampaign
+	voteCampaignCriteria
 };

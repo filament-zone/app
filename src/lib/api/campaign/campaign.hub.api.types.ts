@@ -1,5 +1,6 @@
 import type { Campaign, Criterion, CriterionCategory } from '@filament-zone/filament';
 import { ECampaignTimeSettings, EEligibilityCriteriaType } from '$lib/types';
+import type { VoteOption } from '@filament-zone/filament/VoteOption';
 
 export interface IDelegate {
 	id: string;
@@ -73,4 +74,12 @@ export interface ICampaign extends Campaign {
 	budgetTo: string | null;
 	bond: string | null;
 	// END STEP-3
+}
+
+export interface IGetCampaignCriteriaVotesResponse {
+	[key: string]: VoteOption;
+}
+
+export interface IGetCampaignDistributionVotesResponse {
+	[key: string]: VoteOption;
 }

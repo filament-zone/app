@@ -30,7 +30,7 @@
 		title: 'Campaign Draft',
 		description: 'The campaign draft has been finalized and saved',
 		status: 'success',
-		date: new Date().toLocaleString(),
+		date: new Date(),
 		isFirst: true
 	};
 	const timeLineInitCommonData: ITimeLineItemProps = {

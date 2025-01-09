@@ -5,14 +5,14 @@
 	import { EModalVariant, type TToggleContentContainerSelected } from '$lib/types';
 
 	const { openModal, modalConfig } = modalStore;
-	const { voteCampaign } = campaignStore;
+	const { voteCampaignCriteria } = campaignStore;
 
 	const data = $modalConfig;
 
 	let toggleSelected: TToggleContentContainerSelected = 'isFirst';
 
 	const handleVote = () => {
-		voteCampaign(
+		voteCampaignCriteria(
 			toggleSelected === 'isFirst' ? 'Yes' : 'No',
 			(data.state as { campaignId: number }).campaignId
 		);

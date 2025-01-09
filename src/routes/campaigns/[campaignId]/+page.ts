@@ -9,7 +9,9 @@ import { type IPrimaryDoughnutChartProps } from '$lib/types';
 export async function load({ params }) {
 	const campaignId = params.campaignId;
 
-	const res = await CampaignApi.getCampaignById(campaignId);
+	const campaignDataRes = await CampaignApi.getCampaignById(campaignId);
+	const criteriaVotesRes = await CampaignApi.getCampaignCriteriaVotes(BigInt(campaignId));
+	const distributionVotesRes = await CampaignApi.getCampaignDistributionVotes(BigInt(campaignId));
 
 	const chartData: IPrimaryDoughnutChartProps['chartData'] = {
 		labels: ['Onchain Gov', 'Vesting', 'Circulating'],
@@ -26,9 +28,11 @@ export async function load({ params }) {
 	const delegates = generateMockDelegates();
 
 	return {
-		campaign: res?.data ?? generateMockCampaign(),
+		campaign: campaignDataRes?.data ?? generateMockCampaign(),
 		chartData,
 		tickerData,
-		delegates
+		delegates,
+		criteriaVotes: criteriaVotesRes?.data ?? [],
+		distributionVotes: distributionVotesRes?.data ?? []
 	};
 }

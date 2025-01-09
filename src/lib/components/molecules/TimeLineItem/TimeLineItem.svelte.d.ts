@@ -6,7 +6,7 @@ declare const __propDef: {
 		iconStatus: ETimeLineItem;
 		title: string;
 		description: string;
-		date?: string;
+		date?: string | Date;
 		status?: string;
 		isLast?: boolean;
 		isFirst?: boolean;

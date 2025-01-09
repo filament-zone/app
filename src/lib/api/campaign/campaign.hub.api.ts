@@ -1,5 +1,13 @@
 import { CAMPAIGN_HUB_URLS, hubApiClient, ethereumApiClient } from '$lib/api';
-import { EClient, EContract, EDelegatesABI, EWalletProvider, type ICampaign } from '$lib/types';
+import {
+	EClient,
+	EContract,
+	EDelegatesABI,
+	EWalletProvider,
+	type ICampaign,
+	type IGetCampaignCriteriaVotesResponse,
+	type IGetCampaignDistributionVotesResponse
+} from '$lib/types';
 import {
 	SC_ABI_CONFIG,
 	SC_ADDRESS_CONFIG
@@ -58,7 +66,7 @@ export class CampaignApi {
 		});
 	}
 
-	static async voteCampaign(
+	static async voteCampaignCriteria(
 		payload: Extract<CallMessage, { VoteCriteria: unknown }>['VoteCriteria']
 	) {
 		return new TransactionClientAdapter({
@@ -72,6 +80,24 @@ export class CampaignApi {
 			walletProvider: EWalletProvider.METAMASK,
 			client: EClient.THE_HUB
 		});
+	}
+
+	static async getCampaignCriteriaVotes(campaignId: ICampaign['id']) {
+		return await hubApiClient<IGetCampaignCriteriaVotesResponse>(
+			CAMPAIGN_HUB_URLS.CAMPAIGN_CRITERIA_VOTES.replace(':campaignId', campaignId.toString()),
+			{
+				method: 'GET'
+			}
+		);
+	}
+
+	static async getCampaignDistributionVotes(campaignId: ICampaign['id']) {
+		return await hubApiClient<IGetCampaignDistributionVotesResponse>(
+			CAMPAIGN_HUB_URLS.CAMPAIGN_DISTRIBUTION_VOTES.replace(':campaignId', campaignId.toString()),
+			{
+				method: 'GET'
+			}
+		);
 	}
 
 	static async getDelegates() {
