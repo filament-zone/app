@@ -17,6 +17,7 @@ export class HubTransactionRequest extends TransactionClientEventsEmitCreator {
 
 	public run = async (payload: IHubTxProps['payload']): Promise<void> => {
 		try {
+			const { tx_hash } = await import('@filament-zone/filament/filament_hub_wasm');
 			const successEmitSubscribers = this.successEmitCreator('', EWalletProvider.METAMASK);
 			const failureEmitSubscribers = this.failureEmitCreator('', EWalletProvider.METAMASK);
 
@@ -28,9 +29,10 @@ export class HubTransactionRequest extends TransactionClientEventsEmitCreator {
 			if (!preparedTx) {
 				return;
 			}
+			const txHash = tx_hash(preparedTx);
 			await TransactionHubApiClient.sendTx(preparedTx)
 				.then((payload) => {
-					successEmitSubscribers(payload);
+					successEmitSubscribers({ data: { ...payload, txHash } });
 				})
 				.catch((error: ErrorTransactionPayload) => {
 					failureEmitSubscribers(error);

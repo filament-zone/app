@@ -4,7 +4,7 @@ import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation
 import { type ICampaign, type ICreateCampaignStore } from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 import { CampaignApi } from '$lib/api';
-import type { VoteOption } from '@filament-zone/filament/VoteOption';
+import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
@@ -94,20 +94,21 @@ const voteCampaignCriteria: ICreateCampaignStore['voteCampaignCriteria'] = async
 	voteOption,
 	campaignId
 ) => {
-	let payload: VoteOption;
-	if (voteOption === 'Yes') {
-		payload = { Yes: { weights: [1n] } };
+	let payload: CriteriaVote;
+	if (voteOption === 'Approved') {
+		payload = { Approved: { weights: [1n] } };
 	} else {
-		payload = 'No';
+		payload = 'Rejected';
 	}
 
 	const tx = await CampaignApi.voteCampaignCriteria({
 		campaign_id: BigInt(campaignId),
-		option: payload
+		vote: payload
 	});
 
-	tx.onSuccess(() => {
-		send({ message: 'Campaign voted successfully' });
+	tx.onSuccess((payload) => {
+		// send({ message: 'Campaign voted successfully' });
+		console.log('voteCampaignCriteria API onSuccess payload', payload);
 	});
 
 	await tx.run();
