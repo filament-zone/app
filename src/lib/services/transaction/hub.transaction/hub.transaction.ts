@@ -1,9 +1,8 @@
-import { WalletClientConnector, HubTransactionRequest, EventEmitter } from '$lib/services';
+import { WalletClientConnector, HubTransactionRequest } from '$lib/services';
 import {
 	type ErrorTransactionSubscriber,
 	type ITransaction,
 	type SuccessTransactionSubscriber,
-	type IEventEmitter,
 	type IHubTxProps
 } from '$lib/types';
 
@@ -11,19 +10,15 @@ export class HubTransaction implements ITransaction {
 	private readonly WalletClientConnector: WalletClientConnector;
 	private readonly payload: IHubTxProps['payload'];
 	private readonly TransactionRequest: HubTransactionRequest;
-	private readonly eventEmitter: IEventEmitter;
 
 	constructor(payload: IHubTxProps) {
-		this.eventEmitter = payload.eventEmitter ?? new EventEmitter();
 		this.payload = payload.payload;
 
 		this.WalletClientConnector = new WalletClientConnector({
-			walletProvider: payload.walletProvider,
-			eventEmitter: this.eventEmitter
+			walletProvider: payload.walletProvider
 		});
 
 		this.TransactionRequest = new HubTransactionRequest({
-			eventEmitter: this.eventEmitter,
 			walletClientConnector: this.WalletClientConnector
 		});
 	}

@@ -5,23 +5,14 @@ import type {
 	ErrorTransactionPayload,
 	IHubTxProps
 } from '$lib/services/transaction/transaction.client.types';
-import { EventEmitter, EWalletProvider, WalletClientConnector } from '$lib/services';
-import type { IEventEmitter } from '$lib/services/event-emitter/event-emitter.types';
+import { EWalletProvider, WalletClientConnector } from '$lib/services';
 
 export class HubTransactionRequest extends TransactionClientEventsEmitCreator {
 	private readonly walletClientConnector: WalletClientConnector;
-	private readonly eventEmitter: IEventEmitter;
 
-	constructor({
-		eventEmitter,
-		walletClientConnector
-	}: {
-		eventEmitter: IEventEmitter;
-		walletClientConnector: WalletClientConnector;
-	}) {
+	constructor({ walletClientConnector }: { walletClientConnector: WalletClientConnector }) {
 		super();
 		this.walletClientConnector = walletClientConnector;
-		this.eventEmitter = eventEmitter ?? new EventEmitter();
 	}
 
 	public run = async (payload: IHubTxProps['payload']): Promise<void> => {
@@ -31,7 +22,6 @@ export class HubTransactionRequest extends TransactionClientEventsEmitCreator {
 
 			const preparedTx = await new HubTransactionPrepare({
 				payload,
-				eventEmitter: this.eventEmitter,
 				walletClientConnector: this.walletClientConnector
 			}).prepareTransaction();
 

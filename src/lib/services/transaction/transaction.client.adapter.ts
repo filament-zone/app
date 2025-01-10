@@ -34,7 +34,6 @@ export class TransactionClientAdapter implements ITransaction {
 			case EClient.THE_HUB: {
 				this.transaction = new HubTransaction({
 					...(props as IHubTxProps),
-					eventEmitter: this.eventEmitter,
 					walletProvider: EWalletProvider.METAMASK,
 					client: this.client
 				});
