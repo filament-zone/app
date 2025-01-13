@@ -7,7 +7,7 @@
 		type TToggleContentContainerSelected
 	} from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
-	import { ECampaignInitiateSelected } from '$lib/features/campaign-creation/stores/initiate-campaign-store/initiate-campaign-store.enums';
+	import { ECampaignInitiateSelected } from '$lib/features/campaign/stores/initiate-campaign-store/initiate-campaign-store.enums';
 
 	const { openModal } = modalStore;
 	const { campaignInitiateState } = initiateCampaignStore;

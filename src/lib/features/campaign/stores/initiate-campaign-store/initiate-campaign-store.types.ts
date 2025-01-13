@@ -1,5 +1,5 @@
 import type { Writable } from 'svelte/store';
-import type { ECampaignInitiateSelected } from '$lib/features/campaign-creation/stores/initiate-campaign-store/initiate-campaign-store.enums';
+import type { ECampaignInitiateSelected } from '$lib/features/campaign/stores/initiate-campaign-store/initiate-campaign-store.enums';
 
 export interface ICampaignInitiateItem {
 	quantity: number;
