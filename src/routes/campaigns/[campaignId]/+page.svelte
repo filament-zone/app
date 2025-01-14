@@ -24,21 +24,23 @@
 
 	const { campaignDetails } = campaignDetailsStore;
 	const { openModal } = modalStore;
+	const { wallet } = walletStore;
 
 	$: campaign = $campaignDetails ?? data.campaign;
 
-	const handleVote = () => {
-		if (!isDelegate && campaign?.phase !== 'Criteria') {
+	$: isCriteriaInaccessible = (!isDelegate && campaign?.phase !== 'Criteria') || !$wallet.address;
+
+	$: handleVote = () => {
+		if (isCriteriaInaccessible) {
 			return;
+		} else {
+			openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
 		}
-		openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
 	};
 
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
-
-	const { wallet } = walletStore;
 
 	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 </script>
@@ -83,7 +85,11 @@
 					/>
 				</div>
 				<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
-				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote}>Vote</Button>
+				<Button
+					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+					on:click={handleVote}
+					disabled={isCriteriaInaccessible}>Vote</Button
+				>
 			</div>
 		</Container>
 		<Container label="Ticker">
