@@ -7,10 +7,12 @@ export type SuccessTransactionSubscriber = (payload: SuccessTransactionResponseC
 export type ErrorTransactionSubscriber = (payload: ErrorTransactionResponseCb) => void;
 
 export interface ITransaction {
+	create: () => Promise<ITransaction | undefined>;
 	run: () => void;
 	onSuccess: (fn: SuccessTransactionSubscriber) => ITransaction;
 	onReject: (fn: ErrorTransactionSubscriber) => ITransaction;
 	onFailure: (fn: ErrorTransactionSubscriber) => ITransaction;
+	txHash: string | null;
 }
 
 export enum EClient {

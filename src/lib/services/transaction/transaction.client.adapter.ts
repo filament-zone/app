@@ -15,11 +15,13 @@ export class TransactionClientAdapter implements ITransaction {
 	private readonly client: EClient;
 	private readonly transaction: ITransaction | null;
 	private readonly eventEmitter: IEventEmitter;
+	public txHash: string | null;
 
 	constructor(props: TransactionConstructorProps) {
 		this.client = props.client;
 		this.eventEmitter = new EventEmitter();
 		this.transaction = null;
+		this.txHash = null;
 
 		switch (this.client) {
 			case EClient.ETHEREUM: {
@@ -41,6 +43,10 @@ export class TransactionClientAdapter implements ITransaction {
 			}
 		}
 	}
+
+	public create = async () => {
+		return this.transaction?.create();
+	};
 
 	public run = async () => {
 		return this.transaction?.run();

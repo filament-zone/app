@@ -1,4 +1,12 @@
 import { CAMPAIGN_HUB_URLS, hubApiClient, ethereumApiClient } from '$lib/api';
+import { TransactionClientAdapter } from '$lib/services';
+import { getCampaignEthAddressIdUrl } from '$lib/helpers';
+
+import {
+	SC_ABI_CONFIG,
+	SC_ADDRESS_CONFIG
+} from '$lib/services/transaction/ethereum.transaction/ethereum.config';
+import type { CallMessage } from '@filament-zone/filament/CallMessage';
 import {
 	EClient,
 	EContract,
@@ -8,34 +16,25 @@ import {
 	type IGetCampaignCriteriaVotesResponse,
 	type IGetCampaignDistributionVotesResponse
 } from '$lib/types';
-import {
-	SC_ABI_CONFIG,
-	SC_ADDRESS_CONFIG
-} from '$lib/services/transaction/ethereum.transaction/ethereum.config';
-import { TransactionClientAdapter } from '$lib/services';
-import type { CallMessage } from '@filament-zone/filament/CallMessage';
 
 export class CampaignApi {
 	static async getCampaigns() {
 		return await hubApiClient<ICampaign[]>(CAMPAIGN_HUB_URLS.CAMPAIGNS, { method: 'GET' });
 	}
 
-	static async getCampaignById(campaignId: string) {
+	static async getCampaignById(campaignId: ICampaign['id']) {
 		return await hubApiClient<ICampaign>(
-			CAMPAIGN_HUB_URLS.CAMPAIGN_BY_ID.replace(':campaignId', campaignId),
+			CAMPAIGN_HUB_URLS.CAMPAIGN_BY_ID.replace(':campaignId', campaignId.toString()),
 			{
 				method: 'GET'
 			}
 		);
 	}
 
-	static async getCampaignsByEthAddr(addr: string) {
-		return await hubApiClient<ICampaign[]>(
-			CAMPAIGN_HUB_URLS.CAMPAIGNS_BY_ETH_ADDRESS.replace(':eth_addr', addr),
-			{
-				method: 'GET'
-			}
-		);
+	static async getCampaignsByEthAddr(addr: ICampaign['campaigner']) {
+		return await hubApiClient<ICampaign[]>(getCampaignEthAddressIdUrl(addr), {
+			method: 'GET'
+		});
 	}
 
 	static async createCampaign(payload: Extract<CallMessage, { Draft: unknown }>['Draft']) {
@@ -49,7 +48,7 @@ export class CampaignApi {
 			},
 			walletProvider: EWalletProvider.METAMASK,
 			client: EClient.THE_HUB
-		});
+		}).create();
 	}
 
 	static async initCampaign(payload: Extract<CallMessage, { Init: unknown }>['Init']) {
@@ -63,7 +62,7 @@ export class CampaignApi {
 			},
 			walletProvider: EWalletProvider.METAMASK,
 			client: EClient.THE_HUB
-		});
+		}).create();
 	}
 
 	static async voteCampaignCriteria(
@@ -79,7 +78,7 @@ export class CampaignApi {
 			},
 			walletProvider: EWalletProvider.METAMASK,
 			client: EClient.THE_HUB
-		});
+		}).create();
 	}
 
 	static async getCampaignCriteriaVotes(campaignId: ICampaign['id']) {
