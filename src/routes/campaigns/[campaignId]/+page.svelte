@@ -83,7 +83,7 @@
 					/>
 				</div>
 				<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
-				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote} }>Vote</Button>
+				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote}>Vote</Button>
 			</div>
 		</Container>
 		<Container label="Ticker">
