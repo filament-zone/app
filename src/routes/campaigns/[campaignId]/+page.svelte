@@ -19,6 +19,7 @@
 		SecondaryDoughnutChart
 	} from '$lib/components';
 	import { EButtonSizeVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
+	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
 	export let data;
 
@@ -26,7 +27,7 @@
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
-	$: campaign = $campaignDetails ?? data.campaign;
+	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
 
 	$: isCriteriaInaccessible = (!isDelegate && campaign?.phase !== 'Criteria') || !$wallet.address;
 
