@@ -13,9 +13,6 @@
 	$: toggleValue = 'all';
 
 	$: filterCampaigns = () => {
-		if (!$wallet.address) {
-			return [];
-		}
 		switch (toggleValue) {
 			case 'all':
 				return data.campaignList;
