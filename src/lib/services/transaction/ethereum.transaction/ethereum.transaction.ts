@@ -16,6 +16,7 @@ export class EthereumTransaction implements ITransaction {
 	private readonly scAddress: string;
 	private readonly args: unknown[];
 	private readonly abi: InterfaceAbi;
+	public txHash: string | null;
 
 	constructor({ scAddress, abi, method, args, walletProvider, eventEmitter }: IEthTxProps) {
 		this.EventEmitter = eventEmitter ?? new EventEmitter();
@@ -33,7 +34,12 @@ export class EthereumTransaction implements ITransaction {
 		this.args = args;
 		this.abi = abi;
 		this.scAddress = scAddress;
+		this.txHash = null;
 	}
+
+	public create = async () => {
+		return this;
+	};
 
 	public run = async (): Promise<void> => {
 		await this.TransactionRequest.run({

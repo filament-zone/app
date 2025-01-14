@@ -1,8 +1,10 @@
 import { ethers } from 'ethers';
-import { AccountHubApiClient } from '$lib/api';
-import { WalletClientConnector } from '$lib/services';
-import { PUBLIC_THE_HUB_CHAIN_ID } from '$env/static/public';
 import JSONBig from 'json-bigint';
+import { get } from 'svelte/store';
+import { PUBLIC_THE_HUB_CHAIN_ID } from '$env/static/public';
+import { AccountHubApiClient } from '$lib/api';
+import { EWalletProvider, WalletClientConnector } from '$lib/services';
+import { walletStore } from '$lib/features';
 
 export class HubTransactionPrepare {
 	private readonly WalletClientConnector: WalletClientConnector;
@@ -25,6 +27,10 @@ export class HubTransactionPrepare {
 		const { serialize_call, new_serialized_tx, new_unsigned_tx } = await import(
 			'@filament-zone/filament/filament_hub_wasm'
 		);
+		const { initializeWallet, wallet } = walletStore;
+		if (!get(wallet)?.address) {
+			await initializeWallet(EWalletProvider.METAMASK);
+		}
 
 		try {
 			await this.WalletClientConnector.connect();

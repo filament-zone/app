@@ -21,10 +21,7 @@
 
 	$: localHandleNext = async () => {
 		if ($isLastStep) {
-			const isCreated = await createCampaign();
-			if (isCreated) {
-				await goto(routes.CAMPAIGNS.MANAGE.ROOT);
-			}
+			await createCampaign();
 			return;
 		}
 		const isValid = await validateCurrentStep();
