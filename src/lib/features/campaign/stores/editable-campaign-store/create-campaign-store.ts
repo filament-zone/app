@@ -1,10 +1,11 @@
 import { get, writable } from 'svelte/store';
+import { goto } from '$app/navigation';
+import { CampaignApi, TransactionHubApiClient } from '$lib/api';
 import { toastsStore } from '$lib/features';
-import { generateMockEligibilityCriteria } from '$lib/features/campaign-creation/mock/mock';
+import { routes } from '$lib/constants';
+import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
 import { type ICampaign, type ICreateCampaignStore } from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
-import { CampaignApi } from '$lib/api';
-import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
@@ -81,41 +82,36 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 		evictions: []
 	});
 
-	tx.onSuccess((res) => {
-		console.log('createCampaign API onSuccess res', res);
-	});
-
-	await tx.run();
-
-	return true;
-};
-
-const voteCampaignCriteria: ICreateCampaignStore['voteCampaignCriteria'] = async (
-	voteOption,
-	campaignId
-) => {
-	let payload: CriteriaVote;
-	if (voteOption === 'Approved') {
-		payload = { Approved: { weights: [1n] } };
-	} else {
-		payload = 'Rejected';
+	if (!tx?.txHash) {
+		return;
 	}
 
-	const tx = await CampaignApi.voteCampaignCriteria({
-		campaign_id: BigInt(campaignId),
-		vote: payload
-	});
+	tx?.onSuccess(() => {
+		let completed = false;
+		const interval = setInterval(async () => {
+			if (!tx.txHash) {
+				return;
+			}
 
-	tx.onSuccess((payload) => {
-		// send({ message: 'Campaign voted successfully' });
-		console.log('voteCampaignCriteria API onSuccess payload', payload);
-	});
+			const res = await TransactionHubApiClient.getTxStatusLedger(tx.txHash);
 
-	await tx.run();
+			if (res.data?.receipt.result === 'successful') {
+				send({ message: 'Campaign successfully created' });
+				completed = true;
+			}
+
+			if (completed) {
+				clearInterval(interval);
+				await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+			}
+		}, 1000);
+	});
+	send({ message: 'Creating campaign... ' });
+	tx?.run();
 };
 
 const getDelegates = async () => {
-	await CampaignApi.getDelegates();
+	return await CampaignApi.getDelegates();
 };
 
 export const campaignStore: ICreateCampaignStore = {
@@ -123,6 +119,5 @@ export const campaignStore: ICreateCampaignStore = {
 	clearCampaignDetails,
 	createCampaign,
 	toggleDelegate,
-	getDelegates,
-	voteCampaignCriteria
+	getDelegates
 };

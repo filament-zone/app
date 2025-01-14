@@ -1,15 +1,24 @@
 import { CampaignApi } from '$lib/api';
 import {
-	generateMockCampaign,
 	generateMockDelegates,
-	generateRandomTickerData
+	generateRandomTickerData,
+	campaignDetailsStore
 } from '$lib/features';
 import { type IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
 
-	const campaignDataRes = await CampaignApi.getCampaignById(campaignId);
+	const campaignDataRes = await CampaignApi.getCampaignById(BigInt(campaignId));
+
+	if (!campaignDataRes?.data) {
+		return;
+	}
+
+	const { setCampaignDetails } = campaignDetailsStore;
+
+	setCampaignDetails(campaignDataRes?.data);
+
 	const criteriaVotesRes = await CampaignApi.getCampaignCriteriaVotes(BigInt(campaignId));
 	const distributionVotesRes = await CampaignApi.getCampaignDistributionVotes(BigInt(campaignId));
 
@@ -28,7 +37,7 @@ export async function load({ params }) {
 	const delegates = generateMockDelegates();
 
 	return {
-		campaign: campaignDataRes?.data ?? generateMockCampaign(),
+		campaign: campaignDataRes?.data,
 		chartData,
 		tickerData,
 		delegates,

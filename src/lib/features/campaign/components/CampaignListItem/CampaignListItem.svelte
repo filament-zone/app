@@ -1,16 +1,18 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
 	import { goto } from '$app/navigation';
-	import { modalStore } from '$lib/features';
+	import { isCampaignOwner, modalStore, walletStore } from '$lib/features';
 	import { Badge, Button, CampaignTimeLine, Divider, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { type ICampaignListItemProps, EButtonStyleVariant, EModalVariant } from '$lib/types';
 
 	export let campaign: ICampaignListItemProps['campaign'];
-	export let isOwner: ICampaignListItemProps['isOwner'] = false;
 
 	const { openModal } = modalStore;
+	const { wallet } = walletStore;
+
+	$: isOwner = isCampaignOwner(campaign?.campaigner, $wallet.address as string);
 
 	const handleOpenCampaignDetails = () => {
 		goto(
@@ -32,18 +34,16 @@
 				<Typography variant="h6">Status</Typography>
 				<Badge label="Draft" />
 			</div>
-			{#if !isOwner}
-				<div class="flex flex-col w-auto">
-					<Typography variant="h6">Collateral Bond</Typography>
-					<div class="flex flex-row w-[250px] gap-8">
-						<div>
-							<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
-								>Not initiated</Typography
-							>
-						</div>
+			<div class="flex flex-col w-auto">
+				<Typography variant="h6">Collateral Bond</Typography>
+				<div class="flex flex-row w-[250px] gap-8">
+					<div>
+						<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
+							>Not initiated</Typography
+						>
 					</div>
 				</div>
-			{/if}
+			</div>
 			<div class="flex flex-col">
 				<Typography variant="h6">Created at</Typography>
 				<Typography variant="h6"
@@ -53,14 +53,14 @@
 		</div>
 		<Divider />
 		{#if campaign}
-			<CampaignTimeLine {campaign} isOpen />
+			<CampaignTimeLine {campaign} />
 		{/if}
 		{#if isOwner}
 			<Divider />
 			<div class="flex flex-row justify-between gap-8">
 				<Button styleVariant={EButtonStyleVariant.SECONDARY}>Delete</Button>
 				<Button on:click={openModal.bind(null, { variant: EModalVariant.CAMPAIGN_INITIATE })}
-					>Initiate</Button
+					>Edit</Button
 				>
 			</div>
 		{/if}

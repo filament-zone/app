@@ -1,8 +1,15 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import moment from 'moment/moment.js';
 	import { routes } from '$lib/constants';
-	import { CampaignSummary, modalStore } from '$lib/features';
+	import {
+		CampaignSummary,
+		modalStore,
+		campaignDetailsStore,
+		walletStore,
+		isCampaignDelegate
+	} from '$lib/features';
 	import {
 		Badge,
 		Button,
@@ -15,11 +22,25 @@
 
 	export let data;
 
+	const { campaignDetails } = campaignDetailsStore;
 	const { openModal } = modalStore;
 
+	$: campaign = $campaignDetails ?? data.campaign;
+
 	const handleVote = () => {
-		openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: data.campaign.id } });
+		if (!isDelegate && campaign?.phase !== 'Criteria') {
+			return;
+		}
+		openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
 	};
+
+	onDestroy(() => {
+		campaignDetails.set(undefined);
+	});
+
+	const { wallet } = walletStore;
+
+	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 </script>
 
 <div class="flex flex-col xl:flex-row gap-4">
@@ -33,14 +54,14 @@
 			>
 			<div class="flex flex-col gap-4">
 				<div>
-					<span class="campaign-label">{data.campaign.title}</span>
+					<span class="campaign-label">{campaign?.title}</span>
 				</div>
 				<Divider />
-				{#if data.campaign}
-					<CampaignTimeLine campaign={data.campaign} />
+				{#if campaign}
+					<CampaignTimeLine {campaign} />
 				{/if}
 				<Divider />
-				<CampaignSummary campaign={data.campaign} />
+				<CampaignSummary {campaign} />
 			</div>
 		</Container>
 	</div>
@@ -62,24 +83,26 @@
 					/>
 				</div>
 				<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
-				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote}>Vote</Button>
+				<Button sizeVariant={EButtonSizeVariant.FULL_WIDTH} on:click={handleVote} }>Vote</Button>
 			</div>
 		</Container>
 		<Container label="Ticker">
 			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-scroll">
-				{#each data.tickerData as item}
-					<div class="ticker-item">
-						<div class="ticker-item__name">{item?.name}</div>
-						<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
-						<div class="ticker-item__status">
-							<span
-								style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? '#00F58C' : '#FF679B'}`}
-							>
-								{item?.status}</span
-							>
+				{#if data.tickerData?.length}
+					{#each data.tickerData as item}
+						<div class="ticker-item">
+							<div class="ticker-item__name">{item?.name}</div>
+							<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
+							<div class="ticker-item__status">
+								<span
+									style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? '#00F58C' : '#FF679B'}`}
+								>
+									{item?.status}</span
+								>
+							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				{/if}
 			</div>
 		</Container>
 	</div>

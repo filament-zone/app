@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { CampaignApi } from '$lib/api';
-	import { modalStore } from '$lib/features';
+	import {
+		campaignDetailsStore,
+		isCampaignDelegate,
+		isCampaignOwner,
+		modalStore,
+		walletStore
+	} from '$lib/features';
 	import { TimeLineItem, Typography } from '$lib/components';
 	import {
 		EModalVariant,
 		ETimeLineItem,
+		type ICampaign,
 		type ICampaignTimeLineProps,
 		type ITimeLineItemProps
 	} from '$lib/types';
@@ -18,14 +24,22 @@
 	let isTimelineOpen = isOpen;
 
 	const { openModal } = modalStore;
+	const { initCampaign } = campaignDetailsStore;
+	const { wallet } = walletStore;
+
+	$: phase = campaign?.phase ?? '';
+	$: isOwner = isCampaignOwner(campaign?.campaigner as string, $wallet.address as string);
+
+	$: isAbleToVote = isCampaignDelegate(
+		[...(campaign as ICampaign).delegates] as string[],
+		$wallet.address as string
+	);
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
 	};
 
-	const phase = campaign?.phase ?? 'Draft';
-
-	const timeLineDraftCommonData: ITimeLineItemProps = {
+	const timeLineDraftData: ITimeLineItemProps = {
 		iconStatus: ETimeLineItem.CHECKED,
 		title: 'Campaign Draft',
 		description: 'The campaign draft has been finalized and saved',
@@ -33,56 +47,60 @@
 		date: new Date(),
 		isFirst: true
 	};
-	const timeLineInitCommonData: ITimeLineItemProps = {
+
+	$: timeLineInitData = {
 		iconStatus: ETimeLineItem.PROCESSING,
 		title: 'Initiate Campaign',
 		description: 'The campaign is being initiated',
 		status: 'to-do',
-		onButtonClick: async () => {
-			const tx = await CampaignApi.initCampaign({ campaign_id: BigInt(campaign?.id) });
-
-			tx.onSuccess(() => {
-				console.log('success vote');
-			});
-
-			await tx.run();
-		},
+		onButtonClick: isOwner
+			? async () => {
+					await initCampaign(campaign?.id as bigint);
+				}
+			: null,
 		buttonLabel: 'Initiate Campaign'
-	};
-	const timeLineInitVoteData: ITimeLineItemProps = {
+	} as ITimeLineItemProps;
+
+	$: timeLineVoteData = {
 		iconStatus: ETimeLineItem.PROCESSING,
 		title: 'Confirm Token Distribution',
 		description:
 			'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
 		status: 'to-do',
 		isLast: true
-	};
+	} as ITimeLineItemProps;
 
-	const options: Record<string, ITimeLineItemProps[]> = {
-		Draft: [timeLineInitVoteData, timeLineInitCommonData, timeLineDraftCommonData],
+	let options: Record<string, ITimeLineItemProps[]>;
+	$: options = {
+		Draft: [timeLineVoteData, timeLineInitData, timeLineDraftData],
 		Criteria: [
 			{
-				...timeLineInitVoteData,
-				onButtonClick: async () => {
-					openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
-				},
-				buttonLabel: 'Vote'
+				...timeLineVoteData,
+				onButtonClick: isAbleToVote
+					? async () => {
+							openModal({
+								variant: EModalVariant.CAMPAIGN_VOTE,
+								state: { campaignId: campaign?.id }
+							});
+						}
+					: null,
+				buttonLabel: isAbleToVote ? 'Vote' : ''
 			},
 			{
-				...timeLineInitCommonData,
+				...timeLineInitData,
 				iconStatus: ETimeLineItem.CHECKED,
 				status: 'success',
 				date: new Date().toLocaleString(),
 				onButtonClick: null,
 				buttonLabel: null
 			},
-			timeLineDraftCommonData
+			timeLineDraftData
 		]
 	};
 </script>
 
-<div>
-	<div class="flex flex-row justify-between gap-4">
+<div class="flex flex-col gap-4">
+	<div class="flex flex-row justify-between">
 		<Typography variant="caption">Timeline:</Typography>
 		<div
 			class="cursor-pointer"

@@ -87,7 +87,7 @@
 	{:else if date && status}
 		<div class="flex flex-col justify-center items-end w-4/12">
 			<Typography variant="caption" class="text-right"
-				>{moment(date).format('MMMM D, YYYY')}</Typography
+				>{moment(date.toLocaleString()).format('MMMM D, YYYY')}</Typography
 			>
 			<Typography variant="caption" color={getStatusColor(status)}>
 				{capitalizeFirstLetter(status)}
