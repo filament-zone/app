@@ -13,12 +13,12 @@ run_twice_on_fail() {
   return $STATUS
 }
 
+npm run lint
+
 npm run check
 
 run_twice_on_fail "npm run test" || TEST_STATUS=$?
 TEST_STATUS=${TEST_STATUS:-$?}
-
-npm run lint
 
 if  [ $TEST_STATUS -ne 0 ]; then
   exit 1
