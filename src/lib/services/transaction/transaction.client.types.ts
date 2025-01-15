@@ -8,7 +8,7 @@ export type ErrorTransactionSubscriber = (payload: ErrorTransactionResponseCb) =
 
 export interface ITransaction {
 	create: () => Promise<ITransaction | undefined>;
-	run: () => void;
+	run: () => Promise<void>;
 	onSuccess: (fn: SuccessTransactionSubscriber) => ITransaction;
 	onReject: (fn: ErrorTransactionSubscriber) => ITransaction;
 	onFailure: (fn: ErrorTransactionSubscriber) => ITransaction;

@@ -89,6 +89,18 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 		return;
 	}
 
+	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
+
+	txStatusWebSocket.onOpen(() => {
+		console.log('onOpen');
+	});
+
+	txStatusWebSocket.addMessageHandler((message) => {
+		console.log('messageHandler', message);
+	});
+
+	await txStatusWebSocket.connect();
+
 	tx.onSuccess(() => {
 		let completed = false;
 		const interval = setInterval(async () => {
@@ -110,7 +122,8 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 		}, 1000);
 	});
 	send({ message: 'Voting campaign... ' });
-	tx.run();
+
+	await tx.run();
 };
 
 export const isCampaignOwner = (campaignOwner: string, walletAddress: string) => {
