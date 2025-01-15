@@ -1,9 +1,6 @@
 import { CampaignApi } from '$lib/api';
-import {
-	generateMockDelegates,
-	generateRandomTickerData,
-	campaignDetailsStore
-} from '$lib/features';
+import { generateMockDelegates, campaignDetailsStore } from '$lib/features';
+import { shortCutTransactionHash } from '$lib/helpers';
 import { type IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
@@ -32,7 +29,15 @@ export async function load({ params }) {
 		]
 	};
 
-	const tickerData: { name: string; date: string; status: string }[] = generateRandomTickerData(15);
+	const tickerData: { name: string; date: string; status: string }[] = criteriaVotesRes?.data
+		? Object.entries(criteriaVotesRes?.data).map(([key, value]) => {
+				return {
+					name: shortCutTransactionHash(key),
+					date: new Date().toString(),
+					status: value === 'Rejected' ? 'Rejected' : 'Approved'
+				};
+			})
+		: [];
 
 	const delegates = generateMockDelegates();
 

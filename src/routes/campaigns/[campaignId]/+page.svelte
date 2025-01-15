@@ -103,7 +103,7 @@
 			</div>
 		</Container>
 		<Container label="Ticker">
-			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-scroll">
+			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
 				{#if data.tickerData?.length}
 					{#each data.tickerData as item}
 						<div class="ticker-item">
