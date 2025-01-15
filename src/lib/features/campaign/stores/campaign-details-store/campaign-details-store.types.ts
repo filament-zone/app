@@ -8,4 +8,9 @@ export interface ICampaignDetailsStore {
 	setCampaignDetails: (campaign: ICampaign) => void;
 	initCampaign: (campaignId: ICampaign['id']) => Promise<void>;
 	voteCampaignCriteria: (campaignId: ICampaign['id'], voteOption: string) => void;
+	isCriteriaVoteAccessibleFn: (
+		campaignPhase: ICampaign['phase'],
+		isDelegate: boolean,
+		walletAddress: string
+	) => boolean;
 }

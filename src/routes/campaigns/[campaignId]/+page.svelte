@@ -8,7 +8,8 @@
 		modalStore,
 		campaignDetailsStore,
 		walletStore,
-		isCampaignDelegate
+		isCampaignDelegate,
+		isCriteriaVoteAccessibleFn
 	} from '$lib/features';
 	import {
 		Badge,
@@ -18,7 +19,12 @@
 		Divider,
 		SecondaryDoughnutChart
 	} from '$lib/components';
-	import { EButtonSizeVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
+	import {
+		EButtonSizeVariant,
+		EModalVariant,
+		EBadgeColorVariant,
+		type ICampaign
+	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
 	export let data;
@@ -28,11 +34,16 @@
 	const { wallet } = walletStore;
 
 	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
+	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 
-	$: isCriteriaInaccessible = (!isDelegate && campaign?.phase !== 'Criteria') || !$wallet.address;
+	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
+		campaign?.phase as ICampaign['phase'],
+		isDelegate,
+		$wallet.address as string
+	);
 
 	$: handleVote = () => {
-		if (isCriteriaInaccessible) {
+		if (!isCriteriaVoteAccessible) {
 			return;
 		} else {
 			openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
@@ -42,8 +53,6 @@
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
-
-	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 </script>
 
 <div class="flex flex-col xl:flex-row gap-4">
@@ -89,7 +98,7 @@
 				<Button
 					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={handleVote}
-					disabled={isCriteriaInaccessible}>Vote</Button
+					disabled={!isCriteriaVoteAccessible}>Vote</Button
 				>
 			</div>
 		</Container>

@@ -145,14 +145,6 @@ const disconnectWallet = () => {
 	send({ message: 'Disconnected from wallet' });
 };
 
-export const isCampaignOwner = (campaignOwner: string, walletAddress: string) => {
-	return walletAddress?.toLowerCase() === campaignOwner?.toLowerCase();
-};
-
-export const isCampaignDelegate = (delegatesList: string[], walletAddress: string) => {
-	return delegatesList?.map((item) => item.toLowerCase()).includes(walletAddress?.toLowerCase());
-};
-
 export const walletStore: IWalletStore = {
 	wallet,
 	initializeWallet,

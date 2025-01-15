@@ -113,11 +113,40 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	tx.run();
 };
 
+export const isCampaignOwner = (campaignOwner: string, walletAddress: string) => {
+	return walletAddress?.toLowerCase() === campaignOwner?.toLowerCase();
+};
+
+export const isCampaignDelegate = (delegatesList: string[], walletAddress: string) => {
+	return delegatesList?.map((item) => item.toLowerCase()).includes(walletAddress?.toLowerCase());
+};
+
+export const isCriteriaVoteAccessibleFn: ICampaignDetailsStore['isCriteriaVoteAccessibleFn'] = (
+	campaignPhase,
+	isDelegate,
+	walletAddress
+) => {
+	if (campaignPhase !== 'Criteria') {
+		return false;
+	}
+
+	if (!isDelegate) {
+		return false;
+	}
+
+	if (!walletAddress) {
+		return false;
+	}
+
+	return true;
+};
+
 export const campaignDetailsStore: ICampaignDetailsStore = {
 	campaignDetails,
 	campaignIdDerived,
 	setCampaignDetails,
 	initCampaign,
 	updateCampaignDetails,
-	voteCampaignCriteria
+	voteCampaignCriteria,
+	isCriteriaVoteAccessibleFn
 };
