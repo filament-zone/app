@@ -8,7 +8,8 @@
 		modalStore,
 		campaignDetailsStore,
 		walletStore,
-		isCampaignDelegate
+		isCampaignDelegate,
+		isCriteriaVoteAccessibleFn
 	} from '$lib/features';
 	import {
 		Badge,
@@ -16,9 +17,15 @@
 		CampaignTimeLine,
 		Container,
 		Divider,
-		SecondaryDoughnutChart
+		SecondaryDoughnutChart,
+		Typography
 	} from '$lib/components';
-	import { EButtonSizeVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
+	import {
+		EButtonSizeVariant,
+		EModalVariant,
+		EBadgeColorVariant,
+		type ICampaign
+	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
 	export let data;
@@ -28,11 +35,16 @@
 	const { wallet } = walletStore;
 
 	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
+	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 
-	$: isCriteriaInaccessible = (!isDelegate && campaign?.phase !== 'Criteria') || !$wallet.address;
+	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
+		campaign?.phase as ICampaign['phase'],
+		isDelegate,
+		$wallet.address as string
+	);
 
 	$: handleVote = () => {
-		if (isCriteriaInaccessible) {
+		if (!isCriteriaVoteAccessible) {
 			return;
 		} else {
 			openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
@@ -42,8 +54,6 @@
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
-
-	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 </script>
 
 <div class="flex flex-col xl:flex-row gap-4">
@@ -85,16 +95,22 @@
 						colorVariant={EBadgeColorVariant.SECONDARY}
 					/>
 				</div>
-				<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+				{#if data.tickerData?.length}
+					<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+				{:else}
+					<div class="flex justify-center items-center h-[300px]">
+						<Typography variant="h5">No data available</Typography>
+					</div>
+				{/if}
 				<Button
 					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={handleVote}
-					disabled={isCriteriaInaccessible}>Vote</Button
+					disabled={!isCriteriaVoteAccessible}>Vote</Button
 				>
 			</div>
 		</Container>
 		<Container label="Ticker">
-			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-scroll">
+			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
 				{#if data.tickerData?.length}
 					{#each data.tickerData as item}
 						<div class="ticker-item">
@@ -109,6 +125,10 @@
 							</div>
 						</div>
 					{/each}
+				{:else}
+					<div class="flex justify-center items-center h-[300px]">
+						<Typography variant="h5">No data available</Typography>
+					</div>
 				{/if}
 			</div>
 		</Container>

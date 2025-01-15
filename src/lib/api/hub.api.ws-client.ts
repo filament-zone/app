@@ -13,32 +13,35 @@ export class WebSocketClient {
 
 	async connect() {
 		if (this.isConnected) return;
+		return new Promise<void>((resolve, reject) => {
+			this.socket = new WebSocket(`${PUBLIC_HUB_WS_API}${this.url}`);
 
-		this.socket = new WebSocket(`${PUBLIC_HUB_WS_API}${this.url}`);
+			this.socket.onopen = () => {
+				console.log('WebSocket connected');
+				this.isConnected = true;
+				this.openHandlers.forEach((handler) => handler());
+				resolve();
+			};
 
-		this.socket.onopen = () => {
-			console.log('WebSocket connected');
-			this.isConnected = true;
-			this.openHandlers.forEach((handler) => handler());
-		};
+			this.socket.onmessage = (event) => {
+				try {
+					const message = JSON.parse(event.data);
+					this.messageHandlers.forEach((handler) => handler(message));
+				} catch (error) {
+					console.error('Error parsing WebSocket message:', error);
+				}
+			};
 
-		this.socket.onmessage = (event) => {
-			try {
-				const message = JSON.parse(event.data);
-				this.messageHandlers.forEach((handler) => handler(message));
-			} catch (error) {
-				console.error('Error parsing WebSocket message:', error);
-			}
-		};
+			this.socket.onclose = () => {
+				console.log('WebSocket disconnected');
+				this.isConnected = false;
+			};
 
-		this.socket.onclose = () => {
-			console.log('WebSocket disconnected');
-			this.isConnected = false;
-		};
-
-		this.socket.onerror = (error) => {
-			console.error('WebSocket error:', error);
-		};
+			this.socket.onerror = (error) => {
+				console.error('WebSocket error:', error);
+				reject(error);
+			};
+		});
 	}
 
 	send(data: unknown) {

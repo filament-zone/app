@@ -4,6 +4,7 @@
 		campaignDetailsStore,
 		isCampaignDelegate,
 		isCampaignOwner,
+		isCriteriaVoteAccessibleFn,
 		modalStore,
 		walletStore
 	} from '$lib/features';
@@ -29,9 +30,11 @@
 
 	$: phase = campaign?.phase ?? '';
 	$: isOwner = isCampaignOwner(campaign?.campaigner as string, $wallet.address as string);
+	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 
-	$: isAbleToVote = isCampaignDelegate(
-		[...(campaign as ICampaign).delegates] as string[],
+	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
+		campaign?.phase as ICampaign['phase'],
+		isDelegate,
 		$wallet.address as string
 	);
 
@@ -76,7 +79,7 @@
 		Criteria: [
 			{
 				...timeLineVoteData,
-				onButtonClick: isAbleToVote
+				onButtonClick: isCriteriaVoteAccessible
 					? async () => {
 							openModal({
 								variant: EModalVariant.CAMPAIGN_VOTE,
@@ -84,7 +87,7 @@
 							});
 						}
 					: null,
-				buttonLabel: isAbleToVote ? 'Vote' : ''
+				buttonLabel: isCriteriaVoteAccessible ? 'Vote' : ''
 			},
 			{
 				...timeLineInitData,

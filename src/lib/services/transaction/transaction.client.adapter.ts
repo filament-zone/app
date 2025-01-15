@@ -49,7 +49,7 @@ export class TransactionClientAdapter implements ITransaction {
 	};
 
 	public run = async () => {
-		return this.transaction?.run();
+		await this.transaction?.run();
 	};
 
 	public onSuccess = (fn: SuccessTransactionSubscriber): TransactionClientAdapter => {

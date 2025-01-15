@@ -89,6 +89,18 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 		return;
 	}
 
+	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
+
+	txStatusWebSocket.onOpen(() => {
+		console.log('onOpen');
+	});
+
+	txStatusWebSocket.addMessageHandler((message) => {
+		console.log('messageHandler', message);
+	});
+
+	await txStatusWebSocket.connect();
+
 	tx.onSuccess(() => {
 		let completed = false;
 		const interval = setInterval(async () => {
@@ -110,7 +122,36 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 		}, 1000);
 	});
 	send({ message: 'Voting campaign... ' });
-	tx.run();
+
+	await tx.run();
+};
+
+export const isCampaignOwner = (campaignOwner: string, walletAddress: string) => {
+	return walletAddress?.toLowerCase() === campaignOwner?.toLowerCase();
+};
+
+export const isCampaignDelegate = (delegatesList: string[], walletAddress: string) => {
+	return delegatesList?.map((item) => item.toLowerCase()).includes(walletAddress?.toLowerCase());
+};
+
+export const isCriteriaVoteAccessibleFn: ICampaignDetailsStore['isCriteriaVoteAccessibleFn'] = (
+	campaignPhase,
+	isDelegate,
+	walletAddress
+) => {
+	if (campaignPhase !== 'Criteria') {
+		return false;
+	}
+
+	if (!isDelegate) {
+		return false;
+	}
+
+	if (!walletAddress) {
+		return false;
+	}
+
+	return true;
 };
 
 export const campaignDetailsStore: ICampaignDetailsStore = {
@@ -119,5 +160,6 @@ export const campaignDetailsStore: ICampaignDetailsStore = {
 	setCampaignDetails,
 	initCampaign,
 	updateCampaignDetails,
-	voteCampaignCriteria
+	voteCampaignCriteria,
+	isCriteriaVoteAccessibleFn
 };
