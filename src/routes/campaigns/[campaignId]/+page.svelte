@@ -17,7 +17,8 @@
 		CampaignTimeLine,
 		Container,
 		Divider,
-		SecondaryDoughnutChart
+		SecondaryDoughnutChart,
+		Typography
 	} from '$lib/components';
 	import {
 		EButtonSizeVariant,
@@ -94,7 +95,13 @@
 						colorVariant={EBadgeColorVariant.SECONDARY}
 					/>
 				</div>
-				<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+				{#if data.tickerData?.length}
+					<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+				{:else}
+					<div class="flex justify-center items-center h-[300px]">
+						<Typography variant="h5">No data available</Typography>
+					</div>
+				{/if}
 				<Button
 					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={handleVote}
@@ -118,6 +125,10 @@
 							</div>
 						</div>
 					{/each}
+				{:else}
+					<div class="flex justify-center items-center h-[300px]">
+						<Typography variant="h5">No data available</Typography>
+					</div>
 				{/if}
 			</div>
 		</Container>
