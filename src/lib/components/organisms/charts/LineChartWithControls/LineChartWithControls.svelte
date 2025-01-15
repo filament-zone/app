@@ -54,7 +54,7 @@
 			: ['rgba(255, 116, 164, 0.1)'];
 </script>
 
-<Container {label} class="w-full" variant="secondary">
+<Container {label} class="w-full" variant="inner-container">
 	<div class="flex flex-col md:flex-row justify-between" slot="header">
 		<TrendDisplay {...trendDisplayData} />
 		{#if displayToggle}

@@ -31,18 +31,6 @@
 		border: 0.5px solid var(--default-border);
 		border-radius: 4px;
 
-		&.variant-secondary {
-			background-color: transparent;
-
-			.slot-container {
-				border: 0;
-			}
-
-			.label-box {
-				border: 0;
-			}
-		}
-
 		.label-box {
 			display: flex;
 			flex-direction: row;
@@ -56,10 +44,11 @@
 			span {
 				color: #fff;
 				font-family: 'ff-meta-serif-web-pro', serif;
-				font-size: 14px;
+				font-size: 16px;
 				font-style: normal;
 				font-weight: 400;
-				line-height: 0.875rem;
+				line-height: 0.95rem;
+				letter-spacing: 0.04em;
 			}
 		}
 
@@ -69,6 +58,59 @@
 			padding: 16px;
 			border-radius: 4px;
 			border: 0.5px solid var(--default-border);
+		}
+
+		&.variant-secondary {
+			background-color: transparent;
+
+			.slot-container {
+				padding: 0;
+				background-color: transparent;
+				border: none;
+			}
+
+			.label-box {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				gap: 10px;
+				background-color: var(--background-300);
+				padding: 8px 0.875rem;
+				border-radius: 4px;
+				border: 0.5px solid var(--default-border);
+				span {
+					color: #fff;
+					font-family: 'ff-meta-serif-web-pro', serif;
+					font-size: 16px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: 0.95rem;
+					letter-spacing: 0.04em;
+				}
+			}
+		}
+
+		&.variant-inner-container {
+			padding: 20px;
+			background-color: var(--background-100);
+
+			.slot-container {
+				border: none;
+			}
+			.label-box {
+				padding: 6px 0.75rem;
+				border: none;
+				span {
+					color: #fff;
+					font-family: 'ff-meta-serif-web-pro', serif;
+					font-size: 20px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: 0.95rem;
+					letter-spacing: 0.04em;
+				}
+			}
 		}
 	}
 </style>
