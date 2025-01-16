@@ -3,7 +3,7 @@
 	import { ModalCampaignVote } from '$lib/features';
 
 	export const meta = {
-		title: 'Features/Modal/Campaign Vote TimeLine'
+		title: 'Features/Modal/Transaction TimeLine'
 	};
 </script>
 

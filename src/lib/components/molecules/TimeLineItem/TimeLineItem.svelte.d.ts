@@ -3,7 +3,7 @@ import { ETimeLineItem } from '$lib/types';
 
 declare const __propDef: {
 	props: {
-		iconStatus: ETimeLineItem;
+		iconStatus?: ETimeLineItem;
 		title: string;
 		description: string;
 		date?: string | Date;

@@ -10,7 +10,7 @@
 		ModalCampaignDeposit,
 		ModalCampaignInitiateTimeline,
 		ModalCampaignVote,
-		ModalCampaignVoteTimeLine
+		ModalTransactionTimeLine
 	} from '$lib/features';
 	import { EModalVariant } from '$lib/types';
 
@@ -39,8 +39,8 @@
 				return ModalCampaignDeposit;
 			case EModalVariant.CAMPAIGN_VOTE:
 				return ModalCampaignVote;
-			case EModalVariant.CAMPAIGN_VOTE_TIMELINE:
-				return ModalCampaignVoteTimeLine;
+			case EModalVariant.TRANSACTION_STATUS:
+				return ModalTransactionTimeLine;
 			default:
 				return null;
 		}
