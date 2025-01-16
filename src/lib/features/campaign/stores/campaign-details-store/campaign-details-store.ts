@@ -1,7 +1,7 @@
 import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 import { derived, get, writable } from 'svelte/store';
 import { invalidateAll } from '$app/navigation';
-import { toastsStore } from '$lib/features';
+import { toastsStore, transactionStore } from '$lib/features';
 import { CampaignApi, TransactionHubApiClient } from '$lib/api';
 import { type ICampaignDetailsStore } from '$lib/types';
 
@@ -88,6 +88,8 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	if (!tx?.txHash) {
 		return;
 	}
+	const { addTransaction, updateTransaction } = transactionStore;
+	addTransaction(tx?.txHash);
 
 	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
 
@@ -103,6 +105,7 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 
 	tx.onSuccess(() => {
 		let completed = false;
+		updateTransaction(tx?.txHash as string, { isInSequencer: true });
 		const interval = setInterval(async () => {
 			if (!tx.txHash) {
 				return;
@@ -112,6 +115,7 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 
 			if (res.data?.receipt.result === 'successful') {
 				send({ message: 'Campaign successfully voted' });
+				updateTransaction(tx?.txHash, { isInLedger: true });
 				completed = true;
 			}
 

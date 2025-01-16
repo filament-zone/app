@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { CheckCircleIcon, MinusCircleIcon } from 'svelte-feather-icons';
-	import { campaignDetailsStore, Modal, modalStore } from '$lib/features';
+	import {
+		campaignDetailsStore,
+		Modal,
+		modalStore,
+		voteTransactionModalConfig
+	} from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
 	import { EModalVariant, type ICampaign, type TToggleContentContainerSelected } from '$lib/types';
 
@@ -13,7 +18,10 @@
 
 	const handleVote = () => {
 		voteCampaignCriteria(state.campaignId, toggleSelected === 'isFirst' ? 'Approved' : 'Rejected');
-		openModal({ variant: EModalVariant.CAMPAIGN_VOTE_TIMELINE });
+		openModal({
+			variant: EModalVariant.TRANSACTION_STATUS,
+			state: { config: voteTransactionModalConfig }
+		});
 	};
 </script>
 
