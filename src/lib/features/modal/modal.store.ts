@@ -4,7 +4,8 @@ import { EModalVariant } from '$lib/features/modal/modal.store.enums';
 
 const initialState: IModalState = {
 	modalConfig: {
-		variant: EModalVariant.CLOSED
+		variant: EModalVariant.CLOSED,
+		state: null
 	}
 };
 
@@ -24,6 +25,13 @@ const openModal: IModalStore['openModal'] = (modalConfig) => {
 	});
 };
 
+const updateModalConfig: IModalStore['updateModalConfig'] = (updates) => {
+	store.update((state) => {
+		state.modalConfig = { ...state.modalConfig, ...updates };
+		return state;
+	});
+};
+
 const activeModal = derived(store, ($store) => $store.modalConfig.variant);
 const modalConfig = derived(store, ($store) => $store.modalConfig);
 
@@ -31,5 +39,6 @@ export const modalStore: IModalStore = {
 	openModal,
 	closeModal,
 	activeModal,
-	modalConfig
+	modalConfig,
+	updateModalConfig
 };

@@ -15,4 +15,5 @@ export interface IModalStore {
 	closeModal: () => void;
 	activeModal: Readable<EModalVariant>;
 	modalConfig: Readable<IModalState['modalConfig']>;
+	updateModalConfig: (updates: IModalConfig) => void;
 }

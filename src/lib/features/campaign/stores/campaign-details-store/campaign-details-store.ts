@@ -43,11 +43,23 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 	if (campaignId === undefined) {
 		return;
 	}
-
+	const { openModal, updateModalConfig } = modalStore;
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS
+	});
 	const tx = await CampaignApi.initCampaign({ campaign_id: campaignId });
+
+	if (!tx?.txHash) {
+		return;
+	}
+
+	const { addTransaction, updateTransaction } = transactionStore;
+	addTransaction(tx?.txHash);
+	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
 
 	tx?.onSuccess(() => {
 		let completed = false;
+		updateTransaction(tx?.txHash as string, { isInSequencer: true });
 		const interval = setInterval(async () => {
 			if (!tx.txHash) {
 				return;
@@ -57,6 +69,7 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 
 			if (res.data?.receipt.result === 'successful') {
 				send({ message: 'Campaign successfully initiated' });
+				updateTransaction(tx?.txHash, { isInLedger: true });
 				completed = true;
 			}
 
@@ -74,7 +87,6 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	campaignId,
 	voteOption
 ) => {
-	const { openModal } = modalStore;
 	if (campaignId === undefined) {
 		return;
 	}
@@ -85,6 +97,11 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	} else {
 		payload = 'Rejected';
 	}
+	const { openModal, updateModalConfig } = modalStore;
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { config: voteTransactionModalConfig }
+	});
 
 	const tx = await CampaignApi.voteCampaignCriteria({
 		campaign_id: campaignId,
@@ -94,14 +111,12 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	if (!tx?.txHash) {
 		return;
 	}
-
-	openModal({
-		variant: EModalVariant.TRANSACTION_STATUS,
-		state: { config: voteTransactionModalConfig, txHash: tx?.txHash }
-	});
-
 	const { addTransaction, updateTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
+	updateModalConfig({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { txHash: tx?.txHash }
+	});
 
 	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
 

@@ -7,15 +7,16 @@
 
 	const { closeModal, modalConfig } = modalStore;
 
-	const state = $modalConfig.state as {
-		config: TModalTransactionConfig;
+	$: state = $modalConfig.state as {
+		config?: TModalTransactionConfig;
+		txHash?: string;
 	};
 
 	const step = writable<number>(0);
 
 	const { transactions } = transactionStore;
 
-	$: tx = $transactions[0];
+	$: tx = $transactions.find((tx) => tx.txHash === state?.txHash);
 
 	$: {
 		if (tx?.isInSequencer) {
@@ -29,16 +30,16 @@
 
 	const timeLine1 = {
 		iconStatus: ETimeLineItem.PROCESSING,
-		title: state?.config[1].title ?? 'Transaction Submitted',
-		description: state?.config[1].description ?? 'Transaction has been submitted',
+		title: state?.config?.[1].title ?? 'Transaction Submitted',
+		description: state?.config?.[1].description ?? 'Transaction has been submitted',
 		isFirst: true
 	};
 
 	const timeLine2 = {
 		iconStatus: ETimeLineItem.PROCESSING,
-		title: state?.config[2].title ?? 'Transaction Received',
+		title: state?.config?.[2].title ?? 'Transaction Received',
 		description:
-			state?.config[2].description ?? 'Transaction has been received and is being processed',
+			state?.config?.[2].description ?? 'Transaction has been received and is being processed',
 		isLast: true
 	};
 
