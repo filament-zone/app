@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Modal, modalStore, transactionStore } from '$lib/features';
 	import { Button, Typography, TimeLineItem } from '$lib/components';
@@ -64,6 +65,10 @@
 			}
 		}
 	};
+
+	onDestroy(() => {
+		transactions.set([]);
+	});
 </script>
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>

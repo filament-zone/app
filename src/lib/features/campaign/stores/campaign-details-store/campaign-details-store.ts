@@ -1,9 +1,14 @@
 import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 import { derived, get, writable } from 'svelte/store';
 import { invalidateAll } from '$app/navigation';
-import { toastsStore, transactionStore } from '$lib/features';
+import {
+	modalStore,
+	toastsStore,
+	transactionStore,
+	voteTransactionModalConfig
+} from '$lib/features';
 import { CampaignApi, TransactionHubApiClient } from '$lib/api';
-import { type ICampaignDetailsStore } from '$lib/types';
+import { EModalVariant, type ICampaignDetailsStore } from '$lib/types';
 
 const { send } = toastsStore;
 
@@ -69,6 +74,7 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	campaignId,
 	voteOption
 ) => {
+	const { openModal } = modalStore;
 	if (campaignId === undefined) {
 		return;
 	}
@@ -88,6 +94,12 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	if (!tx?.txHash) {
 		return;
 	}
+
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { config: voteTransactionModalConfig, txHash: tx?.txHash }
+	});
+
 	const { addTransaction, updateTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
 
@@ -106,6 +118,7 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	tx.onSuccess(() => {
 		let completed = false;
 		updateTransaction(tx?.txHash as string, { isInSequencer: true });
+
 		const interval = setInterval(async () => {
 			if (!tx.txHash) {
 				return;
