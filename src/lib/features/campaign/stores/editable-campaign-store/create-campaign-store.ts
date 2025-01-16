@@ -1,10 +1,10 @@
 import { get, writable } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { CampaignApi, TransactionHubApiClient } from '$lib/api';
-import { toastsStore } from '$lib/features';
+import { modalStore, toastsStore, transactionStore } from '$lib/features';
 import { routes } from '$lib/constants';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
-import { type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import { EModalVariant, type ICampaign, type ICreateCampaignStore } from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 
 const initCampaignDetails: ICampaign = {
@@ -75,6 +75,11 @@ const clearCampaignDetails = () => {
 };
 
 const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
+	const { openModal, updateModalConfig } = modalStore;
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS
+	});
+
 	const tx = await CampaignApi.createCampaign({
 		title: get(campaignDetails).title as string,
 		description: get(campaignDetails).description as string,
@@ -86,8 +91,13 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 		return;
 	}
 
+	const { addTransaction, updateTransaction } = transactionStore;
+	addTransaction(tx?.txHash);
+	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
+
 	tx?.onSuccess(() => {
 		let completed = false;
+		updateTransaction(tx?.txHash as string, { isInSequencer: true });
 		const interval = setInterval(async () => {
 			if (!tx.txHash) {
 				return;
@@ -97,6 +107,7 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 
 			if (res.data?.receipt.result === 'successful') {
 				send({ message: 'Campaign successfully created' });
+				updateTransaction(tx?.txHash, { isInLedger: true });
 				completed = true;
 			}
 
