@@ -5,3 +5,4 @@ export * from './toast';
 export * from './proposals';
 export * from './campaign';
 export * from './right-sidebar';
+export * from './transaction';
