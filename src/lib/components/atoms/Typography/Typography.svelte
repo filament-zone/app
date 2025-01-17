@@ -321,10 +321,12 @@
 	}
 
 	.typography_caption {
-		font-family: var(--secondary-font);
-		font-size: 12px;
+		font-family: var(--primary-font);
+		font-size: 14px;
 		font-weight: 400;
 		line-height: 1.5;
+		letter-spacing: 0.04em;
+		opacity: 0.8;
 
 		@media @size_sm {
 			font-size: 13px;

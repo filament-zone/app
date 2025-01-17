@@ -23,6 +23,7 @@
 			padding: 16px;
 			border: 1px solid var(--default-border);
 			background: var(--highlight-bg, #1b1b1b);
+			border-radius: 4px;
 		}
 	}
 </style>

@@ -29,7 +29,6 @@
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 	export let onRowClick: ITableProps['onRowClick'] = null;
 	export let sortingState: ITableProps['sortingState'] = [];
-	export let headerBackground: ITableProps['headerBackground'] = 'default';
 
 	let columnVisibility: VisibilityState = {};
 
@@ -143,7 +142,7 @@
 		<table>
 			<tbody>
 				{#each $tableClient.getHeaderGroups() as headerGroup}
-					<tr class="header header-background-{headerBackground}">
+					<tr class="header">
 						{#each headerGroup.headers as header, index}
 							<th
 								class={`p-2`}
@@ -221,27 +220,14 @@
 		--table-border-radius: 4px;
 
 		.header {
-			&.header-background-default {
-				background-color: var(--background);
-			}
-			&.header-background-transparent {
-				background-color: transparent;
-			}
-
 			th {
 				padding: 10px 12px;
-				color: #8c8c8c;
+				color: #d8d8d8;
 				font-family: var(--primary-font);
 				font-size: 1rem;
 				font-weight: 500;
 				text-align: left;
-
-				&.header-background-default {
-					background-color: var(--background);
-				}
-				&.header-background-transparent {
-					background-color: transparent;
-				}
+				letter-spacing: 0.04em;
 			}
 		}
 

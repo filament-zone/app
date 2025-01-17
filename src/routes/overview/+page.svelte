@@ -30,29 +30,33 @@
 		{/each}
 	</Metrics>
 
-	<Container label="Total Supply" class="w-full">
+	<Container label="Total Supply" class="w-full" variant="secondary">
 		<Typography variant="h6" slot="header">{data.totalSupply}</Typography>
-		<div class="flex flex-col lg:flex-row gap-8 w-full mt-8 pb-4">
-			<PrimaryDoughnutChart
-				chartData={data.inflationChartData}
-				centerText={['Inflation', '4.13%']}
-				class="w-full"
-			/>
-			<PrimaryDoughnutChart
-				chartData={data.supplyChartData}
-				centerText={['Supply', '2.43B']}
-				class="w-full"
-			/>
+		<div class="flex flex-col lg:flex-row gap-6 w-full pb-4">
+			<Container label="Inflation" variant="inner-container">
+				<PrimaryDoughnutChart
+					chartData={data.inflationChartData}
+					centerText={['Inflation', '4.13%']}
+					class="w-full"
+				/>
+			</Container>
+			<Container label="Supply" variant="inner-container">
+				<PrimaryDoughnutChart
+					chartData={data.supplyChartData}
+					centerText={['Supply', '2.43B']}
+					class="w-full"
+				/>
+			</Container>
 		</div>
 	</Container>
-	<Container label="Charts" class="w-full">
+	<Container label="Charts" class="w-full" variant="secondary">
 		<Toggle
 			options={data.defaultToggleOptions}
 			bind:value={sharedTimeRangeValue}
 			sizeVariant={EToggleSizeVariant.NORMAL}
 			slot="header"
 		/>
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-8">
 			<LineChartWithControls
 				{...{
 					...data.tvlData,
@@ -60,7 +64,7 @@
 					displayToggle: false
 				}}
 			/>
-			<div class="grid gap-4 grid-cols-1 lg:grid-cols-2">
+			<div class="grid gap-8 grid-cols-1 lg:grid-cols-2">
 				<LineChartWithControls
 					{...{
 						...data.stakedData,
