@@ -70,8 +70,8 @@ export interface ICampaign extends Campaign {
 	relativeShare: string | null;
 	totalAirDropSupply: string | null;
 	tokenContractAddress: string | null;
-	budgetFrom: string | null;
-	budgetTo: string | null;
+	indexerPrice: string | null;
+	indexerPriceUSD: string | null;
 	bond: string | null;
 	// END STEP-3
 }

@@ -11,6 +11,7 @@
 	$: handleClickOutside = () => {
 		isOpen = false;
 	};
+	console.log('wallet', wallet);
 </script>
 
 <div class="wallet-container" use:clickOutside on:clickOutside={handleClickOutside}>
@@ -41,10 +42,10 @@
 	.wallet-container {
 		display: flex;
 		flex-direction: column;
-		border: 0.5px solid var(--primary-white);
+		border: 0.5px solid var(--default-border);
 		background: var(--darkNet);
 		border-radius: 4px;
-		padding: 8px;
+		padding: 14px;
 
 		width: calc(100vw - 32px);
 

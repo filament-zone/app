@@ -101,7 +101,7 @@
 	.left-label {
 		text-wrap: nowrap;
 		font-size: 10px;
-		margin-right: 8px;
+		padding: 20px;
 	}
 
 	.box {
@@ -109,20 +109,19 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 4px;
-		opacity: 0.7;
-		height: 18px;
+		opacity: 0.8;
 		min-height: 18px;
-		width: 18px;
 		min-width: 18px;
+		width: fit-content;
 	}
 
 	.disabled {
 		.input-container {
-			background: var(--darkNet);
+			background: unset;
 		}
 
 		input {
-			opacity: 0.6;
+			opacity: 1;
 			cursor: not-allowed;
 		}
 	}
@@ -155,8 +154,8 @@
 		font-family: var(--secondary-font);
 		font-style: normal;
 		font-weight: 400;
-
-		padding: 4px 14px;
+		gap: 14px;
+		padding: 8px 14px;
 		width: 100%;
 
 		display: flex;
@@ -164,12 +163,16 @@
 		align-items: center;
 		justify-content: center;
 
+		&:focus-within {
+			border-color: gray;
+		}
+
 		& input {
 			width: 100%;
 			background-color: transparent;
 
 			&::placeholder:not(:disabled) {
-				opacity: 0.4;
+				opacity: 0.9;
 			}
 
 			&:focus-visible {

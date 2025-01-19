@@ -11,15 +11,7 @@
 		isCampaignDelegate,
 		isCriteriaVoteAccessibleFn
 	} from '$lib/features';
-	import {
-		Badge,
-		Button,
-		CampaignTimeLine,
-		Container,
-		Divider,
-		SecondaryDoughnutChart,
-		Typography
-	} from '$lib/components';
+	import { Badge, Button, SecondaryDoughnutChart, Typography, Container } from '$lib/components';
 	import {
 		EButtonSizeVariant,
 		EModalVariant,
@@ -58,7 +50,7 @@
 
 <div class="flex flex-col xl:flex-row gap-4">
 	<div class="w-full">
-		<Container label="Campaign Preview">
+		<Container label="Campaign Details" variant="secondary">
 			<Button
 				slot="header"
 				on:click={() => {
@@ -66,15 +58,7 @@
 				}}>Back to list</Button
 			>
 			<div class="flex flex-col gap-4">
-				<div>
-					<span class="campaign-label">{campaign?.title}</span>
-				</div>
-				<Divider />
-				{#if campaign}
-					<CampaignTimeLine {campaign} />
-				{/if}
-				<Divider />
-				<CampaignSummary {campaign} />
+				<CampaignSummary {campaign} useTimeline={true} />
 			</div>
 		</Container>
 	</div>
@@ -136,15 +120,6 @@
 </div>
 
 <style lang="less">
-	.campaign-label {
-		color: var(--primary-white);
-		font-family: var(--primary-font);
-		font-size: 20px;
-		font-style: normal;
-		font-weight: 450;
-		line-height: 20px;
-	}
-
 	.ticker-item {
 		display: flex;
 		flex-direction: row;

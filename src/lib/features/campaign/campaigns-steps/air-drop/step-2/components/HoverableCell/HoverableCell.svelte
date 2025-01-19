@@ -27,7 +27,7 @@
 {#if isHovered}
 	<svelte:component this={SettingsCircleIcon} />
 {:else if isCompleted}
-	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly-400)" />
+	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly)" />
 {:else if isSettingsCircleGreen}
 	<svelte:component this={SettingsCircleGreenIcon} />
 {:else}

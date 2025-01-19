@@ -29,7 +29,7 @@
 	export let onPageChange: ITableProps['onPageChange'] = () => {};
 	export let onRowClick: ITableProps['onRowClick'] = null;
 	export let sortingState: ITableProps['sortingState'] = [];
-
+	export let tableEmptyMessage: ITableProps['tableEmptyMessage'] = 'Table contains no data';
 	let columnVisibility: VisibilityState = {};
 
 	const setColumnVisibility: OnChangeFn<VisibilityState> = (updater) => {
@@ -201,7 +201,7 @@
 
 	{#if !$tableClient.getRowModel().rows.length}
 		<div class="flex justify-center items-center w-full h-[128px]">
-			<Typography variant="h5">Table contains no data</Typography>
+			<Typography variant="h5">{tableEmptyMessage}</Typography>
 		</div>
 	{/if}
 	{#if pagination}
@@ -224,7 +224,7 @@
 				padding: 10px 12px;
 				color: #d8d8d8;
 				font-family: var(--primary-font);
-				font-size: 1rem;
+				font-size: 0.95rem;
 				font-weight: 500;
 				text-align: left;
 				letter-spacing: 0.04em;
@@ -237,10 +237,8 @@
 			&.isHoverable {
 				cursor: pointer;
 				&:hover {
-					background-color: #333333;
-
-					.sticky {
-						background-color: #333333;
+					td {
+						border-color: gray;
 					}
 				}
 			}

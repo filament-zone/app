@@ -100,9 +100,8 @@
 					}}
 					aria-hidden="true"
 				>
-					<Typography
-						variant="caption"
-						color={getTypographyColor(isOptionSelected(option), variant)}>{option.label}</Typography
+					<Typography variant="toggle" color={getTypographyColor(isOptionSelected(option), variant)}
+						>{option.label}</Typography
 					>
 				</div>
 			{/each}
@@ -127,29 +126,31 @@
 		display: flex;
 		align-items: flex-start;
 		gap: 0.625rem;
-		border-radius: 2px;
-		background: var(--darkNet);
+		border-radius: 4px;
+		background: unset;
 		width: fit-content;
+		background-color: var(--highlight-bg);
+		padding: 4px;
+		border: 0.5px solid var(--default-border);
 	}
 
 	.toggle-container-secondary {
 		display: flex;
 		flex-direction: row;
-		gap: 2rem;
-		border-bottom: 1px solid var(--gray-200);
+		gap: 0rem;
+		/* 		border-bottom: 1px solid var(--gray-200);
+ */
 	}
 
 	.toggle-primary {
 		display: flex;
-		padding: 4px 8px;
+		padding: 6px 20px;
 		justify-content: center;
 		align-items: center;
 		gap: 0.625rem;
 		border-radius: 4px;
 		transition: background-color 0.3s;
 		cursor: pointer;
-		background-color: var(--highlight-bg);
-		border: 0.5px solid var(--default-border);
 
 		&.selected {
 			background-color: var(--foreground);
@@ -157,11 +158,32 @@
 	}
 
 	.toggle-secondary {
-		padding: 0 1rem;
+		padding: 0.8rem 2rem;
+		position: relative;
+		transition:
+			color 0.3s ease,
+			border-bottom 0.3s ease;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background-color: var(--filaMint);
+			transition:
+				width 0.3s ease,
+				left 0.3s ease;
+		}
+
 		&.selected {
-			color: red !important;
-			margin-bottom: -1px;
 			border-bottom: 1px solid var(--filaMint);
+
+			&::after {
+				width: 100%;
+				left: 0;
+			}
 		}
 	}
 </style>

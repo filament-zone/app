@@ -1,9 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { CampaignListItem, isCampaignOwner, walletStore } from '$lib/features';
-	import { Button, Container, Toggle, Typography } from '$lib/components';
-	import { routes } from '$lib/constants';
-	import { replaceUrlParams } from '$lib/helpers';
+	import { Button, Container, Toggle, Typography, Pagination } from '$lib/components';
 	import { EToggleVariant, EWalletProvider } from '$lib/types';
 
 	export let data;
@@ -32,35 +29,53 @@
 		toggleValue === 'yourCampaigns'
 			? 'grid grid-cols-2 gap-4 w-full'
 			: 'flex flex-col gap-4 w-full';
+
+	let currentPage = 1;
+	const itemsPerPage = 5;
+
+	const paginatedCampaigns = () => {
+		const start = (currentPage - 1) * itemsPerPage;
+		const end = start + itemsPerPage;
+		return filteredCampaigns.slice(start, end);
+	};
+
+	const handlePageChange = (page: number) => {
+		currentPage = page;
+	};
 </script>
 
-<Container label="Airdrops list">
-	<div slot="header">
-		<Button
-			on:click={() => {
-				goto(
-					replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
-						campaignType: 'air-drop',
-						step: '1'
-					})
-				);
-			}}
-		>
-			Create
-		</Button>
-	</div>
+<div class="flex relative w-full max-w-[1440px]">
+	<Toggle
+		options={data.campaignToggleOptions}
+		variant={EToggleVariant.SECONDARY}
+		bind:value={toggleValue}
+	/>
 
+	<Pagination
+		pagination={{ totalPages: Math.ceil(filteredCampaigns.length / itemsPerPage), currentPage }}
+		onPageChange={handlePageChange}
+	/>
+
+	<!-- 
+	<Button
+					on:click={() => {
+						goto(
+							replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+								campaignType: 'air-drop',
+								step: '1'
+							})
+						);
+					}}
+				>
+					New Campaign
+				</Button> -->
+</div>
+
+<Container variant="secondary">
 	<div class="flex flex-col w-full min-h-[200px] h-full items-center">
-		<div class="flex justify-between gap-8 w-full mb-4">
-			<Toggle
-				options={data.campaignToggleOptions}
-				variant={EToggleVariant.SECONDARY}
-				bind:value={toggleValue}
-			/>
-		</div>
 		{#if filteredCampaigns?.length}
 			<div class={containerClass}>
-				{#each filteredCampaigns as campaign}
+				{#each paginatedCampaigns() as campaign}
 					<CampaignListItem {campaign} />
 				{/each}
 			</div>
@@ -76,3 +91,10 @@
 			</div>{/if}
 	</div>
 </Container>
+
+<div class="flex justify-end">
+	<Pagination
+		pagination={{ totalPages: Math.ceil(filteredCampaigns.length / itemsPerPage), currentPage }}
+		onPageChange={handlePageChange}
+	/>
+</div>

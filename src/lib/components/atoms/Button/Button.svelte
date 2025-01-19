@@ -27,7 +27,7 @@
 	.button {
 		padding: 6px 10px;
 		text-align: center;
-		height: 32px;
+		height: fit-content;
 		white-space: nowrap;
 		cursor: pointer;
 		display: flex;

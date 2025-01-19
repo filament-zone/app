@@ -29,7 +29,7 @@
 		font-style: normal;
 		font-weight: 400;
 
-		padding: 4px 14px;
+		padding: 8px 14px;
 		width: 100%;
 		min-height: 30px;
 
@@ -44,6 +44,10 @@
 
 		&:focus-visible {
 			outline: none;
+		}
+
+		&:focus-within {
+			border-color: gray;
 		}
 
 		&:disabled {

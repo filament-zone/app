@@ -12,6 +12,7 @@ declare const __propDef: {
 		isFirst?: boolean;
 		onButtonClick?: (() => Promise<void> | void) | null;
 		buttonLabel?: string | null;
+		phase: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

@@ -38,14 +38,14 @@ const initCampaignDetails: ICampaign = {
 	// // STEP 2 END
 
 	// // STEP 3 START
-	// TODO: need to be added to the hub api - visibility, relativeShare, totalAirDropSupply, tokenContractAddress, budgetFrom, budgetTo, bond
+	// TODO: need to be added to the hub api - visibility, relativeShare, totalAirDropSupply, tokenContractAddress, indexerPrice, indexerPriceUSD, bond
 	visibility: 'public',
 	relativeShare: '5',
 	totalAirDropSupply: '5',
 	tokenContractAddress: '5',
-	budgetFrom: '5',
-	budgetTo: '10',
-	bond: '5'
+	indexerPrice: '5,150',
+	indexerPriceUSD: '10,345',
+	bond: '1'
 	// // STEP 3 END
 };
 

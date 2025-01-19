@@ -4,16 +4,16 @@
 </script>
 
 <div class="base-container variant-{variant} gap-6 w-full">
-	<div class="flex flex-row justify-between w-full">
-		{#if label}
+	{#if label}
+		<div class="flex flex-row justify-between w-full">
 			<div class="label-box">
 				<span>{label}</span>
 			</div>
-		{/if}
-		<div>
-			<slot name="header" />
+			<div>
+				<slot name="header" />
+			</div>
 		</div>
-	</div>
+	{/if}
 	<div class="slot-container">
 		<slot />
 	</div>
@@ -47,7 +47,7 @@
 				font-size: 16px;
 				font-style: normal;
 				font-weight: 400;
-				line-height: 0.95rem;
+				line-height: 1.25rem;
 				letter-spacing: 0.04em;
 			}
 		}
@@ -85,7 +85,7 @@
 					font-size: 16px;
 					font-style: normal;
 					font-weight: 400;
-					line-height: 0.95rem;
+					line-height: 1.25rem;
 					letter-spacing: 0.04em;
 				}
 			}
@@ -107,7 +107,7 @@
 					font-size: 20px;
 					font-style: normal;
 					font-weight: 400;
-					line-height: 0.95rem;
+					line-height: 1.25rem;
 					letter-spacing: 0.04em;
 				}
 			}

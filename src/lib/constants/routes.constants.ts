@@ -1,14 +1,7 @@
 export const routes = {
 	HOME: '/',
 	OVERVIEW: { ROOT: '/overview' },
-	GOVERNANCE: {
-		ROOT: '/governance',
-		PROPOSALS: { ROOT: '/governance/proposals' },
-		STAKING: {
-			ROOT: '/governance/staking',
-			CREATE_PROPOSAL: '/governance/staking/create-proposal'
-		}
-	},
+	GOVERNANCE: { ROOT: '/governance' },
 	CAMPAIGNS: {
 		ROOT: '/campaigns',
 		MANAGE: {
@@ -18,5 +11,6 @@ export const routes = {
 		},
 		CAMPAIGN_ID: { ROOT: '/campaigns/:campaignId' },
 		CHECK_THE_HUB: { ROOT: '/campaigns/check-the-hub' }
-	}
+	},
+	STAKING: { ROOT: '/staking' }
 };

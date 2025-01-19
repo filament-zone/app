@@ -56,8 +56,8 @@ export const load = async () => {
 		relativeShare: 5,
 		totalAirDropSupply: 5,
 		tokenContractAddress: 5,
-		budgetFrom: 5,
-		budgetTo: 10,
+		indexerPrice: 5,
+		indexerPriceUSD: 10,
 		bond: 5,
 		meta: {
 			visibilityOptions: [

@@ -23,7 +23,7 @@ export const delegatesColumnDefCommon = [
 			return flexRender(ProgressBar, {
 				total: 100,
 				used: Number(value) * 100,
-				styles: stylesObjectToString({ height: '20px' }),
+				styles: stylesObjectToString({ height: '26px' }),
 				displayLabel: true
 			});
 		}
@@ -35,9 +35,10 @@ export const delegatesColumnDefCommon = [
 			const votingPower = info.getValue() as IDelegate['votingPower'];
 			return flexRender(Badge, {
 				label: votingPower.toLocaleString(),
-				colorVariant: EBadgeColorVariant.SECONDARY,
+				colorVariant: EBadgeColorVariant.PRIMARY,
 				LeftContent: 'VP',
-				RightContent: 'FILA'
+				RightContent: 'FILA',
+				textColor: 'var(--foreground)'
 			});
 		}
 	},
@@ -55,10 +56,10 @@ export const delegatesColumnDefCommon = [
 			const evictionCost = info.getValue() as IDelegate['evictionCost'];
 			return flexRender(Badge, {
 				label: evictionCost.toLocaleString(),
-				colorVariant: EBadgeColorVariant.PRIMARY,
+				colorVariant: EBadgeColorVariant.SECONDARY,
 				LeftContent: 'EC',
 				RightContent: 'FILA',
-				textColor: 'var(--filaMint)'
+				textColor: 'var(--rugged)'
 			});
 		}
 	}

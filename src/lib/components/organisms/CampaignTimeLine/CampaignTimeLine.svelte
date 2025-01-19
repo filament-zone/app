@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import {
-		campaignDetailsStore,
 		isCampaignDelegate,
-		isCampaignOwner,
 		isCriteriaVoteAccessibleFn,
 		modalStore,
 		walletStore
@@ -17,19 +15,23 @@
 		type ITimeLineItemProps
 	} from '$lib/types';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
-	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
+	import ChevronUpIcon from '$lib/assets/icons/chevron-up.svg?component';
 
 	export let campaign: ICampaignTimeLineProps['campaign'];
 	export let isOpen: ICampaignTimeLineProps['isOpen'] = false;
+	export let title: string = 'Timeline';
+	export let isCollapsable: boolean = true;
+
+	console.log('title', title);
+	console.log('isOpen', isOpen);
+	console.log('isCollapsable', isCollapsable);
 
 	let isTimelineOpen = isOpen;
 
 	const { openModal } = modalStore;
-	const { initCampaign } = campaignDetailsStore;
 	const { wallet } = walletStore;
 
 	$: phase = campaign?.phase ?? '';
-	$: isOwner = isCampaignOwner(campaign?.campaigner as string, $wallet.address as string);
 	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
 
 	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
@@ -42,43 +44,57 @@
 		isTimelineOpen = !isTimelineOpen;
 	};
 
-	const timeLineDraftData: ITimeLineItemProps = {
-		iconStatus: ETimeLineItem.CHECKED,
-		title: 'Campaign Draft',
-		description: 'The campaign draft has been finalized and saved',
-		status: 'success',
-		date: new Date(),
-		isFirst: true
-	};
-
-	$: timeLineInitData = {
+	$: timeLineVoteCriteria = {
 		iconStatus: ETimeLineItem.PROCESSING,
-		title: 'Initiate Campaign',
-		description: 'The campaign is being initiated',
-		status: 'to-do',
-		onButtonClick: isOwner
-			? async () => {
-					await initCampaign(campaign?.id as bigint);
-				}
-			: null,
-		buttonLabel: 'Initiate Campaign'
+		title: 'Criteria Voting',
+		description:
+			'Delegates are voting now for or against the airdrop criteria proposed by the campaigner. The voting phase lasts one week.',
+		status: 'ongoing',
+		date: new Date('2024-10-25'),
+		phase: '1'
 	} as ITimeLineItemProps;
 
-	$: timeLineVoteData = {
+	$: timeLineDataIndexing = {
 		iconStatus: ETimeLineItem.PROCESSING,
-		title: 'Confirm Token Distribution',
+		title: 'Data Indexing',
+		description:
+			'In this phase, at least one data provider is processing the snapshot criteria to determine the token allocations per address.',
+		status: 'ongoing',
+		date: new Date('2024-11-17'),
+		phase: '2'
+	} as ITimeLineItemProps;
+
+	$: timeLineVoteDistribution = {
+		iconStatus: ETimeLineItem.PROCESSING,
+		title: 'Distribution Voting',
 		description:
 			'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
-		status: 'to-do',
-		isLast: true
+		status: 'ongoing',
+		date: new Date('2024-11-20'),
+		phase: '3'
+	} as ITimeLineItemProps;
+
+	$: timeLineSuccessfulAirdrop = {
+		iconStatus: ETimeLineItem.CHECKED,
+		title: 'Successful Airdrop',
+		description:
+			'This campaign has successfully achieved consensus about the eligibility and tokens have been distributed to recipients.',
+		status: 'completed',
+		date: new Date('2024-11-25'),
+		phase: '4'
 	} as ITimeLineItemProps;
 
 	let options: Record<string, ITimeLineItemProps[]>;
 	$: options = {
-		Draft: [timeLineVoteData, timeLineInitData, timeLineDraftData],
+		Draft: [
+			timeLineVoteCriteria,
+			timeLineDataIndexing,
+			timeLineVoteDistribution,
+			timeLineSuccessfulAirdrop
+		],
 		Criteria: [
 			{
-				...timeLineVoteData,
+				...timeLineVoteCriteria,
 				onButtonClick: isCriteriaVoteAccessible
 					? async () => {
 							openModal({
@@ -90,40 +106,50 @@
 				buttonLabel: isCriteriaVoteAccessible ? 'Vote' : ''
 			},
 			{
-				...timeLineInitData,
+				...timeLineDataIndexing,
 				iconStatus: ETimeLineItem.CHECKED,
 				status: 'success',
 				date: new Date().toLocaleString(),
 				onButtonClick: null,
 				buttonLabel: null
 			},
-			timeLineDraftData
+			timeLineVoteDistribution,
+			timeLineSuccessfulAirdrop
 		]
 	};
+
+	$: isTimelineOpen = isOpen && options[phase].length > 1;
 </script>
 
 <div class="flex flex-col gap-4">
-	<div class="flex flex-row justify-between">
-		<Typography variant="caption">Timeline:</Typography>
-		<div
-			class="cursor-pointer"
-			style="color: var(--primary-white)"
-			on:click={handleTimeLineClick}
-			aria-hidden="true"
-		>
-			{#if isTimelineOpen}
-				<ChevronRightIcon style="transform: scale(0.7);" />
-			{:else}
-				<ChevronDownIcon style="transform: scale(0.7);" />
-			{/if}
+	{#if isCollapsable}
+		<div class="flex flex-row justify-between">
+			<Typography variant="badge">{title}</Typography>
+			<div
+				class="cursor-pointer"
+				style="color: var(--primary-white)"
+				on:click={handleTimeLineClick}
+				aria-hidden="true"
+			>
+				{#if isTimelineOpen}
+					<ChevronUpIcon style="transform: scale(0.7);" />
+				{:else}
+					<ChevronDownIcon style="transform: scale(0.7);" />
+				{/if}
+			</div>
 		</div>
-	</div>
-	<div class="flex flex-col">
+	{/if}
+	<div class="flex flex-col gap-6">
 		<TimeLineItem {...options[phase][0]} />
 		{#if isTimelineOpen}
-			<div transition:fade>
+			<div class="flex flex-col gap-4" transition:fade>
 				{#each options[phase].slice(1) as option}
-					<TimeLineItem {...option} />
+					<TimeLineItem
+						{...option}
+						isFirst={false}
+						isLast={false}
+						isTimelineOpen={!isTimelineOpen}
+					/>
 				{/each}
 			</div>
 		{/if}

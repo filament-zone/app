@@ -177,69 +177,82 @@
 </script>
 
 <div class="flex flex-col gap-5">
-	<Container label="General">
+	<Container label="Snapshots" variant="secondary">
 		<div class="flex flex-col gap-5 w-full">
 			<Typography variant="caption"
 				>On this page you can design the airdrop criteria by allocating weights to specific user
 				actions. Please start by selecting a start date and the number of snapshots to create.
 			</Typography>
-			<Toggle
-				label="Time settings"
-				bind:value={$campaignDetails.timeSettings.selectedType}
-				options={$data.pageData.step2Data.meta.timeSettingsOptions}
-			/>
-			{#if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.ONE_TIME}
-				<DatePicker
-					label="Snapshot Date"
-					value={{ date: $campaignDetails.timeSettings['ONE_TIME'].date }}
-					onChange={handleChangeDateOneTime}
-				/>
-			{:else if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.RECURRING}
-				<div class="flex flex-row justify-between">
-					<DatePicker
-						label="Snapshot Start Date"
-						value={{
-							date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].startDate
-						}}
-						onChange={handleChangeDateRecurring}
+			<Container variant="inner-container">
+				<div class="flex flex-col gap-5 w-full">
+					<Toggle
+						label="Snapshot Schedule"
+						bind:value={$campaignDetails.timeSettings.selectedType}
+						options={$data.pageData.step2Data.meta.timeSettingsOptions}
 					/>
-					<Dropdown
-						label="Snapshot Interval"
-						sizeVariant={EDropdownSizeVariant.MEDIUM}
-						options={$data.pageData.step2Data.meta.snapshotIntervalOptions}
-						bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].interval}
-					/>
-					<Input
-						label="Total Snapshots"
-						type="number"
-						sizeVariant={EInputSizeVariant.MEDIUM}
-						bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].total}
-						LeftContent="#"
-					/>
-					<DatePicker
-						label="Snapshot End Date"
-						value={{ date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].endDate }}
-						disabled
-					/>
+					{#if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.ONE_TIME}
+						<DatePicker
+							label="Snapshot Date"
+							value={{ date: $campaignDetails.timeSettings['ONE_TIME'].date }}
+							onChange={handleChangeDateOneTime}
+						/>
+					{:else if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.RECURRING}
+						<div class="flex flex-row justify-between gap-5">
+							<DatePicker
+								label="First Snapshot"
+								value={{
+									date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].startDate
+								}}
+								onChange={handleChangeDateRecurring}
+							/>
+							<Dropdown
+								label="Snapshot Interval"
+								sizeVariant={EDropdownSizeVariant.MEDIUM}
+								options={$data.pageData.step2Data.meta.snapshotIntervalOptions}
+								bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].interval}
+							/>
+							<Input
+								label="Total Snapshots"
+								type="number"
+								sizeVariant={EInputSizeVariant.MEDIUM}
+								bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].total}
+								LeftContent="#"
+							/>
+							<DatePicker
+								label="Last Snapshot"
+								value={{
+									date: $campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].endDate
+								}}
+								disabled
+							/>
+						</div>
+					{/if}
 				</div>
-			{/if}
+			</Container>
 		</div>
 	</Container>
-	<Container label="Eligibility Criteria">
-		<div class="flex flex-col gap-5 w-full">
+
+	<Container label="Eligibility Criteria" variant="secondary">
+		<div class="flex flex-col gap-5">
 			<Typography variant="caption">
 				Via criterions you can define specific actions of a user that you want to reward with your
 				airdrop. By allocating a weight to the actions, you can adjust the impact of each action on
 				the users Airdrop allocation. Add criterions and click on the edit button of each item to
 				configure the weights as preferred.
 			</Typography>
-			<Toggle
-				options={$data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions}
-				variant={EToggleVariant.SECONDARY}
-				bind:value={toggleValue}
-			/>
-			<Table {...eligibilityCriteriaTable} />
-			<Button class="self-end" on:click={handleAddNewCriteria}>Add New Criteria</Button>
+			<div>
+				<Toggle
+					options={$data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions}
+					variant={EToggleVariant.SECONDARY}
+					bind:value={toggleValue}
+				/>
+				<Container variant="inner-container">
+					<div class="flex flex-col gap-5 w-full">
+						<Table {...eligibilityCriteriaTable} tableEmptyMessage="Please add a first criterion" />
+						<Button class="self-end" on:click={handleAddNewCriteria}>Add New Criterion</Button>
+					</div>
+				</Container>
+			</div>
 		</div>
 	</Container>
 </div>

@@ -28,7 +28,7 @@
 </script>
 
 {#if localIsSelected}
-	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly-400)" />
+	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly)" />
 {:else}
 	<svelte:component this={MinusCircleIcon} />
 {/if}

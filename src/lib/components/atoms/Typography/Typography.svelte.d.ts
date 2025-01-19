@@ -14,7 +14,10 @@ export type TTypographyVariant =
 	| 'caption'
 	| 'overline'
 	| 'labelSmall'
-	| 'button';
+	| 'button'
+	| 'badge'
+	| 'toggle'
+	| 'cardDate';
 
 declare const __propDef: {
 	props: {

@@ -16,7 +16,7 @@
 	let sharedTimeRangeValue = EChartDateRange['3m'];
 </script>
 
-<div class="flex flex-col w-full gap-4">
+<div class="flex flex-col w-full gap-8">
 	<Metrics>
 		{#each data.cards as card}
 			<Card label={card.label} class="w-full">

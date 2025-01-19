@@ -10,7 +10,7 @@ import type { Criterion } from '@filament-zone/filament/Criterion';
 import { EEligibilityCriteriaType } from '$lib/api/campaign/campaign.hub.api.enums';
 
 export const generateMockEligibilityCriteria = (quantity: number): Criterion[] => {
-	const categories = ['Balance', 'Defi', 'Gaming', 'Governance', 'Nft'] as CriterionCategory[];
+	const categories = ['Balance', 'Defi', 'Nft'] as CriterionCategory[];
 	const types = Object.values(EEligibilityCriteriaType);
 
 	const networks = ['Ethereum', 'Polygon', 'BNB', 'Avalanche'];
@@ -134,8 +134,8 @@ export function generateMockCampaign(): ICampaign {
 		relativeShare: (Math.random() * 100).toFixed(2), // Random relative share
 		totalAirDropSupply: (Math.random() * 10000).toFixed(2), // Random airDrop supply
 		tokenContractAddress: `0x${Math.random().toString(36).substring(2, 42)}`, // Mock Ethereum address
-		budgetFrom: (Math.random() * 5000).toFixed(2), // Random budget (from)
-		budgetTo: (Math.random() * 10000).toFixed(2), // Random budget (to)
+		indexerPrice: (Math.random() * 5000).toFixed(2), // Random budget (from)
+		indexerPriceUSD: (Math.random() * 10000).toFixed(2), // Random budget (to)
 		bond: (Math.random() * 100).toFixed(2) // Random bond value
 	};
 }

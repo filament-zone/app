@@ -4,42 +4,61 @@
 	import CampaignSummaryDescription from './CampaignSummaryDescription.svelte';
 	import CampaignSummaryCriteria from './CampaignSummaryCriteria.svelte';
 	import CampaignSummaryDelegates from './CampaignSummaryDelegates.svelte';
-	import CampaignSummaryVotes from './CampaignSummaryVotes.svelte';
-	import CampaignSummaryDistribution from './CampaignSummaryDistribution.svelte';
 	import { EToggleVariant, type ICampaignSummaryProps, type IToggleProps } from '$lib/types';
+	import { Container, Typography, CampaignTimeLine } from '$lib/components';
+	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 
 	export let campaign: ICampaignSummaryProps['campaign'];
+	export let useTimeline: boolean = false;
 
 	let toggleOptions: IToggleProps<string>['options'] = [
-		{ value: 'description', label: 'Description' },
 		{ value: 'criteria', label: 'Criteria' },
-		{ value: 'governance', label: 'Delegates' },
-		{ value: 'votes', label: 'Votes' }
+		{ value: 'governance', label: 'Delegates' }
 	];
 
 	let toggleValue = '';
 	onMount(() => {
 		if (campaign.phase)
 			if (toggleOptions?.length) {
-				if (!toggleOptions.find((option) => option.value === 'distribution')) {
-					toggleOptions = [{ value: 'distribution', label: 'Distribution' }, ...toggleOptions];
-					toggleValue = toggleOptions?.[0].value;
-				}
+				toggleValue = toggleOptions?.[0].value;
 			}
 	});
+	console.log(campaign);
 </script>
 
 <div class="flex flex-col gap-5 w-full">
-	<Toggle options={toggleOptions} variant={EToggleVariant.SECONDARY} bind:value={toggleValue} />
-	{#if toggleValue === 'distribution'}
-		<CampaignSummaryDistribution />
-	{:else if toggleValue === 'description'}
-		<CampaignSummaryDescription {campaign} />
-	{:else if toggleValue === 'criteria'}
-		<CampaignSummaryCriteria {campaign} />
-	{:else if toggleValue === 'governance'}
-		<CampaignSummaryDelegates />
-	{:else if toggleValue === 'votes'}
-		<CampaignSummaryVotes />
-	{/if}
+	<Container variant="inner-container">
+		<div class="flex flex-col gap-6">
+			<div class="flex gap-6 items-center">
+				<div class="bg-foreground w-10 h-10 rounded-full flex items-center justify-center">
+					{#if campaign?.title}
+						<h5 class="text-darkNet font-bold">{campaign?.title.slice(0, 1)}</h5>
+					{:else}
+						<img
+							src={LogoFilament}
+							alt="logo"
+							class="w-6"
+							style="filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);"
+						/>
+					{/if}
+				</div>
+				<Typography variant="h4">{campaign?.title || 'Campaign Title'}</Typography>
+			</div>
+			{#if useTimeline}
+				<CampaignTimeLine {campaign} />
+			{/if}
+			<CampaignSummaryDescription {campaign} />
+		</div>
+	</Container>
+
+	<div class="flex flex-col w-full">
+		<Toggle options={toggleOptions} variant={EToggleVariant.SECONDARY} bind:value={toggleValue} />
+		<Container variant="inner-container">
+			{#if toggleValue === 'criteria'}
+				<CampaignSummaryCriteria {campaign} />
+			{:else if toggleValue === 'governance'}
+				<CampaignSummaryDelegates />
+			{/if}
+		</Container>
+	</div>
 </div>

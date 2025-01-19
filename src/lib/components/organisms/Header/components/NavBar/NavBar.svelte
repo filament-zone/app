@@ -2,7 +2,6 @@
 	import { NavBarItem } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import type { INavBarItemOption } from '$lib/types';
-	import { replaceUrlParams } from '$lib/helpers';
 
 	const menuConfig: INavBarItemOption[] = [
 		{
@@ -11,46 +10,27 @@
 			path: routes.OVERVIEW.ROOT
 		},
 		{
-			label: `Governance`,
-			value: 'governance',
-			path: routes.GOVERNANCE.PROPOSALS.ROOT,
-			subItems: [
-				{
-					label: 'Proposals',
-					value: 'governance/proposals',
-					path: routes.GOVERNANCE.PROPOSALS.ROOT
-				},
-				{
-					label: 'Staking',
-					value: 'governance/staking',
-					path: routes.GOVERNANCE.STAKING.ROOT
-				}
-			]
-		},
-		{
 			label: 'Airdrops',
 			value: 'campaigns',
-			path: routes.CAMPAIGNS.ROOT,
-			subItems: [
-				{
-					label: 'Manage',
-					value: 'campaigns/manage',
-					path: routes.CAMPAIGNS.MANAGE.ROOT
-				},
-				{
-					label: 'Create',
-					value: 'campaigns/manage/create',
-					path: replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
-						campaignType: 'air-drop',
-						step: '1'
-					})
-				}
-			]
+			path: routes.CAMPAIGNS.ROOT
+		},
+
+		{
+			label: `Staking`,
+			value: 'staking',
+			path: routes.STAKING.ROOT
+		},
+		{
+			label: `Governance`,
+			value: 'governance',
+			path: routes.GOVERNANCE.ROOT
 		}
 	];
 </script>
 
-<div class="flex flex-row h-full">
+<div
+	class="flex flex-col md:flex-row h-full w-full md:w-fit items-center justify-center gap-4 md:gap-0"
+>
 	{#each menuConfig as item}
 		<NavBarItem option={item} />
 	{/each}

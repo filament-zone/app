@@ -24,6 +24,7 @@
 		gap: 4px;
 		margin-bottom: 0.4rem;
 		width: fit-content;
-		opacity: 0.8;
+		opacity: 1;
+		letter-spacing: 0.05rem;
 	}
 </style>

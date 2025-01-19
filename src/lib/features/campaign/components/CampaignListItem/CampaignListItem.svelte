@@ -1,18 +1,12 @@
 <script lang="ts">
-	import moment from 'moment/moment.js';
 	import { goto } from '$app/navigation';
-	import { isCampaignOwner, modalStore, walletStore } from '$lib/features';
-	import { Badge, Button, CampaignTimeLine, Divider, Typography } from '$lib/components';
+	import { CampaignTimeLine, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
-	import { type ICampaignListItemProps, EButtonStyleVariant, EModalVariant } from '$lib/types';
+	import { type ICampaignListItemProps } from '$lib/types';
+	import { MaximizeIcon } from 'svelte-feather-icons';
 
 	export let campaign: ICampaignListItemProps['campaign'];
-
-	const { openModal } = modalStore;
-	const { wallet } = walletStore;
-
-	$: isOwner = isCampaignOwner(campaign?.campaigner, $wallet.address as string);
 
 	const handleOpenCampaignDetails = () => {
 		goto(
@@ -23,49 +17,25 @@
 	};
 </script>
 
-<div class="campaign-list-item-container">
-	<div class="header" aria-hidden="true">
-		<Typography variant="h4">{campaign.title}</Typography>
-		<Button on:click={handleOpenCampaignDetails}>Campaign Details</Button>
-	</div>
-	<div class="content">
-		<div class="flex flex-row justify-between">
-			<div class="flex flex-col">
-				<Typography variant="h6">Status</Typography>
-				<Badge label="Draft" />
-			</div>
-			<div class="flex flex-col w-auto">
-				<Typography variant="h6">Collateral Bond</Typography>
-				<div class="flex flex-row w-[250px] gap-8">
-					<div>
-						<Typography variant="h6" color="var(--filaMint)" class="text-nowrap"
-							>Not initiated</Typography
-						>
-					</div>
-				</div>
-			</div>
-			<div class="flex flex-col">
-				<Typography variant="h6">Created at</Typography>
-				<Typography variant="h6"
-					>{moment.utc(campaign.createdAt).format('MMMM D, YYYY [at] h:mm a [(UTC)]')}
-				</Typography>
+<button on:click={handleOpenCampaignDetails}>
+	<div class="campaign-list-item-container">
+		<div class="header">
+			<Typography variant="h4">{campaign.title}</Typography>
+			<div
+				class="flex flex-row items-center justify-center text-foreground hover:text-filaMint cursor-pointer border border-1 h-8 w-8"
+			>
+				<button on:click={handleOpenCampaignDetails}>
+					<MaximizeIcon strokeWidth={2} class="w-5 h-5" />
+				</button>
 			</div>
 		</div>
-		<Divider />
-		{#if campaign}
-			<CampaignTimeLine {campaign} />
-		{/if}
-		{#if isOwner}
-			<Divider />
-			<div class="flex flex-row justify-between gap-8">
-				<Button styleVariant={EButtonStyleVariant.SECONDARY}>Delete</Button>
-				<Button on:click={openModal.bind(null, { variant: EModalVariant.CAMPAIGN_INITIATE })}
-					>Edit</Button
-				>
-			</div>
-		{/if}
+		<div class="content">
+			{#if campaign}
+				<CampaignTimeLine {campaign} label="Phase" isCollapsable={false} />
+			{/if}
+		</div>
 	</div>
-</div>
+</button>
 
 <style lang="less">
 	.campaign-list-item-container {
@@ -74,8 +44,12 @@
 		width: 100%;
 
 		border: 1px solid #272727;
-		background: #1b1b1b;
+		background: var(--background-300);
 		border-radius: 4px;
+
+		&:hover {
+			background: var(--highlight-bg);
+		}
 
 		.header {
 			padding: 16px;
@@ -85,6 +59,13 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+
+			button {
+				background: transparent;
+				border: none;
+				color: var(--accentColor);
+				cursor: pointer;
+			}
 		}
 
 		.content {

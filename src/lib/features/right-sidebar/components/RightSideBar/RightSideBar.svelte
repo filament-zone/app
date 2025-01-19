@@ -2,7 +2,7 @@
 	import { clickOutside } from '$lib/actions';
 	import { rightSideBarStore } from '$lib/features';
 	import type { IRightSideBarProps } from '$lib/types';
-	import Arrow1Icon from '$lib/assets/icons/arrow-right.svg?component';
+	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
 	export let closeOnClickOutside: IRightSideBarProps['closeOnClickOutside'] = false;
 	export let classNames: IRightSideBarProps['classNames'] = '';
@@ -26,7 +26,7 @@
 			<div class="close-button" on:click={closeRightSideBar} aria-hidden="true">
 				<span>Close</span>
 				<div class="icon">
-					<Arrow1Icon />
+					<ChevronRightIcon />
 				</div>
 			</div>
 			<div class="h-full">

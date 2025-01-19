@@ -51,18 +51,19 @@
 		}
 	> = {
 		0: {
-			timeLine1,
-			timeLine2
+			timeLine1: { ...timeLine1, phase: 'Phase 1' },
+			timeLine2: { ...timeLine2, phase: 'Phase 1' }
 		},
 		1: {
-			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED },
-			timeLine2
+			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED, phase: 'Phase 2' },
+			timeLine2: { ...timeLine2, phase: 'Phase 2' }
 		},
 		2: {
-			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED },
+			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED, phase: 'Phase 1' },
 			timeLine2: {
 				...timeLine2,
-				iconStatus: ETimeLineItem.CHECKED
+				iconStatus: ETimeLineItem.CHECKED,
+				phase: 'Phase 3'
 			}
 		}
 	};

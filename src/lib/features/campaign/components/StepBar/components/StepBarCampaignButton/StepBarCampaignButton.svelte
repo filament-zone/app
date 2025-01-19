@@ -8,8 +8,8 @@
 	<div>
 		<button class:isCompleted={step.isCompleted} class:isActive={step.isActive}>
 			<span>{step.description}</span>
-			<div class="box">
-				{#if step.isCompleted}
+			{#if step.isCompleted}
+				<div class="box">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="14"
@@ -25,10 +25,10 @@
 							opacity=".8"
 						/>
 					</svg>
-				{:else}
-					{step.label}
-				{/if}
-			</div>
+				</div>
+			{:else}
+				<div class="label">{step.label}</div>
+			{/if}
 		</button>
 	</div>
 {/if}
@@ -37,8 +37,8 @@
 	button {
 		display: flex;
 		flex-direction: row;
-		gap: 8px;
-		height: 28px;
+		gap: 12px;
+		height: 34px;
 		width: fit-content;
 		padding: 4px 10px;
 		justify-content: center;
@@ -47,8 +47,6 @@
 		border-radius: 2px;
 
 		&.isActive {
-			background-color: var(--darkNet-100);
-
 			span {
 				color: var(--purpleCow);
 				font-weight: 600;
@@ -58,6 +56,11 @@
 				font-weight: 600;
 				background-color: unset;
 				color: var(--purpleCow);
+			}
+
+			.label {
+				color: var(--purpleCow);
+				opacity: 1;
 			}
 		}
 
@@ -83,17 +86,16 @@
 		span {
 			color: #a8a8a8;
 			font-family: 'ff-meta-serif-web-pro', serif;
-			font-size: 14px;
+			font-size: 16px;
 			font-style: normal;
 			font-weight: 300;
-			line-height: 14px;
+			line-height: 18px;
 			text-wrap: nowrap;
 		}
 
 		.box {
 			background-color: #111111;
 			width: 16px;
-			height: 16px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -106,6 +108,15 @@
 			font-style: normal;
 			font-weight: 300;
 			line-height: 0.875rem;
+		}
+
+		.label {
+			font-size: 16px;
+			font-weight: 600;
+			font-family: var(--secondary-font);
+			line-height: 18px;
+			color: var(--foreground);
+			opacity: 0.6;
 		}
 	}
 </style>

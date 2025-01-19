@@ -59,7 +59,7 @@
 		<ToggleContentContainer bind:selected>
 			<ToggleContentCard slot="first">
 				<div class="flex flex-row gap-2" slot="label">
-					<CheckmarkCircleIcon fill="var(--upOnly-400)" />
+					<CheckmarkCircleIcon fill="var(--upOnly)" />
 					<Typography variant="caption" slot="label">Pay Now</Typography>
 				</div>
 				<PricingComponent
@@ -73,7 +73,7 @@
 			</ToggleContentCard>
 			<ToggleContentCard slot="second">
 				<div class="flex flex-row gap-2" slot="label">
-					<CheckmarkCircleIcon fill="var(--upOnly-400)" />
+					<CheckmarkCircleIcon fill="var(--upOnly)" />
 					<Typography variant="caption" slot="label">Deposit Bond</Typography>
 				</div>
 				<PricingComponent

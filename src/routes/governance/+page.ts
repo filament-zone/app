@@ -70,7 +70,7 @@ export async function load() {
 		searchSelectProps: { ...searchSelectProps },
 		buttonProps: {
 			onClick: () => {
-				goto(routes.GOVERNANCE.STAKING.CREATE_PROPOSAL);
+				goto(routes.GOVERNANCE.ROOT); //TEMP PLACEHOLDER
 			}
 		}
 	};

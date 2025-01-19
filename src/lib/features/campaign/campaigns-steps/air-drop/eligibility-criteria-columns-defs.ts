@@ -63,7 +63,8 @@ export const eligibilityCriteriaColumnDefCommon = [
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
 				LeftContent: 'x',
-				RightContent: 'Point(s)'
+				RightContent: 'Point(s)',
+				textColor: 'var(--filaMint)'
 			});
 		}
 	}

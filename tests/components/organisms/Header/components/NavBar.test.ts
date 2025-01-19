@@ -14,11 +14,11 @@ test.describe('NavBarComponent', () => {
 		page
 	}) => {
 		await page.getByTestId('nav-item-governance').click();
-		await page.getByTestId('list-item-governance/proposals').click();
-		await expect(page).toHaveURL('/governance/proposals');
-		await page.getByTestId('nav-item-governance').click();
-		await page.getByTestId('list-item-governance/staking').click();
-		await expect(page).toHaveURL('/governance/staking');
+		await page.getByTestId('list-item-governance').click();
+		await expect(page).toHaveURL('/governance');
+		await page.getByTestId('nav-item-staking').click();
+		await page.getByTestId('list-item-staking').click();
+		await expect(page).toHaveURL('/staking');
 	});
 
 	test('should navigate to the page-3 when a link is clicked', async ({ page }) => {

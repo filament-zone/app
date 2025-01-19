@@ -13,20 +13,23 @@
 		title: 'Sign Token Allowance',
 		description: 'Please allow us to requirest at least 50,000 FILA',
 		buttonLabel: 'Sign',
-		isFirst: true
+		isFirst: true,
+		phase: '1'
 	};
 
 	const timeLineItemSignDepositTransactionProps = {
 		title: 'Sign Deposit Transaction',
 		description: 'Send the funds to our mainnet contracts',
-		buttonLabel: 'Sign'
+		buttonLabel: 'Sign',
+		phase: '2'
 	};
 
 	const timeLineItemFilamentHubConfirmationProps = {
 		iconStatus: ETimeLineItem.PROCESSING,
 		title: 'Filament Hub Confirmation',
 		description: 'Confirm',
-		buttonLabel: 'Confirm'
+		buttonLabel: 'Confirm',
+		phase: '3'
 	};
 
 	const modalConfig: Record<
