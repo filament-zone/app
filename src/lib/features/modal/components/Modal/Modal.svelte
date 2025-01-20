@@ -28,7 +28,7 @@
 		style={`width: ${width}`}
 	>
 		<div class="header w-full"><slot name="header" /></div>
-		<div class="w-full"><slot name="content" /></div>
+		<div class="w-full"><slot name="content" class="content" /></div>
 		{#if $$slots.footer}
 			<div class="w-full"><slot name="footer" /></div>
 		{/if}
@@ -49,19 +49,20 @@
 		justify-content: center;
 		align-items: center;
 
-		background: rgba(0, 0, 0, 0.2);
-		backdrop-filter: blur(5px);
+		background: rgba(0, 0, 0, 0.699);
+		backdrop-filter: blur(8px);
+		z-index: 1000;
 	}
 
 	.modal-container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: var(--darkNet);
+		background-color: var(--background);
+		border-radius: 2px;
 
 		min-width: 375px;
 		max-width: 512px;
-		min-height: 200px;
 
 		max-height: 90vh;
 		overflow: scroll;
@@ -81,11 +82,24 @@
 		}
 
 		& > div {
-			padding: 20px;
+			padding: 16px;
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: space-between;
 		}
 
 		.header {
 			border-bottom: 1px solid var(--default-border);
+			padding: 16px;
+		}
+
+		.content {
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: space-between;
+			min-height: 400px;
 		}
 	}
 </style>

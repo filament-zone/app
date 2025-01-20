@@ -17,6 +17,7 @@ const initCampaignDetails: ICampaign = {
 	title: '',
 	description: '',
 	evictions: [],
+	numericPhase: 0, //TODO: ADD TO THE HUB API
 	// // STEP 1 END
 
 	// // STEP 2 START

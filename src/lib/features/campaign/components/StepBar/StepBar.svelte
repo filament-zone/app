@@ -45,7 +45,7 @@
 
 <div class="flex w-full justify-center">
 	<div
-		class="step-indicator-navigation flex flex-1 flex-row items-center gap-8 py-4 max-w-screen-2xl"
+		class="step-indicator-navigation flex flex-1 flex-row items-center gap-8 py-4 max-w-[1440px]"
 		bind:this={container}
 	>
 		<div class="flex flex-row justify-between items-center w-full">

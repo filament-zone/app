@@ -45,6 +45,7 @@
 		align-items: center;
 		background-color: #181818;
 		border-radius: 2px;
+		letter-spacing: 0.04rem;
 
 		&.isActive {
 			span {

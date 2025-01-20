@@ -55,7 +55,7 @@
 				slot="header"
 				on:click={() => {
 					goto(routes.CAMPAIGNS.MANAGE.ROOT);
-				}}>Back to list</Button
+				}}>Return to list</Button
 			>
 			<div class="flex flex-col gap-4">
 				<CampaignSummary {campaign} useTimeline={true} />

@@ -238,7 +238,7 @@
 				cursor: pointer;
 				&:hover {
 					td {
-						border-color: gray;
+						border-color: var(--filaMint);
 					}
 				}
 			}

@@ -1,18 +1,20 @@
 import { SvelteComponent } from 'svelte';
 import { ETimeLineItem } from '$lib/types';
-
+import type { CampaignPhase } from '@filament-zone/filament/Phase';
 declare const __propDef: {
 	props: {
 		iconStatus?: ETimeLineItem;
 		title: string;
 		description: string;
 		date?: string | Date;
-		status?: string;
+		status: string;
 		isLast?: boolean;
 		isFirst?: boolean;
 		onButtonClick?: (() => Promise<void> | void) | null;
 		buttonLabel?: string | null;
-		phase: string;
+		phase: CampaignPhase;
+		numericPhase: number;
+		isTimelineOpen: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

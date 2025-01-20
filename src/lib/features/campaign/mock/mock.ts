@@ -8,6 +8,7 @@ import {
 } from '$lib/types';
 import type { Criterion } from '@filament-zone/filament/Criterion';
 import { EEligibilityCriteriaType } from '$lib/api/campaign/campaign.hub.api.enums';
+import type { CampaignPhase } from '@filament-zone/filament/Phase';
 
 export const generateMockEligibilityCriteria = (quantity: number): Criterion[] => {
 	const categories = ['Balance', 'Defi', 'Nft'] as CriterionCategory[];
@@ -26,6 +27,7 @@ export const generateMockEligibilityCriteria = (quantity: number): Criterion[] =
 			// id: uuidv4(),
 			name: `${randomType.replace(/-/g, ' ')} on ${randomNetwork}`,
 			category: randomCategory,
+			network: randomNetwork,
 			// type: EEligibilityCriteriaType.TVL_BY_CONTRACT,
 			// tvl: (Math.random() * 100).toFixed(2),
 			weight: BigInt((Math.random() * 10).toFixed(0)),
@@ -103,14 +105,29 @@ export function generateRandomTickerData(
 	return data;
 }
 
+const phases: CampaignPhase[] = [
+	'Draft',
+	'Criteria Voting',
+	'Data Indexing',
+	'Distribution Voting',
+	'Token Distribution'
+];
+
+const getNumericPhase = (phase: CampaignPhase): number => {
+	return phases.indexOf(phase);
+};
+
 export function generateMockCampaign(): ICampaign {
-	return {
+	const randomPhase = phases[Math.floor(Math.random() * phases.length)];
+
+	const campaign: ICampaign = {
 		// From `Campaign` type
 		id: BigInt(Math.floor(Math.random() * 1_000_000)), // Random ID as `bigint`
 		campaigner: `Campaigner_${Math.random().toString(36).substring(2, 7)}`, // Random campaigner name
-		phase: 'Draft', // Replace with an appropriate value if `Phase` is an enum or type
-		title: `Campaign ${Math.random().toString(36).substring(7)}`,
-		description: `This is a mock campaign description.`,
+		phase: randomPhase, // Use the enum for phase
+		numericPhase: getNumericPhase(randomPhase),
+		title: `Elrond Airdrop Round ${Math.floor(Math.random() * 5)}`,
+		description: `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`,
 		criteria: generateMockEligibilityCriteria(3), // Reuse criteria generator
 		evictions: Array.from({ length: 2 }, () => uuidv4()), // Mock evicted delegates
 		delegates: Array.from({ length: 3 }, () => uuidv4()), // Mock active delegates
@@ -138,4 +155,5 @@ export function generateMockCampaign(): ICampaign {
 		indexerPriceUSD: (Math.random() * 10000).toFixed(2), // Random budget (to)
 		bond: (Math.random() * 100).toFixed(2) // Random bond value
 	};
+	return campaign;
 }

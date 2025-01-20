@@ -16,7 +16,9 @@
 </script>
 
 <div class="flex w-full flex-col justify-center max-w-[1440px]">
-	<div class="relative flex flex-row justify-between items-center h-[72px] p-4 opacity-50">
+	<div
+		class="relative flex flex-col-reverse gap-4 mt-8 md:flex-row justify-between items-center h-[72px] p-4 opacity-50"
+	>
 		<div class="flex flex-row gap-4">
 			<img
 				src={LogoFilament}

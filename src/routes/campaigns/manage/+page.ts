@@ -17,7 +17,7 @@ export const load = async () => {
 	const mockedCampaigns: ICampaign[] = [];
 
 	if (!res.data?.length) {
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < 15; i++) {
 			mockedCampaigns.push(generateMockCampaign());
 		}
 	}

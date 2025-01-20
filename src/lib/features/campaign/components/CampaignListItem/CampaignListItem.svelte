@@ -4,9 +4,10 @@
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { type ICampaignListItemProps } from '$lib/types';
-	import { MaximizeIcon } from 'svelte-feather-icons';
-
+	import { ArrowUpRightIcon } from 'svelte-feather-icons';
+	import moment from 'moment';
 	export let campaign: ICampaignListItemProps['campaign'];
+	const showCreatedAt = false;
 
 	const handleOpenCampaignDetails = () => {
 		goto(
@@ -21,11 +22,9 @@
 	<div class="campaign-list-item-container">
 		<div class="header">
 			<Typography variant="h4">{campaign.title}</Typography>
-			<div
-				class="flex flex-row items-center justify-center text-foreground hover:text-filaMint cursor-pointer border border-1 h-8 w-8"
-			>
+			<div class="icon-button">
 				<button on:click={handleOpenCampaignDetails}>
-					<MaximizeIcon strokeWidth={2} class="w-5 h-5" />
+					<ArrowUpRightIcon strokeWidth={3} class="w-5 h-5" />
 				</button>
 			</div>
 		</div>
@@ -34,10 +33,31 @@
 				<CampaignTimeLine {campaign} label="Phase" isCollapsable={false} />
 			{/if}
 		</div>
+		<div class="flex flex-row p-2 opacity-50 justify-end px-4">
+			{#if showCreatedAt && campaign.createdAt}
+				<Typography variant="labelSmall"
+					>published {moment(campaign.createdAt.toLocaleString()).format(
+						'MMMM D, YYYY'
+					)}</Typography
+				>
+			{/if}
+		</div>
 	</div>
 </button>
 
 <style lang="less">
+	.icon-button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		color: var(--foreground);
+
+		cursor: pointer;
+		height: 32px;
+		width: 32px;
+	}
+
 	.campaign-list-item-container {
 		display: flex;
 		flex-direction: column;
@@ -48,12 +68,16 @@
 		border-radius: 4px;
 
 		&:hover {
-			background: var(--highlight-bg);
+			border-color: var(--filaMint);
+
+			.icon-button {
+				color: var(--filaMint);
+			}
 		}
 
 		.header {
 			padding: 16px;
-			border-bottom: 1px solid #272727;
+			padding-bottom: 0;
 			cursor: pointer;
 
 			display: flex;
@@ -71,7 +95,7 @@
 		.content {
 			display: flex;
 			flex-direction: column;
-			padding: 16px;
+			padding: 12px;
 			gap: 16px;
 		}
 	}

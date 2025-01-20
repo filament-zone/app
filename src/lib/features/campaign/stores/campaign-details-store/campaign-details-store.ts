@@ -171,7 +171,7 @@ export const isCriteriaVoteAccessibleFn: ICampaignDetailsStore['isCriteriaVoteAc
 	isDelegate,
 	walletAddress
 ) => {
-	if (campaignPhase !== 'Criteria') {
+	if (campaignPhase !== 'Criteria Voting') {
 		return false;
 	}
 

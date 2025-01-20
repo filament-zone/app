@@ -54,6 +54,7 @@
 		font-size: 26px;
 		font-weight: 700;
 		line-height: 1.2;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 29px;
@@ -81,6 +82,7 @@
 		font-size: 22px;
 		font-weight: 600;
 		line-height: 1.3;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 26px;
@@ -108,6 +110,7 @@
 		font-size: 19px;
 		font-weight: 500;
 		line-height: 1.4;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 22px;
@@ -135,6 +138,7 @@
 		font-size: 16px;
 		font-weight: 500;
 		line-height: 1.5;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 19px;
@@ -162,6 +166,7 @@
 		font-size: 18px;
 		font-weight: 600;
 		line-height: 1.6;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 16px;
@@ -333,6 +338,7 @@
 		line-height: 1.5;
 		letter-spacing: 0.05rem;
 		opacity: 1;
+		text-align: left;
 
 		@media @size_sm {
 			font-size: 12px;
@@ -446,7 +452,7 @@
 
 	.typography_toggle {
 		font-family: var(--primary-font);
-		font-size: 14px;
+		font-size: 15px;
 		font-weight: 600;
 		line-height: 1.5;
 		letter-spacing: 0.05rem;

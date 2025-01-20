@@ -25,10 +25,7 @@
 
 	$: filteredCampaigns = filterCampaigns();
 
-	$: containerClass =
-		toggleValue === 'yourCampaigns'
-			? 'grid grid-cols-2 gap-4 w-full'
-			: 'flex flex-col gap-4 w-full';
+	$: containerClass = 'flex flex-col gap-4 w-full';
 
 	let currentPage = 1;
 	const itemsPerPage = 5;

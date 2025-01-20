@@ -1,4 +1,9 @@
-import type { Campaign, Criterion, CriterionCategory } from '@filament-zone/filament';
+import type {
+	Campaign,
+	CampaignPhase,
+	Criterion,
+	CriterionCategory
+} from '@filament-zone/filament';
 import { ECampaignTimeSettings, EEligibilityCriteriaType } from '$lib/types';
 import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 
@@ -46,7 +51,8 @@ export interface ICampaign extends Campaign {
 	// OTHER VALUES COMMON
 	createdAt?: string | null;
 	// OTHER VALUES COMMON
-
+	phase: CampaignPhase;
+	numericPhase: number; //NEED TO ADD TO THE HUB API
 	// STEP 1 VALUES title, description, evictions comes from Campaign type
 
 	// STEP 2 VALUES START

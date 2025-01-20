@@ -82,7 +82,7 @@
 				Icon={$currentStep === $steps.length - 1 ? PlusIcon : ArrowIcon}
 				{disabled}
 			>
-				{$isLastStep ? 'Save Campaign' : $isPreLastStep ? 'Summary' : 'Next'}
+				{$isLastStep ? 'Submit Campaign' : $isPreLastStep ? 'Summary' : 'Next'}
 			</Button>
 		</div>
 	</div>

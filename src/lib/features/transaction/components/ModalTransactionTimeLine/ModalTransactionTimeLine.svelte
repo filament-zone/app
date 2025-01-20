@@ -75,9 +75,9 @@
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
 	<div slot="header">
-		<Typography variant="h5">Transaction status:</Typography>
+		<Typography variant="h5">Transaction Status</Typography>
 	</div>
-	<div slot="content">
+	<div slot="content" class="flex flex-col justify-between h-full">
 		<div>
 			<TimeLineItem {...modalConfigLocal[$step].timeLine2} />
 			<TimeLineItem {...modalConfigLocal[$step].timeLine1} />

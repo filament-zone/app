@@ -8,7 +8,7 @@
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
 	import { Typography } from '$lib/components';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	const { openModal } = modalStore;
@@ -18,8 +18,23 @@
 	let isMobileMenuOpen = false;
 	let isMobile = false;
 
+	const updateIsMobile = () => {
+		if (typeof window !== 'undefined') {
+			isMobile = window.innerWidth <= 768;
+		}
+	};
+
 	onMount(() => {
-		isMobile = window.innerWidth <= 768;
+		updateIsMobile();
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', updateIsMobile);
+		}
+	});
+
+	onDestroy(() => {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('resize', updateIsMobile);
+		}
 	});
 
 	const toggleMobileMenu = () => {
@@ -54,7 +69,7 @@
 			</div>
 			<div class="relative ml-4 pb-[10px] flex gap-4">
 				<Button
-					styleVariant={EButtonStyleVariant.SECONDARY}
+					styleVariant={EButtonStyleVariant.HIGHLIGHT}
 					on:click={() => {
 						goto(
 							replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
