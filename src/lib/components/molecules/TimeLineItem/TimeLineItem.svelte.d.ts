@@ -7,14 +7,14 @@ declare const __propDef: {
 		title: string;
 		description: string;
 		date?: string | Date;
-		status: string;
+		status?: string;
 		isLast?: boolean;
 		isFirst?: boolean;
 		onButtonClick?: (() => Promise<void> | void) | null;
 		buttonLabel?: string | null;
-		phase: CampaignPhase;
-		numericPhase: number;
-		isTimelineOpen: boolean;
+		phase?: CampaignPhase;
+		numericPhase?: number;
+		isTimelineOpen?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;

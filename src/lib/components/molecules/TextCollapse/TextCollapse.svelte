@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import {} from '$lib/components';
-	export let isOpen: boolean = false;
 	import { ToggleButton } from '$lib/components/atoms/ToggleButton';
+
+	export let isOpen: boolean = false;
 
 	const dispatch = createEventDispatcher();
 

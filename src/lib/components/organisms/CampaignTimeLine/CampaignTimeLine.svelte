@@ -115,7 +115,7 @@
 				{#each Object.values(options) as phaseOptions, index}
 					<TimeLineItem
 						{...phaseOptions}
-						status={getStatus(activeNumericPhase, phaseOptions.numericPhase)}
+						status={getStatus(activeNumericPhase, phaseOptions.numericPhase ?? 0)}
 						{isTimelineOpen}
 						isFirst={index === 0}
 						isLast={index === Object.values(options).length - 1}

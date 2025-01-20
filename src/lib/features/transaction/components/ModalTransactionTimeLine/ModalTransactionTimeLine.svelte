@@ -28,14 +28,14 @@
 		}
 	}
 
-	const timeLine1 = {
+	const timeLine1: ITimeLineItemProps = {
 		iconStatus: ETimeLineItem.PROCESSING,
 		title: state?.config?.[1].title ?? 'Transaction Submitted',
 		description: state?.config?.[1].description ?? 'Transaction has been submitted',
 		isFirst: true
 	};
 
-	const timeLine2 = {
+	const timeLine2: ITimeLineItemProps = {
 		iconStatus: ETimeLineItem.PROCESSING,
 		title: state?.config?.[2].title ?? 'Transaction Received',
 		description:

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Typography } from '$lib/components';
+	import { Typography, TextCollapse } from '$lib/components';
 	import type { ICampaignSummaryProps } from '$lib/types';
-	import TextCollapse from '$lib/components/molecules/TextCollapse/TextCollapse.svelte';
 
 	export let campaign: ICampaignSummaryProps['campaign'];
 </script>
 
-<TextCollapse expandedHeight="auto" isOpen={false}>
+<TextCollapse>
 	<div slot="label">
 		<Typography variant="h6">Description</Typography>
 	</div>

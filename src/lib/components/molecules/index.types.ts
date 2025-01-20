@@ -13,3 +13,4 @@ export * from './DatePicker/index.types';
 export * from './ToggleContentContainer/index.types';
 export * from './Metrics/index.types';
 export * from './TimeLineItem/index.types';
+export * from './TextCollapse/index.types';
