@@ -1,15 +1,14 @@
 <script>
+	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { Button, Divider, NavBar } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
-	import { shortCutTransactionHash, replaceUrlParams } from '$lib/helpers';
+	import { shortCutTransactionHash, replaceUrlParams, screenDetect } from '$lib/helpers';
 	import { EButtonStyleVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
 	import { Typography } from '$lib/components';
-	import { onMount, onDestroy } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
@@ -18,24 +17,8 @@
 	let isMobileMenuOpen = false;
 	let isMobile = false;
 
-	const updateIsMobile = () => {
-		if (typeof window !== 'undefined') {
-			isMobile = window.innerWidth <= 768;
-		}
-	};
-
-	onMount(() => {
-		updateIsMobile();
-		if (typeof window !== 'undefined') {
-			window.addEventListener('resize', updateIsMobile);
-		}
-	});
-
-	onDestroy(() => {
-		if (typeof window !== 'undefined') {
-			window.removeEventListener('resize', updateIsMobile);
-		}
-	});
+	const screenTypeStore = screenDetect();
+	$: isMobile = !$screenTypeStore.isLayoutMd;
 
 	const toggleMobileMenu = () => {
 		isMobileMenuOpen = !isMobileMenuOpen;
@@ -59,7 +42,12 @@
 		</div>
 
 		{#if isMobile}
-			<button class="hamburger" on:click={toggleMobileMenu} aria-label="Toggle menu">
+			<button
+				class="hamburger"
+				on:click={toggleMobileMenu}
+				aria-label="Toggle menu"
+				data-testid="mobile-nav-bar-button"
+			>
 				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
 				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
 			</button>
