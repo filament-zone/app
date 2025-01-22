@@ -4,7 +4,7 @@
 		Container,
 		LineChartWithControls,
 		Metrics,
-		PrimaryDoughnutChart,
+		SecondaryDoughnutChart,
 		Toggle,
 		TrendDisplay,
 		Typography
@@ -34,14 +34,15 @@
 		<Typography variant="h6" slot="header">{data.totalSupply}</Typography>
 		<div class="flex flex-col lg:flex-row gap-6 w-full pb-4">
 			<Container label="Inflation" variant="inner-container">
-				<PrimaryDoughnutChart
+				<SecondaryDoughnutChart
 					chartData={data.inflationChartData}
 					centerText={['Inflation', '4.13%']}
 					class="w-full"
+					va
 				/>
 			</Container>
 			<Container label="Supply" variant="inner-container">
-				<PrimaryDoughnutChart
+				<SecondaryDoughnutChart
 					chartData={data.supplyChartData}
 					centerText={['Supply', '2.43B']}
 					class="w-full"

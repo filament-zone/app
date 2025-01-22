@@ -1,4 +1,4 @@
-import { type IPrimaryDoughnutChartProps } from '$lib/types';
+import { type ISecondaryDoughnutChartProps } from '$lib/types';
 import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
 import { formatLargeNumber } from '$lib/utils';
 import { defaultToggleOptions } from '$lib/constants';
@@ -45,22 +45,22 @@ export async function load() {
 
 	const totalSupply: string = '1,028,677,927 FILA';
 
-	const inflationChartData: IPrimaryDoughnutChartProps['chartData'] = {
+	const inflationChartData: ISecondaryDoughnutChartProps['chartData'] = {
 		labels: ['Bonded', 'Unbonded'],
 		datasets: [
 			{
 				data: [40.35, 70.12],
-				backgroundColor: ['#d9ffe0', '#b5fdc3']
+				backgroundColor: ['#FF74A4', '#7DFA97']
 			}
 		]
 	};
 
-	const supplyChartData: IPrimaryDoughnutChartProps['chartData'] = {
+	const supplyChartData: ISecondaryDoughnutChartProps['chartData'] = {
 		labels: ['Onchain Gov', 'Vesting', 'Circulating'],
 		datasets: [
 			{
 				data: [40.35, 70.12, 33.23],
-				backgroundColor: ['#d9ffe0', '#b5fdc3', '#7dfa97']
+				backgroundColor: ['#FF74A4', '#7DFA97', '#B7ABFC']
 			}
 		]
 	};
