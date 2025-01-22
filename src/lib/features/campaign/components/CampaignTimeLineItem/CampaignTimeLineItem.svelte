@@ -2,22 +2,21 @@
 	import moment from 'moment/moment.js';
 	import { Button, Typography } from '$lib/components';
 	import { capitalizeFirstLetter } from '$lib/helpers';
-	import { type ITimeLineItemProps, ETimeLineItem } from '$lib/types';
+	import { type ICampaignTimeLineItemProps } from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
-	export const iconStatus: ITimeLineItemProps['iconStatus'] = ETimeLineItem.CHECKED;
-	export let title: ITimeLineItemProps['title'];
-	export let description: ITimeLineItemProps['description'];
-	export let date: ITimeLineItemProps['date'];
-	export let status: ITimeLineItemProps['status'];
-	export let isFirst: ITimeLineItemProps['isFirst'];
-	export let isLast: ITimeLineItemProps['isLast'];
-	export let onButtonClick: ITimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ITimeLineItemProps['buttonLabel'];
-	export let numericPhase: ITimeLineItemProps['numericPhase'];
-	export let isTimelineOpen: ITimeLineItemProps['isTimelineOpen'] = false;
+	export let title: ICampaignTimeLineItemProps['title'];
+	export let description: ICampaignTimeLineItemProps['description'];
+	export let date: ICampaignTimeLineItemProps['date'];
+	export let status: ICampaignTimeLineItemProps['status'];
+	export let isFirst: ICampaignTimeLineItemProps['isFirst'];
+	export let isLast: ICampaignTimeLineItemProps['isLast'];
+	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
+	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
+	export let numericPhase: ICampaignTimeLineItemProps['numericPhase'];
+	export let isTimelineOpen: ICampaignTimeLineItemProps['isTimelineOpen'] = false;
 
-	const getStatusColor: (status: ITimeLineItemProps['status']) => string = (status) => {
+	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
 			case 'passed':
 				return 'var(--upOnly)';

@@ -11,7 +11,6 @@
 	$: handleClickOutside = () => {
 		isOpen = false;
 	};
-	console.log('wallet', wallet);
 </script>
 
 <div class="wallet-container" use:clickOutside on:clickOutside={handleClickOutside}>

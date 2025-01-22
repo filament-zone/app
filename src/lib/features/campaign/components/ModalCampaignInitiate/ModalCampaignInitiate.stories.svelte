@@ -3,7 +3,7 @@
 	import { ModalCampaignInitiate } from '$lib/features';
 
 	export const meta = {
-		title: 'Features/Modal/Campaign Initiante'
+		title: 'Features/Modal/Campaign Initiate'
 	};
 </script>
 

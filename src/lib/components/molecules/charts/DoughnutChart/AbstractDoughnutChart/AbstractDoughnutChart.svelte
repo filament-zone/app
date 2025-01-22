@@ -48,7 +48,6 @@
 	eventListener(
 		'resize',
 		throttle(() => {
-			console.log('resize');
 			chartInstance?.resize();
 		}, 500)
 	);

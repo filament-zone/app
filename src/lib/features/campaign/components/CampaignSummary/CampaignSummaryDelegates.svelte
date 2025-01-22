@@ -6,7 +6,7 @@
 	import type { ITableProps } from '$lib/types';
 
 	const data = derived(page, () => $page.data);
-	console.log('CAMPAIGN SUMMARY DELEGATES DATA:', $data);
+
 	$: activeDelegatesTable = {
 		data: [...$data.delegates],
 		columnDef: delegatesColumnDefCommon

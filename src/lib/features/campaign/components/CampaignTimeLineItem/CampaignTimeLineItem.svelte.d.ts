@@ -1,9 +1,7 @@
 import { SvelteComponent } from 'svelte';
-import { ETimeLineItem } from '$lib/types';
 import type { CampaignPhase } from '@filament-zone/filament/Phase';
 declare const __propDef: {
 	props: {
-		iconStatus?: ETimeLineItem;
 		title: string;
 		description: string;
 		date?: string | Date;
@@ -21,13 +19,13 @@ declare const __propDef: {
 	};
 	slots: object;
 };
-type ITimeLineItemProps_ = typeof __propDef.props;
-export type { ITimeLineItemProps_ as ITimeLineItemProps };
-export type ITimeLineItemEvents = typeof __propDef.events;
-export type ITimeLineItemSlots = typeof __propDef.slots;
+type ICampaignTimeLineItemProps_ = typeof __propDef.props;
+export type { ICampaignTimeLineItemProps_ as ICampaignTimeLineItemProps };
+export type ICampaignTimeLineItemEvents = typeof __propDef.events;
+export type ICampaignTimeLineItemSlots = typeof __propDef.slots;
 
-export default class TimeLineItem extends SvelteComponent<
-	ITimeLineItemProps,
-	ITimeLineItemEvents,
-	ITimeLineItemSlots
+export default class CampaignTimeLineItem extends SvelteComponent<
+	ICampaignTimeLineItemProps,
+	ICampaignTimeLineItemEvents,
+	ICampaignTimeLineItemSlots
 > {}

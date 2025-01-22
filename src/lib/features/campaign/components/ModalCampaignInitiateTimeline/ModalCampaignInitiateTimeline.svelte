@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { initiateCampaignStore, Modal, modalStore } from '$lib/features';
-	import { Button, Typography, TimeLineItem } from '$lib/components';
-	import { type ITimeLineItemProps, ETimeLineItem } from '$lib/types';
+	import { initiateCampaignStore, Modal, modalStore, TxTimeLineItem } from '$lib/features';
+	import { Button, Typography } from '$lib/components';
+	import { type ITxTimeLineItemProps, ETxTimeLineItem } from '$lib/types';
 
 	const { closeModal } = modalStore;
 	const { signTokenAllowance, signDepositTransaction, hubConfirm } = initiateCampaignStore;
@@ -25,7 +25,7 @@
 	};
 
 	const timeLineItemFilamentHubConfirmationProps = {
-		iconStatus: ETimeLineItem.PROCESSING,
+		iconStatus: ETxTimeLineItem.PROCESSING,
 		title: 'Filament Hub Confirmation',
 		description: 'Confirm',
 		buttonLabel: 'Confirm',
@@ -35,15 +35,15 @@
 	const modalConfig: Record<
 		number,
 		{
-			timeLineItemSignTokenAllowanceProps: ITimeLineItemProps;
-			timeLineItemSignDepositTransactionProps: ITimeLineItemProps;
-			timeLineItemFilamentHubConfirmationProps: ITimeLineItemProps;
+			timeLineItemSignTokenAllowanceProps: ITxTimeLineItemProps;
+			timeLineItemSignDepositTransactionProps: ITxTimeLineItemProps;
+			timeLineItemFilamentHubConfirmationProps: ITxTimeLineItemProps;
 		}
 	> = {
 		1: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ETimeLineItem.PROCESSING,
+				iconStatus: ETxTimeLineItem.PROCESSING,
 				status: 'to-do',
 				onButtonClick: () => {
 					signTokenAllowance();
@@ -53,7 +53,7 @@
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'to-do',
-				iconStatus: ETimeLineItem.PROCESSING
+				iconStatus: ETxTimeLineItem.PROCESSING
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
@@ -64,13 +64,13 @@
 		2: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ETimeLineItem.CHECKED,
+				iconStatus: ETxTimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'to-do',
-				iconStatus: ETimeLineItem.PROCESSING,
+				iconStatus: ETxTimeLineItem.PROCESSING,
 				onButtonClick: () => {
 					signDepositTransaction();
 					step.set(3);
@@ -79,24 +79,24 @@
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'to-do',
-				iconStatus: ETimeLineItem.PROCESSING
+				iconStatus: ETxTimeLineItem.PROCESSING
 			}
 		},
 		3: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ETimeLineItem.CHECKED,
+				iconStatus: ETxTimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'success',
-				iconStatus: ETimeLineItem.CHECKED
+				iconStatus: ETxTimeLineItem.CHECKED
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'to-do',
-				iconStatus: ETimeLineItem.PROCESSING,
+				iconStatus: ETxTimeLineItem.PROCESSING,
 				onButtonClick: () => {
 					hubConfirm();
 					step.set(4);
@@ -106,18 +106,18 @@
 		4: {
 			timeLineItemSignTokenAllowanceProps: {
 				...timeLineItemSignTokenAllowanceProps,
-				iconStatus: ETimeLineItem.CHECKED,
+				iconStatus: ETxTimeLineItem.CHECKED,
 				status: 'success'
 			},
 			timeLineItemSignDepositTransactionProps: {
 				...timeLineItemSignDepositTransactionProps,
 				status: 'success',
-				iconStatus: ETimeLineItem.CHECKED
+				iconStatus: ETxTimeLineItem.CHECKED
 			},
 			timeLineItemFilamentHubConfirmationProps: {
 				...timeLineItemFilamentHubConfirmationProps,
 				status: 'processing',
-				iconStatus: ETimeLineItem.PROCESSING,
+				iconStatus: ETxTimeLineItem.PROCESSING,
 				description: 'This can take up to 10 minutes. You can close the window in the meantime.',
 				isLast: true
 			}
@@ -131,9 +131,9 @@
 	</div>
 	<div slot="content">
 		<div>
-			<TimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
-			<TimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
-			<TimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+			<TxTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
+			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
+			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
 		</div>
 		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
 	</div>

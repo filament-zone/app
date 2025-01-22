@@ -13,5 +13,4 @@ export * from './DatePicker';
 export * from './Tooltip';
 export * from './ToggleContentContainer';
 export * from './Metrics';
-export * from './TimeLineItem';
 export * from './TextCollapse';

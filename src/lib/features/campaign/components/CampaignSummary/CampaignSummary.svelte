@@ -23,7 +23,6 @@
 				toggleValue = toggleOptions?.[0].value;
 			}
 	});
-	console.log(campaign);
 </script>
 
 <div class="flex flex-col gap-5 w-full">
