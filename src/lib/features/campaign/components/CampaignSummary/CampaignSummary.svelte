@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Toggle } from '$lib/components';
+	import { Toggle, Container, Typography, CampaignTimeLine } from '$lib/components';
 	import CampaignSummaryDescription from './CampaignSummaryDescription.svelte';
 	import CampaignSummaryCriteria from './CampaignSummaryCriteria.svelte';
 	import CampaignSummaryDelegates from './CampaignSummaryDelegates.svelte';
 	import { EToggleVariant, type ICampaignSummaryProps, type IToggleProps } from '$lib/types';
-	import { Container, Typography, CampaignTimeLine } from '$lib/components';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 
 	export let campaign: ICampaignSummaryProps['campaign'];
-	export let useTimeline: boolean = false;
+	export let useTimeline: ICampaignSummaryProps['useTimeLine'] = false;
 
 	let toggleOptions: IToggleProps<string>['options'] = [
 		{ value: 'criteria', label: 'Criteria' },
