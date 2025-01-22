@@ -14,7 +14,7 @@
 	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
 	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
 	export let numericPhase: ICampaignTimeLineItemProps['numericPhase'];
-	export let isTimelineOpen: ICampaignTimeLineItemProps['isTimelineOpen'] = false;
+	export let isExpanded: ICampaignTimeLineItemProps['isExpanded'] = false;
 
 	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
@@ -33,16 +33,16 @@
 	const isLowOpacityAfter = status === 'planned' || status === 'ongoing';
 </script>
 
-<div class="flex flex-row h-fit gap-5 timeline-item {status} {isTimelineOpen ? 'open' : ''}">
+<div class="flex flex-row h-fit gap-5 timeline-item {status} {isExpanded ? 'open' : ''}">
 	<div
-		class="flex justify-center items-center w-[40px] relative {isTimelineOpen
-			? 'open'
-			: ''} {isFirst ? 'isFirst' : ''} {isLast ? 'isLast' : ''} {isLowOpacityBefore
+		class="flex justify-center items-center w-[40px] relative {isExpanded ? 'open' : ''} {isFirst
+			? 'isFirst'
+			: ''} {isLast ? 'isLast' : ''} {isLowOpacityBefore
 			? 'low-opacity-before'
 			: ''} {isLowOpacityAfter ? 'low-opacity-after' : ''}"
 	>
 		<div
-			class="icon-container {isTimelineOpen ? 'open' : ''} {isFirst ? 'isFirst' : ''} {isLast
+			class="icon-container {isExpanded ? 'open' : ''} {isFirst ? 'isFirst' : ''} {isLast
 				? 'isLast'
 				: ''}"
 		>

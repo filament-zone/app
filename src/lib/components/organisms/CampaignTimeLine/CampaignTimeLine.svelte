@@ -106,8 +106,8 @@
 				{#each Object.values(options) as phaseOptions, index}
 					<CampaignTimeLineItem
 						{...phaseOptions}
+						isExpanded={isTimelineOpen}
 						status={getStatus(activeNumericPhase, phaseOptions.numericPhase ?? 0)}
-						{isTimelineOpen}
 						isFirst={index === 0}
 						isLast={index === Object.values(options).length - 1}
 					/>

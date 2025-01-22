@@ -12,7 +12,7 @@ declare const __propDef: {
 		buttonLabel?: string | null;
 		phase?: CampaignPhase;
 		numericPhase?: number;
-		isTimelineOpen?: boolean;
+		isExpanded?: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;
