@@ -116,11 +116,7 @@
 		{:else}
 			<CampaignTimeLineItem
 				{...activeTimeLine}
-				status={activeNumericPhase === 0
-					? 'planned'
-					: activeNumericPhase === 4
-						? 'passed'
-						: 'ongoing'}
+				status={getStatus(activeNumericPhase, activeTimeLine.numericPhase ?? 0)}
 				isFirst={activeNumericPhase === 0}
 				isLast={activeNumericPhase === 4}
 			/>

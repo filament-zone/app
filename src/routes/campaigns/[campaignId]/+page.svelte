@@ -22,7 +22,7 @@
 
 	export let data;
 
-	const { campaignDetails } = campaignDetailsStore;
+	const { campaignDetails, initCampaign } = campaignDetailsStore;
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
@@ -65,6 +65,7 @@
 	</div>
 	<div class="flex flex-col min-w-[384px] gap-4">
 		<Container label="Voting">
+			<Button on:click={initCampaign.bind(null, campaign.id)}>Init campaign</Button>
 			<div class="flex flex-col gap-4">
 				<div class="flex flex-row justify-between">
 					<Badge
