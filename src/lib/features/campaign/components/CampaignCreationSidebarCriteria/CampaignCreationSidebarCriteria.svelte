@@ -36,7 +36,7 @@
 		campaignDetails.update((details) => {
 			if (sidebarState?.name) {
 				const newCriteriaArr = details.criteria.map((criteria) =>
-					criteria.name === $editableCriteriaState.name ? $editableCriteriaState : criteria
+					criteria.name === sidebarState.name ? $editableCriteriaState : criteria
 				);
 				return { ...details, criteria: newCriteriaArr };
 			} else {
