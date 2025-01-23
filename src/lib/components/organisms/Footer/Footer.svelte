@@ -17,7 +17,7 @@
 
 <div class="flex w-full flex-col justify-center max-w-[1440px]">
 	<div
-		class="relative flex flex-col-reverse gap-4 mt-8 md:flex-row justify-between items-center h-[72px] p-4 opacity-50"
+		class="flex flex-col-reverse gap-4 mt-8 md:flex-row justify-between items-center h-[72px] p-4 opacity-50"
 	>
 		<div class="flex flex-row gap-4">
 			<img
@@ -53,7 +53,7 @@
 				style="height: 26px"
 			/>
 		</div>
-		<div class="relative">
+		<div>
 			<Typography variant="h5">Airdrops that work, powered by Filament</Typography>
 		</div>
 	</div>
