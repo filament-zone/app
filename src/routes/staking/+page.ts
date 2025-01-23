@@ -138,6 +138,7 @@ export async function load() {
 							console.log('claim rewards', delegate);
 						},
 						options: [
+							{ value: 'stakeMore', label: 'Stake More', disabled: true },
 							{ value: 'redelegate', label: 'Redelegate', disabled: true },
 							{ value: 'unstake', label: 'Unstake', disabled: true }
 						]
