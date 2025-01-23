@@ -163,7 +163,7 @@ export const isCampaignOwner = (campaignOwner: string, walletAddress: string) =>
 };
 
 export const isCampaignDelegate = (delegatesList: string[], walletAddress: string) => {
-	if (!delegatesList || walletAddress) {
+	if (!delegatesList || !walletAddress) {
 		return false;
 	}
 	return delegatesList.map((item) => item.toLowerCase()).includes(walletAddress.toLowerCase());

@@ -27,7 +27,8 @@
 	const { wallet } = walletStore;
 
 	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
-	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
+
+	$: isDelegate = isCampaignDelegate(Object.keys(campaign.delegates), $wallet.address as string);
 
 	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
 		campaign?.phase as ICampaign['phase'],
