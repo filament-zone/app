@@ -8,7 +8,7 @@ export const load = async () => {
 		meta: {
 			timeSettingsOptions: [
 				{ value: ECampaignTimeSettings.ONE_TIME, label: 'One Time' },
-				{ value: ECampaignTimeSettings.RECURRING, label: 'Recurring' }
+				{ value: ECampaignTimeSettings.RECURRING, label: 'Recurring', disabled: true }
 			] as IDropdownProps['options'],
 			snapshotIntervalOptions: generateSnapshotIntervalOptions(),
 			eligibilityCriteriaCategoryOptions: [

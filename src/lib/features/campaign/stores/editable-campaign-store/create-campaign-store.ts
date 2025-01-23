@@ -24,7 +24,7 @@ const initCampaignDetails: ICampaign = {
 
 	// TODO: need to be added to the hub api - timeSettings
 	timeSettings: {
-		selectedType: ECampaignTimeSettings.RECURRING,
+		selectedType: ECampaignTimeSettings.ONE_TIME,
 		[ECampaignTimeSettings.ONE_TIME]: {
 			date: ''
 		},
