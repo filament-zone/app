@@ -38,54 +38,55 @@
 			<img src={LogoFilament} alt="logo" class="w-6" />
 			<Typography variant="h5">Filament</Typography>
 		</div>
-
-		{#if $screenTypeStore.isLayoutLg}
-			<div class="absolute left-1/2 transform -translate-x-1/2">
-				<NavBar />
-			</div>
-			<div class="ml-4 pb-[10px] flex gap-4">
-				<Button
-					styleVariant={EButtonStyleVariant.HIGHLIGHT}
-					on:click={() => {
-						goto(
-							replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
-								campaignType: 'air-drop',
-								step: '1'
-							})
-						);
-					}}
+		{#if $screenTypeStore.isMounted}
+			{#if !$screenTypeStore.isLayoutLg}
+				<button
+					class="hamburger"
+					on:click={toggleMobileMenu}
+					aria-label="Toggle menu"
+					data-testid="mobile-nav-bar-button"
 				>
-					New Campaign
-				</Button>
-				<Button
-					data-testid="connect-wallet-button"
-					on:click={() => {
-						if (!$wallet.address) {
-							openModal({ variant: EModalVariant.CONNECT_WALLET });
-						} else {
-							isWalletMenuOpen = !isWalletMenuOpen;
-						}
-					}}
-					styleVariant={EButtonStyleVariant.PRIMARY}
-				>
-					{$wallet.address ? shortCutTransactionHash($wallet.address) : 'Connect Wallet'}
-				</Button>
-				{#if isWalletMenuOpen}
-					<div class="absolute right-0 top-[51px]">
-						<Wallet bind:isOpen={isWalletMenuOpen} />
-					</div>
-				{/if}
-			</div>
-		{:else}
-			<button
-				class="hamburger"
-				on:click={toggleMobileMenu}
-				aria-label="Toggle menu"
-				data-testid="mobile-nav-bar-button"
-			>
-				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
-				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
-			</button>
+					<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
+					<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
+				</button>
+			{:else}
+				<div class="absolute left-1/2 transform -translate-x-1/2">
+					<NavBar />
+				</div>
+				<div class="ml-4 pb-[10px] flex gap-4">
+					<Button
+						styleVariant={EButtonStyleVariant.HIGHLIGHT}
+						on:click={() => {
+							goto(
+								replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+									campaignType: 'air-drop',
+									step: '1'
+								})
+							);
+						}}
+					>
+						New Campaign
+					</Button>
+					<Button
+						data-testid="connect-wallet-button"
+						on:click={() => {
+							if (!$wallet.address) {
+								openModal({ variant: EModalVariant.CONNECT_WALLET });
+							} else {
+								isWalletMenuOpen = !isWalletMenuOpen;
+							}
+						}}
+						styleVariant={EButtonStyleVariant.PRIMARY}
+					>
+						{$wallet.address ? shortCutTransactionHash($wallet.address) : 'Connect Wallet'}
+					</Button>
+					{#if isWalletMenuOpen}
+						<div class="absolute right-0 top-[51px]">
+							<Wallet bind:isOpen={isWalletMenuOpen} />
+						</div>
+					{/if}
+				</div>
+			{/if}
 		{/if}
 	</div>
 	{#if isMobileMenuOpen}

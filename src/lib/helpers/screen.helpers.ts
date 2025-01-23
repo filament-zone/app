@@ -6,6 +6,7 @@ import { debounce } from '$lib/utils';
 
 export const screenDetect = () => {
 	const screenType = writable({
+		isMounted: false,
 		isLayoutXs: false,
 		isLayoutSm: false,
 		isLayoutMd: false,
@@ -20,6 +21,7 @@ export const screenDetect = () => {
 		let currentScreen = 'xs';
 
 		const updatedScreenType = {
+			isMounted: true,
 			isLayoutXs: width >= breakpoints.xs,
 			isLayoutSm: width >= breakpoints.sm,
 			isLayoutMd: width >= breakpoints.md,
@@ -39,6 +41,7 @@ export const screenDetect = () => {
 	}
 
 	onMount(() => {
+		screenType.update((state) => ({ ...state, isMounted: true }));
 		detectScreen();
 	});
 
