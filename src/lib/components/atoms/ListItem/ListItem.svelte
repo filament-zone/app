@@ -81,17 +81,15 @@
 				color: var(--filaMint) !important;
 			}
 		}
-	}
 
-	.disabled {
-		> * {
+		&.disabled {
 			color: gray !important;
 			cursor: not-allowed;
-		}
 
-		&:hover {
-			> * {
-				color: gray !important;
+			&:hover {
+				> * {
+					color: gray !important;
+				}
 			}
 		}
 	}

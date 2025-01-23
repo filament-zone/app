@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { derived, writable } from 'svelte/store';
 	import { page } from '$app/stores';
-	import { campaignStore, RightSideBar, rightSideBarStore } from '$lib/features';
+	import { AddContractInput, campaignStore, RightSideBar, rightSideBarStore } from '$lib/features';
 	import { Button, Dropdown, Input } from '$lib/components';
+	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
 
 	import type { Criterion } from '@filament-zone/filament/Criterion';
-	import { type IDropdownOption } from '$lib/types';
+	import { type IDropdownOption, EButtonStyleVariant } from '$lib/types';
+	import { EEligibilityCriteriaType } from '$lib/api/campaign/campaign.hub.api.enums';
 
 	const data = derived(page, () => $page.data);
 
@@ -71,34 +73,42 @@
 		<div class="flex flex-col justify-between h-full">
 			<div class="flex flex-col gap-4">
 				<Input label="Criterion Name" bind:value={$editableCriteriaState.name} />
-				<!--				<Dropdown-->
-				<!--					label="Criterion Type"-->
-				<!--					options={$data.step2Data.meta.eligibilityCriteriaTypeOptions}-->
-				<!--					disabled-->
-				<!--				/>-->
+				<Dropdown
+					label="Criterion Type"
+					options={$data.pageData.step2Data.meta.eligibilityCriteriaTypeOptions}
+					value={EEligibilityCriteriaType.TVL_BY_CONTRACT}
+					disabled
+				/>
 				<Dropdown
 					label="Category"
 					options={categoryOptions}
 					bind:value={$editableCriteriaState.category}
 				/>
 				<div class="flex flex-row gap-2">
-					<!--					<Input label="Mapping" LeftContent="$" RightIcon="TVL" />-->
-					<!--					<div class="mt-[43px]">-->
-					<!--						<ArrowRight />-->
-					<!--					</div>-->
+					<Input label="Mapping" LeftContent="$" RightIcon="TVL" />
+					<div class="mt-[43px]">
+						<ArrowRight />
+					</div>
 					<Input
 						label="Weight"
 						onInput={onWeightChange}
 						LeftContent="x"
 						RightIcon="Point(s)"
 						type="bigint"
+						textColor="var(--filaMint)"
 					/>
 				</div>
-				<!--				<AddContractInput label="List of contracts" />-->
+				<AddContractInput label="List of contracts" />
 			</div>
 			<div class="flex flex-row justify-between">
-				<Button class="self-end" on:click={handleDelete}>Delete</Button>
-				<Button class="self-end" on:click={handleSaveChanges}>Save Changes</Button>
+				<Button class="self-end" on:click={handleDelete} styleVariant={EButtonStyleVariant.NEGATIVE}
+					>Delete</Button
+				>
+				<Button
+					class="self-end"
+					on:click={handleSaveChanges}
+					styleVariant={EButtonStyleVariant.HIGHLIGHT}>Save Changes</Button
+				>
 			</div>
 		</div>
 	{/if}

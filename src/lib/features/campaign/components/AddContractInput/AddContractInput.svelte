@@ -47,6 +47,7 @@
 <div class="w-full">
 	<Label {label} />
 	<div class="flex flex-col gap-4">
+		<Label value="Contracts" />
 		<div
 			class="list-container flex-{direction} {direction === 'col' ? '' : 'min-h-[35px] flex-wrap'}"
 		>
@@ -72,10 +73,11 @@
 			{/if}
 		</div>
 		{#if !displayOnly}
+			<Label value="Add" />
 			<form on:submit={handleSubmit}>
 				<div class="flex flex-{direction} gap-4">
 					<Dropdown
-						placeholder="e.g. Osmosis"
+						placeholder="e.g. Ethereum"
 						isSearchable
 						bind:value={network}
 						sizeVariant={direction === 'col'
