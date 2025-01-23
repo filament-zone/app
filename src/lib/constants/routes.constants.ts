@@ -6,8 +6,7 @@ export const routes = {
 		ROOT: '/campaigns',
 		MANAGE: {
 			ROOT: '/campaigns/manage',
-			CREATE: { ROOT: '/campaigns/manage/create/:campaignType/:step' },
-			EDIT: { ROOT: '/campaigns/manage/edit/:campaignId/:step' }
+			CREATE: { ROOT: '/campaigns/manage/create/:campaignType/:step' }
 		},
 		CAMPAIGN_ID: { ROOT: '/campaigns/:campaignId' },
 		CHECK_THE_HUB: { ROOT: '/campaigns/check-the-hub' }
