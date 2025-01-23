@@ -4,7 +4,7 @@
 	import { Button, Container, Toggle, Typography, Pagination } from '$lib/components';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { routes } from '$lib/constants';
-	import { EToggleVariant, EWalletProvider } from '$lib/types';
+	import { EToggleVariant, EWalletProvider, EButtonStyleVariant } from '$lib/types';
 
 	export let data;
 
@@ -62,6 +62,7 @@
 									})
 								);
 							}}
+							styleVariant={EButtonStyleVariant.HIGHLIGHT}
 						>
 							New Campaign
 						</Button>
@@ -69,7 +70,8 @@
 				{:else}
 					<Typography class="text-center" variant="h4">No campaigns found</Typography>
 				{/if}
-			</div>{/if}
+			</div>
+		{/if}
 	</div>
 </Container>
 
