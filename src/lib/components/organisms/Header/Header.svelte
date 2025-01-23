@@ -15,10 +15,8 @@
 
 	let isWalletMenuOpen = false;
 	let isMobileMenuOpen = false;
-	let isMobile = false;
 
 	const screenTypeStore = screenDetect();
-	$: isMobile = !$screenTypeStore.isLayoutMd;
 
 	const toggleMobileMenu = () => {
 		isMobileMenuOpen = !isMobileMenuOpen;
@@ -41,21 +39,11 @@
 			<Typography variant="h5">Filament</Typography>
 		</div>
 
-		{#if isMobile}
-			<button
-				class="hamburger"
-				on:click={toggleMobileMenu}
-				aria-label="Toggle menu"
-				data-testid="mobile-nav-bar-button"
-			>
-				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
-				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
-			</button>
-		{:else}
-			<div class="px-4 flex h-full items-center justify-middle">
+		{#if $screenTypeStore.isLayoutLg}
+			<div class="absolute left-1/2 transform -translate-x-1/2">
 				<NavBar />
 			</div>
-			<div class="relative ml-4 pb-[10px] flex gap-4">
+			<div class="ml-4 pb-[10px] flex gap-4">
 				<Button
 					styleVariant={EButtonStyleVariant.HIGHLIGHT}
 					on:click={() => {
@@ -88,6 +76,16 @@
 					</div>
 				{/if}
 			</div>
+		{:else}
+			<button
+				class="hamburger"
+				on:click={toggleMobileMenu}
+				aria-label="Toggle menu"
+				data-testid="mobile-nav-bar-button"
+			>
+				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
+				<div class={isMobileMenuOpen ? 'line open' : 'line'}></div>
+			</button>
 		{/if}
 	</div>
 	{#if isMobileMenuOpen}
