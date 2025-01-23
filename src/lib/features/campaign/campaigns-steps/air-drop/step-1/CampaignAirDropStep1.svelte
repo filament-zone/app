@@ -72,7 +72,7 @@
 
 <div class="flex flex-col gap-5">
 	<Container label="Setup" variant="secondary">
-		<div class="flex flex-col gap-5 w-[95%]">
+		<div class="flex flex-col gap-5">
 			<Typography variant="caption"
 				>On this page you can start to setup your airdrop. Please provide a general description
 				which introduces the campaign details. Try to write in a concise, comprehensible and
