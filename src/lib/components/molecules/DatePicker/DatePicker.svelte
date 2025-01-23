@@ -123,17 +123,19 @@
 				</div>
 			</div>
 			<div
-				class="border-t-2 border-white p-2 h-[495px] overflow-x-hidden overflow-y-scroll calendar-container"
+				class="border-t-2 border-white p-2 h-[450px] overflow-x-hidden overflow-y-scroll calendar-container"
 			>
 				<DaysRow />
-				{#each monthsToRender as month}
-					<Calendar
-						onChange={handleChangeDate}
-						value={localDate}
-						monthToRender={month}
-						mode={CalendarMode.SINGLE}
-					/>
-				{/each}
+				<div class="overflow-y-scroll overflow-x-hidden max-h-[300px]">
+					{#each monthsToRender as month}
+						<Calendar
+							onChange={handleChangeDate}
+							value={localDate}
+							monthToRender={month}
+							mode={CalendarMode.SINGLE}
+						/>
+					{/each}
+				</div>
 				<Button
 					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 					on:click={addNextYearMonths}
