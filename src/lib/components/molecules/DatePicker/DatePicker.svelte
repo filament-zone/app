@@ -36,7 +36,7 @@
 		localDate = value;
 	};
 
-	$: dateLabel = `${localDate.date ? moment(localDate.date).format('MMM DD') : ''}`;
+	$: dateLabel = `${localDate.date ? moment(localDate.date).format('MMM DD YYYY') : ''}`;
 
 	let monthsToRender: moment.Moment[] = [];
 	$: {
@@ -75,6 +75,20 @@
 		isPopoverOpen = false;
 		if (onChange) {
 			onChange(localDate);
+		}
+	};
+
+	let calendarContainer: HTMLElement;
+
+	const handleScroll = () => {
+		if (calendarContainer) {
+			const { scrollTop, scrollHeight, clientHeight } = calendarContainer;
+
+			const isAtBottom = scrollTop + clientHeight >= scrollHeight - 5;
+
+			if (isAtBottom) {
+				addNextYearMonths();
+			}
 		}
 	};
 </script>
@@ -122,11 +136,13 @@
 					<Typography variant="h6" color="white">{dateLabel}</Typography>
 				</div>
 			</div>
-			<div
-				class="border-t-2 border-white p-2 h-[450px] overflow-x-hidden overflow-y-scroll calendar-container"
-			>
+			<div class="border-t-2 border-white p-2 h-[410px] overflow-x-hidden calendar-container">
 				<DaysRow />
-				<div class="overflow-y-scroll overflow-x-hidden max-h-[300px]">
+				<div
+					class="overflow-y-scroll overflow-x-hidden max-h-[300px]"
+					bind:this={calendarContainer}
+					on:scroll={handleScroll}
+				>
 					{#each monthsToRender as month}
 						<Calendar
 							onChange={handleChangeDate}
@@ -136,11 +152,6 @@
 						/>
 					{/each}
 				</div>
-				<Button
-					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-					on:click={addNextYearMonths}
-					class="mt-2">Next Year</Button
-				>
 				<div class="flex flex-row gap-2 mt-2">
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
