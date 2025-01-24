@@ -59,9 +59,12 @@
 		closeRightSideBar();
 	};
 
-	$: categoryOptions = $data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions?.filter(
-		(option: IDropdownOption) => option.value !== 'all'
-	);
+	$: categoryOptions = [
+		...($data.pageData?.step2Data?.meta?.eligibilityCriteriaCategoryOptions || []).filter(
+			(option: IDropdownOption) => option.value === 'defi'
+		),
+		{ value: 'moreSoon', label: 'More categories coming soon...', disabled: true }
+	];
 
 	const onWeightChange = (value: bigint) => {
 		editableCriteriaState.update((criteria) => ({ ...criteria, weight: value }));
@@ -72,17 +75,18 @@
 	{#if selectedCriteria}
 		<div class="flex flex-col justify-between h-full">
 			<div class="flex flex-col gap-4">
-				<Input label="Criterion Name" bind:value={$editableCriteriaState.name} />
-				<Dropdown
-					label="Criterion Type"
-					options={$data.pageData.step2Data.meta.eligibilityCriteriaTypeOptions}
-					value={EEligibilityCriteriaType.TVL_BY_CONTRACT}
-					disabled
-				/>
+				<Input label="Name" bind:value={$editableCriteriaState.name} />
+				<Dropdown label="Environment" options={$data.pageData.step2Data.meta.environmentOptions} />
 				<Dropdown
 					label="Category"
 					options={categoryOptions}
 					bind:value={$editableCriteriaState.category}
+				/>
+				<Dropdown
+					label="Type"
+					options={$data.pageData.step2Data.meta.eligibilityCriteriaTypeOptions}
+					value={EEligibilityCriteriaType.TVL_BY_CONTRACT}
+					disabled={!$editableCriteriaState.category}
 				/>
 				<div class="flex flex-row gap-2">
 					<Input label="Mapping" LeftContent="$" RightIcon="TVL" />

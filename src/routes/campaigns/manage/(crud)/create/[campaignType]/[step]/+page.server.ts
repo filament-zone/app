@@ -11,13 +11,17 @@ export const load = async () => {
 				{ value: ECampaignTimeSettings.RECURRING, label: 'Recurring', disabled: true }
 			] as IDropdownProps['options'],
 			snapshotIntervalOptions: generateSnapshotIntervalOptions(),
+			environmentOptions: [
+				{ value: 'evm', label: 'Ethereum virtual machine' },
+				{ value: 'moreSoon', label: 'More categories coming soon...', disabled: true }
+			],
 			eligibilityCriteriaCategoryOptions: [
 				{ value: 'all', label: 'All' },
-				{ value: 'Balance', label: 'Balance' },
-				{ value: 'Defi', label: 'DeFi' },
-				{ value: 'Gaming', label: 'Gaming' },
-				{ value: 'Governance', label: 'Governance' },
-				{ value: 'Nft', label: 'NFT' }
+				// { value: 'balance', label: 'Balance' },
+				{ value: 'defi', label: 'DeFi' }
+				// { value: 'gaming', label: 'Gaming' },
+				// { value: 'governance', label: 'Governance' },
+				// { value: 'nft', label: 'NFT' }
 			],
 			eligibilityCriteriaTypeOptions: Object.values(EEligibilityCriteriaType).map(
 				(criteriaType) => {
