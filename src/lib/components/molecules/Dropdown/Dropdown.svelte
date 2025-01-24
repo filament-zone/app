@@ -224,7 +224,7 @@
 			class="w-full"
 			readonly={isReadonly()}
 			{leftLabel}
-			RightIcon={!disabled ? ($isOpen ? ChevronUpIcon : ChevronDownIcon) : null}
+			RightIcon={$isOpen ? ChevronUpIcon : ChevronDownIcon}
 			LeftIcon={getLeftIcon()}
 			{sizeVariant}
 			placeholder={displaySelectedValues && isMulti && value?.length ? '' : placeholder}
