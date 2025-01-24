@@ -84,6 +84,7 @@
 
 		&.disabled {
 			color: gray !important;
+			opacity: 0.6;
 			cursor: not-allowed;
 
 			&:hover {
