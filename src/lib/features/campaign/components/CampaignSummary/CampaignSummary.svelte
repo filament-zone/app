@@ -55,7 +55,7 @@
 			{#if toggleValue === 'criteria'}
 				<CampaignSummaryCriteria {campaign} />
 			{:else if toggleValue === 'governance'}
-				<CampaignSummaryDelegates />
+				<CampaignSummaryDelegates {campaign} />
 			{/if}
 		</Container>
 	</div>
