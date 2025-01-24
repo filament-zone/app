@@ -73,7 +73,7 @@
 
 <RightSideBar>
 	{#if selectedCriteria}
-		<div class="flex flex-col justify-between h-full">
+		<div class="flex flex-col justify-between h-full gap-6">
 			<div class="flex flex-col gap-4">
 				<Input label="Name" bind:value={$editableCriteriaState.name} />
 				<Dropdown label="Environment" options={$data.pageData.step2Data.meta.environmentOptions} />
@@ -104,7 +104,7 @@
 				</div>
 				<AddContractInput label="List of contracts" />
 			</div>
-			<div class="flex flex-row justify-between">
+			<div class="flex flex-row justify-between pb-4">
 				<Button class="self-end" on:click={handleDelete} styleVariant={EButtonStyleVariant.NEGATIVE}
 					>Delete</Button
 				>
