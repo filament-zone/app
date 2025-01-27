@@ -61,15 +61,36 @@
 
 	const options: Record<CampaignPhase, ICampaignTimeLineItemProps> = {
 		Draft: timeLineDraft,
-		'Criteria Voting': timeLineVoteCriteria,
+		Criteria: timeLineVoteCriteria,
 		'Data Indexing': timeLineDataIndexing,
 		'Distribution Voting': timeLineVoteDistribution,
 		'Token Distribution': timeLineSuccessfulAirdrop
 	};
 
-	const activeNumericPhase = campaign?.numericPhase || 0;
+	$: activePhase = (campaign?.phase as CampaignPhase) || 'Draft';
 
-	const getStatus = (activeNumericPhase: number, numericPhase: number) => {
+	$: activeNumericPhase = () => {
+		switch (activePhase) {
+			case 'Draft':
+				return 0;
+			case 'Criteria':
+				return 1;
+
+			case 'Data Indexing':
+				return 2;
+
+			case 'Distribution Voting':
+				return 3;
+
+			case 'Token Distribution':
+				return 4;
+
+			default:
+				return 0;
+		}
+	};
+
+	$: getStatus = (activeNumericPhase: number, numericPhase: number) => {
 		if (!isTimelineOpen) {
 			return 'ongoing';
 		}
@@ -82,8 +103,7 @@
 		return 'planned';
 	};
 
-	const activePhase = (campaign?.phase as CampaignPhase) || 'Draft';
-	const activeTimeLine = options[activePhase] || {
+	$: activeTimeLine = options[activePhase] || {
 		title: 'Unknown Phase',
 		description: 'No information available.',
 		status: 'rejected',
@@ -102,24 +122,24 @@
 		class="flex flex-col gap-8 campaign-timeline-content {!isCollapsable ? 'is-collapsable' : ''}"
 	>
 		{#if isTimelineOpen}
-			<div transition:fade={{ duration: 300 }} class="flex flex-col gap-1">
+			<div class="flex flex-col gap-1">
 				{#each Object.values(options) as phaseOptions, index}
 					<CampaignTimeLineItem
 						{...phaseOptions}
 						isExpanded={isTimelineOpen}
-						status={getStatus(activeNumericPhase, phaseOptions.numericPhase ?? 0)}
+						status={getStatus(activeNumericPhase(), phaseOptions.numericPhase ?? 0)}
 						isFirst={index === 0}
 						isLast={index === Object.values(options).length - 1}
 					/>
 				{/each}
 			</div>
 		{:else}
-			<CampaignTimeLineItem
-				{...activeTimeLine}
-				status={getStatus(activeNumericPhase, activeTimeLine.numericPhase ?? 0)}
-				isFirst={activeNumericPhase === 0}
-				isLast={activeNumericPhase === 4}
-			/>
+			<div>
+				<CampaignTimeLineItem
+					{...activeTimeLine}
+					status={getStatus(activeNumericPhase(), activeTimeLine.numericPhase ?? 0)}
+				/>
+			</div>
 		{/if}
 	</div>
 </div>
