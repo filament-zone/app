@@ -115,17 +115,17 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	addTransaction(tx?.txHash);
 	updateModalConfig({
 		variant: EModalVariant.TRANSACTION_STATUS,
-		state: { txHash: tx?.txHash }
+		state: { txHash: tx?.txHash, config: voteTransactionModalConfig }
 	});
 
 	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
 
 	txStatusWebSocket.onOpen(() => {
-		console.log('onOpen');
+		// console.log('onOpen');
 	});
 
-	txStatusWebSocket.addMessageHandler((message) => {
-		console.log('messageHandler', message);
+	txStatusWebSocket.addMessageHandler(() => {
+		// console.log('messageHandler', message);
 	});
 
 	await txStatusWebSocket.connect();

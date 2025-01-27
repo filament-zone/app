@@ -39,7 +39,7 @@
 		}
 	});
 
-	$: if (currentScreen && chartInstance) {
+	$: if (currentScreen && chartInstance && chartData) {
 		if (chartInstance) {
 			chartInstance.update();
 		}

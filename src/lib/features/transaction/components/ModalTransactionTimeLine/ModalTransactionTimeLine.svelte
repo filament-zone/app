@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Modal, modalStore, transactionStore, TxTimeLineItem } from '$lib/features';
-	import { Button, Typography } from '$lib/components';
+	import { Button, Divider, Typography } from '$lib/components';
 	import {
 		ETxTimeLineItem,
 		type ITxTimeLineItemProps,
@@ -31,29 +31,23 @@
 			step.set(2);
 		}
 	}
-
-	const timeLine1: ITxTimeLineItemProps = {
+	$: timeLine1 = {
 		iconStatus: ETxTimeLineItem.PROCESSING,
-		title: state?.config?.[1].title ?? 'Transaction Submitted',
-		description: state?.config?.[1].description ?? 'Transaction has been submitted',
+		title: state?.config?.timeLine[1].title ?? 'Transaction Submitted',
+		description: state?.config?.timeLine[1].description ?? 'Transaction has been submitted',
 		isFirst: true
 	};
 
-	const timeLine2: ITxTimeLineItemProps = {
+	$: timeLine2 = {
 		iconStatus: ETxTimeLineItem.PROCESSING,
-		title: state?.config?.[2].title ?? 'Transaction Received',
+		title: state?.config?.timeLine[2].title ?? 'Transaction Received',
 		description:
-			state?.config?.[2].description ?? 'Transaction has been received and is being processed',
+			state?.config?.timeLine[2].description ??
+			'Transaction has been received and is being processed',
 		isLast: true
 	};
 
-	const modalConfigLocal: Record<
-		number,
-		{
-			timeLine1: ITxTimeLineItemProps;
-			timeLine2: ITxTimeLineItemProps;
-		}
-	> = {
+	$: modalConfigLocal = {
 		0: {
 			timeLine1,
 			timeLine2
@@ -69,7 +63,13 @@
 				iconStatus: ETxTimeLineItem.CHECKED
 			}
 		}
-	};
+	} as Record<
+		number,
+		{
+			timeLine1: ITxTimeLineItemProps;
+			timeLine2: ITxTimeLineItemProps;
+		}
+	>;
 
 	onDestroy(() => {
 		transactions.set([]);
@@ -78,9 +78,14 @@
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
 	<div slot="header">
-		<Typography variant="h5">Transaction Status</Typography>
+		<Typography variant="h5">{state?.config?.common.title ?? 'Transaction Status'}</Typography>
 	</div>
 	<div slot="content" class="flex flex-col justify-between h-full">
+		{#if state?.config?.common.title}
+			<Typography variant="h6" class="mb-4">{state?.config.common.description}</Typography>
+			<Divider class="mb-8" />
+			<Typography variant="h6" class="mb-4">Transaction Status</Typography>
+		{/if}
 		<div>
 			<TxTimeLineItem {...modalConfigLocal[$step].timeLine2} />
 			<TxTimeLineItem {...modalConfigLocal[$step].timeLine1} />

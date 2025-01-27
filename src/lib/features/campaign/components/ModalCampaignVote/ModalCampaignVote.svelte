@@ -21,15 +21,18 @@
 		<Typography variant="h5">Vote</Typography>
 	</div>
 	<div slot="content">
-		<Typography variant="subtitle2"
+		<Typography variant="caption"
 			>As a delegate, your mission is to represent your delegators interests and evaluate whether
 			the proposed airdrop criteria are aligned with your professional opinion. Please select one of
 			the options below to contribute with your voting power to the decision making of this airdrop.
 		</Typography>
 		<br />
-		<Typography variant="subtitle2">
+		<br />
+		<Typography variant="caption">
 			Please be aware that once voted, you cannot change your decision anymore.
 		</Typography>
+		<br />
+		<br />
 		<ToggleContentContainer bind:selected={toggleSelected}>
 			<ToggleContentCard slot="first">
 				<div slot="label" class="flex flex-row gap-4">
@@ -37,9 +40,9 @@
 					<Typography variant="caption">Yes</Typography>
 				</div>
 				<Typography variant="caption" slot="content"
-					>The airdrop criteria proposed by the campaigner do sufficiently represent the expectation
-					of your delegators and are aligned with your professional opinion. You hereby reject this
-					proposal.</Typography
+					>The airdrop criteria proposed by the campaigner <strong>do</strong> sufficiently represent
+					the expectation of your delegators and are aligned with your professional opinion. You hereby
+					reject this proposal.</Typography
 				>
 			</ToggleContentCard>
 			<ToggleContentCard slot="second">
@@ -49,14 +52,14 @@
 				</div>
 				>
 				<Typography variant="caption" slot="content"
-					>The airdrop criteria proposed by the campaigner do not sufficiently meet your
-					expectations and are not aligned with you professional opinion. You hereby reject this
+					>The airdrop criteria proposed by the campaigner <strong>do not</strong> sufficiently meet
+					your expectations and are not aligned with you professional opinion. You hereby reject this
 					proposal.</Typography
 				>
 			</ToggleContentCard>
 		</ToggleContentContainer>
 
-		<Button on:click={handleVote} class="ml-auto mt-8" variant="secondary">Confirm</Button>
+		<Button on:click={handleVote} class="ml-auto mt-8" variant="secondary">Confirm Vote</Button>
 	</div>
 </Modal>
 

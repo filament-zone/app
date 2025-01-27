@@ -1,7 +1,10 @@
 import type { Writable } from 'svelte/store';
 import type { ITxTimeLineItemProps } from '$lib/types';
 
-export type TModalTransactionConfig = Record<number, ITxTimeLineItemProps>;
+export type TModalTransactionConfig = {
+	common: { title: string; description: string };
+	timeLine: Record<number, ITxTimeLineItemProps>;
+};
 
 export interface ITransactionStatus {
 	txHash: string;
