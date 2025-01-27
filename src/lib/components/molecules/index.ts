@@ -14,3 +14,4 @@ export * from './Tooltip';
 export * from './ToggleContentContainer';
 export * from './Metrics';
 export * from './TextCollapse';
+export * from './Ticker';

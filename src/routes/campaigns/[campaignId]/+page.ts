@@ -29,7 +29,7 @@ export async function load({ params }) {
 				if (value === 'Rejected') {
 					rejectedCount++;
 				} else {
-					approvedCount++;
+					approvedCount = approvedCount + Number(value.Approved.weights[0]);
 				}
 			}
 		}
