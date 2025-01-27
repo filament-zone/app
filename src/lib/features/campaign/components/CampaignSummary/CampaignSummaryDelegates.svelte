@@ -1,21 +1,27 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
-	import { page } from '$app/stores';
-	import { delegatesColumnDefCommon } from '$lib/features';
+	import { delegatesColumnDefCommonSecond } from '$lib/features';
 	import { Table } from '$lib/components';
-	import type { ICampaign, IDelegate, ITableProps } from '$lib/types';
+	import { shortCutTransactionHash } from '$lib/helpers';
+	import type { ICampaign, ITableProps } from '$lib/types';
 
 	export let campaign: ICampaign;
 
-	const data = derived(page, () => $page.data);
+	const sumVotingPower = Object.values(campaign.delegates).reduce(
+		(acc, curr) => Number(acc) + Number(curr),
+		0
+	);
 
 	$: activeDelegatesTable = {
 		data: [
-			...$data.pageData.delegates.filter((delegate: IDelegate) =>
-				campaign.evictions?.includes(delegate.id)
-			)
+			...Object.entries(campaign.delegates).map(([key, value]) => {
+				return {
+					address: shortCutTransactionHash(key),
+					percentage: Number(value) / sumVotingPower,
+					votingPower: value
+				};
+			})
 		],
-		columnDef: delegatesColumnDefCommon
+		columnDef: delegatesColumnDefCommonSecond
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 </script>
 
