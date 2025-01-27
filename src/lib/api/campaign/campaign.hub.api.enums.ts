@@ -18,3 +18,11 @@ export enum ECampaignTimeSettings {
 	ONE_TIME = 'ONE_TIME',
 	RECURRING = 'RECURRING'
 }
+
+export enum ECampaignPhase {
+	DRAFT = 'Draft',
+	CRITERIA = 'Criteria',
+	DATA_INDEXING = 'Data Indexing',
+	DISTRIBUTION_VOTING = 'Distribution Voting',
+	TOKEN_DISTRIBUTION = 'Token Distribution'
+}

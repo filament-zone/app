@@ -1,5 +1,5 @@
 import type { Campaign, Criterion, CriterionCategory } from '@filament-zone/filament';
-import { ECampaignTimeSettings, EEligibilityCriteriaType } from '$lib/types';
+import { ECampaignPhase, ECampaignTimeSettings, EEligibilityCriteriaType } from '$lib/types';
 import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 
 export interface IDelegate {
@@ -41,14 +41,6 @@ export type TCriterionPayload = {
 	contracts: IContract[];
 	inputs: ICriteriaInput[];
 };
-
-export enum ECampaignPhase {
-	DRAFT = 'Draft',
-	CRITERIA = 'Criteria',
-	DATA_INDEXING = 'Data Indexing',
-	DISTRIBUTION_VOTING = 'Distribution Voting',
-	TOKEN_DISTRIBUTION = 'Token Distribution'
-}
 
 // @ts-expect-error ECampaignPhase
 export interface ICampaign extends Campaign {

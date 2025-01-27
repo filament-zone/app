@@ -105,7 +105,7 @@ export function generateRandomTickerData(
 	return data;
 }
 
-const phases = Object.keys(ECampaignPhase);
+const phases = ['Draft', 'Criteria', 'Data Indexing', 'Distribution Voting', 'Token Distribution'];
 
 const getNumericPhase = (phase: number): number => {
 	return phases.indexOf(phase.toString());
