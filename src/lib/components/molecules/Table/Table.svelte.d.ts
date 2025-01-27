@@ -16,6 +16,7 @@ declare const __propDef: {
 		onRowClick?: ((row: Row<RowData>) => void) | null;
 		sortingState?: SortingState;
 		headerBackground?: string;
+		tableEmptyMessage?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

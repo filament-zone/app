@@ -1,6 +1,6 @@
 <script context="module">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { ModalCampaignVote } from '$lib/features';
+	import { ModalTransactionTimeLine } from '$lib/features';
 
 	export const meta = {
 		title: 'Features/Modal/Transaction TimeLine'
@@ -11,4 +11,4 @@
 	<svelte:component this={args.modal} {...args} />
 </Template>
 
-<Story name="Primary" args={{ modal: ModalCampaignVote }} />
+<Story name="Primary" args={{ modal: ModalTransactionTimeLine }} />

@@ -14,7 +14,7 @@
 			<Typography variant="overline">Balance: 54,300</Typography>
 		</div>
 		<div class="pricing-component">
-			<Typography variant="overline" color="var(--upOnly-400)">40,000</Typography>
+			<Typography variant="overline" color="var(--upOnly)">40,000</Typography>
 			<Dropdown
 				options={dropdownOptions}
 				sizeVariant={EDropdownSizeVariant.SMALL}

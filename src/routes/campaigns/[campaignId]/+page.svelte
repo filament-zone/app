@@ -11,31 +11,25 @@
 		isCampaignDelegate,
 		isCriteriaVoteAccessibleFn
 	} from '$lib/features';
-	import {
-		Badge,
-		Button,
-		CampaignTimeLine,
-		Container,
-		Divider,
-		SecondaryDoughnutChart,
-		Typography
-	} from '$lib/components';
+	import { Badge, Button, SecondaryDoughnutChart, Typography, Container } from '$lib/components';
 	import {
 		EButtonSizeVariant,
 		EModalVariant,
 		EBadgeColorVariant,
+		EButtonStyleVariant,
 		type ICampaign
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
 	export let data;
 
-	const { campaignDetails } = campaignDetailsStore;
+	const { campaignDetails, initCampaign } = campaignDetailsStore;
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
 	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
-	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
+
+	$: isDelegate = isCampaignDelegate(Object.keys(campaign.delegates), $wallet.address as string);
 
 	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
 		campaign?.phase as ICampaign['phase'],
@@ -57,94 +51,94 @@
 </script>
 
 <div class="flex flex-col xl:flex-row gap-4">
-	<div class="w-full">
-		<Container label="Campaign Preview">
+	<div class="w-8/12">
+		<Container label="Campaign Details" variant="secondary">
 			<Button
 				slot="header"
 				on:click={() => {
 					goto(routes.CAMPAIGNS.MANAGE.ROOT);
-				}}>Back to list</Button
+				}}>Return to list</Button
 			>
 			<div class="flex flex-col gap-4">
-				<div>
-					<span class="campaign-label">{campaign?.title}</span>
-				</div>
-				<Divider />
-				{#if campaign}
-					<CampaignTimeLine {campaign} />
-				{/if}
-				<Divider />
-				<CampaignSummary {campaign} />
+				<CampaignSummary {campaign} useTimeline={true} />
 			</div>
 		</Container>
 	</div>
-	<div class="flex flex-col min-w-[384px] gap-4">
-		<Container label="Voting">
-			<div class="flex flex-col gap-4">
-				<div class="flex flex-row justify-between">
-					<Badge
-						label="Turnout:"
-						RightContent="48%"
-						RightContentColorVariant="purple"
-						colorVariant={EBadgeColorVariant.SECONDARY}
-					/>
-					<Badge
-						label="Time Left:"
-						RightContent="7D 42M"
-						RightContentColorVariant="purple"
-						colorVariant={EBadgeColorVariant.SECONDARY}
-					/>
+	<div class="flex flex-col w-4/12 gap-4">
+		{#if campaign.phase === 'Draft'}
+			<Container label="Setup">
+				<div class="flex flex-col gap-4">
+					<Typography variant="caption">
+						In order to initiate the campaign, you have to deposit the collateral of 1 bFILA first.
+						One bFILA currently is worth about 14,000 FILA token.
+					</Typography>
+					<Button
+						on:click={initCampaign.bind(null, campaign.id)}
+						styleVariant={EButtonStyleVariant.HIGHLIGHT}
+						sizeVariant={EButtonSizeVariant.FULL_WIDTH}>Initiate</Button
+					>
 				</div>
-				{#if data.tickerData?.length}
-					<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
-				{:else}
-					<div class="flex justify-center items-center h-[300px]">
-						<Typography variant="h5">No data available</Typography>
+			</Container>
+		{/if}
+		{#if campaign.phase === 'Criteria'}
+			<Container label="Vote">
+				<div class="flex flex-col gap-4">
+					<div class="flex flex-row justify-between">
+						<Badge
+							label="Turnout:"
+							RightContent="48%"
+							RightContentColorVariant="purple"
+							colorVariant={EBadgeColorVariant.SECONDARY}
+						/>
+						<Badge
+							label="Time Left:"
+							RightContent="7D 42M"
+							RightContentColorVariant="purple"
+							colorVariant={EBadgeColorVariant.SECONDARY}
+						/>
 					</div>
-				{/if}
-				<Button
-					sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-					on:click={handleVote}
-					disabled={!isCriteriaVoteAccessible}>Vote</Button
-				>
-			</div>
-		</Container>
-		<Container label="Ticker">
-			<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
-				{#if data.tickerData?.length}
-					{#each data.tickerData as item}
-						<div class="ticker-item">
-							<div class="ticker-item__name">{item?.name}</div>
-							<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
-							<div class="ticker-item__status">
-								<span
-									style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? '#00F58C' : '#FF679B'}`}
-								>
-									{item?.status}</span
-								>
-							</div>
+					{#if data.chartData}
+						<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+					{:else}
+						<div class="flex justify-center items-center h-[300px]">
+							<Typography variant="h5">No data available</Typography>
 						</div>
-					{/each}
-				{:else}
-					<div class="flex justify-center items-center h-[300px]">
-						<Typography variant="h5">No data available</Typography>
-					</div>
-				{/if}
-			</div>
-		</Container>
+					{/if}
+					<Button
+						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+						on:click={handleVote}
+						disabled={!isCriteriaVoteAccessible}>Vote</Button
+					>
+				</div>
+			</Container>
+			<Container label="Ticker">
+				<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
+					{#if data.tickerData?.length}
+						{#each data.tickerData as item}
+							<div class="ticker-item">
+								<div class="ticker-item__name">{item?.name}</div>
+								<div class="ticker-item__date">{moment(item?.date).format('MMM DD, YYYY')}</div>
+								<div class="ticker-item__status">
+									<span
+										style={`color: ${item?.status.toLocaleLowerCase() === 'approved' ? '#00F58C' : '#FF679B'}`}
+									>
+										{item?.status}</span
+									>
+								</div>
+							</div>
+						{/each}
+					{:else}
+						<div class="flex justify-center items-center h-[300px]">
+							<Typography variant="h5">No data available</Typography>
+						</div>
+					{/if}
+				</div>
+			</Container>
+		{/if}
 	</div>
 </div>
 
 <style lang="less">
-	.campaign-label {
-		color: var(--primary-white);
-		font-family: var(--primary-font);
-		font-size: 20px;
-		font-style: normal;
-		font-weight: 450;
-		line-height: 20px;
-	}
-
 	.ticker-item {
 		display: flex;
 		flex-direction: row;

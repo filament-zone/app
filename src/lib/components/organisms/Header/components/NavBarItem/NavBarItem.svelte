@@ -74,9 +74,9 @@
 	};
 </script>
 
-<div class="nav-item-container">
+<div class="nav-item-container h-fit md:h-full justify-center items-center w-full md:w-fit">
 	<div
-		class="nav-item"
+		class="nav-item h-fit md:h-full items-center justify-center w-fit p-6 md:px-6 md:py-3"
 		data-testId={`nav-item-${option.value}`}
 		class:selected={mainRouteSelected}
 		on:click={() => {
@@ -112,18 +112,37 @@
 		cursor: pointer;
 		text-transform: capitalize;
 		position: relative;
-		height: 100%;
+		display: flex;
 
 		.nav-item {
 			display: flex;
-			padding: 0 12px 10px 12px;
-			height: 100%;
 			align-items: center;
 			font-weight: inherit;
 			gap: 0.5rem;
+			position: relative;
+			transition: color 0.3s ease;
+
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 0;
+				height: 2px;
+				background-color: var(--filaMint);
+				transition:
+					width 0.3s ease,
+					left 0.3s ease;
+			}
+
+			&.selected::after {
+				width: 100%;
+				left: 0;
+			}
 
 			&.selected {
 				font-weight: 800;
+				border-bottom: 1.5px solid var(--filaMint);
 			}
 		}
 
@@ -136,7 +155,13 @@
 
 		.selected {
 			border-bottom: 1.5px solid var(--filaMint);
+			@media (min-width: 768px) {
+				padding-bottom: 14px;
+			}
 			font-weight: 700;
+			transition:
+				color 0.3s ease,
+				border-bottom 0.3s ease;
 		}
 	}
 </style>

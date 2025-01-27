@@ -22,7 +22,10 @@
 		caption: 'span',
 		overline: 'span',
 		labelSmall: 'span',
-		button: 'span'
+		button: 'span',
+		badge: 'span',
+		toggle: 'span',
+		cardDate: 'span'
 	};
 
 	const dispatch = createEventDispatcher();
@@ -51,6 +54,7 @@
 		font-size: 26px;
 		font-weight: 700;
 		line-height: 1.2;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 29px;
@@ -78,6 +82,7 @@
 		font-size: 22px;
 		font-weight: 600;
 		line-height: 1.3;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 26px;
@@ -105,6 +110,7 @@
 		font-size: 19px;
 		font-weight: 500;
 		line-height: 1.4;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 22px;
@@ -132,6 +138,7 @@
 		font-size: 16px;
 		font-weight: 500;
 		line-height: 1.5;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 19px;
@@ -159,6 +166,7 @@
 		font-size: 18px;
 		font-weight: 600;
 		line-height: 1.6;
+		letter-spacing: 0.05rem;
 
 		@media @size_sm {
 			font-size: 16px;
@@ -183,9 +191,12 @@
 
 	.typography_h6 {
 		font-family: var(--primary-font);
-		font-size: 10px;
+		font-size: 14px;
 		font-weight: 400;
+		letter-spacing: 0.07rem;
 		--size: 16px;
+		width: fit-content;
+		display: inline-flex;
 
 		@media @size_sm {
 			font-size: var(--size);
@@ -295,16 +306,16 @@
 
 	.typography_body2 {
 		font-family: var(--secondary-font);
-		font-size: 11px;
+		font-size: 16px;
 		font-weight: 400;
 		line-height: 1.5;
 
 		@media @size_sm {
-			font-size: 12px;
+			font-size: 16px;
 		}
 
 		@media @size_md {
-			font-size: 13px;
+			font-size: 16px;
 		}
 
 		@media @size_lg {
@@ -321,19 +332,47 @@
 	}
 
 	.typography_caption {
-		font-family: var(--primary-font);
-		font-size: 14px;
-		font-weight: 400;
+		font-family: var(--secondary-font);
+		font-size: 16px;
+		font-weight: 300;
 		line-height: 1.5;
-		letter-spacing: 0.04em;
-		opacity: 0.8;
+		letter-spacing: 0.05rem;
+		opacity: 1;
+		text-align: left;
 
 		@media @size_sm {
-			font-size: 13px;
+			font-size: 12px;
 		}
 
 		@media @size_md {
 			font-size: 13px;
+		}
+
+		@media @size_lg {
+			font-size: 13px;
+		}
+
+		@media @size_xl {
+			font-size: 14px;
+		}
+
+		@media @size_2xl {
+			font-size: 14px;
+		}
+	}
+
+	.typography_overline {
+		font-family: var(--primary-font);
+		font-size: 14px;
+		font-weight: 300;
+		line-height: 1.5;
+
+		@media @size_sm {
+			font-size: 14px;
+		}
+
+		@media @size_md {
+			font-size: 14px;
 		}
 
 		@media @size_lg {
@@ -349,36 +388,28 @@
 		}
 	}
 
-	.typography_overline {
+	.typography_cardDate {
 		font-family: var(--primary-font);
-		font-size: 8px;
+		font-size: 12px;
 		font-weight: 400;
 		line-height: 1.5;
-
+		letter-spacing: 0.05rem;
 		@media @size_sm {
-			font-size: 13px;
+			font-size: 12px;
 		}
 
 		@media @size_md {
-			font-size: 13px;
-		}
-
-		@media @size_lg {
 			font-size: 14px;
 		}
 
-		@media @size_xl {
-			font-size: 15px;
-		}
-
-		@media @size_2xl {
+		@media @size_lg {
 			font-size: 15px;
 		}
 	}
 
 	.typography_labelSmall {
 		font-family: var(--secondary-font);
-		font-size: 6px;
+		font-size: 9px;
 		font-weight: 400;
 		line-height: 1.5;
 
@@ -401,6 +432,30 @@
 		@media @size_2xl {
 			font-size: 12px;
 		}
+	}
+
+	.typography_badge {
+		font-family: var(--primary-font);
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 1.5;
+		letter-spacing: 0.06rem;
+	}
+
+	.typography_badge_number {
+		font-family: var(--secondary-font);
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 1.5;
+		letter-spacing: 0.05rem;
+	}
+
+	.typography_toggle {
+		font-family: var(--primary-font);
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.5;
+		letter-spacing: 0.05rem;
 	}
 
 	.allow-hover {

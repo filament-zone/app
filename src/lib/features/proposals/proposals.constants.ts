@@ -7,13 +7,15 @@ export const ProposalTypeNameMap = {
 };
 
 export const ProposalStatusNameMap: Record<EProposalStatus, string> = {
-	[EProposalStatus.OPEN]: 'Opened',
+	[EProposalStatus.OPEN]: 'Ongoing',
 	[EProposalStatus.FAILED]: 'Failed',
-	[EProposalStatus.REJECTED]: 'Rejected'
+	[EProposalStatus.REJECTED]: 'Rejected',
+	[EProposalStatus.PASSED]: 'Passed'
 };
 
 export const ProposalStatusBadgeColorVariantMap = {
-	[EProposalStatus.OPEN]: EBadgeColorVariant.SUCCESS,
+	[EProposalStatus.PASSED]: EBadgeColorVariant.SUCCESS,
+	[EProposalStatus.OPEN]: EBadgeColorVariant.ONGOING,
 	[EProposalStatus.FAILED]: EBadgeColorVariant.FAILED,
 	[EProposalStatus.REJECTED]: EBadgeColorVariant.REJECTED
 };

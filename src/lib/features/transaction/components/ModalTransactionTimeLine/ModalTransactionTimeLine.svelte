@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { Modal, modalStore, transactionStore } from '$lib/features';
-	import { Button, Typography, TimeLineItem } from '$lib/components';
-	import { ETimeLineItem, type ITimeLineItemProps, type TModalTransactionConfig } from '$lib/types';
+	import { Modal, modalStore, transactionStore, TxTimeLineItem } from '$lib/features';
+	import { Button, Typography } from '$lib/components';
+	import {
+		ETxTimeLineItem,
+		type ITxTimeLineItemProps,
+		type TModalTransactionConfig
+	} from '$lib/types';
 
 	const { closeModal, modalConfig } = modalStore;
 
@@ -28,15 +32,15 @@
 		}
 	}
 
-	const timeLine1 = {
-		iconStatus: ETimeLineItem.PROCESSING,
+	const timeLine1: ITxTimeLineItemProps = {
+		iconStatus: ETxTimeLineItem.PROCESSING,
 		title: state?.config?.[1].title ?? 'Transaction Submitted',
 		description: state?.config?.[1].description ?? 'Transaction has been submitted',
 		isFirst: true
 	};
 
-	const timeLine2 = {
-		iconStatus: ETimeLineItem.PROCESSING,
+	const timeLine2: ITxTimeLineItemProps = {
+		iconStatus: ETxTimeLineItem.PROCESSING,
 		title: state?.config?.[2].title ?? 'Transaction Received',
 		description:
 			state?.config?.[2].description ?? 'Transaction has been received and is being processed',
@@ -46,8 +50,8 @@
 	const modalConfigLocal: Record<
 		number,
 		{
-			timeLine1: ITimeLineItemProps;
-			timeLine2: ITimeLineItemProps;
+			timeLine1: ITxTimeLineItemProps;
+			timeLine2: ITxTimeLineItemProps;
 		}
 	> = {
 		0: {
@@ -55,14 +59,14 @@
 			timeLine2
 		},
 		1: {
-			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED },
-			timeLine2
+			timeLine1: { ...timeLine1, iconStatus: ETxTimeLineItem.CHECKED },
+			timeLine2: { ...timeLine2 }
 		},
 		2: {
-			timeLine1: { ...timeLine1, iconStatus: ETimeLineItem.CHECKED },
+			timeLine1: { ...timeLine1, iconStatus: ETxTimeLineItem.CHECKED },
 			timeLine2: {
 				...timeLine2,
-				iconStatus: ETimeLineItem.CHECKED
+				iconStatus: ETxTimeLineItem.CHECKED
 			}
 		}
 	};
@@ -74,12 +78,12 @@
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
 	<div slot="header">
-		<Typography variant="h5">Transaction status:</Typography>
+		<Typography variant="h5">Transaction Status</Typography>
 	</div>
-	<div slot="content">
+	<div slot="content" class="flex flex-col justify-between h-full">
 		<div>
-			<TimeLineItem {...modalConfigLocal[$step].timeLine2} />
-			<TimeLineItem {...modalConfigLocal[$step].timeLine1} />
+			<TxTimeLineItem {...modalConfigLocal[$step].timeLine2} />
+			<TxTimeLineItem {...modalConfigLocal[$step].timeLine1} />
 		</div>
 		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
 	</div>

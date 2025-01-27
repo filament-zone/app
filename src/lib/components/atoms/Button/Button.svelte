@@ -27,7 +27,7 @@
 	.button {
 		padding: 6px 10px;
 		text-align: center;
-		height: 32px;
+		height: fit-content;
 		white-space: nowrap;
 		cursor: pointer;
 		display: flex;
@@ -56,14 +56,13 @@
 			font-style: normal;
 			font-weight: 600;
 			line-height: 20px;
-			letter-spacing: 0.02rem;
+			letter-spacing: 0.04rem;
 		}
 
 		&.style-secondary {
 			--fill-color: var(--darkNet);
 			--text-color: #ffffff;
 		}
-
 		&.style-disabled {
 			--fill-color: #4d4d4d;
 			--text-color: #9e9e9e;

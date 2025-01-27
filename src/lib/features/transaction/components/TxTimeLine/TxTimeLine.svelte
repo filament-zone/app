@@ -4,19 +4,19 @@
 	import { capitalizeFirstLetter } from '$lib/helpers';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import ProcessingCircleIcon from '$lib/assets/icons/processing-circle.svg?component';
-	import { type ITimeLineItemProps, ETimeLineItem } from '$lib/types';
+	import { type ITxTimeLineItemProps, ETxTimeLineItem } from '$lib/types';
 
-	export let iconStatus: ITimeLineItemProps['iconStatus'];
-	export let title: ITimeLineItemProps['title'];
-	export let description: ITimeLineItemProps['description'];
-	export let date: ITimeLineItemProps['date'];
-	export let status: ITimeLineItemProps['status'];
-	export let isFirst: ITimeLineItemProps['isFirst'] = false;
-	export let isLast: ITimeLineItemProps['isLast'] = false;
-	export let onButtonClick: ITimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ITimeLineItemProps['buttonLabel'];
+	export let iconStatus: ITxTimeLineItemProps['iconStatus'];
+	export let title: ITxTimeLineItemProps['title'];
+	export let description: ITxTimeLineItemProps['description'];
+	export let date: ITxTimeLineItemProps['date'];
+	export let status: ITxTimeLineItemProps['status'];
+	export let isFirst: ITxTimeLineItemProps['isFirst'] = false;
+	export let isLast: ITxTimeLineItemProps['isLast'] = false;
+	export let onButtonClick: ITxTimeLineItemProps['onButtonClick'];
+	export let buttonLabel: ITxTimeLineItemProps['buttonLabel'];
 
-	const getStatusColor: (status: ITimeLineItemProps['status']) => string = (status) => {
+	const getStatusColor: (status: ITxTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
 			case 'success':
 				return 'var(--upOnly-400)';
@@ -29,7 +29,7 @@
 		}
 	};
 
-	$: lineBackground = iconStatus === ETimeLineItem.CHECKED ? '#4D4D4D' : '#272727';
+	$: lineBackground = iconStatus === ETxTimeLineItem.CHECKED ? '#4D4D4D' : '#272727';
 
 	const renderLine = (position: 'top' | 'bottom') => {
 		if ((position === 'top' && !isLast) || (position === 'bottom' && !isFirst)) {
@@ -48,7 +48,7 @@
 
 <div class="flex flex-row h-[72px]">
 	<div class="flex justify-center items-center w-1/12 relative">
-		{#if iconStatus === ETimeLineItem.CHECKED}
+		{#if iconStatus === ETxTimeLineItem.CHECKED}
 			{#if renderLine('top')}
 				<div style={renderLine('top')} />
 			{/if}
@@ -56,7 +56,7 @@
 			{#if renderLine('bottom')}
 				<div style={renderLine('bottom')} />
 			{/if}
-		{:else if iconStatus === ETimeLineItem.PROCESSING}
+		{:else if iconStatus === ETxTimeLineItem.PROCESSING}
 			{#if renderLine('top')}
 				<div style={renderLine('top')} />
 			{/if}

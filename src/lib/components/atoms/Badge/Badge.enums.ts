@@ -2,7 +2,7 @@ export enum EBadgeColorVariant {
 	PRIMARY = 'primary',
 	SECONDARY = 'secondary',
 	SUCCESS = 'success',
-	IN_PROGRESS = 'in-progress',
+	ONGOING = 'ongoing',
 	REJECTED = 'rejected',
 	FAILED = 'failed'
 }

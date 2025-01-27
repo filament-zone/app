@@ -2,7 +2,12 @@ import { SvelteComponent } from 'svelte';
 import { type ICampaign } from '$lib/types';
 
 declare const __propDef: {
-	props: { campaign: ICampaign | undefined; isOpen?: boolean };
+	props: {
+		campaign: ICampaign | undefined;
+		isOpen?: boolean;
+		isCollapsable?: boolean;
+		title?: string;
+	};
 	events: {
 		[evt: string]: CustomEvent;
 	};

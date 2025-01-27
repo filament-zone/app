@@ -19,18 +19,18 @@ import {
 
 export type TDelegationsTableData = {
 	id: string;
-	validator: IValidator;
+	delegate: IValidator;
 	staked: string;
 	rewards: string;
 };
 
-type TValidatorsTableData = {
+type TDelegatesTableData = {
 	id: string;
-	validator: IValidator;
+	delegate: IValidator;
 	votingPower: string;
 	commission: string;
 	options: {
-		validator: IValidator;
+		delegate: IValidator;
 	};
 };
 
@@ -59,7 +59,7 @@ export async function load() {
 	const mockedDelegations: TDelegationsTableData[] = [
 		{
 			id: '1',
-			validator: {
+			delegate: {
 				id: '1',
 				Icon: FilamentLogo,
 				label: 'Filament Network'
@@ -69,7 +69,7 @@ export async function load() {
 		},
 		{
 			id: '2',
-			validator: {
+			delegate: {
 				id: '2',
 				Icon: FilamentLogo,
 				label: 'Filament Network Secondary'
@@ -107,11 +107,11 @@ export async function load() {
 				}
 			},
 			{
-				accessorKey: 'validator',
-				header: 'Validator',
+				accessorKey: 'delegate',
+				header: 'Delegate',
 				size: 200,
 				cell: (info) => {
-					const value = info.getValue() as unknown as TDelegationsTableData['validator'];
+					const value = info.getValue() as unknown as TDelegationsTableData['delegate'];
 					return flexRender(TableValidatorComponent, { ...value });
 				},
 				meta: {
@@ -130,13 +130,18 @@ export async function load() {
 				accessorKey: 'options',
 				header: '',
 				cell: (info) => {
-					const validator = info.getValue() as unknown as TValidatorsTableData['validator'];
+					const delegate = info.getValue() as unknown as TDelegationsTableData['delegate'];
 					return flexRender(TableValidatorOptionsComponent, {
 						buttonLabel: 'Claim Rewards',
 						disabled: true,
 						buttonOnClick: () => {
-							console.log('claim rewards', validator);
-						}
+							console.log('claim rewards', delegate);
+						},
+						options: [
+							{ value: 'stakeMore', label: 'Stake More', disabled: true },
+							{ value: 'redelegate', label: 'Redelegate', disabled: true },
+							{ value: 'unstake', label: 'Unstake', disabled: true }
+						]
 					});
 				},
 				meta: {
@@ -156,7 +161,7 @@ export async function load() {
 			console.log('searchSelect value', value);
 		},
 		inputProps: {
-			placeholder: 'Search validators...',
+			placeholder: 'Search delegates...',
 			LeftContent: SearchIcon
 		},
 		dropdownProps: {
@@ -169,18 +174,18 @@ export async function load() {
 		}
 	};
 
-	const mockedValidators: TValidatorsTableData[] = [
+	const mockedDelegates: TDelegatesTableData[] = [
 		{
 			id: '1',
-			validator: {
+			delegate: {
 				id: '1',
 				Icon: FilamentLogo,
-				label: 'Filament Network'
+				label: 'Squid Rambo'
 			},
 			votingPower: '141,212 FILA',
 			commission: '14% (max 15%)',
 			options: {
-				validator: {
+				delegate: {
 					id: '1',
 					Icon: FilamentLogo,
 					label: 'Filament Network'
@@ -189,15 +194,15 @@ export async function load() {
 		},
 		{
 			id: '2',
-			validator: {
+			delegate: {
 				id: '2',
 				Icon: FilamentLogo,
-				label: 'Filament Network Secondary'
+				label: 'AI XBT'
 			},
 			votingPower: '232,123 FILA',
 			commission: '10% (max 20%)',
 			options: {
-				validator: {
+				delegate: {
 					id: '2',
 					Icon: FilamentLogo,
 					label: 'Filament Network Secondary'
@@ -208,7 +213,7 @@ export async function load() {
 
 	const tableAllValidatorsData: ITableProps & { tableRightLabel: ComponentType<SvelteComponent> } =
 		{
-			tableLabel: 'All Validators',
+			tableLabel: 'All Delegates',
 			tableRightLabel: SearchSelect,
 			tableRightLabelProps: { ...searchSelectProps },
 			columnDef: [
@@ -224,11 +229,11 @@ export async function load() {
 					}
 				},
 				{
-					accessorKey: 'validator',
-					header: 'Validator',
+					accessorKey: 'delegate',
+					header: 'Delegate',
 					size: 200,
 					cell: (info) => {
-						const value = info.getValue() as unknown as TValidatorsTableData['validator'];
+						const value = info.getValue() as unknown as TDelegatesTableData['delegate'];
 						return flexRender(TableValidatorComponent, { ...value });
 					},
 					meta: {
@@ -247,19 +252,15 @@ export async function load() {
 					accessorKey: 'options',
 					header: '',
 					cell: (info) => {
-						const { validator } = info.getValue() as unknown as TValidatorsTableData['options'];
+						const { delegate } = info.getValue() as unknown as TDelegatesTableData['options'];
 						return flexRender(TableValidatorOptionsComponent, {
-							buttonLabel: 'Stake',
+							buttonLabel: 'Delegate FILA',
 							buttonOnClick: () => {
 								openModal({
 									variant: EModalVariant.VALIDATOR_STAKE,
-									state: { validator }
+									state: { delegate }
 								});
-							},
-							options: [
-								{ value: 'redelegate', label: 'Redelegate', disabled: true },
-								{ value: 'unstake', label: 'Unstake', disabled: true }
-							]
+							}
 						});
 					},
 					meta: {
@@ -271,7 +272,7 @@ export async function load() {
 					}
 				}
 			],
-			data: mockedValidators
+			data: mockedDelegates
 		};
 
 	return {

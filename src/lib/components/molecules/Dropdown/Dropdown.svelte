@@ -4,7 +4,7 @@
 	import { clickOutside } from '$lib/actions';
 	import { ListItem, Input, SelectedItemMulti } from '$lib/components';
 	import { EDropdownSizeVariant, type IDropdownOption, type IDropdownProps } from '$lib/types';
-	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
+	import ChevronUpIcon from '$lib/assets/icons/chevron-up.svg?component';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
 	export let label: IDropdownProps['label'] = '';
@@ -224,7 +224,7 @@
 			class="w-full"
 			readonly={isReadonly()}
 			{leftLabel}
-			RightIcon={!disabled ? ($isOpen ? ChevronDownIcon : ChevronRightIcon) : null}
+			RightIcon={$isOpen ? ChevronUpIcon : ChevronDownIcon}
 			LeftIcon={getLeftIcon()}
 			{sizeVariant}
 			placeholder={displaySelectedValues && isMulti && value?.length ? '' : placeholder}

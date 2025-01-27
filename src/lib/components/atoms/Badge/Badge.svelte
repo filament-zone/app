@@ -9,6 +9,7 @@
 	export let RightContent: IBadgeProps['RightContent'] = null;
 	export let textColor: IBadgeProps['textColor'] = '';
 	export let RightContentColorVariant: IBadgeProps['RightContentColorVariant'] = '';
+	export let useBadgeNumberStyle: boolean = false;
 
 	function getColor(colorVariant: EBadgeColorVariant): string {
 		switch (colorVariant) {
@@ -20,7 +21,7 @@
 				return 'var(--upOnly)';
 			case EBadgeColorVariant.REJECTED:
 				return 'var(--rugged)';
-			case EBadgeColorVariant.IN_PROGRESS:
+			case EBadgeColorVariant.ONGOING:
 				return 'var(--purpleCow)';
 			case EBadgeColorVariant.FAILED:
 				return 'var(--yellowPaper)';
@@ -46,8 +47,9 @@
 		</div>
 	{/if}
 	<div class="item item-2">
-		<Typography variant="caption" color={textColor ? textColor : getColor(colorVariant)}
-			>{label}</Typography
+		<Typography
+			variant={useBadgeNumberStyle ? 'badge_number' : 'badge'}
+			color={textColor ? textColor : getColor(colorVariant)}>{label}</Typography
 		>
 	</div>
 	{#if RightContent}
@@ -66,33 +68,29 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		border-radius: 4px;
-		padding: 8px;
-		height: 35px;
+		border-radius: 6px;
+		padding: 6px 14px;
+		height: fit-content;
 
 		&.primary {
-			border: 0.5px solid var(--default-border);
-			background-color: var(--darkNet);
+			border: 2px solid var(--default-border);
 		}
 
 		&.secondary {
-			border: 0.5px solid var(--default-border);
-			background-color: var(--darkNet-100);
+			border: 1px solid var(--default-border);
+			background-color: var(--default-border);
 		}
 
 		&.success {
-			border: 0.5px solid var(--upOnly);
-			background-color: var(--darkNet);
+			border: 1px solid var(--upOnly);
 		}
 
-		&.in-progress {
-			border: 0.5px solid var(--purpleCow);
-			background-color: var(--darkNet);
+		&.ongoing {
+			border: 1px solid var(--purpleCow);
 		}
 
 		&.rejected {
 			border: 0.5px solid var(--rugged);
-			background-color: var(--darkNet);
 		}
 
 		&.failed {
@@ -102,7 +100,7 @@
 
 		.side-content {
 			font-family: var(--primary-font);
-			font-size: 12px;
+			font-size: 14px;
 			font-weight: 400;
 			line-height: 1.5;
 			color: var(--gray-200);
@@ -110,11 +108,12 @@
 
 		.content-variant-purple {
 			color: var(--Purple-CoW, #b7abfc);
-			font-family: var(--secondary-font);
+			font-family: var(--primary-font);
 			font-size: 12px;
 			font-style: normal;
 			font-weight: 700;
 			line-height: normal;
+			white-space: nowrap;
 		}
 	}
 </style>

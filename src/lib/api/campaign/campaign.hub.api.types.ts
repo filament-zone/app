@@ -42,11 +42,21 @@ export type TCriterionPayload = {
 	inputs: ICriteriaInput[];
 };
 
+export enum ECampaignPhase {
+	DRAFT = 'Draft',
+	CRITERIA = 'Criteria',
+	DATA_INDEXING = 'Data Indexing',
+	DISTRIBUTION_VOTING = 'Distribution Voting',
+	TOKEN_DISTRIBUTION = 'Token Distribution'
+}
+
+// @ts-expect-error ECampaignPhase
 export interface ICampaign extends Campaign {
 	// OTHER VALUES COMMON
 	createdAt?: string | null;
 	// OTHER VALUES COMMON
-
+	phase: ECampaignPhase;
+	numericPhase: number; //NEED TO ADD TO THE HUB API
 	// STEP 1 VALUES title, description, evictions comes from Campaign type
 
 	// STEP 2 VALUES START
@@ -70,8 +80,8 @@ export interface ICampaign extends Campaign {
 	relativeShare: string | null;
 	totalAirDropSupply: string | null;
 	tokenContractAddress: string | null;
-	budgetFrom: string | null;
-	budgetTo: string | null;
+	indexerPrice: string | null;
+	indexerPriceUSD: string | null;
 	bond: string | null;
 	// END STEP-3
 }

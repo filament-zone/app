@@ -4,11 +4,13 @@ import type { ICampaign } from '$lib/types';
 declare const __propDef: {
 	props: {
 		campaign: ICampaign;
+		useTimeLine: boolean;
 	};
 	events: {
 		[evt: string]: CustomEvent;
 	};
 	slots: object;
+	useTimeline: boolean;
 };
 type ICampaignSummaryProps_ = typeof __propDef.props;
 export type { ICampaignSummaryProps_ as ICampaignSummaryProps };

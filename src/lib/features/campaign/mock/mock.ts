@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { CriterionCategory } from '@filament-zone/filament/CriterionCategory';
 import {
+	ECampaignPhase,
 	ECampaignTimeSettings,
 	type ICampaign,
 	type IDelegate,
@@ -10,7 +11,7 @@ import type { Criterion } from '@filament-zone/filament/Criterion';
 import { EEligibilityCriteriaType } from '$lib/api/campaign/campaign.hub.api.enums';
 
 export const generateMockEligibilityCriteria = (quantity: number): Criterion[] => {
-	const categories = ['Balance', 'Defi', 'Gaming', 'Governance', 'Nft'] as CriterionCategory[];
+	const categories = ['Balance', 'Defi', 'Nft'] as CriterionCategory[];
 	const types = Object.values(EEligibilityCriteriaType);
 
 	const networks = ['Ethereum', 'Polygon', 'BNB', 'Avalanche'];
@@ -26,6 +27,7 @@ export const generateMockEligibilityCriteria = (quantity: number): Criterion[] =
 			// id: uuidv4(),
 			name: `${randomType.replace(/-/g, ' ')} on ${randomNetwork}`,
 			category: randomCategory,
+			network: randomNetwork,
 			// type: EEligibilityCriteriaType.TVL_BY_CONTRACT,
 			// tvl: (Math.random() * 100).toFixed(2),
 			weight: BigInt((Math.random() * 10).toFixed(0)),
@@ -103,18 +105,27 @@ export function generateRandomTickerData(
 	return data;
 }
 
+const phases = Object.keys(ECampaignPhase);
+
+const getNumericPhase = (phase: number): number => {
+	return phases.indexOf(phase.toString());
+};
+
 export function generateMockCampaign(): ICampaign {
-	return {
+	const randomPhase = phases[Math.floor(Math.random() * phases.length)];
+
+	const campaign: ICampaign = {
 		// From `Campaign` type
-		id: BigInt(Math.floor(Math.random() * 1_000_000)), // Random ID as `bigint`
-		campaigner: `Campaigner_${Math.random().toString(36).substring(2, 7)}`, // Random campaigner name
-		phase: 'Draft', // Replace with an appropriate value if `Phase` is an enum or type
-		title: `Campaign ${Math.random().toString(36).substring(7)}`,
-		description: `This is a mock campaign description.`,
-		criteria: generateMockEligibilityCriteria(3), // Reuse criteria generator
-		evictions: Array.from({ length: 2 }, () => uuidv4()), // Mock evicted delegates
-		delegates: Array.from({ length: 3 }, () => uuidv4()), // Mock active delegates
-		indexer: null, // Set null as a placeholder for `indexer`
+		id: BigInt(Math.floor(Math.random() * 1_000_000)),
+		campaigner: `Campaigner_${Math.random().toString(36).substring(2, 7)}`,
+		phase: randomPhase as ECampaignPhase,
+		numericPhase: getNumericPhase(Number(randomPhase)),
+		title: `Elrond Airdrop Round ${Math.floor(Math.random() * 5)}`,
+		description: `Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`,
+		criteria: generateMockEligibilityCriteria(3),
+		evictions: Array.from({ length: 2 }, () => uuidv4()),
+		delegates: Object.fromEntries(Array.from({ length: 3 }, () => [uuidv4(), 100n])),
+		indexer: null,
 
 		// From `ICampaign` type
 		createdAt: new Date().toISOString(),
@@ -125,17 +136,18 @@ export function generateMockCampaign(): ICampaign {
 			},
 			[ECampaignTimeSettings.RECURRING]: {
 				startDate: new Date().toISOString(),
-				endDate: null, // Set a default null
-				interval: `${Math.floor(Math.random() * 10) + 1} days`, // Random interval in days
-				total: (Math.random() * 100).toFixed(2) // Random total
+				endDate: null,
+				interval: `${Math.floor(Math.random() * 10) + 1} days`,
+				total: (Math.random() * 100).toFixed(2)
 			}
 		},
-		visibility: 'public', // Mock visibility (could be updated if required)
-		relativeShare: (Math.random() * 100).toFixed(2), // Random relative share
-		totalAirDropSupply: (Math.random() * 10000).toFixed(2), // Random airDrop supply
-		tokenContractAddress: `0x${Math.random().toString(36).substring(2, 42)}`, // Mock Ethereum address
-		budgetFrom: (Math.random() * 5000).toFixed(2), // Random budget (from)
-		budgetTo: (Math.random() * 10000).toFixed(2), // Random budget (to)
-		bond: (Math.random() * 100).toFixed(2) // Random bond value
+		visibility: 'public',
+		relativeShare: (Math.random() * 100).toFixed(2),
+		totalAirDropSupply: (Math.random() * 10000).toFixed(2),
+		tokenContractAddress: `0x${Math.random().toString(36).substring(2, 42)}`,
+		indexerPrice: (Math.random() * 5000).toFixed(2),
+		indexerPriceUSD: (Math.random() * 10000).toFixed(2),
+		bond: (Math.random() * 100).toFixed(2)
 	};
+	return campaign;
 }

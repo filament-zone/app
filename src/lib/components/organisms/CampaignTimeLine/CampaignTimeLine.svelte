@@ -1,131 +1,158 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { CampaignTimeLineItem } from '$lib/features';
+	import { Typography, ToggleButton } from '$lib/components';
 	import {
-		campaignDetailsStore,
-		isCampaignDelegate,
-		isCampaignOwner,
-		isCriteriaVoteAccessibleFn,
-		modalStore,
-		walletStore
-	} from '$lib/features';
-	import { TimeLineItem, Typography } from '$lib/components';
-	import {
-		EModalVariant,
-		ETimeLineItem,
-		type ICampaign,
-		type ICampaignTimeLineProps,
-		type ITimeLineItemProps
+		ECampaignPhase,
+		type ICampaignTimeLineItemProps,
+		type ICampaignTimeLineProps
 	} from '$lib/types';
-	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
-	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
 	export let campaign: ICampaignTimeLineProps['campaign'];
-	export let isOpen: ICampaignTimeLineProps['isOpen'] = false;
-
-	let isTimelineOpen = isOpen;
-
-	const { openModal } = modalStore;
-	const { initCampaign } = campaignDetailsStore;
-	const { wallet } = walletStore;
-
-	$: phase = campaign?.phase ?? '';
-	$: isOwner = isCampaignOwner(campaign?.campaigner as string, $wallet.address as string);
-	$: isDelegate = isCampaignDelegate(campaign?.delegates as string[], $wallet.address as string);
-
-	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
-		campaign?.phase as ICampaign['phase'],
-		isDelegate,
-		$wallet.address as string
-	);
+	export let title: string = 'Phase';
+	export let isCollapsable: boolean = true;
+	export let isTimelineOpen: boolean = false;
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
 	};
 
-	const timeLineDraftData: ITimeLineItemProps = {
-		iconStatus: ETimeLineItem.CHECKED,
+	const timeLineDraft = {
 		title: 'Campaign Draft',
-		description: 'The campaign draft has been finalized and saved',
-		status: 'success',
+		description:
+			'This is the initial draft phase where the campaign is being set up and criteria can be discussed.',
 		date: new Date(),
-		isFirst: true
-	};
+		phase: ECampaignPhase.DRAFT,
+		numericPhase: 0
+	} as ICampaignTimeLineItemProps;
 
-	$: timeLineInitData = {
-		iconStatus: ETimeLineItem.PROCESSING,
-		title: 'Initiate Campaign',
-		description: 'The campaign is being initiated',
-		status: 'to-do',
-		onButtonClick: isOwner
-			? async () => {
-					await initCampaign(campaign?.id as bigint);
-				}
-			: null,
-		buttonLabel: 'Initiate Campaign'
-	} as ITimeLineItemProps;
+	const timeLineVoteCriteria = {
+		title: 'Criteria Voting',
+		description:
+			'Delegates are voting now for or against the airdrop criteria proposed by the campaigner. The voting phase lasts one week.',
+		date: new Date('2024-10-25'),
+		phase: ECampaignPhase.CRITERIA,
+		numericPhase: 1
+	} as ICampaignTimeLineItemProps;
 
-	$: timeLineVoteData = {
-		iconStatus: ETimeLineItem.PROCESSING,
-		title: 'Confirm Token Distribution',
+	const timeLineDataIndexing = {
+		title: 'Data Indexing',
+		description:
+			'In this phase, at least one data provider is processing the snapshot criteria to determine the token allocations per address.',
+		date: new Date('2024-11-17'),
+		phase: ECampaignPhase.DATA_INDEXING,
+		numericPhase: 2
+	} as ICampaignTimeLineItemProps;
+
+	const timeLineVoteDistribution = {
+		title: 'Distribution Voting',
 		description:
 			'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
-		status: 'to-do',
-		isLast: true
-	} as ITimeLineItemProps;
+		date: new Date('2024-11-20'),
+		phase: ECampaignPhase.DISTRIBUTION_VOTING,
+		numericPhase: 3
+	} as ICampaignTimeLineItemProps;
 
-	let options: Record<string, ITimeLineItemProps[]>;
-	$: options = {
-		Draft: [timeLineVoteData, timeLineInitData, timeLineDraftData],
-		Criteria: [
-			{
-				...timeLineVoteData,
-				onButtonClick: isCriteriaVoteAccessible
-					? async () => {
-							openModal({
-								variant: EModalVariant.CAMPAIGN_VOTE,
-								state: { campaignId: campaign?.id }
-							});
-						}
-					: null,
-				buttonLabel: isCriteriaVoteAccessible ? 'Vote' : ''
-			},
-			{
-				...timeLineInitData,
-				iconStatus: ETimeLineItem.CHECKED,
-				status: 'success',
-				date: new Date().toLocaleString(),
-				onButtonClick: null,
-				buttonLabel: null
-			},
-			timeLineDraftData
-		]
+	const timeLineSuccessfulAirdrop = {
+		title: 'Successful Airdrop',
+		description:
+			'This campaign has successfully achieved consensus about the eligibility and tokens have been distributed to recipients.',
+		date: new Date('2024-11-25'),
+		phase: ECampaignPhase.TOKEN_DISTRIBUTION,
+		numericPhase: 4
+	} as ICampaignTimeLineItemProps;
+
+	const options: Record<ECampaignPhase, ICampaignTimeLineItemProps> = {
+		[ECampaignPhase.DRAFT]: timeLineDraft,
+		[ECampaignPhase.CRITERIA]: timeLineVoteCriteria,
+		[ECampaignPhase.DATA_INDEXING]: timeLineDataIndexing,
+		[ECampaignPhase.DISTRIBUTION_VOTING]: timeLineVoteDistribution,
+		[ECampaignPhase.TOKEN_DISTRIBUTION]: timeLineSuccessfulAirdrop
+	};
+
+	$: activePhase = (campaign?.phase as ECampaignPhase) || 'Draft';
+
+	$: activeNumericPhase = () => {
+		switch (activePhase) {
+			case 'Draft':
+				return 0;
+			case 'Criteria':
+				return 1;
+
+			case 'Data Indexing':
+				return 2;
+
+			case 'Distribution Voting':
+				return 3;
+
+			case 'Token Distribution':
+				return 4;
+
+			default:
+				return 0;
+		}
+	};
+
+	$: getStatus = (activeNumericPhase: number, numericPhase: number) => {
+		if (!isTimelineOpen) {
+			return 'ongoing';
+		}
+		if (numericPhase < activeNumericPhase) {
+			return 'passed';
+		}
+		if (activeNumericPhase === numericPhase) {
+			return 'ongoing';
+		}
+		return 'planned';
+	};
+
+	$: activeTimeLine = options[activePhase] || {
+		title: 'Unknown Phase',
+		description: 'No information available.',
+		status: 'rejected',
+		numericPhase: 0
 	};
 </script>
 
-<div class="flex flex-col gap-4">
-	<div class="flex flex-row justify-between">
-		<Typography variant="caption">Timeline:</Typography>
-		<div
-			class="cursor-pointer"
-			style="color: var(--primary-white)"
-			on:click={handleTimeLineClick}
-			aria-hidden="true"
-		>
-			{#if isTimelineOpen}
-				<ChevronRightIcon style="transform: scale(0.7);" />
-			{:else}
-				<ChevronDownIcon style="transform: scale(0.7);" />
-			{/if}
+<div class="flex flex-col gap-4 campaign-timeline-container">
+	{#if isCollapsable}
+		<div class="flex flex-row justify-between">
+			<Typography variant="badge">{title}</Typography>
+			<ToggleButton isOpen={isTimelineOpen ?? false} onClick={handleTimeLineClick} />
 		</div>
-	</div>
-	<div class="flex flex-col">
-		<TimeLineItem {...options[phase][0]} />
+	{/if}
+	<div
+		class="flex flex-col gap-8 campaign-timeline-content {!isCollapsable ? 'is-collapsable' : ''}"
+	>
 		{#if isTimelineOpen}
-			<div transition:fade>
-				{#each options[phase].slice(1) as option}
-					<TimeLineItem {...option} />
+			<div class="flex flex-col gap-1">
+				{#each Object.values(options) as phaseOptions, index}
+					<CampaignTimeLineItem
+						{...phaseOptions}
+						isExpanded={isTimelineOpen}
+						status={getStatus(activeNumericPhase(), phaseOptions.numericPhase ?? 0)}
+						isFirst={index === 0}
+						isLast={index === Object.values(options).length - 1}
+					/>
 				{/each}
+			</div>
+		{:else}
+			<div>
+				<CampaignTimeLineItem
+					{...activeTimeLine}
+					status={getStatus(activeNumericPhase(), activeTimeLine.numericPhase ?? 0)}
+				/>
 			</div>
 		{/if}
 	</div>
 </div>
+
+<style lang="less">
+	.campaign-timeline-content {
+		padding: 8px;
+		border: 0.5px solid var(--default-border);
+		border-radius: 4px;
+		&.is-collapsable {
+			background: var(--highlight-bg);
+		}
+	}
+</style>

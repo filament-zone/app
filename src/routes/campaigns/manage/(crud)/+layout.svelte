@@ -9,7 +9,7 @@
 </script>
 
 <div class="flex flex-col h-full">
-	<PageHeader label={`New Airdrop`} />
+	<PageHeader label={`New Airdrop Campaign`} />
 	<StepBar />
 	<slot />
 	<NavigationFooter />

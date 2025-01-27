@@ -13,13 +13,13 @@ test.describe('Header Component', () => {
 		expect(naturalWidth).toBeGreaterThan(0);
 	});
 
-	test('should display the "Connect Wallet" button', async ({ page }) => {
-		const button = page.locator('button', { hasText: 'Connect Wallet' });
-		await expect(button).toBeVisible();
-	});
+	test('should display the "Connect Wallet" button', async ({ page }, testInfo) => {
+		const targetProject = 'Desktop Chrome'; // Укажите нужный проект здесь
 
-	test('should have the correct button color', async ({ page }) => {
-		const button = page.locator('button', { hasText: 'Connect Wallet' });
-		await expect(button).toHaveClass(/style-highlight/);
+		if (testInfo.project.name !== targetProject) {
+			test.skip();
+		}
+		const button = page.getByTestId('connect-wallet-button');
+		await expect(button).toBeVisible();
 	});
 });

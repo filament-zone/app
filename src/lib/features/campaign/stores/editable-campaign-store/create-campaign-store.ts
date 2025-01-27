@@ -4,26 +4,32 @@ import { CampaignApi, TransactionHubApiClient } from '$lib/api';
 import { modalStore, toastsStore, transactionStore } from '$lib/features';
 import { routes } from '$lib/constants';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
-import { EModalVariant, type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import {
+	ECampaignPhase,
+	EModalVariant,
+	type ICampaign,
+	type ICreateCampaignStore
+} from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
 	campaigner: '',
-	phase: 'Draft',
-	delegates: [],
+	phase: ECampaignPhase.DRAFT,
+	delegates: {},
 	indexer: '',
 	// // STEP 1 START
 	title: '',
 	description: '',
 	evictions: [],
+	numericPhase: 0, //TODO: ADD TO THE HUB API
 	// // STEP 1 END
 
 	// // STEP 2 START
 
 	// TODO: need to be added to the hub api - timeSettings
 	timeSettings: {
-		selectedType: ECampaignTimeSettings.RECURRING,
+		selectedType: ECampaignTimeSettings.ONE_TIME,
 		[ECampaignTimeSettings.ONE_TIME]: {
 			date: ''
 		},
@@ -38,14 +44,14 @@ const initCampaignDetails: ICampaign = {
 	// // STEP 2 END
 
 	// // STEP 3 START
-	// TODO: need to be added to the hub api - visibility, relativeShare, totalAirDropSupply, tokenContractAddress, budgetFrom, budgetTo, bond
+	// TODO: need to be added to the hub api - visibility, relativeShare, totalAirDropSupply, tokenContractAddress, indexerPrice, indexerPriceUSD, bond
 	visibility: 'public',
 	relativeShare: '5',
 	totalAirDropSupply: '5',
 	tokenContractAddress: '5',
-	budgetFrom: '5',
-	budgetTo: '10',
-	bond: '5'
+	indexerPrice: '5,150',
+	indexerPriceUSD: '10,345',
+	bond: '1'
 	// // STEP 3 END
 };
 

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Typography } from '$lib/components';
-	import ArrowLeft from '$lib/assets/icons/arrow-left.svg?component';
-	import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+
 	import type { IPaginationProps } from '$lib/types';
+	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 
 	export let pagination: IPaginationProps['pagination'];
 	export let onPageChange: IPaginationProps['onPageChange'];
@@ -70,14 +70,19 @@
 </script>
 
 {#if pagination}
-	<div class="flex flex-row justify-between text-white">
+	<div class="flex flex-row justify-between text-white gap-2 py-3">
 		<div
 			on:click={handlePrevPage}
 			class:disabled={currentPage <= 1}
 			aria-hidden="true"
 			class="cursor-pointer"
 		>
-			<ArrowLeft />
+			<span
+				class="flex items-center justify-center text-foreground bg-background-300 rounded-sm p-1
+				hover:bg-background-100"
+			>
+				<ChevronLeftIcon class="w-5 h-5" />
+			</span>
 		</div>
 		<ul class="">
 			{#each visiblePages() as page, index}
@@ -91,7 +96,9 @@
 					on:click={() => goToPage(page)}
 					aria-hidden="true"
 				>
-					<Typography variant="caption">{page}</Typography>
+					<Typography variant="caption" color={currentPage === page ? 'darkNet' : 'white'}
+						>{page}</Typography
+					>
 				</li>
 			{/each}
 		</ul>
@@ -101,7 +108,12 @@
 			aria-hidden="true"
 			class="cursor-pointer"
 		>
-			<ArrowRight />
+			<span
+				class="flex items-center justify-center text-foreground bg-background-300 rounded-sm p-1
+				hover:bg-background-100"
+			>
+				<ChevronRightIcon class="w-5 h-5 " />
+			</span>
 		</div>
 	</div>
 {/if}
@@ -112,6 +124,7 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 4px;
+		user-select: none;
 
 		li {
 			min-width: 20px;
@@ -123,8 +136,8 @@
 
 			&.selected {
 				border-radius: 4px;
-				background-color: var(--filaMint-700);
-				color: var(--upOnly-100);
+				background-color: var(--filaMint);
+				color: black;
 			}
 		}
 	}

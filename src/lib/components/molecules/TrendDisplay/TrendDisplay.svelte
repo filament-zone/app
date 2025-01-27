@@ -10,9 +10,9 @@
 	const color = direction === 'up' ? 'var(--upOnly)' : 'var(--rugged)';
 </script>
 
-<div class="flex flex-row gap-2 items-center">
-	<Typography variant="body2">{value}</Typography>
-	<Typography variant="h5" {color} class="text-nowrap">
+<div class="flex flex-row flex-wrap gap-2 items-center justify-between">
+	<Typography variant="body2" class="text-nowrap">{value}</Typography>
+	<Typography variant="badge" {color} class="text-nowrap">
 		{change}
 		{period}
 	</Typography>

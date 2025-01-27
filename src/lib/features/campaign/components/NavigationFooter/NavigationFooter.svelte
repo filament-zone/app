@@ -76,13 +76,13 @@
 		<div class="flex flex-row gap-2">
 			<Button
 				on:click={localHandleNext}
-				styleVariant={$currentStep === $steps.length - 1
-					? EButtonStyleVariant.SECONDARY
+				styleVariant={$currentStep === $steps.length
+					? EButtonStyleVariant.POSITIVE
 					: EButtonStyleVariant.PRIMARY}
 				Icon={$currentStep === $steps.length - 1 ? PlusIcon : ArrowIcon}
 				{disabled}
 			>
-				{$isLastStep ? 'Submit' : $isPreLastStep ? 'Summary' : 'Next'}
+				{$isLastStep ? 'Submit Campaign' : $isPreLastStep ? 'Summary' : 'Next'}
 			</Button>
 		</div>
 	</div>
