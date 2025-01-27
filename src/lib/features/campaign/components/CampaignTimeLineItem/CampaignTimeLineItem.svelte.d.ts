@@ -1,5 +1,5 @@
 import { SvelteComponent } from 'svelte';
-import type { CampaignPhase } from '@filament-zone/filament/Phase';
+import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.types';
 declare const __propDef: {
 	props: {
 		title: string;
@@ -10,7 +10,7 @@ declare const __propDef: {
 		isFirst?: boolean;
 		onButtonClick?: (() => Promise<void> | void) | null;
 		buttonLabel?: string | null;
-		phase?: CampaignPhase;
+		phase?: ECampaignPhase;
 		numericPhase?: number;
 		isExpanded?: boolean;
 	};

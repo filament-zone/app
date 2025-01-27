@@ -8,7 +8,7 @@ import {
 	voteTransactionModalConfig
 } from '$lib/features';
 import { CampaignApi, TransactionHubApiClient } from '$lib/api';
-import { EModalVariant, type ICampaignDetailsStore } from '$lib/types';
+import { ECampaignPhase, EModalVariant, type ICampaignDetailsStore } from '$lib/types';
 
 const { send } = toastsStore;
 
@@ -166,6 +166,7 @@ export const isCampaignDelegate = (delegatesList: string[], walletAddress: strin
 	if (!delegatesList || !walletAddress) {
 		return false;
 	}
+
 	return delegatesList.map((item) => item.toLowerCase()).includes(walletAddress.toLowerCase());
 };
 
@@ -174,7 +175,7 @@ export const isCriteriaVoteAccessibleFn: ICampaignDetailsStore['isCriteriaVoteAc
 	isDelegate,
 	walletAddress
 ) => {
-	if (campaignPhase !== 'Criteria Voting') {
+	if (campaignPhase !== ECampaignPhase.CRITERIA) {
 		return false;
 	}
 

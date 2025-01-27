@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import { CampaignTimeLineItem } from '$lib/features';
 	import { Typography, ToggleButton } from '$lib/components';
-	import { type ICampaignTimeLineItemProps, type ICampaignTimeLineProps } from '$lib/types';
-	import type { CampaignPhase } from '@filament-zone/filament/Phase';
+	import {
+		ECampaignPhase,
+		type ICampaignTimeLineItemProps,
+		type ICampaignTimeLineProps
+	} from '$lib/types';
 
 	export let campaign: ICampaignTimeLineProps['campaign'];
 	export let title: string = 'Phase';
@@ -19,7 +21,7 @@
 		description:
 			'This is the initial draft phase where the campaign is being set up and criteria can be discussed.',
 		date: new Date(),
-		phase: 'Draft' as CampaignPhase,
+		phase: ECampaignPhase.DRAFT,
 		numericPhase: 0
 	} as ICampaignTimeLineItemProps;
 
@@ -28,7 +30,7 @@
 		description:
 			'Delegates are voting now for or against the airdrop criteria proposed by the campaigner. The voting phase lasts one week.',
 		date: new Date('2024-10-25'),
-		phase: 'Criteria' as CampaignPhase,
+		phase: ECampaignPhase.CRITERIA,
 		numericPhase: 1
 	} as ICampaignTimeLineItemProps;
 
@@ -37,7 +39,7 @@
 		description:
 			'In this phase, at least one data provider is processing the snapshot criteria to determine the token allocations per address.',
 		date: new Date('2024-11-17'),
-		phase: 'Data Indexing' as CampaignPhase,
+		phase: ECampaignPhase.DATA_INDEXING,
 		numericPhase: 2
 	} as ICampaignTimeLineItemProps;
 
@@ -46,7 +48,7 @@
 		description:
 			'In this phase, the delegates vote to decide whether the indexer results are accepted and token can get distributed.',
 		date: new Date('2024-11-20'),
-		phase: 'Distribution Voting' as CampaignPhase,
+		phase: ECampaignPhase.DISTRIBUTION_VOTING,
 		numericPhase: 3
 	} as ICampaignTimeLineItemProps;
 
@@ -55,19 +57,19 @@
 		description:
 			'This campaign has successfully achieved consensus about the eligibility and tokens have been distributed to recipients.',
 		date: new Date('2024-11-25'),
-		phase: 'Token Distribution' as CampaignPhase,
+		phase: ECampaignPhase.TOKEN_DISTRIBUTION,
 		numericPhase: 4
 	} as ICampaignTimeLineItemProps;
 
-	const options: Record<CampaignPhase, ICampaignTimeLineItemProps> = {
-		Draft: timeLineDraft,
-		Criteria: timeLineVoteCriteria,
-		'Data Indexing': timeLineDataIndexing,
-		'Distribution Voting': timeLineVoteDistribution,
-		'Token Distribution': timeLineSuccessfulAirdrop
+	const options: Record<ECampaignPhase, ICampaignTimeLineItemProps> = {
+		[ECampaignPhase.DRAFT]: timeLineDraft,
+		[ECampaignPhase.CRITERIA]: timeLineVoteCriteria,
+		[ECampaignPhase.DATA_INDEXING]: timeLineDataIndexing,
+		[ECampaignPhase.DISTRIBUTION_VOTING]: timeLineVoteDistribution,
+		[ECampaignPhase.TOKEN_DISTRIBUTION]: timeLineSuccessfulAirdrop
 	};
 
-	$: activePhase = (campaign?.phase as CampaignPhase) || 'Draft';
+	$: activePhase = (campaign?.phase as ECampaignPhase) || 'Draft';
 
 	$: activeNumericPhase = () => {
 		switch (activePhase) {

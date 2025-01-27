@@ -4,14 +4,19 @@ import { CampaignApi, TransactionHubApiClient } from '$lib/api';
 import { modalStore, toastsStore, transactionStore } from '$lib/features';
 import { routes } from '$lib/constants';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
-import { EModalVariant, type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import {
+	ECampaignPhase,
+	EModalVariant,
+	type ICampaign,
+	type ICreateCampaignStore
+} from '$lib/types';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 
 const initCampaignDetails: ICampaign = {
 	id: 0n,
 	campaigner: '',
-	phase: 'Draft',
-	delegates: [],
+	phase: ECampaignPhase.DRAFT,
+	delegates: {},
 	indexer: '',
 	// // STEP 1 START
 	title: '',

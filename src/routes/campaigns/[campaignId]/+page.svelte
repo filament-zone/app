@@ -97,7 +97,7 @@
 							colorVariant={EBadgeColorVariant.SECONDARY}
 						/>
 					</div>
-					{#if data.tickerData?.length}
+					{#if data.chartData}
 						<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
 					{:else}
 						<div class="flex justify-center items-center h-[300px]">

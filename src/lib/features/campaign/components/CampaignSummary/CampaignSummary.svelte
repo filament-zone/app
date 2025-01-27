@@ -30,7 +30,7 @@
 			<div class="flex gap-6 items-center">
 				<div class="bg-foreground w-10 h-10 rounded-full flex items-center justify-center">
 					{#if campaign?.title}
-						<h5 class="text-darkNet font-bold">{campaign?.title.slice(0, 1)}</h5>
+						<h5 class="text-darkNet font-bold">{campaign?.title.slice(0, 1).toUpperCase()}</h5>
 					{:else}
 						<img
 							src={LogoFilament}
