@@ -12,7 +12,7 @@ export const campaignAirDropStep2ValidationSchema = yup.object().shape({
 
 		[ECampaignTimeSettings.ONE_TIME]: yup.object().shape({
 			date: yup
-				.date()
+				.string()
 				.required('Select a date')
 				.test('is-tomorrow-or-later', 'Date must be at least tomorrow', function (value) {
 					if (!value) {

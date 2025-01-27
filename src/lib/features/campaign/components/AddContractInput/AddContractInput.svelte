@@ -47,53 +47,59 @@
 <div class="w-full">
 	<Label {label} />
 	<div class="flex flex-col gap-4">
-		<Label value="Contracts" />
-		<div
-			class="list-container flex-{direction} {direction === 'col' ? '' : 'min-h-[35px] flex-wrap'}"
-		>
-			{#if contracts}
-				{#each contracts as contract, index}
-					<div class="container-list-item {direction === 'col' ? 'justify-start' : ''} ">
-						<span>
-							<span class="network">{contract.network}/</span>
-							<span class="address">{shortCutTransactionHash(contract.address)}</span>
-						</span>
+		<div>
+			<Label value="Contracts" />
+			<div
+				class="list-container flex-{direction} {direction === 'col'
+					? ''
+					: 'min-h-[35px] flex-wrap'}"
+			>
+				{#if contracts}
+					{#each contracts as contract, index}
+						<div class="container-list-item {direction === 'col' ? 'justify-start' : ''} ">
+							<span>
+								<span class="network">{contract.network}/</span>
+								<span class="address">{shortCutTransactionHash(contract.address)}</span>
+							</span>
 
-						{#if !displayOnly}
-							<div
-								class="icon {direction === 'col' ? 'ml-auto' : ''}"
-								on:click={() => handleDeleteItem(index)}
-								aria-hidden="true"
-							>
-								<CloseIcon />
-							</div>
-						{/if}
-					</div>
-				{/each}
-			{/if}
+							{#if !displayOnly}
+								<div
+									class="icon {direction === 'col' ? 'ml-auto' : ''}"
+									on:click={() => handleDeleteItem(index)}
+									aria-hidden="true"
+								>
+									<CloseIcon />
+								</div>
+							{/if}
+						</div>
+					{/each}
+				{/if}
+			</div>
 		</div>
 		{#if !displayOnly}
-			<Label value="Add" />
-			<form on:submit={handleSubmit}>
-				<div class="flex flex-{direction} gap-4">
-					<Dropdown
-						placeholder="e.g. Ethereum"
-						isSearchable
-						bind:value={network}
-						sizeVariant={direction === 'col'
-							? EInputSizeVariant.FULL_WIDTH
-							: EInputSizeVariant.SMALL}
-						options={networkOptions}
-					/>
-					<Input placeholder="Search ..." RightIcon={SearchIcon} bind:value={inputAddressValue} />
-					<Button
-						sizeVariant={direction === 'col'
-							? EButtonSizeVariant.FULL_WIDTH
-							: EButtonSizeVariant.PRIMARY}
-						on:click={handleAddAddress}>Add Address</Button
-					>
-				</div>
-			</form>
+			<div>
+				<Label value="Add contracts" />
+				<form on:submit={handleSubmit}>
+					<div class="flex flex-{direction} gap-4">
+						<Dropdown
+							placeholder="e.g. Ethereum"
+							isSearchable
+							bind:value={network}
+							sizeVariant={direction === 'col'
+								? EInputSizeVariant.FULL_WIDTH
+								: EInputSizeVariant.SMALL}
+							options={networkOptions}
+						/>
+						<Input placeholder="Search ..." RightIcon={SearchIcon} bind:value={inputAddressValue} />
+						<Button
+							sizeVariant={direction === 'col'
+								? EButtonSizeVariant.FULL_WIDTH
+								: EButtonSizeVariant.PRIMARY}
+							on:click={handleAddAddress}>Add Address</Button
+						>
+					</div>
+				</form>
+			</div>
 		{/if}
 	</div>
 </div>

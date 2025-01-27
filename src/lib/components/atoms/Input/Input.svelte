@@ -122,7 +122,7 @@
 
 		input {
 			opacity: 1;
-			cursor: not-allowed;
+			cursor: not-allowed !important;
 		}
 	}
 

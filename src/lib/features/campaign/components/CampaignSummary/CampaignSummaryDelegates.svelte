@@ -3,12 +3,18 @@
 	import { page } from '$app/stores';
 	import { delegatesColumnDefCommon } from '$lib/features';
 	import { Table } from '$lib/components';
-	import type { ITableProps } from '$lib/types';
+	import type { ICampaign, IDelegate, ITableProps } from '$lib/types';
+
+	export let campaign: ICampaign;
 
 	const data = derived(page, () => $page.data);
 
 	$: activeDelegatesTable = {
-		data: [...$data.delegates],
+		data: [
+			...$data.pageData.delegates.filter((delegate: IDelegate) =>
+				campaign.evictions?.includes(delegate.id)
+			)
+		],
 		columnDef: delegatesColumnDefCommon
 	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
 </script>
