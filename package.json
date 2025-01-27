@@ -61,7 +61,7 @@
 		"prettier-plugin-svelte": "^3.3.3",
 		"sass-embedded": "^1.83.4",
 		"storybook": "^8.4.2",
-		"svelte": "^4.2.19",
+		"svelte": "^5.19.3",
 		"svelte-check": "^4.1.4",
 		"svelte-device-info": "^1.0.6",
 		"svelte-feather-icons": "^4.2.0",
