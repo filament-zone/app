@@ -86,10 +86,20 @@
 			<Divider class="mb-8" />
 			<Typography variant="h6" class="mb-4">Transaction Status</Typography>
 		{/if}
-		<div>
-			<TxTimeLineItem {...modalConfigLocal[$step].timeLine2} />
-			<TxTimeLineItem {...modalConfigLocal[$step].timeLine1} />
-		</div>
+		{#if tx?.error}
+			<TxTimeLineItem
+				iconStatus={ETxTimeLineItem.FAILED}
+				title="Deposit Failed"
+				description="Unable to initiate the campaign due to a failed transaction. Please try again."
+				isLast
+				isFirst
+			/>
+		{:else}
+			<div>
+				<TxTimeLineItem {...modalConfigLocal[$step].timeLine2} />
+				<TxTimeLineItem {...modalConfigLocal[$step].timeLine1} />
+			</div>
+		{/if}
 		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
 	</div>
 </Modal>

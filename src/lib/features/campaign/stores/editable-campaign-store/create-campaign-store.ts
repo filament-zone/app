@@ -4,7 +4,12 @@ import { CampaignApi, TransactionHubApiClient } from '$lib/api';
 import { modalStore, toastsStore, transactionStore } from '$lib/features';
 import { routes } from '$lib/constants';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
-import { EModalVariant, type ICampaign, type ICreateCampaignStore } from '$lib/types';
+import {
+	EModalVariant,
+	type ErrorTransactionPayload,
+	type ICampaign,
+	type ICreateCampaignStore
+} from '$lib/types';
 import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.enums';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 const initCampaignDetails: ICampaign = {
@@ -98,8 +103,10 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 
 	tx?.onSuccess(() => {
 		let completed = false;
+		let attempts = 0;
 		updateTransaction(tx?.txHash as string, { isInSequencer: true });
 		const interval = setInterval(async () => {
+			attempts += 1;
 			if (!tx.txHash) {
 				return;
 			}
@@ -112,12 +119,23 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 				completed = true;
 			}
 
-			if (completed) {
+			if (completed || attempts >= 5) {
 				clearInterval(interval);
-				await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+
+				if (!completed) {
+					updateTransaction(tx?.txHash, { error: {} as ErrorTransactionPayload });
+				}
+				if (completed) {
+					await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+				}
 			}
 		}, 1000);
 	});
+
+	tx.onFailure((payload) => {
+		updateTransaction(tx?.txHash as string, { error: payload });
+	});
+
 	send({ message: 'Creating campaign... ' });
 	tx?.run();
 };

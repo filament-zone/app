@@ -1,4 +1,5 @@
 export enum ETxTimeLineItem {
 	CHECKED = 'checked',
-	PROCESSING = 'processing'
+	PROCESSING = 'processing',
+	FAILED = 'failed'
 }

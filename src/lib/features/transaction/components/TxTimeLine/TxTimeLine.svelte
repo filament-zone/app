@@ -4,6 +4,7 @@
 	import { capitalizeFirstLetter } from '$lib/helpers';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 	import ProcessingCircleIcon from '$lib/assets/icons/processing-circle.svg?component';
+	import { MinusCircleIcon } from 'svelte-feather-icons';
 	import { type ITxTimeLineItemProps, ETxTimeLineItem } from '$lib/types';
 
 	export let iconStatus: ITxTimeLineItemProps['iconStatus'];
@@ -64,6 +65,8 @@
 			{#if renderLine('bottom')}
 				<div style={renderLine('bottom')} />
 			{/if}
+		{:else if iconStatus === ETxTimeLineItem.FAILED}
+			<MinusCircleIcon class="text-rugged" />
 		{/if}
 	</div>
 	<div class="flex justify-start items-center w-8/12">
