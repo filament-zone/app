@@ -41,6 +41,7 @@
 
 	$: if (currentScreen && chartInstance && chartData) {
 		if (chartInstance) {
+			chartInstance.data = chartData;
 			chartInstance.update();
 		}
 	}

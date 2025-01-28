@@ -79,7 +79,7 @@
 		<div class="flex flex-col items-end justify-b w-[140px] px-2">
 			<div class="flex">
 				<Typography variant="cardDate" class="text-right text-nowrap"
-					>{moment(date.toLocaleString()).format('MMM D, YYYY')}</Typography
+					>{moment(date).format('MMM D, YYYY')}</Typography
 				>
 			</div>
 			<Typography variant="cardDate" color={getStatusColor(status)}>
