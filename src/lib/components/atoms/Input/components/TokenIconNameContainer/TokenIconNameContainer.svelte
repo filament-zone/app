@@ -22,7 +22,5 @@
 		border-radius: 4px 0 0 4px;
 		border: 0.5px solid var(--default-border);
 		background: var(--background-100);
-
-		height: 33px;
 	}
 </style>
