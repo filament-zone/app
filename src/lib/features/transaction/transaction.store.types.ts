@@ -2,8 +2,9 @@ import type { Writable } from 'svelte/store';
 import type { ErrorTransactionPayload, ITxTimeLineItemProps } from '$lib/types';
 
 export type TModalTransactionConfig = {
-	common: { title: string; description: string };
-	timeLine: Record<number, ITxTimeLineItemProps>;
+	common?: { title: string; description: string };
+	error?: { title: string; description: string };
+	timeLine?: Record<number, ITxTimeLineItemProps>;
 };
 
 export interface ITransactionStatus {

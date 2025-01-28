@@ -62,6 +62,18 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 
 	tx.onFailure(() => {
 		send({ message: 'Campaign initiating failed.' });
+		updateModalConfig({
+			variant: EModalVariant.TRANSACTION_STATUS,
+			state: {
+				txHash: tx?.txHash,
+				config: {
+					error: {
+						title: 'Initiating Failed',
+						description: 'Unable to initiate due to a failed transaction. Please try again.'
+					}
+				}
+			}
+		});
 	});
 
 	send({ message: 'Initiating campaign... ' });
@@ -109,6 +121,18 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 
 	tx.onFailure(() => {
 		send({ message: 'Campaign voting failed.' });
+		updateModalConfig({
+			variant: EModalVariant.TRANSACTION_STATUS,
+			state: {
+				txHash: tx?.txHash,
+				config: {
+					error: {
+						title: 'Vote Failed',
+						description: 'Unable to vote due to a failed transaction. Please try again.'
+					}
+				}
+			}
+		});
 	});
 
 	send({ message: 'Voting campaign...' });

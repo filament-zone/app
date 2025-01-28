@@ -33,16 +33,16 @@
 	}
 	$: timeLine1 = {
 		iconStatus: ETxTimeLineItem.PROCESSING,
-		title: state?.config?.timeLine[1].title ?? 'Transaction Submitted',
-		description: state?.config?.timeLine[1].description ?? 'Transaction has been submitted',
+		title: state?.config?.timeLine?.[1].title ?? 'Transaction Submitted',
+		description: state?.config?.timeLine?.[1].description ?? 'Transaction has been submitted',
 		isFirst: true
 	};
 
 	$: timeLine2 = {
 		iconStatus: ETxTimeLineItem.PROCESSING,
-		title: state?.config?.timeLine[2].title ?? 'Transaction Received',
+		title: state?.config?.timeLine?.[2].title ?? 'Transaction Received',
 		description:
-			state?.config?.timeLine[2].description ??
+			state?.config?.timeLine?.[2].description ??
 			'Transaction has been received and is being processed',
 		isLast: true
 	};
@@ -78,10 +78,10 @@
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
 	<div slot="header">
-		<Typography variant="h5">{state?.config?.common.title ?? 'Transaction Status'}</Typography>
+		<Typography variant="h5">{state?.config?.common?.title ?? 'Transaction Status'}</Typography>
 	</div>
 	<div slot="content" class="flex flex-col justify-between h-full">
-		{#if state?.config?.common.title}
+		{#if state?.config?.common?.title}
 			<Typography variant="h6" class="mb-4">{state?.config.common.description}</Typography>
 			<Divider class="mb-8" />
 			<Typography variant="h6" class="mb-4">Transaction Status</Typography>
@@ -89,8 +89,8 @@
 		{#if tx?.error}
 			<TxTimeLineItem
 				iconStatus={ETxTimeLineItem.FAILED}
-				title="Deposit Failed"
-				description="Unable to initiate the campaign due to a failed transaction. Please try again."
+				title={state?.config?.error?.title ?? 'Transaction Failed'}
+				description={state?.config?.error?.title ?? ' 22'}
 				isLast
 				isFirst
 			/>

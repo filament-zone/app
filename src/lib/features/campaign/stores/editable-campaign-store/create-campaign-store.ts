@@ -104,6 +104,18 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 
 	tx.onFailure(() => {
 		send({ message: 'Campaign creation failed.' });
+		updateModalConfig({
+			variant: EModalVariant.TRANSACTION_STATUS,
+			state: {
+				txHash: tx?.txHash,
+				config: {
+					error: {
+						title: 'Creation Failed',
+						description: 'Unable to create campaign due to a failed transaction. Please try again.'
+					}
+				}
+			}
+		});
 	});
 
 	send({ message: 'Creating campaign... ' });
