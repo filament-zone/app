@@ -1,15 +1,10 @@
 import { get, writable } from 'svelte/store';
 import { goto } from '$app/navigation';
-import { CampaignApi, TransactionHubApiClient } from '$lib/api';
+import { CampaignApi } from '$lib/api';
 import { modalStore, toastsStore, transactionStore } from '$lib/features';
 import { routes } from '$lib/constants';
 import { generateMockEligibilityCriteria } from '$lib/features/campaign/mock/mock';
-import {
-	EModalVariant,
-	type ErrorTransactionPayload,
-	type ICampaign,
-	type ICreateCampaignStore
-} from '$lib/types';
+import { EModalVariant, type ICampaign, type ICreateCampaignStore } from '$lib/types';
 import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.enums';
 import { ECampaignTimeSettings } from '$lib/api/campaign/campaign.hub.api.enums';
 const initCampaignDetails: ICampaign = {
@@ -96,46 +91,19 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 		return;
 	}
 
-	const { addTransaction, updateTransaction } = transactionStore;
+	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
 	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
 
 	tx?.onSuccess(() => {
-		let completed = false;
-		let attempts = 0;
-		updateTransaction(tx?.txHash as string, { isInSequencer: true });
-		const interval = setInterval(async () => {
-			attempts += 1;
-			if (!tx.txHash) {
-				return;
-			}
-
-			const res = await TransactionHubApiClient.getTxStatusLedger(tx.txHash);
-
-			if (res.data?.receipt.result === 'successful') {
-				send({ message: 'Campaign successfully created' });
-				updateTransaction(tx?.txHash, { isInLedger: true });
-				completed = true;
-			}
-
-			if (completed || attempts >= 5) {
-				clearInterval(interval);
-
-				if (!completed) {
-					updateTransaction(tx?.txHash, { error: {} as ErrorTransactionPayload });
-				}
-				if (completed) {
-					setTimeout(async () => {
-						await goto(routes.CAMPAIGNS.MANAGE.ROOT);
-					}, 1500);
-				}
-			}
-		}, 1000);
+		send({ message: 'Campaign successfully created.' });
+		setTimeout(async () => {
+			await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+		}, 1500);
 	});
 
-	tx.onFailure((payload) => {
-		updateTransaction(tx?.txHash as string, { error: payload });
-		send({ message: 'Campaign creating failed.' });
+	tx.onFailure(() => {
+		send({ message: 'Campaign creation failed.' });
 	});
 
 	send({ message: 'Creating campaign... ' });

@@ -1,13 +1,12 @@
 import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
 import { derived, get, writable } from 'svelte/store';
-import { invalidateAll } from '$app/navigation';
 import {
 	modalStore,
 	toastsStore,
 	transactionStore,
 	voteTransactionModalConfig
 } from '$lib/features';
-import { CampaignApi, TransactionHubApiClient } from '$lib/api';
+import { CampaignApi } from '$lib/api';
 import { ECampaignPhase, EModalVariant, type ICampaignDetailsStore } from '$lib/types';
 
 const { send } = toastsStore;
@@ -53,32 +52,18 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 		return;
 	}
 
-	const { addTransaction, updateTransaction } = transactionStore;
+	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
 	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
 
 	tx?.onSuccess(() => {
-		let completed = false;
-		updateTransaction(tx?.txHash as string, { isInSequencer: true });
-		const interval = setInterval(async () => {
-			if (!tx.txHash) {
-				return;
-			}
-
-			const res = await TransactionHubApiClient.getTxStatusLedger(tx.txHash);
-
-			if (res.data?.receipt.result === 'successful') {
-				send({ message: 'Campaign successfully initiated' });
-				updateTransaction(tx?.txHash, { isInLedger: true });
-				completed = true;
-			}
-
-			if (completed) {
-				clearInterval(interval);
-				await invalidateAll();
-			}
-		}, 1000);
+		send({ message: 'Campaign successfully initiated.' });
 	});
+
+	tx.onFailure(() => {
+		send({ message: 'Campaign initiating failed.' });
+	});
+
 	send({ message: 'Initiating campaign... ' });
 	tx?.run();
 };
@@ -111,49 +96,22 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	if (!tx?.txHash) {
 		return;
 	}
-	const { addTransaction, updateTransaction } = transactionStore;
+	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
 	updateModalConfig({
 		variant: EModalVariant.TRANSACTION_STATUS,
 		state: { txHash: tx?.txHash, config: voteTransactionModalConfig }
 	});
 
-	const txStatusWebSocket = TransactionHubApiClient.wsTxStatusSequencer(tx?.txHash);
-
-	txStatusWebSocket.onOpen(() => {
-		// console.log('onOpen');
+	tx.onSuccess(async () => {
+		send({ message: 'Campaign successfully voted.' });
 	});
 
-	txStatusWebSocket.addMessageHandler(() => {
-		// console.log('messageHandler', message);
+	tx.onFailure(() => {
+		send({ message: 'Campaign voting failed.' });
 	});
 
-	await txStatusWebSocket.connect();
-
-	tx.onSuccess(() => {
-		let completed = false;
-		updateTransaction(tx?.txHash as string, { isInSequencer: true });
-
-		const interval = setInterval(async () => {
-			if (!tx.txHash) {
-				return;
-			}
-
-			const res = await TransactionHubApiClient.getTxStatusLedger(tx.txHash);
-
-			if (res.data?.receipt.result === 'successful') {
-				send({ message: 'Campaign successfully voted' });
-				updateTransaction(tx?.txHash, { isInLedger: true });
-				completed = true;
-			}
-
-			if (completed) {
-				clearInterval(interval);
-				await invalidateAll();
-			}
-		}, 1000);
-	});
-	send({ message: 'Voting campaign... ' });
+	send({ message: 'Voting campaign...' });
 
 	await tx.run();
 };

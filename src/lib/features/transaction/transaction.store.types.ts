@@ -10,7 +10,7 @@ export interface ITransactionStatus {
 	txHash: string;
 	isInSequencer: boolean;
 	isInLedger: boolean;
-	error?: ErrorTransactionPayload;
+	error?: ErrorTransactionPayload['error'];
 }
 
 export interface ITransactionStore {

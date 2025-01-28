@@ -42,10 +42,10 @@ export class HubTransaction implements ITransaction {
 	};
 
 	public run = async (): Promise<void> => {
-		if (!this.preparedTx) {
+		if (!this.preparedTx || !this.txHash) {
 			return;
 		}
-		await this.TransactionRequest.run(this.preparedTx);
+		await this.TransactionRequest.run(this.preparedTx, this.txHash);
 	};
 
 	public onSuccess = (fn: SuccessTransactionSubscriber): HubTransaction => {
