@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/constants';
 	import {
@@ -16,16 +16,21 @@
 		SecondaryDoughnutChart,
 		Typography,
 		Container,
-		Ticker
+		Ticker,
+		Toggle
 	} from '$lib/components';
 	import {
 		EButtonSizeVariant,
 		EModalVariant,
 		EBadgeColorVariant,
 		EButtonStyleVariant,
-		type ICampaign
+		type ICampaign,
+		EToggleVariant,
+		type IToggleProps,
+		EToggleSizeVariant
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
+	import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.enums';
 
 	export let data;
 
@@ -54,6 +59,19 @@
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
+
+	let toggleOptions: IToggleProps<string>['options'] = [
+		{ value: 'criteria', label: 'Criteria' },
+		{ value: 'governance', label: 'Delegates' }
+	];
+
+	let toggleValue = '';
+	onMount(() => {
+		if (campaign.phase)
+			if (toggleOptions?.length) {
+				toggleValue = toggleOptions?.[0].value;
+			}
+	});
 </script>
 
 <div class="flex flex-col xl:flex-row gap-4">
@@ -71,7 +89,7 @@
 		</Container>
 	</div>
 	<div class="flex flex-col w-4/12 gap-4">
-		{#if campaign.phase === 'Draft'}
+		{#if campaign.phase === ECampaignPhase.DRAFT}
 			<Container label="Setup">
 				<div class="flex flex-col gap-4">
 					<Typography variant="caption">
@@ -86,8 +104,15 @@
 				</div>
 			</Container>
 		{/if}
-		{#if campaign.phase === 'Criteria'}
+		{#if campaign.phase !== ECampaignPhase.DRAFT}
 			<Container label="Vote">
+				<Toggle
+					options={toggleOptions}
+					variant={EToggleVariant.SECONDARY}
+					bind:value={toggleValue}
+					slot="above-container"
+					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
+				/>
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-row justify-between">
 						<Badge
@@ -118,6 +143,13 @@
 				</div>
 			</Container>
 			<Container label="Ticker">
+				<Toggle
+					options={toggleOptions}
+					variant={EToggleVariant.SECONDARY}
+					bind:value={toggleValue}
+					slot="above-container"
+					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
+				/>
 				<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
 					{#if data.tickerData?.length}
 						{#each data.tickerData as item}

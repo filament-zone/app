@@ -12,7 +12,7 @@
 	export let label: IToggleProps['label'] = '';
 	export let isMulti: IToggleProps['isMulti'] = false;
 	export let variant: IToggleProps['variant'] = EToggleVariant.PRIMARY;
-	export let sizeVariant: IToggleProps['sizeVariant'] = EToggleSizeVariant.FULL_WIDTH;
+	export let sizeVariant: IToggleProps['sizeVariant'] = EToggleSizeVariant.NORMAL;
 
 	$: updateValue = (selectedValues: string[]) => {
 		if (isMulti) {
@@ -87,10 +87,10 @@
 		<Label value={label} />
 	{/if}
 	{#if options && options.length > 0}
-		<div class="toggle-container toggle-container-{variant}">
+		<div class="toggle-container toggle-container-{variant} toggle-container-{sizeVariant}">
 			{#each options as option}
 				<div
-					class="toggle-{variant}"
+					class="toggle-{variant} toggle-{sizeVariant}"
 					class:selected={isOptionSelected(option)}
 					class:disabled={option.disabled}
 					on:click={() => {
@@ -129,7 +129,6 @@
 		border-radius: 4px;
 		background: unset;
 		width: fit-content;
-		background-color: var(--highlight-bg);
 		padding: 4px;
 		border: 0.5px solid var(--default-border);
 	}
@@ -138,8 +137,10 @@
 		display: flex;
 		flex-direction: row;
 		gap: 0rem;
-		/* 		border-bottom: 1px solid var(--gray-200);
- */
+	}
+
+	.toggle-full-width {
+		width: 100%;
 	}
 
 	.toggle-primary {
@@ -163,6 +164,7 @@
 		transition:
 			color 0.3s ease,
 			border-bottom 0.3s ease;
+		text-align: center;
 
 		&::after {
 			content: '';

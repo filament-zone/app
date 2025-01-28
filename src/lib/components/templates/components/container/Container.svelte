@@ -14,8 +14,11 @@
 			</div>
 		</div>
 	{/if}
-	<div class="slot-container">
-		<slot />
+	<div class="w-full">
+		<slot name="above-container" />
+		<div class="slot-container">
+			<slot />
+		</div>
 	</div>
 </div>
 
