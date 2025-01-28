@@ -135,6 +135,7 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 
 	tx.onFailure((payload) => {
 		updateTransaction(tx?.txHash as string, { error: payload });
+		send({ message: 'Campaign creating failed.' });
 	});
 
 	send({ message: 'Creating campaign... ' });
