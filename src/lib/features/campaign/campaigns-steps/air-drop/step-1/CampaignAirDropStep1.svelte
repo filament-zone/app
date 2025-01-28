@@ -45,7 +45,7 @@
 		tableLabel: 'Selected Delegates',
 		data: [
 			...$data.pageData.delegates.filter(
-				(delegate: IDelegate) => !$campaignDetails.evictions?.includes(delegate.id)
+				(delegate: IDelegate) => !Object.keys($campaignDetails.delegates)?.includes(delegate.id)
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
@@ -59,7 +59,7 @@
 		tableLabel: 'Evicted Delegates',
 		data: [
 			...$data.pageData.delegates.filter((delegate: IDelegate) =>
-				$campaignDetails.evictions?.includes(delegate.id)
+				Object.keys($campaignDetails.delegates)?.includes(delegate.id)
 			)
 		],
 		columnDef: delegateColumnDef(EDelegateType.EVICTED),

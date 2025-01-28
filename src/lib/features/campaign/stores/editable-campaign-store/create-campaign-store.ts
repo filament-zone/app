@@ -61,16 +61,15 @@ const { send } = toastsStore;
 
 const toggleDelegate: ICreateCampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
-		const evictedIndex = details.evictions.indexOf(delegateId);
-
-		if (evictedIndex === -1) {
-			if (details.evictions.length === 3) {
+		if (details.delegates[delegateId]) {
+			delete details.delegates[delegateId];
+		} else {
+			const currentDelegatesCount = Object.keys(details.delegates).length;
+			if (currentDelegatesCount === 3) {
 				send({ message: 'You can only evict 3 delegates at a time' });
 			} else {
-				details.evictions.push(delegateId);
+				details.delegates[delegateId] = 1n;
 			}
-		} else {
-			details.evictions.splice(evictedIndex, 1);
 		}
 		return details;
 	});
@@ -126,7 +125,9 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 					updateTransaction(tx?.txHash, { error: {} as ErrorTransactionPayload });
 				}
 				if (completed) {
-					await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+					setTimeout(async () => {
+						await goto(routes.CAMPAIGNS.MANAGE.ROOT);
+					}, 1500);
 				}
 			}
 		}, 1000);
