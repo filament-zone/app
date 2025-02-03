@@ -5,7 +5,14 @@
 	export let data: IToastProps['config'];
 </script>
 
-<div class="toast" in:fly={{ y: -50, duration: 200 }} out:fly={{ y: -100, duration: 200 }}>
+<div
+	{...$$props}
+	class="toast"
+	in:fly={{ y: -50, duration: 200 }}
+	out:fly={{ y: -100, duration: 200 }}
+	on:click
+	aria-hidden="true"
+>
 	{data?.message}
 </div>
 

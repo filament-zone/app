@@ -52,7 +52,7 @@ const initCampaignDetails: ICampaign = {
 
 const campaignDetails = writable({ ...initCampaignDetails });
 
-const { send } = toastsStore;
+const { send, update } = toastsStore;
 
 const toggleDelegate: ICreateCampaignStore['toggleDelegate'] = (delegateId: string) => {
 	campaignDetails.update((details) => {
@@ -76,9 +76,6 @@ const clearCampaignDetails = () => {
 
 const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 	const { openModal, updateModalConfig } = modalStore;
-	openModal({
-		variant: EModalVariant.TRANSACTION_STATUS
-	});
 
 	const tx = await CampaignApi.createCampaign({
 		title: get(campaignDetails).title as string,
@@ -87,23 +84,49 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 		evictions: []
 	});
 
+	if (tx?.txHash) {
+		send({
+			id: tx.txHash,
+			message: 'Creating campaign...',
+			display: false,
+			options: {
+				persistent: true,
+				onClick: () => {
+					openModal({
+						variant: EModalVariant.TRANSACTION_STATUS,
+						state: { txHash: tx?.txHash }
+					});
+				}
+			}
+		});
+	}
+
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { txHash: tx?.txHash }
+	});
+
 	if (!tx?.txHash) {
 		return;
 	}
 
 	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
-	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
 
 	tx?.onSuccess(() => {
-		send({ message: 'Campaign successfully created.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign successfully created.');
+		}
+
 		setTimeout(async () => {
 			await goto(routes.CAMPAIGNS.MANAGE.ROOT);
-		}, 1500);
+		}, 2000);
 	});
 
 	tx.onFailure(() => {
-		send({ message: 'Campaign creation failed.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign creation failed.');
+		}
 		updateModalConfig({
 			variant: EModalVariant.TRANSACTION_STATUS,
 			state: {
@@ -118,7 +141,6 @@ const createCampaign: ICreateCampaignStore['createCampaign'] = async () => {
 		});
 	});
 
-	send({ message: 'Creating campaign... ' });
 	tx?.run();
 };
 

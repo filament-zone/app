@@ -9,7 +9,7 @@ import {
 import { CampaignApi } from '$lib/api';
 import { ECampaignPhase, EModalVariant, type ICampaignDetailsStore } from '$lib/types';
 
-const { send } = toastsStore;
+const { send, update } = toastsStore;
 
 const campaignDetails: ICampaignDetailsStore['campaignDetails'] = writable();
 const campaignIdDerived: ICampaignDetailsStore['campaignIdDerived'] = derived(
@@ -43,10 +43,29 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 		return;
 	}
 	const { openModal, updateModalConfig } = modalStore;
-	openModal({
-		variant: EModalVariant.TRANSACTION_STATUS
-	});
+
 	const tx = await CampaignApi.initCampaign({ campaign_id: campaignId });
+
+	if (tx?.txHash) {
+		send({
+			id: tx.txHash,
+			message: 'Initiating campaign...',
+			display: false,
+			options: {
+				persistent: true,
+				onClick: () => {
+					openModal({
+						variant: EModalVariant.TRANSACTION_STATUS,
+						state: { txHash: tx?.txHash }
+					});
+				}
+			}
+		});
+	}
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { txHash: tx?.txHash }
+	});
 
 	if (!tx?.txHash) {
 		return;
@@ -54,14 +73,18 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 
 	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
-	updateModalConfig({ variant: EModalVariant.TRANSACTION_STATUS, state: { txHash: tx.txHash } });
 
 	tx?.onSuccess(() => {
-		send({ message: 'Campaign successfully initiated.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign successfully initiated.');
+		}
 	});
 
 	tx.onFailure(() => {
-		send({ message: 'Campaign initiating failed.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign initiating failed.');
+		}
+
 		updateModalConfig({
 			variant: EModalVariant.TRANSACTION_STATUS,
 			state: {
@@ -76,7 +99,6 @@ const initCampaign: ICampaignDetailsStore['initCampaign'] = async (campaignId) =
 		});
 	});
 
-	send({ message: 'Initiating campaign... ' });
 	tx?.run();
 };
 
@@ -95,14 +117,32 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 		payload = 'Rejected';
 	}
 	const { openModal, updateModalConfig } = modalStore;
-	openModal({
-		variant: EModalVariant.TRANSACTION_STATUS,
-		state: { config: voteTransactionModalConfig }
-	});
 
 	const tx = await CampaignApi.voteCampaignCriteria({
 		campaign_id: campaignId,
 		vote: payload
+	});
+
+	if (tx?.txHash) {
+		send({
+			id: tx.txHash,
+			message: 'Voting campaign...',
+			display: false,
+			options: {
+				persistent: true,
+				onClick: () => {
+					openModal({
+						variant: EModalVariant.TRANSACTION_STATUS,
+						state: { txHash: tx?.txHash, config: voteTransactionModalConfig }
+					});
+				}
+			}
+		});
+	}
+
+	openModal({
+		variant: EModalVariant.TRANSACTION_STATUS,
+		state: { txHash: tx?.txHash, config: voteTransactionModalConfig }
 	});
 
 	if (!tx?.txHash) {
@@ -110,17 +150,18 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 	}
 	const { addTransaction } = transactionStore;
 	addTransaction(tx?.txHash);
-	updateModalConfig({
-		variant: EModalVariant.TRANSACTION_STATUS,
-		state: { txHash: tx?.txHash, config: voteTransactionModalConfig }
-	});
 
 	tx.onSuccess(async () => {
-		send({ message: 'Campaign successfully voted.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign successfully voted.');
+		}
 	});
 
 	tx.onFailure(() => {
-		send({ message: 'Campaign voting failed.' });
+		if (tx?.txHash) {
+			update(tx.txHash, 'Campaign voting failed.');
+		}
+
 		updateModalConfig({
 			variant: EModalVariant.TRANSACTION_STATUS,
 			state: {
@@ -134,8 +175,6 @@ const voteCampaignCriteria: ICampaignDetailsStore['voteCampaignCriteria'] = asyn
 			}
 		});
 	});
-
-	send({ message: 'Voting campaign...' });
 
 	await tx.run();
 };
