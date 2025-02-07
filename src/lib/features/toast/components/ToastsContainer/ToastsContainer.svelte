@@ -6,7 +6,14 @@
 
 <div class="toast-container">
 	{#each $toasts as toast (toast.id)}
-		<Toast data={toast} />
+		{#if toast.display}
+			<Toast
+				data={toast}
+				on:click={() => {
+					toast.options?.onClick?.();
+				}}
+			/>
+		{/if}
 	{/each}
 </div>
 

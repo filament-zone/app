@@ -4,28 +4,62 @@ import type { IToastConfig, IToastStore } from '$lib/types';
 
 const toasts = writable<IToastConfig[]>([]);
 
+const remove: IToastStore['remove'] = (id) => {
+	toasts.update((currentToasts) => currentToasts.filter((toast) => toast.id !== id));
+};
+
 const send: IToastStore['send'] = (toast) => {
-	const id = uuidV4();
-	toasts.update((toasts) => [
-		...toasts,
+	const id = toast.id ?? uuidV4();
+	const isPersistent = toast.options?.persistent ?? false;
+
+	toasts.update((currentToasts) => [
+		...currentToasts,
 		{
-			id: id,
+			id,
 			message: toast.message,
-			options: { duration: toast.options?.duration ?? 3000 }
+			display: toast.display ?? true,
+			options: {
+				duration: toast.options?.duration ?? 3000,
+				persistent: isPersistent,
+				onClick: toast.options?.onClick
+			}
 		}
 	]);
 
-	setTimeout(() => {
-		remove(id);
-	}, toast.options?.duration ?? 3000);
+	if (!isPersistent) {
+		setTimeout(() => {
+			remove(id);
+		}, toast.options?.duration ?? 3000);
+	}
+
+	return id;
 };
 
-const remove: IToastStore['remove'] = (id) => {
-	toasts.update((toasts) => toasts.filter((toast) => toast.id !== id));
+const update: IToastStore['update'] = (id, newMessage) => {
+	toasts.update((currentToasts) => {
+		return currentToasts.map((toast) =>
+			toast.id === id ? { ...toast, message: newMessage } : toast
+		);
+	});
+};
+
+const display: IToastStore['display'] = (id) => {
+	toasts.update((currentToasts) =>
+		currentToasts.map((toast) => (toast.id === id ? { ...toast, display: true } : toast))
+	);
+};
+
+const hide: IToastStore['hide'] = (id) => {
+	toasts.update((currentToasts) =>
+		currentToasts.map((toast) => (toast.id === id ? { ...toast, display: false } : toast))
+	);
 };
 
 export const toastsStore: IToastStore = {
 	toasts,
 	send,
-	remove
+	remove,
+	update,
+	display,
+	hide
 };
