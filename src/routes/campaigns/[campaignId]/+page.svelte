@@ -2,14 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/constants';
-	import {
-		CampaignSummary,
-		modalStore,
-		campaignDetailsStore,
-		walletStore,
-		isCampaignDelegate,
-		isCriteriaVoteAccessibleFn
-	} from '$lib/features';
+	import { CampaignSummary, modalStore, campaignDetailsStore, walletStore } from '$lib/features';
 	import {
 		Badge,
 		Button,
@@ -24,17 +17,24 @@
 		EModalVariant,
 		EBadgeColorVariant,
 		EButtonStyleVariant,
-		type ICampaign,
 		EToggleVariant,
+		EToggleSizeVariant,
+		type ICampaign,
 		type IToggleProps,
-		EToggleSizeVariant
+		ECampaignPhase
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
-	import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.enums';
 
 	export let data;
 
-	const { campaignDetails, initCampaign } = campaignDetailsStore;
+	const {
+		campaignDetails,
+		initCampaign,
+		campaignNumericPhase,
+		isCampaignDelegate,
+		isCriteriaVoteAccessibleFn,
+		isDistributionVoteAccessibleFn
+	} = campaignDetailsStore;
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
@@ -48,24 +48,39 @@
 		$wallet.address as string
 	);
 
-	$: handleVote = () => {
-		if (!isCriteriaVoteAccessible) {
-			return;
-		} else {
-			openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
+	$: isDistributionVoteAccessible = isDistributionVoteAccessibleFn(
+		campaign?.phase as ICampaign['phase'],
+		isDelegate,
+		$wallet.address as string
+	);
+
+	$: isVoteAccessible = (toggleValue: string) => {
+		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
+			if (toggleValue === 'criteria') {
+				return isCriteriaVoteAccessible;
+			}
+			return false;
 		}
+		if ($campaignDetails?.phase === ECampaignPhase.DISTRIBUTION_VOTING) {
+			if (toggleValue === 'distribution') {
+				return isDistributionVoteAccessible;
+			}
+			return false;
+		}
+		return false;
 	};
 
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
 
-	let toggleOptions: IToggleProps<string>['options'] = [
+	$: toggleOptions = [
 		{ value: 'criteria', label: 'Criteria' },
-		{ value: 'governance', label: 'Delegates' }
-	];
+		{ value: 'distribution', label: 'Distribution', disabled: $campaignNumericPhase < 2 }
+	] as IToggleProps<string>['options'];
 
-	let toggleValue = '';
+	$: toggleValue = '';
+
 	onMount(() => {
 		if (campaign.phase)
 			if (toggleOptions?.length) {
@@ -89,7 +104,7 @@
 		</Container>
 	</div>
 	<div class="flex flex-col w-4/12 gap-4">
-		{#if campaign.phase === ECampaignPhase.DRAFT}
+		{#if $campaignNumericPhase === 0}
 			<Container label="Setup">
 				<div class="flex flex-col gap-4">
 					<Typography variant="caption">
@@ -104,7 +119,7 @@
 				</div>
 			</Container>
 		{/if}
-		{#if campaign.phase !== ECampaignPhase.DRAFT}
+		{#if $campaignNumericPhase > 0}
 			<Container label="Vote">
 				<Toggle
 					options={toggleOptions}
@@ -137,8 +152,15 @@
 					{/if}
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-						on:click={handleVote}
-						disabled={!isCriteriaVoteAccessible}>Vote</Button
+						on:click={() => {
+							if (isVoteAccessible(toggleValue)) {
+								openModal({
+									variant: EModalVariant.CAMPAIGN_VOTE,
+									state: { campaignId: campaign?.id }
+								});
+							}
+						}}
+						disabled={!isVoteAccessible(toggleValue)}>Vote</Button
 					>
 				</div>
 			</Container>

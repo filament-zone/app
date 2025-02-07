@@ -2,17 +2,27 @@
 	import { CheckCircleIcon, MinusCircleIcon } from 'svelte-feather-icons';
 	import { campaignDetailsStore, Modal, modalStore } from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
-	import { type ICampaign, type TToggleContentContainerSelected } from '$lib/types';
+	import { ECampaignPhase, type ICampaign, type TToggleContentContainerSelected } from '$lib/types';
 
 	const { modalConfig } = modalStore;
-	const { voteCampaignCriteria } = campaignDetailsStore;
+	const { voteCampaignCriteria, voteCampaignDistribution, campaignDetails } = campaignDetailsStore;
 
 	$: state = $modalConfig.state as { campaignId: ICampaign['id'] };
 
 	let toggleSelected: TToggleContentContainerSelected = 'isFirst';
 
 	const handleVote = () => {
-		voteCampaignCriteria(state.campaignId, toggleSelected === 'isFirst' ? 'Approved' : 'Rejected');
+		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
+			voteCampaignCriteria(
+				state.campaignId,
+				toggleSelected === 'isFirst' ? 'Approved' : 'Rejected'
+			);
+		} else if ($campaignDetails?.phase === ECampaignPhase.DISTRIBUTION_VOTING) {
+			voteCampaignDistribution(
+				state.campaignId,
+				toggleSelected === 'isFirst' ? 'Approved' : 'Rejected'
+			);
+		}
 	};
 </script>
 

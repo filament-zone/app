@@ -8,9 +8,18 @@ export interface ICampaignDetailsStore {
 	setCampaignDetails: (campaign: ICampaign) => void;
 	initCampaign: (campaignId: ICampaign['id']) => Promise<void>;
 	voteCampaignCriteria: (campaignId: ICampaign['id'], voteOption: string) => void;
+	voteCampaignDistribution: (campaignId: ICampaign['id'], voteOption: string) => void;
 	isCriteriaVoteAccessibleFn: (
 		campaignPhase: ICampaign['phase'],
 		isDelegate: boolean,
 		walletAddress: string
 	) => boolean;
+	isDistributionVoteAccessibleFn: (
+		campaignPhase: ICampaign['phase'],
+		isDelegate: boolean,
+		walletAddress: string
+	) => boolean;
+	campaignNumericPhase: Readable<number>;
+	isCampaignOwner: (campaignOwner: string, walletAddress: string) => boolean;
+	isCampaignDelegate: (delegatesList: string[], walletAddress: string) => boolean;
 }

@@ -1,7 +1,7 @@
 import { CampaignApi } from '$lib/api';
-import { generateMockDelegates, campaignDetailsStore } from '$lib/features';
+import { campaignDetailsStore, generateMockDelegates } from '$lib/features';
 import { shortCutTransactionHash } from '$lib/helpers';
-import { type IPrimaryDoughnutChartProps } from '$lib/types';
+import { ECampaignPhase, type IPrimaryDoughnutChartProps } from '$lib/types';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
@@ -14,7 +14,7 @@ export async function load({ params }) {
 
 	const { setCampaignDetails } = campaignDetailsStore;
 
-	setCampaignDetails(campaignDataRes?.data);
+	setCampaignDetails({ ...campaignDataRes?.data, phase: ECampaignPhase.TOKEN_DISTRIBUTION });
 
 	const criteriaVotesRes = await CampaignApi.getCampaignCriteriaVotes(BigInt(campaignId));
 
@@ -32,6 +32,10 @@ export async function load({ params }) {
 					approvedCount = approvedCount + Number(value.Approved.weights[0]);
 				}
 			}
+		}
+
+		if (!approvedCount && !rejectedCount) {
+			return null;
 		}
 		return {
 			labels: ['Approved', 'Rejected'],
