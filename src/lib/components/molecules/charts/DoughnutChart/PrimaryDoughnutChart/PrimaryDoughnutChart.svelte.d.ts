@@ -3,7 +3,7 @@ import type { ChartInstance } from '$lib/types';
 
 declare const __propDef: {
 	props: {
-		chartData: ChartInstance<'doughnut'>['data'];
+		chartData: ChartInstance<'doughnut'>['data'] | null;
 		colors?: string[];
 		chartInstance?: ChartInstance<'Doughnut'>;
 	};

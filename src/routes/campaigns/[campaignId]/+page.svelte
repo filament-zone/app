@@ -2,14 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/constants';
-	import {
-		CampaignSummary,
-		modalStore,
-		campaignDetailsStore,
-		walletStore,
-		isCampaignDelegate,
-		isCriteriaVoteAccessibleFn
-	} from '$lib/features';
+	import { CampaignSummary, modalStore, campaignDetailsStore, walletStore } from '$lib/features';
 	import {
 		Badge,
 		Button,
@@ -24,17 +17,24 @@
 		EModalVariant,
 		EBadgeColorVariant,
 		EButtonStyleVariant,
-		type ICampaign,
 		EToggleVariant,
-		type IToggleProps,
-		EToggleSizeVariant
+		EToggleSizeVariant,
+		ECampaignPhase,
+		type ICampaign,
+		type IToggleProps
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
-	import { ECampaignPhase } from '$lib/api/campaign/campaign.hub.api.enums';
 
 	export let data;
 
-	const { campaignDetails, initCampaign } = campaignDetailsStore;
+	const {
+		campaignDetails,
+		initCampaign,
+		campaignNumericPhase,
+		isCampaignDelegate,
+		isCriteriaVoteAccessibleFn,
+		isDistributionVoteAccessibleFn
+	} = campaignDetailsStore;
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
@@ -48,24 +48,39 @@
 		$wallet.address as string
 	);
 
-	$: handleVote = () => {
-		if (!isCriteriaVoteAccessible) {
-			return;
-		} else {
-			openModal({ variant: EModalVariant.CAMPAIGN_VOTE, state: { campaignId: campaign?.id } });
+	$: isDistributionVoteAccessible = isDistributionVoteAccessibleFn(
+		campaign?.phase as ICampaign['phase'],
+		isDelegate,
+		$wallet.address as string
+	);
+
+	$: isVoteAccessible = (toggleValue: string) => {
+		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
+			if (toggleValue === 'criteria') {
+				return isCriteriaVoteAccessible;
+			}
+			return false;
 		}
+		if ($campaignDetails?.phase === ECampaignPhase.DISTRIBUTION_VOTING) {
+			if (toggleValue === 'distribution') {
+				return isDistributionVoteAccessible;
+			}
+			return false;
+		}
+		return false;
 	};
 
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
 
-	let toggleOptions: IToggleProps<string>['options'] = [
+	$: toggleOptions = [
 		{ value: 'criteria', label: 'Criteria' },
-		{ value: 'governance', label: 'Delegates' }
-	];
+		{ value: 'distribution', label: 'Distribution', disabled: $campaignNumericPhase < 2 }
+	] as IToggleProps<string>['options'];
 
-	let toggleValue = '';
+	$: toggleValue = '';
+
 	onMount(() => {
 		if (campaign.phase)
 			if (toggleOptions?.length) {
@@ -89,7 +104,7 @@
 		</Container>
 	</div>
 	<div class="flex flex-col w-4/12 gap-4">
-		{#if campaign.phase === ECampaignPhase.DRAFT}
+		{#if $campaignNumericPhase === 0}
 			<Container label="Setup">
 				<div class="flex flex-col gap-4">
 					<Typography variant="caption">
@@ -104,7 +119,7 @@
 				</div>
 			</Container>
 		{/if}
-		{#if campaign.phase !== ECampaignPhase.DRAFT}
+		{#if $campaignNumericPhase > 0}
 			<Container label="Vote">
 				<Toggle
 					options={toggleOptions}
@@ -128,8 +143,10 @@
 							colorVariant={EBadgeColorVariant.SECONDARY}
 						/>
 					</div>
-					{#if data.chartData}
-						<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+					{#if toggleValue === 'criteria' && data.chartDataCriteria}
+						<SecondaryDoughnutChart chartData={data.chartDataCriteria} class="w-full" />
+					{:else if toggleValue === 'distribution' && data.chartDataDistribution}
+						<SecondaryDoughnutChart chartData={data.chartDataDistribution} class="w-full" />
 					{:else}
 						<div class="flex justify-center items-center h-[300px]">
 							<Typography variant="h5">No data available</Typography>
@@ -137,8 +154,15 @@
 					{/if}
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-						on:click={handleVote}
-						disabled={!isCriteriaVoteAccessible}>Vote</Button
+						on:click={() => {
+							if (isVoteAccessible(toggleValue)) {
+								openModal({
+									variant: EModalVariant.CAMPAIGN_VOTE,
+									state: { campaignId: campaign?.id }
+								});
+							}
+						}}
+						disabled={!isVoteAccessible(toggleValue)}>Vote</Button
 					>
 				</div>
 			</Container>
@@ -151,12 +175,12 @@
 					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
 				/>
 				<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
-					{#if data.tickerData?.length}
-						{#each data.tickerData as item}
-							<Ticker {...item} />
-						{/each}
+					{#if toggleValue === 'criteria' && data.tickerDataCriteria}
+						<Ticker tickerData={data.tickerDataCriteria} />
+					{:else if toggleValue === 'distribution' && data.tickerDataDistribution}
+						<Ticker tickerData={data.tickerDataDistribution} />
 					{:else}
-						<div class="flex justify-center items-center h-[300px]">
+						<div class="w-full flex justify-center items-center">
 							<Typography variant="h5">No data available</Typography>
 						</div>
 					{/if}

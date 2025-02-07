@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { CampaignListItem, isCampaignOwner, walletStore } from '$lib/features';
+	import { campaignDetailsStore, CampaignListItem, walletStore } from '$lib/features';
 	import { Button, Container, Toggle, Typography, Pagination } from '$lib/components';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { routes } from '$lib/constants';
@@ -9,6 +9,7 @@
 	export let data;
 
 	const { wallet, initializeWallet } = walletStore;
+	const { isCampaignOwner } = campaignDetailsStore;
 
 	$: toggleValue = 'all';
 

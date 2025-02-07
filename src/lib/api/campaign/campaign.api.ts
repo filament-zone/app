@@ -81,6 +81,22 @@ export class CampaignApi {
 		}).create();
 	}
 
+	static async voteCampaignDistribution(
+		payload: Extract<CallMessage, { VoteDistribution: unknown }>['VoteDistribution']
+	) {
+		return new TransactionClientAdapter({
+			payload: {
+				core: {
+					vote_distribution: {
+						...payload
+					}
+				}
+			},
+			walletProvider: EWalletProvider.METAMASK,
+			client: EClient.THE_HUB
+		}).create();
+	}
+
 	static async getCampaignCriteriaVotes(campaignId: ICampaign['id']) {
 		return await hubApiClient<IGetCampaignCriteriaVotesResponse>(
 			CAMPAIGN_HUB_URLS.CAMPAIGN_CRITERIA_VOTES.replace(':campaignId', campaignId.toString()),
