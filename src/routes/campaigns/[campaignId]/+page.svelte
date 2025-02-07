@@ -175,12 +175,12 @@
 					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
 				/>
 				<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
-					{#if data.tickerData?.length}
-						{#each data.tickerData as item}
-							<Ticker {...item} />
-						{/each}
+					{#if toggleValue === 'criteria' && data.tickerDataCriteria}
+						<Ticker tickerData={data.tickerDataCriteria} />
+					{:else if toggleValue === 'distribution' && data.tickerDataDistribution}
+						<Ticker tickerData={data.tickerDataDistribution} />
 					{:else}
-						<div class="flex justify-center items-center h-[300px]">
+						<div class="w-full flex justify-center items-center">
 							<Typography variant="h5">No data available</Typography>
 						</div>
 					{/if}

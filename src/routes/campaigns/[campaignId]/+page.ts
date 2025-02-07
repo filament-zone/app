@@ -56,14 +56,21 @@ export async function load({ params }) {
 	const getChartDataDistribution = (): IPrimaryDoughnutChartProps['chartData'] =>
 		generateChartData({ ...distributionVotesRes?.data });
 
-	const tickerData: { name: string; date: string; status: string }[] = criteriaVotesRes?.data
-		? Object.entries(criteriaVotesRes?.data).map(([key, value]) => {
-				return {
-					name: shortCutTransactionHash(key),
-					date: new Date().toString(),
-					status: value === 'Rejected' ? 'Rejected' : 'Approved'
-				};
-			})
+	const generateTickerData = (
+		votesData: Record<string, CriteriaVote | DistributionVote>
+	): { name: string; date: string; status: string }[] => {
+		return Object.entries(votesData ?? {}).map(([key, value]) => ({
+			name: shortCutTransactionHash(key),
+			date: new Date().toString(),
+			status: value === 'Rejected' ? 'Rejected' : 'Approved'
+		}));
+	};
+
+	const tickerDataCriteria = criteriaVotesRes?.data
+		? generateTickerData({ ...criteriaVotesRes.data })
+		: [];
+	const tickerDataDistribution = distributionVotesRes?.data
+		? generateTickerData({ ...distributionVotesRes.data })
 		: [];
 
 	const delegates = generateMockDelegates();
@@ -72,7 +79,8 @@ export async function load({ params }) {
 		campaign: campaignDataRes?.data,
 		chartDataCriteria: getChartDataCriteria(),
 		chartDataDistribution: getChartDataDistribution(),
-		tickerData,
+		tickerDataCriteria,
+		tickerDataDistribution,
 		delegates,
 		criteriaVotes: criteriaVotesRes?.data ?? []
 	};
