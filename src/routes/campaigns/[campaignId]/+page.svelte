@@ -19,9 +19,9 @@
 		EButtonStyleVariant,
 		EToggleVariant,
 		EToggleSizeVariant,
+		ECampaignPhase,
 		type ICampaign,
-		type IToggleProps,
-		ECampaignPhase
+		type IToggleProps
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
@@ -143,8 +143,10 @@
 							colorVariant={EBadgeColorVariant.SECONDARY}
 						/>
 					</div>
-					{#if data.chartData}
-						<SecondaryDoughnutChart chartData={data.chartData} class="w-full" />
+					{#if toggleValue === 'criteria' && data.chartDataCriteria}
+						<SecondaryDoughnutChart chartData={data.chartDataCriteria} class="w-full" />
+					{:else if toggleValue === 'distribution' && data.chartDataDistribution}
+						<SecondaryDoughnutChart chartData={data.chartDataDistribution} class="w-full" />
 					{:else}
 						<div class="flex justify-center items-center h-[300px]">
 							<Typography variant="h5">No data available</Typography>

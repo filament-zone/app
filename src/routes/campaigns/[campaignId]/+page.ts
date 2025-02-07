@@ -1,7 +1,9 @@
 import { CampaignApi } from '$lib/api';
 import { campaignDetailsStore, generateMockDelegates } from '$lib/features';
 import { shortCutTransactionHash } from '$lib/helpers';
-import { ECampaignPhase, type IPrimaryDoughnutChartProps } from '$lib/types';
+import { type IPrimaryDoughnutChartProps } from '$lib/types';
+import type { CriteriaVote } from '@filament-zone/filament/CriteriaVote';
+import type { DistributionVote } from '@filament-zone/filament/DistributionVoteOption';
 
 export async function load({ params }) {
 	const campaignId = params.campaignId;
@@ -14,29 +16,29 @@ export async function load({ params }) {
 
 	const { setCampaignDetails } = campaignDetailsStore;
 
-	setCampaignDetails({ ...campaignDataRes?.data, phase: ECampaignPhase.TOKEN_DISTRIBUTION });
+	setCampaignDetails(campaignDataRes?.data);
 
 	const criteriaVotesRes = await CampaignApi.getCampaignCriteriaVotes(BigInt(campaignId));
+	const distributionVotesRes = await CampaignApi.getCampaignDistributionVotes(BigInt(campaignId));
 
-	const getChartData = (): IPrimaryDoughnutChartProps['chartData'] => {
-		const votesData = { ...criteriaVotesRes?.data };
-
+	const generateChartData = (
+		votesData: Record<string, CriteriaVote | DistributionVote>
+	): IPrimaryDoughnutChartProps['chartData'] => {
 		let approvedCount = 0;
 		let rejectedCount = 0;
 
-		if (votesData) {
-			for (const value of Object.values(votesData)) {
-				if (value === 'Rejected') {
-					rejectedCount++;
-				} else {
-					approvedCount = approvedCount + Number(value.Approved.weights[0]);
-				}
+		for (const value of Object.values(votesData ?? {})) {
+			if (value === 'Rejected') {
+				rejectedCount++;
+			} else {
+				approvedCount += Number(value.Approved.weights[0]);
 			}
 		}
 
 		if (!approvedCount && !rejectedCount) {
 			return null;
 		}
+
 		return {
 			labels: ['Approved', 'Rejected'],
 			datasets: [
@@ -47,6 +49,12 @@ export async function load({ params }) {
 			]
 		};
 	};
+
+	const getChartDataCriteria = (): IPrimaryDoughnutChartProps['chartData'] =>
+		generateChartData({ ...criteriaVotesRes?.data });
+
+	const getChartDataDistribution = (): IPrimaryDoughnutChartProps['chartData'] =>
+		generateChartData({ ...distributionVotesRes?.data });
 
 	const tickerData: { name: string; date: string; status: string }[] = criteriaVotesRes?.data
 		? Object.entries(criteriaVotesRes?.data).map(([key, value]) => {
@@ -62,7 +70,8 @@ export async function load({ params }) {
 
 	return {
 		campaign: campaignDataRes?.data,
-		chartData: getChartData(),
+		chartDataCriteria: getChartDataCriteria(),
+		chartDataDistribution: getChartDataDistribution(),
 		tickerData,
 		delegates,
 		criteriaVotes: criteriaVotesRes?.data ?? []
