@@ -9,19 +9,14 @@
 
 	$: state = $modalConfig.state as { campaignId: ICampaign['id'] };
 
-	let toggleSelected: TToggleContentContainerSelected = 'isFirst';
+	$: toggleSelected = 'isFirst' as TToggleContentContainerSelected;
 
-	const handleVote = () => {
+	$: handleVote = () => {
+		const value = toggleSelected === 'isFirst' ? 'Approved' : 'Rejected';
 		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
-			voteCampaignCriteria(
-				state.campaignId,
-				toggleSelected === 'isFirst' ? 'Approved' : 'Rejected'
-			);
+			voteCampaignCriteria(state.campaignId, value);
 		} else if ($campaignDetails?.phase === ECampaignPhase.DISTRIBUTION_VOTING) {
-			voteCampaignDistribution(
-				state.campaignId,
-				toggleSelected === 'isFirst' ? 'Approved' : 'Rejected'
-			);
+			voteCampaignDistribution(state.campaignId, value);
 		}
 	};
 </script>
