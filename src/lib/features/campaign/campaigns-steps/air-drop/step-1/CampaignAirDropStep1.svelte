@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
 	import { flexRender, type Row } from '@tanstack/svelte-table';
@@ -11,7 +11,7 @@
 
 	const { campaignDetails, toggleDelegate, getDelegates } = campaignStore;
 
-	afterUpdate(() => {
+	onMount(() => {
 		getDelegates();
 	});
 
