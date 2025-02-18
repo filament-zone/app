@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { flexRender, type Row } from '@tanstack/svelte-table';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
-	import { Container, Input, Table, TextArea, Typography } from '$lib/components';
+	import { Container, Input, Table, TextEditor, Typography } from '$lib/components';
 	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
 
 	const data = derived(page, () => $page.data);
@@ -86,12 +86,7 @@
 						bind:value={$campaignDetails.title}
 						sizeVariant={EInputSizeVariant.MEDIUM}
 					/>
-					<TextArea
-						label="Description"
-						placeholder="Type here..."
-						bind:value={$campaignDetails.description}
-						sizeVariant={EInputSizeVariant.FULL_WIDTH}
-					/>
+					<TextEditor bind:value={$campaignDetails.description} />
 				</div>
 			</Container>
 		</div>
