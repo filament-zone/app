@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DOMPurify from 'dompurify';
+	// import DOMPurify from 'dompurify';
 	import { Typography, TextCollapse } from '$lib/components';
 	import type { ICampaignSummaryProps } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -11,9 +11,9 @@
 
 	let sanitizedHTML: string;
 
-	onMount(() => {
-		sanitizedHTML = DOMPurify.sanitize(campaign?.description);
-	});
+	// onMount(() => {
+	// 	sanitizedHTML = DOMPurify.sanitize(campaign?.description);
+	// });
 </script>
 
 <TextCollapse>
