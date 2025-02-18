@@ -11,26 +11,7 @@ export const campaignAirDropStep2ValidationSchema = yup.object().shape({
 			.required('Select a time setting type'),
 
 		[ECampaignTimeSettings.ONE_TIME]: yup.object().shape({
-			date: yup
-				.string()
-				.required('Select a date')
-				.test('is-tomorrow-or-later', 'Date must be at least tomorrow', function (value) {
-					if (!value) {
-						return false;
-					}
-					const selectedDate = new Date(value);
-					const today = new Date();
-
-					// Reset time components to compare only dates
-					selectedDate.setHours(0, 0, 0, 0);
-					today.setHours(0, 0, 0, 0);
-
-					// Calculate tomorrow's date
-					const tomorrow = new Date(today);
-					tomorrow.setDate(today.getDate() + 1);
-
-					return selectedDate >= tomorrow;
-				})
+			date: yup.string().required('Select a date')
 		})
 	}),
 	criteria: yup
