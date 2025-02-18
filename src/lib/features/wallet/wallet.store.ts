@@ -17,12 +17,13 @@ import {
 	type IWalletStore
 } from '$lib/types';
 
-const { closeModal } = modalStore;
+const { closeModal, openModal } = modalStore;
 
 const initialState: IWalletState = {
 	address: null,
 	network: null,
 	connected: false,
+	isTwitterVerified: false,
 	client: null,
 	chain: {
 		chainId: null,
@@ -34,6 +35,16 @@ const initialState: IWalletState = {
 
 export const wallet = writable<IWalletState>(initialState);
 
+const checkTwitterVerification = async () => {
+	const isVerified = false;
+	wallet.update((state) => ({ ...state, isTwitterVerified: isVerified }));
+	return isVerified;
+};
+
+const verifyAccount = () => {
+	window.location.href = '/api/auth/twitter-redirect'; // Вместо fetch()
+};
+
 const initializeWallet = async (walletProvider: EWalletProvider) => {
 	const { send } = toastsStore;
 	wallet.update((state) => ({ ...state, walletProvider }));
@@ -42,6 +53,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	if (!client.on) return;
 
 	client.on('connect', async () => {
+		closeModal();
 		await client.getAccountInfo((payload) => {
 			const data = payload as IAccountInfo[];
 
@@ -54,7 +66,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 				walletProvider
 			}));
 			writeToLocalStorage('prevWallet', walletProvider);
-			closeModal();
+
 			send({ message: `Address connected: ${shortCutTransactionHash(data[0].address)}` });
 		});
 
@@ -92,7 +104,7 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 	});
 
 	client.on('ChainChanged', () => {
-		window.location.reload();
+		// window.location.reload();
 	});
 
 	client.on('reject', (error) => {
@@ -114,14 +126,17 @@ const initializeWallet = async (walletProvider: EWalletProvider) => {
 
 	if (client._connected) {
 		send({ message: 'Connected to wallet' });
+		const res = await checkTwitterVerification();
+
+		if (!res) {
+			openModal({ variant: EModalVariant.VERIFY_ACCOUNT });
+		}
 	} else {
 		send({ message: 'Failed to connect to wallet' });
 	}
 };
 
 wallet.subscribe((state) => {
-	const { openModal } = modalStore;
-
 	if (state.chain?.chainId && state.chain.chainId !== BigInt(PUBLIC_DEFAULT_CHAIN)) {
 		openModal({
 			variant: EModalVariant.CONFIRMATION,
@@ -148,5 +163,7 @@ const disconnectWallet = () => {
 export const walletStore: IWalletStore = {
 	wallet,
 	initializeWallet,
-	disconnectWallet
+	disconnectWallet,
+	checkTwitterVerification,
+	verifyAccount
 };
