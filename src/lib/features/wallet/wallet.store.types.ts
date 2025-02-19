@@ -11,6 +11,7 @@ export interface IWalletState {
 	address: string | null;
 	network: string | null;
 	connected: boolean;
+	isTwitterVerified: boolean;
 	client: WalletClientConnector | null;
 	chain: IChain | null;
 	balance: string | null;
@@ -21,4 +22,6 @@ export interface IWalletStore {
 	wallet: Writable<IWalletState>;
 	initializeWallet: (walletProvider: EWalletProvider) => Promise<void>;
 	disconnectWallet: () => void;
+	verifyAccount: () => void;
+	checkTwitterVerification: () => void;
 }
