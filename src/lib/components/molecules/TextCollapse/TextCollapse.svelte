@@ -2,7 +2,13 @@
 	import { createEventDispatcher } from 'svelte';
 	import { ToggleButton } from '$lib/components/atoms/ToggleButton';
 
-	export let isOpen: boolean = false;
+	interface Props {
+		isOpen?: boolean;
+		label?: import('svelte').Snippet;
+		body?: import('svelte').Snippet;
+	}
+
+	let { isOpen = $bindable(false), label, body }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -14,11 +20,11 @@
 
 <div class="text-collapse">
 	<div class="flex w-full justify-between">
-		<slot name="label" />
+		{@render label?.()}
 		<ToggleButton {isOpen} onClick={toggle} />
 	</div>
 	<div class="text-collapse {isOpen ? 'text-open' : 'text-closed'}">
-		<slot name="body" />
+		{@render body?.()}
 	</div>
 </div>
 

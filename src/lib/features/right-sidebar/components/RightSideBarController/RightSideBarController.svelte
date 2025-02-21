@@ -19,6 +19,7 @@
 
 <div class="h-full">
 	{#if $rightSideBar}
-		<svelte:component this={$rightSideBar} />
+		{@const SvelteComponent = $rightSideBar}
+		<SvelteComponent />
 	{/if}
 </div>

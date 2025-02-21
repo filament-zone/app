@@ -3,7 +3,12 @@
 	import Arrow1Icon from '$lib/assets/icons/arrow-right.svg?component';
 	import type { ISideBarAccordionProps } from '$lib/types';
 
-	export let label: ISideBarAccordionProps['label'];
+	interface Props {
+		label: ISideBarAccordionProps['label'];
+		children?: import('svelte').Snippet;
+	}
+
+	let { label, children }: Props = $props();
 
 	let isOpen = writable(false);
 
@@ -15,17 +20,17 @@
 <div class="container">
 	<div class="header">
 		<div class="label">
-			<div class="dot" />
+			<div class="dot"></div>
 			<span>{label}</span>
 		</div>
-		<div class="icon" on:click={toggleAccordion} aria-hidden="true">
+		<div class="icon" onclick={toggleAccordion} aria-hidden="true">
 			<Arrow1Icon
 				style={`transform: ${$isOpen ? 'rotate(90deg)' : 'rotate(-90deg)'}; stroke: ${$isOpen ? '#fff' : '#8E8E8E'};`}
 			/>
 		</div>
 	</div>
 	{#if $isOpen}
-		<slot />
+		{@render children?.()}
 	{/if}
 </div>
 

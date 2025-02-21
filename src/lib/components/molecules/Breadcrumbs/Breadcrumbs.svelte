@@ -4,6 +4,11 @@
 	import { derived, type Readable } from 'svelte/store';
 	import { Card, Typography } from '$lib/components';
 	import type { TPathSegment } from '$lib/types';
+	interface Props {
+		[key: string]: any
+	}
+
+	let { ...props }: Props = $props();
 
 	const pathSegments: Readable<TPathSegment[]> = derived(page, ($page) => {
 		const segments = $page.url.pathname.split('/');
@@ -20,7 +25,7 @@
 	};
 </script>
 
-<div class={$$props.class}>
+<div class={props.class}>
 	<Card>
 		<div class="flex flex-row">
 			{#each $pathSegments as segment, index}

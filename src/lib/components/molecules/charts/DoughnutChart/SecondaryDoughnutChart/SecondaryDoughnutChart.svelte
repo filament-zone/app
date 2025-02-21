@@ -6,10 +6,15 @@
 	} from '$lib/components';
 	import { type IAbstractDoughnutChartProps, type IPrimaryDoughnutChartProps } from '$lib/types';
 
-	export let chartData: IPrimaryDoughnutChartProps['chartData'];
-	export let centerText: string[] | undefined;
+	interface Props {
+		chartData: IPrimaryDoughnutChartProps['chartData'];
+		centerText: string[] | undefined;
+		[key: string]: any;
+	}
 
-	let chartInstance: IPrimaryDoughnutChartProps['chartInstance'];
+	let { chartData, centerText, ...rest }: Props = $props();
+
+	let chartInstance: IPrimaryDoughnutChartProps['chartInstance'] = $state();
 
 	const chartOptions: IAbstractDoughnutChartProps['chartOptions'] = {
 		cutout: 120,
@@ -37,5 +42,5 @@
 	bind:chartInstance
 	plugins={[centerTextPlugin, labelLinePlugin]}
 	{chartOptions}
-	{...$$props}
+	{...rest}
 />

@@ -1,19 +1,27 @@
 <script lang="ts">
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { fly } from 'svelte/transition';
 	import { type IToastProps } from '$lib/types';
 
-	export let data: IToastProps['config'];
+	interface Props {
+		data: IToastProps['config'];
+		[key: string]: any
+	}
+
+	let { ...props }: Props = $props();
 </script>
 
 <div
-	{...$$props}
+	{...props}
 	class="toast"
 	in:fly={{ y: -50, duration: 200 }}
 	out:fly={{ y: -100, duration: 200 }}
-	on:click
+	onclick={bubble('click')}
 	aria-hidden="true"
 >
-	{data?.message}
+	{props.data?.message}
 </div>
 
 <style>

@@ -24,6 +24,8 @@ declare const __propDef: {
 		disabled?: boolean;
 		leftLabel?: string;
 		valueColor?: string;
+		classNames?: string;
+		styles?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { TableDateTimeComponent } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<TableDateTimeComponent {...args} />
+<Template >
+	{#snippet children({ args })}
+		<TableDateTimeComponent {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ date: new Date() }} />

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Badge } from '$lib/components';
 	import { EBadgeColorVariant } from '$lib/types';
@@ -9,8 +9,10 @@
 	};
 </script>
 
-<Template let:args>
-	<Badge {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Badge {...args} />
+	{/snippet}
 </Template>
 
 <Story

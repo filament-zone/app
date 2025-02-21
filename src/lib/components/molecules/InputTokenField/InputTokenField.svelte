@@ -2,10 +2,19 @@
 	import { Input, InputTextContainer, TokenIconNameContainer } from '$lib/components';
 	import { EInputSizeVariant, type IInputTokenFieldProps } from '$lib/types';
 
-	export let onChange: IInputTokenFieldProps['onChange'];
-	export let onMaxClick: IInputTokenFieldProps['onMaxClick'];
-	export let inputProps: IInputTokenFieldProps['inputProps'];
-	export let tokenProps: IInputTokenFieldProps['tokenProps'];
+	interface Props {
+		onChange: IInputTokenFieldProps['onChange'];
+		onMaxClick: IInputTokenFieldProps['onMaxClick'];
+		inputProps: IInputTokenFieldProps['inputProps'];
+		tokenProps: IInputTokenFieldProps['tokenProps'];
+	}
+
+	let {
+		onChange,
+		onMaxClick,
+		inputProps,
+		tokenProps
+	}: Props = $props();
 </script>
 
 <div class="flex flex-row w-full">

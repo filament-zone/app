@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { SecondaryDoughnutChart } from '$lib/components';
 	import { type ISecondaryDoughnutChartProps } from '$lib/types';
@@ -19,12 +19,14 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="flex w-full h-full justify-center align-middle">
-		<div class="w-[600px] h-[600px]">
-			<SecondaryDoughnutChart {...args} />
+<Template >
+	{#snippet children({ args })}
+		<div class="flex w-full h-full justify-center align-middle">
+			<div class="w-[600px] h-[600px]">
+				<SecondaryDoughnutChart {...args} />
+			</div>
 		</div>
-	</div>
+	{/snippet}
 </Template>
 
 <Story

@@ -126,15 +126,19 @@
 </script>
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
-	<div slot="header">
-		<Typography variant="h5">Deposit Campaign Collateral</Typography>
-	</div>
-	<div slot="content">
-		<div>
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+	{#snippet header()}
+		<div >
+			<Typography variant="h5">Deposit Campaign Collateral</Typography>
 		</div>
-		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
-	</div>
+	{/snippet}
+	{#snippet content()}
+		<div >
+			<div>
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+			</div>
+			<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
+		</div>
+	{/snippet}
 </Modal>

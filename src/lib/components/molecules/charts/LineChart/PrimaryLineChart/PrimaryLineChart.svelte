@@ -9,12 +9,16 @@
 		type IPrimaryLineChartProps
 	} from '$lib/types';
 
-	export let data: IPrimaryLineChartProps['data'];
+	interface Props {
+		data: IPrimaryLineChartProps['data'];
+	}
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let { data }: Props = $props();
 
-	$: x2Labels = data?.labels?.map((label) => label);
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] = $state();
+
+	let x2Labels = $derived(data?.labels?.map((label) => label));
 
 	const lineColors = ['#e8fbff', '#86e9ff', '#9feeff'];
 	const backgroundColors = [
@@ -39,7 +43,7 @@
 			}) ?? []
 	};
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: true,
@@ -104,7 +108,7 @@
 				intersect: false
 			}
 		}
-	} as ChartInstance<'line'>['options'];
+	} as ChartInstance<'line'>['options']);
 </script>
 
 <AbstractLineChart

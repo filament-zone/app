@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Pagination } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<Pagination {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Pagination {...args} />
+	{/snippet}
 </Template>
 
 <Story

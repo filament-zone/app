@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import { flexRender } from '@tanstack/svelte-table';
+import { FlexRender, renderComponent } from '@tanstack/svelte-table';
 import {
 	LiveProposalsTableLabelComponent,
 	ProposalTypeNameMap,
@@ -9,11 +9,12 @@ import {
 import { Badge, TableDateTimeComponent } from '$lib/components';
 import { routes } from '$lib/constants';
 import SearchIcon from '$lib/assets/icons/search.svg?component';
-import { type ComponentType, SvelteComponent } from 'svelte';
+import { type Component, type ComponentType, SvelteComponent } from 'svelte';
 import {
 	EBadgeColorVariant,
 	EProposalStatus,
 	EProposalType,
+	type IBadgeProps,
 	type ISearchSelectProps,
 	type ITableProps
 } from '$lib/types';
@@ -126,7 +127,7 @@ export async function load() {
 				header: 'Type',
 				cell: (info) => {
 					const label = info.getValue() as unknown as TAllProposalsTableData['type'];
-					return flexRender(Badge, {
+					return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 						label: ProposalTypeNameMap[label],
 						colorVariant: EBadgeColorVariant.PRIMARY
 					});
@@ -142,7 +143,7 @@ export async function load() {
 				header: 'Status',
 				cell: (info) => {
 					const status = info.getValue() as unknown as TAllProposalsTableData['status'];
-					return flexRender(Badge, {
+					return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 						label: ProposalStatusNameMap[status],
 						colorVariant: ProposalStatusBadgeColorVariantMap[status]
 					});
@@ -158,7 +159,7 @@ export async function load() {
 				header: 'Voting End',
 				cell: (info) => {
 					const date = info.getValue() as unknown as TAllProposalsTableData['votingEnd'];
-					return flexRender(TableDateTimeComponent, { ...date });
+					return FlexRender(TableDateTimeComponent, { ...date });
 				},
 				meta: {
 					cellStyle: {

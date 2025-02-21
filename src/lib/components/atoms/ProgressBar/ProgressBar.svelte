@@ -2,11 +2,7 @@
 	import { Typography } from '$lib/components';
 	import type { IProgressBarProps } from '$lib/types';
 
-	export let used: IProgressBarProps['used'] = 35;
-	export let total: IProgressBarProps['total'] = 100;
-	export let displayLabel: IProgressBarProps['displayLabel'] = false;
-
-	export let styles: string = '';
+	let { used = 35, total = 100, displayLabel = false, styles = '' }: IProgressBarProps = $props();
 
 	const usedPercentage = (used / total) * 100;
 	const leftPercentage = ((total - used) / total) * 100;
@@ -14,7 +10,7 @@
 	const borderRadius = '4px';
 </script>
 
-<div class={`flex flex-row w-full h-full  ${$$props.class} relative`} style={styles}>
+<div class={`flex flex-row w-full h-full relative`} style={styles}>
 	<div
 		class={`h-auto`}
 		style="width: {usedPercentage}%; background-color: #3E3E3E; border-bottom-left-radius: {borderRadius}; border-top-left-radius: {borderRadius};"
@@ -26,7 +22,7 @@
 	{#if displayLabel}
 		<Typography
 			variant="caption"
-			class="absolute left-1/2 -translate-x-1/2 h-full items-center flex"
+			classNames="absolute left-1/2 -translate-x-1/2 h-full items-center flex"
 			>{usedPercentage.toFixed(0)}%</Typography
 		>
 	{/if}

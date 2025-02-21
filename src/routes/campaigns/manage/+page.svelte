@@ -6,14 +6,14 @@
 	import { routes } from '$lib/constants';
 	import { EToggleVariant, EWalletProvider, EButtonStyleVariant } from '$lib/types';
 
-	export let data;
+	let { data } = $props();
 
 	const { wallet, initializeWallet } = walletStore;
 	const { isCampaignOwner } = campaignDetailsStore;
 
-	$: toggleValue = 'all';
+	let toggleValue = $state('all');
 
-	$: filterCampaigns = () => {
+	let filterCampaigns = $derived(() => {
 		switch (toggleValue) {
 			case 'all':
 				return data.campaignList;
@@ -24,9 +24,9 @@
 			default:
 				return [];
 		}
-	};
+	});
 
-	$: filteredCampaigns = filterCampaigns();
+	let filteredCampaigns = $derived(filterCampaigns());
 </script>
 
 <div class="flex relative w-full max-w-[1440px]">
@@ -39,41 +39,43 @@
 </div>
 
 <Container variant="secondary">
-	<div class="flex flex-col w-full min-h-[200px] h-full items-center">
-		{#if filteredCampaigns?.length}
-			<div class="flex flex-col gap-4 w-full">
-				{#each filteredCampaigns as campaign}
-					<CampaignListItem {campaign} />
-				{/each}
-			</div>
-		{:else}
-			<div class="flex flex-col justify-center h-full min-h-[200px]">
-				{#if toggleValue === 'myCampaigns'}
-					{#if !$wallet.address}
-						<Button on:click={initializeWallet.bind(null, EWalletProvider.METAMASK)}
-							>Connect your wallet</Button
-						>
+	{#snippet mainSlot()}
+		<div class="flex flex-col w-full min-h-[200px] h-full items-center">
+			{#if filteredCampaigns?.length}
+				<div class="flex flex-col gap-4 w-full">
+					{#each filteredCampaigns as campaign}
+						<CampaignListItem {campaign} />
+					{/each}
+				</div>
+			{:else}
+				<div class="flex flex-col justify-center h-full min-h-[200px]">
+					{#if toggleValue === 'myCampaigns'}
+						{#if !$wallet.address}
+							<Button on:click={initializeWallet.bind(null, EWalletProvider.METAMASK)}
+								>Connect your wallet</Button
+							>
+						{:else}
+							<Button
+								on:click={() => {
+									goto(
+										replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
+											campaignType: 'air-drop',
+											step: '1'
+										})
+									);
+								}}
+								styleVariant={EButtonStyleVariant.HIGHLIGHT}
+							>
+								New Campaign
+							</Button>
+						{/if}
 					{:else}
-						<Button
-							on:click={() => {
-								goto(
-									replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
-										campaignType: 'air-drop',
-										step: '1'
-									})
-								);
-							}}
-							styleVariant={EButtonStyleVariant.HIGHLIGHT}
-						>
-							New Campaign
-						</Button>
+						<Typography class="text-center" variant="h4">No campaigns found</Typography>
 					{/if}
-				{:else}
-					<Typography class="text-center" variant="h4">No campaigns found</Typography>
-				{/if}
-			</div>
-		{/if}
-	</div>
+				</div>
+			{/if}
+		</div>
+	{/snippet}
 </Container>
 
 <div class="flex justify-end">

@@ -7,15 +7,19 @@
 	import { EToggleVariant, type ICampaignSummaryProps, type IToggleProps } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 
-	export let campaign: ICampaignSummaryProps['campaign'];
-	export let useTimeline: ICampaignSummaryProps['useTimeLine'] = false;
+	interface Props {
+		campaign: ICampaignSummaryProps['campaign'];
+		useTimeline?: ICampaignSummaryProps['useTimeLine'];
+	}
+
+	let { campaign, useTimeline = false }: Props = $props();
 
 	let toggleOptions: IToggleProps<string>['options'] = [
 		{ value: 'criteria', label: 'Criteria' },
 		{ value: 'governance', label: 'Delegates' }
 	];
 
-	let toggleValue = '';
+	let toggleValue = $state('');
 	onMount(() => {
 		if (campaign.phase)
 			if (toggleOptions?.length) {
@@ -26,37 +30,41 @@
 
 <div class="flex flex-col gap-5 w-full">
 	<Container variant="inner-container">
-		<div class="flex flex-col gap-6">
-			<div class="flex gap-6 items-center">
-				<div class="bg-foreground w-10 h-10 rounded-full flex items-center justify-center">
-					{#if campaign?.title}
-						<h5 class="text-darkNet font-bold">{campaign?.title.slice(0, 1).toUpperCase()}</h5>
-					{:else}
-						<img
-							src={LogoFilament}
-							alt="logo"
-							class="w-6"
-							style="filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);"
-						/>
-					{/if}
+		{#snippet mainSlot()}
+			<div class="flex flex-col gap-6">
+				<div class="flex gap-6 items-center">
+					<div class="bg-foreground w-10 h-10 rounded-full flex items-center justify-center">
+						{#if campaign?.title}
+							<h5 class="text-darkNet font-bold">{campaign?.title.slice(0, 1).toUpperCase()}</h5>
+						{:else}
+							<img
+								src={LogoFilament}
+								alt="logo"
+								class="w-6"
+								style="filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);"
+							/>
+						{/if}
+					</div>
+					<Typography variant="h4">{campaign?.title || 'Campaign Title'}</Typography>
 				</div>
-				<Typography variant="h4">{campaign?.title || 'Campaign Title'}</Typography>
+				{#if useTimeline}
+					<CampaignTimeLine {campaign} />
+				{/if}
+				<CampaignSummaryDescription {campaign} />
 			</div>
-			{#if useTimeline}
-				<CampaignTimeLine {campaign} />
-			{/if}
-			<CampaignSummaryDescription {campaign} />
-		</div>
+		{/snippet}
 	</Container>
 
 	<div class="flex flex-col w-full">
 		<Toggle options={toggleOptions} variant={EToggleVariant.SECONDARY} bind:value={toggleValue} />
 		<Container variant="inner-container">
-			{#if toggleValue === 'criteria'}
-				<CampaignSummaryCriteria {campaign} />
-			{:else if toggleValue === 'governance'}
-				<CampaignSummaryDelegates {campaign} />
-			{/if}
+			{#snippet mainSlot()}
+				{#if toggleValue === 'criteria'}
+					<CampaignSummaryCriteria {campaign} />
+				{:else if toggleValue === 'governance'}
+					<CampaignSummaryDelegates {campaign} />
+				{/if}
+			{/snippet}
 		</Container>
 	</div>
 </div>

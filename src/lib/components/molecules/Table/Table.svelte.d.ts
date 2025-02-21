@@ -1,4 +1,4 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import { SvelteComponent } from 'svelte';
 import '@tanstack/svelte-table';
 import type { RowData } from '@tanstack/table-core';
 import type { ColumnDef, Row, SortingState } from '@tanstack/svelte-table';
@@ -7,7 +7,7 @@ import type { IPaginationProps } from 'types';
 declare const __propDef: {
 	props: {
 		tableLabel: string;
-		tableRightLabel?: string | ComponentType<SvelteComponent>;
+		tableRightLabel?: string | SvelteComponent;
 		tableRightLabelProps?: object;
 		data: RowData[];
 		columnDef: ColumnDef<RowData>[];

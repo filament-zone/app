@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { ProgressBar } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<ProgressBar {...args} />
+<Template >
+	{#snippet children({ args })}
+		<ProgressBar {...args} />
+	{/snippet}
 </Template>
 
 <Story

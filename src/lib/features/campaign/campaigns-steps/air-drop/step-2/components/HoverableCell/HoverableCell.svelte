@@ -5,11 +5,9 @@
 	import SettingsCircleGreenIcon from '$lib/assets/icons/settings-circle-green.svg?component';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
-	export let id;
-	export let isCompleted;
-	export let isSettingsCircleGreen;
+	let { id, isCompleted, isSettingsCircleGreen } = $props();
 
-	let isHovered = false;
+	let isHovered = $state(false);
 
 	const handleHover = (customEvent: Event) => {
 		const rowId = (customEvent as CustomEvent<{ rowId: string | null }>).detail;
@@ -25,11 +23,11 @@
 </script>
 
 {#if isHovered}
-	<svelte:component this={SettingsCircleIcon} />
+	<SettingsCircleIcon />
 {:else if isCompleted}
-	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly)" />
+	<CheckmarkCircleIcon fill="var(--upOnly)" />
 {:else if isSettingsCircleGreen}
-	<svelte:component this={SettingsCircleGreenIcon} />
+	<SettingsCircleGreenIcon />
 {:else}
-	<svelte:component this={SettingsCircleIcon} />
+	<SettingsCircleIcon />
 {/if}

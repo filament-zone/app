@@ -1,7 +1,13 @@
 <script lang="ts">
+	import { SvelteComponent } from 'svelte';
 	import { Card, Container, Metrics, Table, Typography } from '$lib/components';
 
-	export let data;
+	let { data } = $props();
+
+	const RightLabelDelegations = data.tableDelegationsData
+		.tableRightLabel as unknown as typeof SvelteComponent;
+	const RightLabelValidators = data.tableAllValidatorsData
+		.tableRightLabel as unknown as typeof SvelteComponent;
 </script>
 
 <div class="flex flex-col w-full gap-8">
@@ -12,13 +18,19 @@
 			</Card>
 		{/each}
 	</Metrics>
-	<Container label={data.tableDelegationsData.tableLabel}>
-		<svelte:component this={data.tableDelegationsData.tableRightLabel} slot="header" />
-		<Table {...{ ...data.tableDelegationsData, tableLabel: '', tableRightLabel: null }} />
+	<Container lael={data.tableDelegationsData.tableLabel}>
+		{#snippet header()}
+			<RightLabelDelegations />
+		{/snippet}
+		{#snippet mainSlot()}
+			<Table {...{ ...data.tableDelegationsData, tableLabel: '', tableRightLabel: null }} />
+		{/snippet}
 	</Container>
 
 	<Container label={data.tableAllValidatorsData.tableLabel}>
-		<svelte:component this={data.tableAllValidatorsData.tableRightLabel} slot="header" />
+		{#snippet header()}
+			<RightLabelValidators />
+		{/snippet}
 		<Table {...{ ...data.tableAllValidatorsData, tableLabel: '', tableRightLabel: null }} />
 	</Container>
 </div>

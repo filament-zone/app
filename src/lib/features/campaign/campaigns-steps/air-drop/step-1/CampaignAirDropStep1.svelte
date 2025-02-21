@@ -1,8 +1,22 @@
+<!-- @migration-task Error while migrating Svelte code: can't migrate `$: activeDelegatesTable = {
+		tableLabel: 'Selected Delegates',
+		data: [
+			...$data.pageData.delegates.filter(
+				(delegate: IDelegate) => !Object.keys($campaignDetails.delegates)?.includes(delegate.id)
+			)
+		],
+		columnDef: delegateColumnDef(EDelegateType.ACTIVE),
+		onRowClick: (row: Row<IDelegate>) => {
+			toggleDelegate(row.original.id as string);
+		},
+		sortingState: [{ id: 'votingPower', desc: true }]
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;` to `$derived` because there's a variable named derived.
+     Rename the variable and try again or migrate by hand. -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { page } from '$app/stores';
-	import { flexRender, type Row } from '@tanstack/svelte-table';
+	import { FlexRender, type Row } from '@tanstack/svelte-table';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
 	import { Container, Input, Table, TextEditor, Typography } from '$lib/components';
 	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
@@ -23,7 +37,7 @@
 			accessorKey: 'selected',
 			header: '',
 			cell: (value) => {
-				return flexRender(HoverableCellInverted, {
+				return FlexRender(HoverableCellInverted, {
 					id: value.row.id,
 					isSelected: delegateType === EDelegateType.ACTIVE
 				});
