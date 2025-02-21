@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
 <script lang="ts">
 	import { afterUpdate } from 'svelte';
 	import { portal } from 'svelte-portal';
@@ -72,7 +73,7 @@
 	{#if isOpen}
 		<div
 			use:portal={'body'}
-			class="menu-popover overflow-scroll rounded border border-default"
+			class="menu-popover overflow-scroll rounded-sm border border-default"
 			use:clickOutside
 			on:clickOutside={onClickOutside}
 			style="width: {width}; max-height: {maxHeight};"

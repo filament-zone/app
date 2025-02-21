@@ -1,11 +1,9 @@
+@import "tailwindcss";
 @import 'reset.less';
 @import 'colors.less';
 @import 'layout.less';
 @import 'fonts.less';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../../../tailwind.config.js";
 
 @layer base {
 	h1,
@@ -15,7 +13,6 @@
 	h5,
 	h6,
 	p {
-		@apply text-primary-white;
 		font-family: var(--primary-font);
 	}
 }

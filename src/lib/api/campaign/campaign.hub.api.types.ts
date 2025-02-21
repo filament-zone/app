@@ -24,7 +24,7 @@ export interface ICriteriaInput {
 export interface IEligibilityCriteria extends Criterion {
 	id: string | null;
 	type: EEligibilityCriteriaType | null;
-	tvl: string | null;
+	tvl?: string | null;
 	contracts: IContract[] | null;
 	inputs?: ICriteriaInput[];
 }

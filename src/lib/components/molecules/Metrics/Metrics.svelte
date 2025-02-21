@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { Container } from '$lib/components';
+
+	let { children } = $props();
 </script>
 
-<Container label="Metrics" class="w-full">
+{#snippet mainSlot()}
 	<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-		<slot />
+		{@render children?.()}
 	</div>
-</Container>
+{/snippet}
+
+<Container label="Metrics" class="w-full" {mainSlot} />

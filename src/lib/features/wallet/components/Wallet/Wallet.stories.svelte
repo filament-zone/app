@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import Wallet from './Wallet.svelte';
 
@@ -8,10 +8,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="flex justify-center items-center">
-		<Wallet {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="flex justify-center items-center">
+			<Wallet {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Primary" />

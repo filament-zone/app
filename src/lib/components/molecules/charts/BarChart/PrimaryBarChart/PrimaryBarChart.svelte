@@ -8,13 +8,17 @@
 		type IPrimaryBarChartProps
 	} from '$lib/types';
 
-	export let data: IPrimaryBarChartProps['data'];
+	interface Props {
+		data: IPrimaryBarChartProps['data'];
+	}
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let { data }: Props = $props();
+
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] = $state();
 
 	const screenTypeStore = screenDetect();
-	$: currentScreen = $screenTypeStore.currentScreen;
+	let currentScreen = $derived($screenTypeStore.currentScreen);
 
 	const firstDayIndices = data?.labels
 		?.map((label, index) => {
@@ -25,7 +29,7 @@
 		})
 		.filter((index): index is number => index !== null);
 
-	let x2Labels = new Array(data?.labels?.length).fill('');
+	let x2Labels = $state(new Array(data?.labels?.length).fill(''));
 
 	if (firstDayIndices?.length) {
 		x2Labels[firstDayIndices[0]] = 'Oct';
@@ -59,7 +63,7 @@
 		]
 	} as ChartInstance['data'];
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: false
@@ -113,9 +117,9 @@
 				enabled: false
 			}
 		}
-	};
+	});
 
-	$: chartHeight = chartStylesConfig[currentScreen]['chartHeight'];
+	let chartHeight = $derived(chartStylesConfig[currentScreen]['chartHeight']);
 </script>
 
 <div class="relative mt-[125px]">

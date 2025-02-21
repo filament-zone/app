@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Input } from '$lib/components';
 	import { EInputSizeVariant } from '$lib/types';
@@ -42,8 +42,10 @@
 	};
 </script>
 
-<Template let:args>
-	<Input {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Input {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Small" args={{ placeholder: 'Placeholder', sizeVariant: EInputSizeVariant.SMALL }} />

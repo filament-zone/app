@@ -3,34 +3,49 @@
 	import { clickOutside } from '$lib/actions';
 	import type { IModalProps } from '$lib/types';
 
-	export let closeOnClickOutside: IModalProps['closeOnClickOutside'] = true;
-	export let onClickOutside: IModalProps['onClickOutside'] = () => {};
-	export let classNames: IModalProps['classNames'] = '';
-	export let width: IModalProps['width'] = '';
+	interface Props {
+		closeOnClickOutside?: IModalProps['closeOnClickOutside'];
+		onClickOutside?: IModalProps['onClickOutside'];
+		classNames?: IModalProps['classNames'];
+		width?: IModalProps['width'];
+		header?: import('svelte').Snippet;
+		content?: import('svelte').Snippet<[any]>;
+		footer?: import('svelte').Snippet;
+	}
+
+	let {
+		closeOnClickOutside = true,
+		onClickOutside = () => {},
+		classNames = '',
+		width = '',
+		header,
+		content,
+		footer
+	}: Props = $props();
 
 	const { closeModal } = modalStore;
 
-	$: handleClickOutside = () => {
+	let handleClickOutside = $derived(() => {
 		if (onClickOutside) {
 			onClickOutside();
 		}
 		if (closeOnClickOutside) {
 			closeModal();
 		}
-	};
+	});
 </script>
 
 <div class="overlay">
 	<div
 		class="modal-container {classNames}"
 		use:clickOutside
-		on:clickOutside={handleClickOutside}
+		onclickOutside={handleClickOutside}
 		style={`width: ${width}`}
 	>
-		<div class="header w-full"><slot name="header" /></div>
-		<div class="w-full"><slot name="content" class="content" /></div>
-		{#if $$slots.footer}
-			<div class="w-full"><slot name="footer" /></div>
+		<div class="header w-full">{@render header?.()}</div>
+		<div class="w-full">{@render content?.({ class: 'content' })}</div>
+		{#if footer}
+			<div class="w-full">{@render footer?.()}</div>
 		{/if}
 	</div>
 </div>

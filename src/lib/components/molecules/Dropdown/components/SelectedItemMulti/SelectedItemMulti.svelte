@@ -3,16 +3,20 @@
 	import { type ISelectedItemMultiProps } from '$lib/types';
 	import { Typography } from '$lib/components';
 
-	export let option: ISelectedItemMultiProps['option'];
-	export let displayOnly: ISelectedItemMultiProps['displayOnly'] = false;
-	export let onCloseIconClick: ISelectedItemMultiProps['onCloseIconClick'] = () => {};
+	interface Props {
+		option: ISelectedItemMultiProps['option'];
+		displayOnly?: ISelectedItemMultiProps['displayOnly'];
+		onCloseIconClick?: ISelectedItemMultiProps['onCloseIconClick'];
+	}
+
+	let { option, displayOnly = false, onCloseIconClick = () => {} }: Props = $props();
 </script>
 
 x
 <div class="selected-item-multi">
 	<Typography variant="h6">{option.label}</Typography>
 	{#if !displayOnly}
-		<div class="cursor-pointer" on:click={onCloseIconClick} aria-hidden="true">
+		<div class="cursor-pointer" onclick={onCloseIconClick} aria-hidden="true">
 			<CloseIcon stroke="white" height="12px" width="12px" />
 		</div>
 	{/if}

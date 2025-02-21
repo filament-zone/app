@@ -1,13 +1,18 @@
-<script>
+<script lang="ts">
 	import { Typography } from '$lib/components';
-	export let label = '';
+	interface Props {
+		label?: string;
+		children?: import('svelte').Snippet;
+	}
+
+	let { label = '', children }: Props = $props();
 </script>
 
 <div class="page-header-wrapper flex items-center justify-center w-full">
 	<div class="page-header max-w-screen-2xl">
 		<Typography variant="h4">{label}</Typography>
 		<div>
-			<slot />
+			{@render children?.()}
 		</div>
 	</div>
 </div>

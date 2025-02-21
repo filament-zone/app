@@ -4,10 +4,14 @@
 	import MinusCircleIcon from '$lib/assets/icons/minus-circle.svg?component';
 	import { type IHoverableCellInvertedProps } from '$lib/types';
 
-	export let id;
-	export let isSelected: IHoverableCellInvertedProps['isSelected'];
+	interface Props {
+		id: any;
+		isSelected: IHoverableCellInvertedProps['isSelected'];
+	}
 
-	let localIsSelected = isSelected;
+	let { id, isSelected }: Props = $props();
+
+	let localIsSelected = $state(isSelected);
 
 	const handleHover = (customEvent: Event) => {
 		const rowId = (customEvent as CustomEvent<{ rowId: string | null }>).detail.rowId;
@@ -28,7 +32,7 @@
 </script>
 
 {#if localIsSelected}
-	<svelte:component this={CheckmarkCircleIcon} fill="var(--upOnly)" />
+	<CheckmarkCircleIcon fill="var(--upOnly)" />
 {:else}
-	<svelte:component this={MinusCircleIcon} />
+	<MinusCircleIcon />
 {/if}

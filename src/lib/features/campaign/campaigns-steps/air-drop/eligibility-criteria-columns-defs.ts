@@ -1,7 +1,12 @@
-import { flexRender } from '@tanstack/svelte-table';
+import type { Component } from 'svelte';
+import { renderComponent } from '@tanstack/svelte-table';
 import { Badge } from '$lib/components';
-import { EBadgeColorVariant, type IEligibilityCriteria, type ITableProps } from '$lib/types';
-import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
+import {
+	EBadgeColorVariant,
+	type IBadgeProps,
+	type IEligibilityCriteria,
+	type ITableProps
+} from '$lib/types';
 
 export const eligibilityCriteriaColumnDefCommon = [
 	{
@@ -28,7 +33,7 @@ export const eligibilityCriteriaColumnDefCommon = [
 				return '';
 			}
 
-			return flexRender(Badge, {
+			return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 				label,
 				colorVariant: EBadgeColorVariant.PRIMARY
 			});
@@ -40,26 +45,26 @@ export const eligibilityCriteriaColumnDefCommon = [
 		cell: (info) => {
 			const value = info.getValue() as IEligibilityCriteria['tvl'];
 
-			return flexRender(Badge, {
+			return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 				label: value?.toLocaleString() ?? '0',
 				colorVariant: EBadgeColorVariant.PRIMARY,
 				LeftContent: '$'
 			});
 		}
 	},
-	{
-		header: ' ',
-		cell: () => {
-			return flexRender(ArrowRight, {});
-		},
-		size: 10
-	},
+	// {
+	// 	header: ' ',
+	// 	cell: () => {
+	// 		return renderComponent(ArrowRight, {});
+	// 	},
+	// 	size: 10
+	// },
 	{
 		accessorKey: 'weight',
 		header: 'Point(s)',
 		cell: (info) => {
 			const value = info.getValue() as IEligibilityCriteria['weight'];
-			return flexRender(Badge, {
+			return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 				label: value?.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
 				LeftContent: 'x',

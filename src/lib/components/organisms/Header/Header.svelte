@@ -13,14 +13,19 @@
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
-	let isWalletMenuOpen = false;
-	let isMobileMenuOpen = false;
+	let isWalletMenuOpen = $state(false);
+	let isMobileMenuOpen = $state(false);
 
 	const screenTypeStore = screenDetect();
 
 	const toggleMobileMenu = () => {
 		isMobileMenuOpen = !isMobileMenuOpen;
 	};
+
+	$effect(() => {
+		console.log('scrren', $screenTypeStore);
+	});
+	console.log('scrren1');
 </script>
 
 <div class="flex flex-col w-full sticky top-0 z-50 bg-background">
@@ -30,7 +35,7 @@
 	<div class="flex flex-row items-center justify-between pt-[5px] px-4" data-testid="header">
 		<div
 			class="cursor-pointer flex gap-3 pb-[10px]"
-			on:click={() => {
+			onclick={() => {
 				goto(routes.HOME);
 			}}
 			aria-hidden="true"
@@ -42,7 +47,7 @@
 			{#if !$screenTypeStore.isLayoutLg}
 				<button
 					class="hamburger"
-					on:click={toggleMobileMenu}
+					onclick={toggleMobileMenu}
 					aria-label="Toggle menu"
 					data-testid="mobile-nav-bar-button"
 				>

@@ -7,16 +7,20 @@
 	} from '$lib/types';
 	import { calculatePercentageChange } from '$lib/helpers';
 
-	export let data: IPlainLineChartProps['data'];
-	export let styles: IPlainLineChartProps['styles'] = 'height: 285px';
+	interface Props {
+		data: IPlainLineChartProps['data'];
+		styles?: IPlainLineChartProps['styles'];
+	}
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let { data, styles = 'height: 285px' }: Props = $props();
 
-	$: change = calculatePercentageChange(data?.datasets[0].data as number[]);
-	$: lineColors = change > 0 ? ['#7dFA79'] : ['#ff74a4'];
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] = $state();
 
-	$: chartData = {
+	let change = $derived(calculatePercentageChange(data?.datasets[0].data as number[]));
+	let lineColors = $derived(change > 0 ? ['#7dFA79'] : ['#ff74a4']);
+
+	let chartData = $derived({
 		labels: data?.labels?.length ? [...(data?.labels as string[])] : [],
 		datasets:
 			data?.datasets?.map((dataset, index) => {
@@ -28,9 +32,9 @@
 					tension: 0.4
 				};
 			}) ?? []
-	};
+	});
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: false,
@@ -50,7 +54,7 @@
 				display: false
 			}
 		}
-	} as ChartInstance<'line'>['options'];
+	} as ChartInstance<'line'>['options']);
 </script>
 
 <AbstractLineChart

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { onDestroy, onMount } from 'svelte';
 	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
@@ -6,15 +8,27 @@
 	import { throttle } from '$lib/utils';
 	import { type IAbstractLineChartProps } from '$lib/types';
 
-	export let chartInstance: IAbstractLineChartProps['chartInstance'];
-	export let chartCanvasInstance: IAbstractLineChartProps['chartCanvasInstance'];
-	export let chartData: IAbstractLineChartProps['chartData'];
-	export let chartOptions: IAbstractLineChartProps['chartInstance']['options'];
-	export let className: IAbstractLineChartProps['className'] = '';
-	export let plugins: IAbstractLineChartProps['plugins'] = [];
-	export let styles: string;
+	interface Props {
+		chartInstance: IAbstractLineChartProps['chartInstance'];
+		chartCanvasInstance: IAbstractLineChartProps['chartCanvasInstance'];
+		chartData: IAbstractLineChartProps['chartData'];
+		chartOptions: IAbstractLineChartProps['chartInstance']['options'];
+		className?: IAbstractLineChartProps['className'];
+		plugins?: IAbstractLineChartProps['plugins'];
+		styles: string;
+	}
 
-	$: chartOptionsLocal = {
+	let {
+		chartInstance = $bindable(),
+		chartCanvasInstance = $bindable(),
+		chartData,
+		chartOptions,
+		className = '',
+		plugins = [],
+		styles
+	}: Props = $props();
+
+	let chartOptionsLocal = $derived({
 		...chartOptions,
 		responsive: true,
 		maintainAspectRatio: false,
@@ -28,7 +42,7 @@
 				}
 			}
 		}
-	};
+	});
 
 	onMount(() => {
 		if (browser) {
@@ -47,14 +61,16 @@
 		chartInstance?.destroy();
 	});
 
-	$: if (
-		chartInstance &&
-		chartData &&
-		JSON.stringify(chartData) !== JSON.stringify(chartInstance.data)
-	) {
-		chartInstance.data = chartData;
-		chartInstance.update();
-	}
+	run(() => {
+		if (
+			chartInstance &&
+			chartData &&
+			JSON.stringify(chartData) !== JSON.stringify(chartInstance.data)
+		) {
+			chartInstance.data = chartData;
+			chartInstance.update();
+		}
+	});
 
 	eventListener(
 		'resize',
@@ -65,5 +81,5 @@
 </script>
 
 <div class={`chart-container w-full relative ${className}`} style={styles}>
-	<canvas bind:this={chartCanvasInstance} width="100%" height="100%" />
+	<canvas bind:this={chartCanvasInstance} width="100%" height="100%"></canvas>
 </div>

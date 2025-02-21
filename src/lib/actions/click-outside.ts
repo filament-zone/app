@@ -1,6 +1,11 @@
+import type { Action } from 'svelte/action';
 export type NodeType = HTMLElement | SVGElement;
 
-export const clickOutside = (node: NodeType, allowedNodes?: (NodeType | null)[]) => {
+export const clickOutside: Action<
+	NodeType,
+	(NodeType | null)[],
+	{ onclickOutside: (e: CustomEvent) => void }
+> = (node, allowedNodes = []) => {
 	const handleClick = (event: MouseEvent) => {
 		const target = event.target as Node;
 

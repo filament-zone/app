@@ -25,7 +25,7 @@
 	} from '$lib/types';
 	import { generateMockCampaign } from '$lib/features/campaign/mock';
 
-	export let data;
+	let { data } = $props();
 
 	const {
 		campaignDetails,
@@ -38,23 +38,29 @@
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
-	$: campaign = $campaignDetails ?? data.campaign ?? generateMockCampaign();
+	let campaign = $derived($campaignDetails ?? data.campaign ?? generateMockCampaign());
 
-	$: isDelegate = isCampaignDelegate(Object.keys(campaign.delegates), $wallet.address as string);
-
-	$: isCriteriaVoteAccessible = isCriteriaVoteAccessibleFn(
-		campaign?.phase as ICampaign['phase'],
-		isDelegate,
-		$wallet.address as string
+	let isDelegate = $derived(
+		isCampaignDelegate(Object.keys(campaign.delegates), $wallet.address as string)
 	);
 
-	$: isDistributionVoteAccessible = isDistributionVoteAccessibleFn(
-		campaign?.phase as ICampaign['phase'],
-		isDelegate,
-		$wallet.address as string
+	let isCriteriaVoteAccessible = $derived(
+		isCriteriaVoteAccessibleFn(
+			campaign?.phase as ICampaign['phase'],
+			isDelegate,
+			$wallet.address as string
+		)
 	);
 
-	$: isVoteAccessible = (toggleValue: string) => {
+	let isDistributionVoteAccessible = $derived(
+		isDistributionVoteAccessibleFn(
+			campaign?.phase as ICampaign['phase'],
+			isDelegate,
+			$wallet.address as string
+		)
+	);
+
+	let isVoteAccessible = $derived((toggleValue: string) => {
 		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
 			if (toggleValue === 'criteria') {
 				return isCriteriaVoteAccessible;
@@ -68,18 +74,18 @@
 			return false;
 		}
 		return false;
-	};
+	});
 
 	onDestroy(() => {
 		campaignDetails.set(undefined);
 	});
 
-	$: toggleOptions = [
+	let toggleOptions = $derived([
 		{ value: 'criteria', label: 'Criteria' },
 		{ value: 'distribution', label: 'Distribution', disabled: $campaignNumericPhase < 2 }
-	] as IToggleProps<string>['options'];
+	] as IToggleProps<string>['options']);
 
-	$: toggleValue = '';
+	let toggleValue = $state('');
 
 	onMount(() => {
 		if (campaign.phase)
@@ -92,99 +98,112 @@
 <div class="flex flex-col xl:flex-row gap-4">
 	<div class="w-8/12">
 		<Container label="Campaign Details" variant="secondary">
-			<Button
-				slot="header"
-				on:click={() => {
-					goto(routes.CAMPAIGNS.MANAGE.ROOT);
-				}}>Return to list</Button
-			>
-			<div class="flex flex-col gap-4">
-				<CampaignSummary {campaign} useTimeline={true} />
-			</div>
+			{#snippet header()}
+				<Button
+					on:click={() => {
+						goto(routes.CAMPAIGNS.MANAGE.ROOT);
+					}}>Return to list</Button
+				>
+			{/snippet}
+			{#snippet mainSlot()}
+				<div class="flex flex-col gap-4">
+					<CampaignSummary {campaign} useTimeline={true} />
+				</div>
+			{/snippet}
 		</Container>
 	</div>
 	<div class="flex flex-col w-4/12 gap-4">
 		{#if $campaignNumericPhase === 0}
 			<Container label="Setup">
-				<div class="flex flex-col gap-4">
-					<Typography variant="caption">
-						In order to initiate the campaign, you have to deposit the collateral of 1 bFILA first.
-						One bFILA currently is worth about 14,000 FILA token.
-					</Typography>
-					<Button
-						on:click={initCampaign.bind(null, campaign.id)}
-						styleVariant={EButtonStyleVariant.HIGHLIGHT}
-						sizeVariant={EButtonSizeVariant.FULL_WIDTH}>Initiate</Button
-					>
-				</div>
+				{#snippet mainSlot()}
+					<div class="flex flex-col gap-4">
+						<Typography variant="caption">
+							In order to initiate the campaign, you have to deposit the collateral of 1 bFILA
+							first. One bFILA currently is worth about 14,000 FILA token.
+						</Typography>
+						<Button
+							on:click={initCampaign.bind(null, campaign.id)}
+							styleVariant={EButtonStyleVariant.HIGHLIGHT}
+							sizeVariant={EButtonSizeVariant.FULL_WIDTH}>Initiate</Button
+						>
+					</div>
+				{/snippet}
 			</Container>
 		{/if}
 		{#if $campaignNumericPhase > 0}
 			<Container label="Vote">
-				<Toggle
-					options={toggleOptions}
-					variant={EToggleVariant.SECONDARY}
-					bind:value={toggleValue}
-					slot="above-container"
-					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
-				/>
-				<div class="flex flex-col gap-4">
-					<div class="flex flex-row justify-between">
-						<Badge
-							label="Turnout:"
-							RightContent="48%"
-							RightContentColorVariant="purple"
-							colorVariant={EBadgeColorVariant.SECONDARY}
-						/>
-						<Badge
-							label="Time Left:"
-							RightContent="7D 42M"
-							RightContentColorVariant="purple"
-							colorVariant={EBadgeColorVariant.SECONDARY}
-						/>
-					</div>
-					{#if toggleValue === 'criteria' && data.chartDataCriteria}
-						<SecondaryDoughnutChart chartData={data.chartDataCriteria} class="w-full" />
-					{:else if toggleValue === 'distribution' && data.chartDataDistribution}
-						<SecondaryDoughnutChart chartData={data.chartDataDistribution} class="w-full" />
-					{:else}
-						<div class="flex justify-center items-center h-[300px]">
-							<Typography variant="h5">No data available</Typography>
+				{#snippet aboveContainer()}
+					<Toggle
+						options={toggleOptions}
+						variant={EToggleVariant.SECONDARY}
+						bind:value={toggleValue}
+						sizeVariant={EToggleSizeVariant.FULL_WIDTH}
+					/>
+				{/snippet}
+				{#snippet mainSlot()}
+					<div class="flex flex-col gap-4">
+						<div class="flex flex-row justify-between">
+							<Badge
+								label="Turnout:"
+								RightContent="48%"
+								RightContentColorVariant="purple"
+								colorVariant={EBadgeColorVariant.SECONDARY}
+							/>
+							<Badge
+								label="Time Left:"
+								RightContent="7D 42M"
+								RightContentColorVariant="purple"
+								colorVariant={EBadgeColorVariant.SECONDARY}
+							/>
 						</div>
-					{/if}
-					<Button
-						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
-						on:click={() => {
-							if (isVoteAccessible(toggleValue)) {
-								openModal({
-									variant: EModalVariant.CAMPAIGN_VOTE,
-									state: { campaignId: campaign?.id }
-								});
-							}
-						}}
-						disabled={!isVoteAccessible(toggleValue)}>Vote</Button
-					>
-				</div>
+						{#if toggleValue === 'criteria' && data.chartDataCriteria}
+							<SecondaryDoughnutChart chartData={data.chartDataCriteria} class="w-full" />
+						{:else if toggleValue === 'distribution' && data.chartDataDistribution}
+							<SecondaryDoughnutChart chartData={data.chartDataDistribution} class="w-full" />
+						{:else}
+							<div class="flex justify-center items-center h-[300px]">
+								<Typography variant="h5">No data available</Typography>
+							</div>
+						{/if}
+						<Button
+							sizeVariant={EButtonSizeVariant.FULL_WIDTH}
+							on:click={() => {
+								if (isVoteAccessible(toggleValue)) {
+									openModal({
+										variant: EModalVariant.CAMPAIGN_VOTE,
+										state: { campaignId: campaign?.id }
+									});
+								}
+							}}
+							disabled={!isVoteAccessible(toggleValue)}>Vote</Button
+						>
+					</div>
+				{/snippet}
 			</Container>
 			<Container label="Ticker">
-				<Toggle
-					options={toggleOptions}
-					variant={EToggleVariant.SECONDARY}
-					bind:value={toggleValue}
-					slot="above-container"
-					sizeVariant={EToggleSizeVariant.FULL_WIDTH}
-				/>
-				<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
-					{#if toggleValue === 'criteria' && data.tickerDataCriteria}
-						<Ticker tickerData={data.tickerDataCriteria} />
-					{:else if toggleValue === 'distribution' && data.tickerDataDistribution}
-						<Ticker tickerData={data.tickerDataDistribution} />
-					{:else}
-						<div class="w-full flex justify-center items-center">
-							<Typography variant="h5">No data available</Typography>
-						</div>
-					{/if}
-				</div>
+				{#snippet aboveContainer()}
+					<!-- @migration-task: migrate this slot by hand, `aboveContainer` is an invalid identifier -->
+					<Toggle
+						options={toggleOptions}
+						variant={EToggleVariant.SECONDARY}
+						bind:value={toggleValue}
+						slot="aboveContainer"
+						sizeVariant={EToggleSizeVariant.FULL_WIDTH}
+					/>
+				{/snippet}
+				{#snippet mainSlot()}
+					<div class="flex flex-col gap-2 h-[384px] overflow-x-hidden overflow-y-auto">
+						{#if toggleValue === 'criteria' && data.tickerDataCriteria}
+							<Ticker tickerData={data.tickerDataCriteria} />
+						{:else if toggleValue === 'distribution' && data.tickerDataDistribution}
+							<Ticker tickerData={data.tickerDataDistribution} />
+						{:else}
+							<div class="w-full flex justify-center items-center">
+								<Typography variant="h5">No data available</Typography>
+							</div>
+						{/if}
+					</div>
+				{/snippet}
 			</Container>
 		{/if}
 	</div>

@@ -1,6 +1,6 @@
+<!-- @migration-task Error while migrating Svelte code: This migration would change the name of a slot making the component unusable -->
 <script lang="ts">
-	export let label: string;
-	export let variant: string = 'primary';
+	let { label, variant = 'primary', header, aboveContainer, mainSlot } = $props();
 </script>
 
 <div class="base-container variant-{variant} gap-6 w-full">
@@ -10,14 +10,14 @@
 				<span>{label}</span>
 			</div>
 			<div>
-				<slot name="header" />
+				{@render header?.()}
 			</div>
 		</div>
 	{/if}
 	<div class="w-full">
-		<slot name="above-container" />
+		{@render aboveContainer?.()}
 		<div class="slot-container">
-			<slot />
+			{@render mainSlot?.()}
 		</div>
 	</div>
 </div>

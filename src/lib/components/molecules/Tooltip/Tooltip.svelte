@@ -2,14 +2,19 @@
 	import { Tooltip } from '@svelte-plugins/tooltips';
 	import { screenDetect } from '$lib/helpers';
 
-	export let tooltipContent: string;
+	interface Props {
+		tooltipContent: string;
+		children?: import('svelte').Snippet;
+	}
+
+	let { tooltipContent, children }: Props = $props();
 
 	const screenTypeStore = screenDetect();
-	$: isLayoutLg = $screenTypeStore.isLayoutLg;
+	let isLayoutLg = $derived($screenTypeStore.isLayoutLg);
 </script>
 
 <Tooltip content={tooltipContent} theme="custom-tooltip" action={isLayoutLg ? 'hover' : 'click'}>
-	<slot />
+	{@render children?.()}
 </Tooltip>
 
 <style lang="less">

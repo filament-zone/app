@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Chart, registerables } from 'chart.js';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { PlainLineChart } from '$lib/components';
@@ -24,10 +24,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="mt-16">
-		<PlainLineChart {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="mt-16">
+			<PlainLineChart {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Plain" args={{ data }} />

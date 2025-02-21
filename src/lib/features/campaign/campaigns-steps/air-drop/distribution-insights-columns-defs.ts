@@ -1,6 +1,12 @@
-import { flexRender } from '@tanstack/svelte-table';
+import { FlexRender, renderComponent } from '@tanstack/svelte-table';
 import { Badge } from '$lib/components';
-import { EBadgeColorVariant, type IEligibilityCriteria, type ITableProps } from '$lib/types';
+import {
+	EBadgeColorVariant,
+	type IBadgeProps,
+	type IEligibilityCriteria,
+	type ITableProps
+} from '$lib/types';
+import type { Component } from 'svelte';
 
 export const distributionInsightsColumnDef = [
 	{
@@ -30,7 +36,7 @@ export const distributionInsightsColumnDef = [
 		cell: (info) => {
 			const value = info.getValue() as IEligibilityCriteria['tvl'];
 
-			return flexRender(Badge, {
+			return renderComponent(Badge as unknown as Component<IBadgeProps>, {
 				label: value?.toLocaleString() ?? '0',
 				colorVariant: EBadgeColorVariant.PRIMARY,
 				RightContent: 'FILA'

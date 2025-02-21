@@ -9,7 +9,7 @@ import { type formatLargeNumber } from '$lib/utils';
 
 declare const __propDef: {
 	props: {
-		data: ISecondaryLineChartProps['data'];
+		chartData: ISecondaryLineChartProps['data'];
 		label: string;
 		trendDisplayData: ITrendDisplayProps;
 		toggleOptions: EChartDateRange[];

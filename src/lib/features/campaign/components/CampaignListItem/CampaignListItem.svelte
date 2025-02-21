@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: `<button>` cannot be a descendant of `<button>`. The browser will 'repair' the HTML (by moving, removing, or inserting elements) which breaks Svelte's assumptions about the structure of your components.
+https://svelte.dev/e/node_invalid_placement -->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { CampaignTimeLine, Typography } from '$lib/components';
@@ -18,14 +20,12 @@
 	};
 </script>
 
-<button on:click={handleOpenCampaignDetails}>
+<button onclick={handleOpenCampaignDetails}>
 	<div class="campaign-list-item-container">
 		<div class="header">
 			<Typography variant="h4">{campaign.title}</Typography>
 			<div class="icon-button">
-				<button on:click={handleOpenCampaignDetails}>
-					<ArrowUpRightIcon strokeWidth={3} class="w-5 h-5" />
-				</button>
+				<ArrowUpRightIcon strokeWidth={3} class="w-5 h-5" />
 			</div>
 		</div>
 		<div class="content">

@@ -1,13 +1,13 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import { SvelteComponent, Component } from 'svelte';
 import { EBadgeColorVariant, EBadgeWidthVariant } from '$lib/types';
 
 declare const __propDef: {
 	props: {
 		label: string;
 		colorVariant: EBadgeColorVariant;
-		widthVariant: EBadgeWidthVariant;
-		LeftContent?: ComponentType<SvelteComponent> | string | null;
-		RightContent?: ComponentType<SvelteComponent> | string | null;
+		widthVariant?: EBadgeWidthVariant;
+		LeftContent?: Component | string | null;
+		RightContent?: Component | string | null;
 		textColor?: string;
 		RightContentColorVariant?: string;
 	};

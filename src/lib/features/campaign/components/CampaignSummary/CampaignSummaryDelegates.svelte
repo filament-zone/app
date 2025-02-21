@@ -4,14 +4,18 @@
 	import { shortCutTransactionHash } from '$lib/helpers';
 	import type { ICampaign, ITableProps } from '$lib/types';
 
-	export let campaign: ICampaign;
+	interface Props {
+		campaign: ICampaign;
+	}
+
+	let { campaign }: Props = $props();
 
 	const sumVotingPower = Object.values(campaign.delegates).reduce(
 		(acc, curr) => Number(acc) + Number(curr),
 		0
 	);
 
-	$: activeDelegatesTable = {
+	let activeDelegatesTable = $derived({
 		data: [
 			...Object.entries(campaign.delegates).map(([key, value]) => {
 				return {
@@ -22,7 +26,7 @@
 			})
 		],
 		columnDef: delegatesColumnDefCommonSecond
-	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>);
 </script>
 
 <Table {...activeDelegatesTable} />

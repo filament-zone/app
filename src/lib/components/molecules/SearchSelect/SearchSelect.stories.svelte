@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Template, Story } from '@storybook/addon-svelte-csf';
 	import { SearchSelect } from '$lib/components';
 	import SearchIcon from '$lib/assets/icons/search.svg?component';
@@ -28,10 +28,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="w-[400px]">
-		<SearchSelect {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="w-[400px]">
+			<SearchSelect {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={data} />

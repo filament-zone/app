@@ -27,6 +27,7 @@ declare const __propDef: {
 		dataTestId?: string;
 		weight?: number;
 		allowHover?: boolean;
+		classNames?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

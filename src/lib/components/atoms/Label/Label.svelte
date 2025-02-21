@@ -3,8 +3,12 @@
 	import { type ILabelProps } from '$lib/types';
 	import InfoIcon from '$lib/assets/icons/info.svg?component';
 
-	export let value: ILabelProps['value'] = '';
-	export let tooltipContent: ILabelProps['tooltipContent'] = '';
+	interface Props {
+		value?: ILabelProps['value'];
+		tooltipContent?: ILabelProps['tooltipContent'];
+	}
+
+	let { value = '', tooltipContent = '' }: Props = $props();
 </script>
 
 <div class="label">

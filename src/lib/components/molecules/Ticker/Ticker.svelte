@@ -2,9 +2,13 @@
 	import moment from 'moment';
 	import { type ITickerProps } from '$lib/types';
 
-	export let name: ITickerProps['name'];
-	export let date: ITickerProps['date'];
-	export let status: ITickerProps['status'];
+	interface Props {
+		name: ITickerProps['name'];
+		date: ITickerProps['date'];
+		status: ITickerProps['status'];
+	}
+
+	let { name, date, status }: Props = $props();
 </script>
 
 <div class="ticker-item">

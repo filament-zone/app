@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Footer } from '$lib/components';
 	import { EButtonStyleVariant, EButtonSizeVariant } from '$lib/types';
@@ -9,8 +9,10 @@
 	};
 </script>
 
-<Template let:args>
-	<Footer {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Footer {...args} />
+	{/snippet}
 </Template>
 
 <Story

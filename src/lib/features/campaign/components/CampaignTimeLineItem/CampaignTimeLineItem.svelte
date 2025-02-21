@@ -5,16 +5,31 @@
 	import { type ICampaignTimeLineItemProps } from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
-	export let title: ICampaignTimeLineItemProps['title'];
-	export let description: ICampaignTimeLineItemProps['description'];
-	export let date: ICampaignTimeLineItemProps['date'];
-	export let status: ICampaignTimeLineItemProps['status'];
-	export let isFirst: ICampaignTimeLineItemProps['isFirst'];
-	export let isLast: ICampaignTimeLineItemProps['isLast'];
-	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
-	export let numericPhase: ICampaignTimeLineItemProps['numericPhase'];
-	export let isExpanded: ICampaignTimeLineItemProps['isExpanded'] = false;
+	interface Props {
+		title: ICampaignTimeLineItemProps['title'];
+		description: ICampaignTimeLineItemProps['description'];
+		date: ICampaignTimeLineItemProps['date'];
+		status: ICampaignTimeLineItemProps['status'];
+		isFirst: ICampaignTimeLineItemProps['isFirst'];
+		isLast: ICampaignTimeLineItemProps['isLast'];
+		onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
+		buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
+		numericPhase: ICampaignTimeLineItemProps['numericPhase'];
+		isExpanded?: ICampaignTimeLineItemProps['isExpanded'];
+	}
+
+	let {
+		title,
+		description,
+		date,
+		status,
+		isFirst,
+		isLast,
+		onButtonClick,
+		buttonLabel,
+		numericPhase,
+		isExpanded = false
+	}: Props = $props();
 
 	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {

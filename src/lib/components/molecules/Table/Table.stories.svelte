@@ -1,7 +1,7 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { ProgressBar, Table } from '$lib/components';
-	import { flexRender } from '@tanstack/svelte-table';
+	import { FlexRender } from '@tanstack/svelte-table';
 	import moment from 'moment/moment.js';
 	import { stylesObjectToString } from '$lib/helpers';
 	import type { ITableProps } from '$lib/types';
@@ -81,7 +81,7 @@
 			header: 'Budget',
 			cell: (info) => {
 				const value = info.getValue() as unknown as OngoingT['budget'];
-				return flexRender(ProgressBar, {
+				return FlexRender(ProgressBar, {
 					total: value.total,
 					used: value.used,
 					styles: stylesObjectToString({ height: '5px' })
@@ -106,8 +106,10 @@
 	];
 </script>
 
-<Template let:args>
-	<Table {...args} />
+<Template>
+	{#snippet children({ args })}
+		<Table {...args} />
+	{/snippet}
 </Template>
 
 <Story

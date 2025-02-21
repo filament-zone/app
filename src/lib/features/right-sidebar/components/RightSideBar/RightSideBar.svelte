@@ -4,8 +4,13 @@
 	import type { IRightSideBarProps } from '$lib/types';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
-	export let closeOnClickOutside: IRightSideBarProps['closeOnClickOutside'] = false;
-	export let classNames: IRightSideBarProps['classNames'] = '';
+	interface Props {
+		closeOnClickOutside?: IRightSideBarProps['closeOnClickOutside'];
+		classNames?: IRightSideBarProps['classNames'];
+		children?: import('svelte').Snippet;
+	}
+
+	let { closeOnClickOutside = false, classNames = '', children }: Props = $props();
 
 	const { closeRightSideBar } = rightSideBarStore;
 
@@ -20,17 +25,17 @@
 	<div
 		class="right-sidebar px-6 py-8 {classNames} h-full"
 		use:clickOutside
-		on:clickOutside={handleClickOutside}
+		onclickOutside={handleClickOutside}
 	>
 		<div class="flex flex-col gap-8 h-full">
-			<div class="close-button" on:click={closeRightSideBar} aria-hidden="true">
+			<div class="close-button" onclick={closeRightSideBar} aria-hidden="true">
 				<span>Close</span>
 				<div class="icon">
 					<ChevronRightIcon />
 				</div>
 			</div>
 			<div class="h-full">
-				<slot />
+				{@render children?.()}
 			</div>
 		</div>
 	</div>

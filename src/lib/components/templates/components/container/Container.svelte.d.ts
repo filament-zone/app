@@ -10,7 +10,8 @@ declare const __propDef: {
 	};
 	slots: {
 		header: object;
-		['above-container']: object;
+		aboveContainer: object;
+		mainSlot: object;
 	};
 };
 type IContainerProps_ = typeof __propDef.props;

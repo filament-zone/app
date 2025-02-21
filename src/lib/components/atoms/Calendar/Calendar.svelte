@@ -4,11 +4,21 @@
 	import { months } from '$lib/constants';
 	import { CalendarMode, type ICalendarProps } from '$lib/types';
 
-	export let mode: ICalendarProps<CalendarMode>['mode'];
-	export let value: ICalendarProps<typeof mode>['value'];
-	export let onChange: ICalendarProps<typeof mode>['onChange'];
-	export let displayDayOfWeek: ICalendarProps<typeof mode>['displayDayOfWeek'] = false;
-	export let monthToRender: ICalendarProps<typeof mode>['monthToRender'];
+	interface Props {
+		mode: ICalendarProps<CalendarMode>['mode'];
+		value: ICalendarProps<typeof mode>['value'];
+		onChange: ICalendarProps<typeof mode>['onChange'];
+		displayDayOfWeek?: ICalendarProps<typeof mode>['displayDayOfWeek'];
+		monthToRender: ICalendarProps<typeof mode>['monthToRender'];
+	}
+
+	let {
+		mode,
+		value,
+		onChange,
+		displayDayOfWeek = false,
+		monthToRender
+	}: Props = $props();
 
 	let today = moment();
 	let currentMonth = monthToRender.month();
@@ -68,13 +78,13 @@
 		}
 	};
 
-	$: isCurrentDay = (day: number) => {
+	let isCurrentDay = $derived((day: number) => {
 		return today.date() === day && today.month() === currentMonth && today.year() === currentYear
 			? 'current-day'
 			: '';
-	};
+	});
 
-	$: isSelectedDay = (day: number) => {
+	let isSelectedDay = $derived((day: number) => {
 		if (mode === CalendarMode.SINGLE && value) {
 			return moment((value as ICalendarProps<CalendarMode.SINGLE>['value']).date).date() === day &&
 				moment((value as ICalendarProps<CalendarMode.SINGLE>['value']).date).month() ===
@@ -84,9 +94,9 @@
 				: '';
 		}
 		return '';
-	};
+	});
 
-	$: isFirstDay = (day: number) => {
+	let isFirstDay = $derived((day: number) => {
 		if (
 			mode === CalendarMode.RANGED &&
 			(value as ICalendarProps<CalendarMode.RANGED>['value']).start
@@ -99,9 +109,9 @@
 				: '';
 		}
 		return '';
-	};
+	});
 
-	$: isLastDay = (day: number) => {
+	let isLastDay = $derived((day: number) => {
 		if (
 			mode === CalendarMode.RANGED &&
 			(value as ICalendarProps<CalendarMode.RANGED>['value']).end
@@ -114,9 +124,9 @@
 				: '';
 		}
 		return '';
-	};
+	});
 
-	$: isInsideRange = (day: number) => {
+	let isInsideRange = $derived((day: number) => {
 		if (
 			mode === 'ranged' &&
 			(value as ICalendarProps<CalendarMode.RANGED>['value']).start &&
@@ -133,16 +143,16 @@
 				: '';
 		}
 		return '';
-	};
+	});
 
-	$: classNamesString = (day: number) => {
+	let classNamesString = $derived((day: number) => {
 		if (mode === CalendarMode.SINGLE) {
 			return `${isSelectedDay(day)} ${isCurrentDay(day)}`;
 		}
 		if (mode === CalendarMode.RANGED) {
 			return `${isCurrentDay(day)} ${isFirstDay(day)} ${isLastDay(day)} ${isInsideRange(day)}`;
 		}
-	};
+	});
 </script>
 
 <div>
@@ -159,8 +169,8 @@
 		{#each daysArray as day}
 			<div
 				class="day-container"
-				on:click={() => handleChange(day)}
-				on:keyup={(event) => (event.key === 'Enter' || event.key === 'Space') && handleChange(day)}
+				onclick={() => handleChange(day)}
+				onkeyup={(event) => (event.key === 'Enter' || event.key === 'Space') && handleChange(day)}
 				aria-label={`Calendar day: ${day}`}
 				role="button"
 				tabindex="0"
@@ -192,7 +202,7 @@
 		height: 46px;
 		position: relative;
 
-		&:has(.first-day) {
+		&:has(:global(.first-day)) {
 			&:before {
 				content: '';
 				position: absolute;
@@ -203,7 +213,7 @@
 			}
 		}
 
-		&:has(.last-day) {
+		&:has(:global(.last-day)) {
 			&:before {
 				content: '';
 				position: absolute;
@@ -214,7 +224,7 @@
 			}
 		}
 
-		&:has(.inside-range) {
+		&:has(:global(.inside-range)) {
 			&:before {
 				content: '';
 				position: absolute;

@@ -2,10 +2,19 @@
 	import { Typography } from '$lib/components';
 	import type { ITrendDisplayProps } from '$lib/types';
 
-	export let value: ITrendDisplayProps['value'];
-	export let change: ITrendDisplayProps['change'];
-	export let period: ITrendDisplayProps['period'];
-	export let direction: ITrendDisplayProps['direction'];
+	interface Props {
+		value: ITrendDisplayProps['value'];
+		change: ITrendDisplayProps['change'];
+		period: ITrendDisplayProps['period'];
+		direction: ITrendDisplayProps['direction'];
+	}
+
+	let {
+		value,
+		change,
+		period,
+		direction
+	}: Props = $props();
 
 	const color = direction === 'up' ? 'var(--upOnly)' : 'var(--rugged)';
 </script>

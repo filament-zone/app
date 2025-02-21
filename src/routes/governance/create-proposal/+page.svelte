@@ -11,7 +11,7 @@
 	} from '$lib/components';
 	import { EBadgeWidthVariant } from '$lib/types';
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <div class="flex flex-col items-center">
@@ -19,7 +19,7 @@
 		<Breadcrumbs class="self-start" />
 		<Typography>Create new Proposal</Typography>
 		<Card label="Proposal Details" class="p-6 gap-4">
-			<Dropdown label="Type" class="mt-2" placeholder="Choose proposal type" />
+			<Dropdown label="Type" classNames="mt-2" placeholder="Choose proposal type" />
 			<Input label="Title" placeholder="Enter proposal title" />
 			<TextArea label="Description" rows="10" />
 		</Card>

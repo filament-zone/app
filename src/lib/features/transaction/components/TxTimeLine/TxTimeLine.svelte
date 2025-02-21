@@ -7,15 +7,29 @@
 	import { MinusCircleIcon } from 'svelte-feather-icons';
 	import { type ITxTimeLineItemProps, ETxTimeLineItem } from '$lib/types';
 
-	export let iconStatus: ITxTimeLineItemProps['iconStatus'];
-	export let title: ITxTimeLineItemProps['title'];
-	export let description: ITxTimeLineItemProps['description'];
-	export let date: ITxTimeLineItemProps['date'];
-	export let status: ITxTimeLineItemProps['status'];
-	export let isFirst: ITxTimeLineItemProps['isFirst'] = false;
-	export let isLast: ITxTimeLineItemProps['isLast'] = false;
-	export let onButtonClick: ITxTimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ITxTimeLineItemProps['buttonLabel'];
+	interface Props {
+		iconStatus: ITxTimeLineItemProps['iconStatus'];
+		title: ITxTimeLineItemProps['title'];
+		description: ITxTimeLineItemProps['description'];
+		date: ITxTimeLineItemProps['date'];
+		status: ITxTimeLineItemProps['status'];
+		isFirst?: ITxTimeLineItemProps['isFirst'];
+		isLast?: ITxTimeLineItemProps['isLast'];
+		onButtonClick: ITxTimeLineItemProps['onButtonClick'];
+		buttonLabel: ITxTimeLineItemProps['buttonLabel'];
+	}
+
+	let {
+		iconStatus,
+		title,
+		description,
+		date,
+		status,
+		isFirst = false,
+		isLast = false,
+		onButtonClick,
+		buttonLabel
+	}: Props = $props();
 
 	const getStatusColor: (status: ITxTimeLineItemProps['status']) => string = (status) => {
 		switch (status) {
@@ -30,7 +44,7 @@
 		}
 	};
 
-	$: lineBackground = iconStatus === ETxTimeLineItem.CHECKED ? '#4D4D4D' : '#272727';
+	let lineBackground = $derived(iconStatus === ETxTimeLineItem.CHECKED ? '#4D4D4D' : '#272727');
 
 	const renderLine = (position: 'top' | 'bottom') => {
 		if ((position === 'top' && !isLast) || (position === 'bottom' && !isFirst)) {
@@ -51,19 +65,19 @@
 	<div class="flex justify-center items-center w-1/12 relative">
 		{#if iconStatus === ETxTimeLineItem.CHECKED}
 			{#if renderLine('top')}
-				<div style={renderLine('top')} />
+				<div style={renderLine('top')}></div>
 			{/if}
 			<CheckmarkCircleIcon fill="var(--upOnly-400)" />
 			{#if renderLine('bottom')}
-				<div style={renderLine('bottom')} />
+				<div style={renderLine('bottom')}></div>
 			{/if}
 		{:else if iconStatus === ETxTimeLineItem.PROCESSING}
 			{#if renderLine('top')}
-				<div style={renderLine('top')} />
+				<div style={renderLine('top')}></div>
 			{/if}
 			<ProcessingCircleIcon />
 			{#if renderLine('bottom')}
-				<div style={renderLine('bottom')} />
+				<div style={renderLine('bottom')}></div>
 			{/if}
 		{:else if iconStatus === ETxTimeLineItem.FAILED}
 			<MinusCircleIcon class="text-rugged" />

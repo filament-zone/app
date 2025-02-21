@@ -7,10 +7,19 @@
 		type ICampaignTimeLineProps
 	} from '$lib/types';
 
-	export let campaign: ICampaignTimeLineProps['campaign'];
-	export let title: string = 'Phase';
-	export let isCollapsable: boolean = true;
-	export let isTimelineOpen: boolean = false;
+	interface Props {
+		campaign: ICampaignTimeLineProps['campaign'];
+		title?: string;
+		isCollapsable?: boolean;
+		isTimelineOpen?: boolean;
+	}
+
+	let {
+		campaign,
+		title = 'Phase',
+		isCollapsable = true,
+		isTimelineOpen = $bindable(false)
+	}: Props = $props();
 
 	const handleTimeLineClick = () => {
 		isTimelineOpen = !isTimelineOpen;
@@ -69,9 +78,9 @@
 		[ECampaignPhase.TOKEN_DISTRIBUTION]: timeLineSuccessfulAirdrop
 	};
 
-	$: activePhase = (campaign?.phase as ECampaignPhase) || 'Draft';
+	let activePhase = $derived((campaign?.phase as ECampaignPhase) || 'Draft');
 
-	$: activeNumericPhase = () => {
+	let activeNumericPhase = $derived(() => {
 		switch (activePhase) {
 			case 'Draft':
 				return 0;
@@ -90,9 +99,9 @@
 			default:
 				return 0;
 		}
-	};
+	});
 
-	$: getStatus = (activeNumericPhase: number, numericPhase: number) => {
+	let getStatus = $derived((activeNumericPhase: number, numericPhase: number) => {
 		if (!isTimelineOpen) {
 			return 'ongoing';
 		}
@@ -103,14 +112,14 @@
 			return 'ongoing';
 		}
 		return 'planned';
-	};
+	});
 
-	$: activeTimeLine = options[activePhase] || {
+	let activeTimeLine = $derived(options[activePhase] || {
 		title: 'Unknown Phase',
 		description: 'No information available.',
 		status: 'rejected',
 		numericPhase: 0
-	};
+	});
 </script>
 
 <div class="flex flex-col gap-4 campaign-timeline-container">
