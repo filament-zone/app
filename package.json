@@ -24,7 +24,7 @@
 		"@filament-zone/filament": "0.1.0-eddb997",
 		"@playwright/test": "^1.48.2",
 		"@poppanator/sveltekit-svg": "^4.2.1",
-		"@prgm/sveltekit-progress-bar": "^2.0.0",
+		"@prgm/sveltekit-progress-bar": "^3.0.2",
 		"@storybook/addon-essentials": "^8.4.7",
 		"@storybook/addon-interactions": "^8.5.2",
 		"@storybook/addon-links": "^8.4.7",
