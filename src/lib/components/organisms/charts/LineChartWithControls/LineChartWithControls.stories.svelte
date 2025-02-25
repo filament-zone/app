@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Chart, registerables } from 'chart.js';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { LineChartWithControls } from '$lib/components';
@@ -26,10 +26,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="mt-16">
-		<LineChartWithControls {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="mt-16">
+			<LineChartWithControls {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story

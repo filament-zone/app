@@ -4,7 +4,7 @@
 	import { Typography } from '$lib/components';
 	import { type IToggleContentContainerProps } from '$lib/types';
 
-	export let selected: IToggleContentContainerProps['selected'] = 'isFirst';
+	let { selected = $bindable('isFirst'), first, second }: IToggleContentContainerProps = $props();
 
 	const toggleContainerState = writable({
 		isFirst: {
@@ -31,23 +31,23 @@
 
 <div>
 	<div
-		on:click={toggleContainer.bind(null, 'isFirst')}
+		onclick={toggleContainer.bind(null, 'isFirst')}
 		aria-hidden="true"
 		class:isActive={!$toggleContainerState.isFirst.selected}
 		class="cursor-pointer"
 	>
-		<slot name="first"></slot>
+		{@render first?.()}
 	</div>
 	<div class="divider">
 		<Typography variant="subtitle2">or</Typography>
 	</div>
 	<div
-		on:click={toggleContainer.bind(null, 'isSecond')}
+		onclick={toggleContainer.bind(null, 'isSecond')}
 		aria-hidden="true"
 		class:isActive={!$toggleContainerState.isSecond.selected}
 		class="cursor-pointer"
 	>
-		<slot name="second"></slot>
+		{@render second?.()}
 	</div>
 </div>
 

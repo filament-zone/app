@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { initiateCampaignStore, Modal, modalStore, PricingComponent } from '$lib/features';
 	import { Button, ToggleContentCard, ToggleContentContainer, Typography } from '$lib/components';
 	import {
@@ -31,63 +33,86 @@
 		}));
 	};
 
-	$: selected = (
-		$campaignInitiateState.selected === ECampaignInitiateSelected.isPayNow ? 'isFirst' : 'isSecond'
-	) as TToggleContentContainerSelected;
+	let selected;
+	run(() => {
+		selected = (
+			$campaignInitiateState.selected === ECampaignInitiateSelected.isPayNow ? 'isFirst' : 'isSecond'
+		) as TToggleContentContainerSelected;
+	});
 
-	$: {
+	run(() => {
 		handleSelect(selected);
-	}
+	});
 </script>
 
 <Modal classNames="max-w-96">
-	<div slot="header">
-		<Typography variant="h5">Initiate Campaign</Typography>
-	</div>
-	<div slot="content">
-		<div class="mb-6">
-			<Typography variant="h6">
-				To prevent campaign spam and facilitate the participation of all governance in the
-				administration, the Filament hub requires campaigners to deposit a collateral bond.
-				Campaigns can only be initiated if a collateral has been deposited.
-			</Typography>
-			<br />
-			<Typography variant="h6">
-				The pricing is determined algorithmically by the Filament Hub.
-			</Typography>
+	{#snippet header()}
+		<div >
+			<Typography variant="h5">Initiate Campaign</Typography>
 		</div>
-		<ToggleContentContainer bind:selected>
-			<ToggleContentCard slot="first">
-				<div class="flex flex-row gap-2" slot="label">
-					<CheckmarkCircleIcon fill="var(--upOnly)" />
-					<Typography variant="caption" slot="label">Pay Now</Typography>
-				</div>
-				<PricingComponent
-					slot="content"
-					requiredLabel={dropdownOptionsPayNow.find(
-						(option) => option.value === $campaignInitiateState.isPayNow.token
-					)?.label}
-					bind:dropdownValue={$campaignInitiateState.isPayNow.token}
-					dropdownOptions={dropdownOptionsPayNow}
-				/>
-			</ToggleContentCard>
-			<ToggleContentCard slot="second">
-				<div class="flex flex-row gap-2" slot="label">
-					<CheckmarkCircleIcon fill="var(--upOnly)" />
-					<Typography variant="caption" slot="label">Deposit Bond</Typography>
-				</div>
-				<PricingComponent
-					slot="content"
-					requiredLabel={dropdownOptionsBond.find(
-						(option) => option.value === $campaignInitiateState.isBond.token
-					)?.label}
-					bind:dropdownValue={$campaignInitiateState.isBond.token}
-					dropdownOptions={dropdownOptionsBond}
-				/>
-			</ToggleContentCard>
-		</ToggleContentContainer>
-		<Button on:click={handleInitiateCampaign} class="ml-auto mt-8" variant="secondary">
-			Initiate Campaign
-		</Button>
-	</div>
+	{/snippet}
+	{#snippet content()}
+		<div >
+			<div class="mb-6">
+				<Typography variant="h6">
+					To prevent campaign spam and facilitate the participation of all governance in the
+					administration, the Filament hub requires campaigners to deposit a collateral bond.
+					Campaigns can only be initiated if a collateral has been deposited.
+				</Typography>
+				<br />
+				<Typography variant="h6">
+					The pricing is determined algorithmically by the Filament Hub.
+				</Typography>
+			</div>
+			<ToggleContentContainer bind:selected>
+				{#snippet first()}
+						<ToggleContentCard >
+						{#snippet label()}
+								<div class="flex flex-row gap-2" >
+								<CheckmarkCircleIcon fill="var(--upOnly)" />
+								{#snippet label()}
+										<Typography variant="caption" >Pay Now</Typography>
+									{/snippet}
+							</div>
+							{/snippet}
+						{#snippet content()}
+								<PricingComponent
+								
+								requiredLabel={dropdownOptionsPayNow.find(
+									(option) => option.value === $campaignInitiateState.isPayNow.token
+								)?.label}
+								bind:dropdownValue={$campaignInitiateState.isPayNow.token}
+								dropdownOptions={dropdownOptionsPayNow}
+							/>
+							{/snippet}
+					</ToggleContentCard>
+					{/snippet}
+				{#snippet second()}
+						<ToggleContentCard >
+						{#snippet label()}
+								<div class="flex flex-row gap-2" >
+								<CheckmarkCircleIcon fill="var(--upOnly)" />
+								{#snippet label()}
+										<Typography variant="caption" >Deposit Bond</Typography>
+									{/snippet}
+							</div>
+							{/snippet}
+						{#snippet content()}
+								<PricingComponent
+								
+								requiredLabel={dropdownOptionsBond.find(
+									(option) => option.value === $campaignInitiateState.isBond.token
+								)?.label}
+								bind:dropdownValue={$campaignInitiateState.isBond.token}
+								dropdownOptions={dropdownOptionsBond}
+							/>
+							{/snippet}
+					</ToggleContentCard>
+					{/snippet}
+			</ToggleContentContainer>
+			<Button on:click={handleInitiateCampaign} class="ml-auto mt-8" variant="secondary">
+				Initiate Campaign
+			</Button>
+		</div>
+	{/snippet}
 </Modal>

@@ -1,17 +1,10 @@
-import { SvelteComponent } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		label: string;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ICardProps_ = typeof __propDef.props;
-export type { ICardProps_ as ICardProps };
-export type ICardEvents = typeof __propDef.events;
-export type ICardSlots = typeof __propDef.slots;
+export interface ICardProps {
+	label: string;
+	classNames: string;
+	children?: Snippet;
+}
 
-export default class Card extends SvelteComponent<ICardProps, ICardEvents, ICardSlots> {}
+export declare const Card: Component<ICardProps>;
+export default Card;

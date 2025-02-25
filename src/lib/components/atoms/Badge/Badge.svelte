@@ -2,16 +2,18 @@
 	import { Typography } from '$lib/components';
 	import { EBadgeColorVariant, EBadgeWidthVariant, type IBadgeProps } from '$lib/types';
 
-	export let label: IBadgeProps['label'];
-	export let colorVariant: IBadgeProps['colorVariant'] = EBadgeColorVariant.PRIMARY;
-	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FIT_CONTENT;
-	export let LeftContent: IBadgeProps['LeftContent'] = null;
-	export let RightContent: IBadgeProps['RightContent'] = null;
-	export let textColor: IBadgeProps['textColor'] = '';
-	export let RightContentColorVariant: IBadgeProps['RightContentColorVariant'] = '';
-	export let useBadgeNumberStyle: boolean = false;
+	let {
+		label,
+		colorVariant = EBadgeColorVariant.PRIMARY,
+		widthVariant = EBadgeWidthVariant.FIT_CONTENT,
+		LeftContent = null,
+		RightContent = null,
+		textColor = '',
+		RightContentColorVariant = '',
+		...rest
+	}: IBadgeProps = $props();
 
-	function getColor(colorVariant: EBadgeColorVariant): string {
+	const getColor = $derived((colorVariant: EBadgeColorVariant): string => {
 		switch (colorVariant) {
 			case EBadgeColorVariant.PRIMARY:
 				return 'var(--primary-white)';
@@ -28,28 +30,22 @@
 			default:
 				return 'var(--primary-white)';
 		}
-	}
+	});
 </script>
 
-<div
-	{...$$props}
-	class={`${widthVariant} badge ${$$props.class} ${colorVariant} `}
-	on:click
-	aria-hidden="true"
->
+<div {...rest} class={`${widthVariant} badge ${colorVariant} `} aria-hidden="true">
 	{#if LeftContent}
 		<div class="item item-1 mr-2">
 			{#if typeof LeftContent === 'string'}
 				<span class="side-content">{LeftContent}</span>
 			{:else}
-				<svelte:component this={LeftContent} stroke="white" width="12px" height="12px" />
+				<LeftContent stroke="white" width="12px" height="12px" />
 			{/if}
 		</div>
 	{/if}
 	<div class="item item-2">
-		<Typography
-			variant={useBadgeNumberStyle ? 'badge_number' : 'badge'}
-			color={textColor ? textColor : getColor(colorVariant)}>{label}</Typography
+		<Typography variant={'badge'} color={textColor ? textColor : getColor(colorVariant)}
+			>{label}</Typography
 		>
 	</div>
 	{#if RightContent}
@@ -57,7 +53,7 @@
 			{#if typeof RightContent === 'string'}
 				<span class="side-content content-variant-{RightContentColorVariant}">{RightContent}</span>
 			{:else}
-				<svelte:component this={RightContent} />
+				<RightContent />
 			{/if}
 		</div>
 	{/if}

@@ -1,25 +1,12 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-export interface IValidator {
+export interface IDelegator {
 	id: string;
 	label: string;
-	Icon: ComponentType<SvelteComponent<unknown, unknown, unknown>>;
+	Icon: string;
 }
 
-declare const __propDef: {
-	props: IValidator;
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITableValidatorComponentProps_ = typeof __propDef.props;
-export type { ITableValidatorComponentProps_ as ITableValidatorComponentProps };
-export type ITableValidatorComponentEvents = typeof __propDef.events;
-export type ITableValidatorComponentSlots = typeof __propDef.slots;
+export type ITableValidatorComponentProps = IDelegator;
 
-export default class TableValidatorComponent extends SvelteComponent<
-	ITableValidatorComponentProps,
-	ITableValidatorComponentEvents,
-	ITableValidatorComponentSlots
-> {}
+export declare const TableValidatorComponent: Component<ITableValidatorComponentProps>;
+export default TableValidatorComponent;

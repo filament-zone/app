@@ -1,8 +1,42 @@
+<!-- @migration-task Error while migrating Svelte code: can't migrate `$: eligibilityCriteriaColumnDef = [
+		...eligibilityCriteriaColumnDefCommon,
+		{
+			accessorKey: 'completed',
+			header: ' ',
+			cell: (value) => {
+				const isCompleted = checkIsCriteriaCompleted(value.row.original as Criterion);
+				const isSettingsCircleGreen =
+					!!$activeRightSideBar.state &&
+					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).name ===
+						(value.row.original as Criterion).name;
+
+				return FlexRender(HoverableCell, {
+					id: value.row.id,
+					isCompleted,
+					isSettingsCircleGreen
+				});
+			},
+			size: 36,
+			meta: {
+				cellStyle: {
+					cursor: 'pointer'
+				},
+				onClick: (cell) => {
+					const selectedCriteriaName = cell.getContext().row.original.name as Criterion['name'];
+					openRightSideBar({
+						variant: ERightSideBarVariant.CAMPAIGN_CREATION_SIDEBAR_CRITERIA,
+						state: { name: selectedCriteriaName }
+					});
+				}
+			}
+		}
+	] as ITableProps['columnDef'];` to `$derived` because there's a variable named derived.
+     Rename the variable and try again or migrate by hand. -->
 <script lang="ts">
 	import { derived } from 'svelte/store';
 	import moment from 'moment/moment.js';
 	import { page } from '$app/stores';
-	import { flexRender, type Row } from '@tanstack/svelte-table';
+	import { FlexRender, type Row } from '@tanstack/svelte-table';
 	import {
 		campaignStore,
 		rightSideBarStore,
@@ -49,7 +83,7 @@
 					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).name ===
 						(value.row.original as Criterion).name;
 
-				return flexRender(HoverableCell, {
+				return FlexRender(HoverableCell, {
 					id: value.row.id,
 					isCompleted,
 					isSettingsCircleGreen

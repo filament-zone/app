@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { PrimaryBarChart } from '$lib/components';
 	import { primaryChartLabelsMock, primaryChartDataMock } from './mock';
@@ -25,10 +25,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="w-full">
-		<PrimaryBarChart {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="w-full">
+			<PrimaryBarChart {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ data }} />

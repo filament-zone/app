@@ -4,12 +4,15 @@
 		createCenterTextPlugin,
 		createLabelLinePlugin
 	} from '$lib/components';
-	import { type IAbstractDoughnutChartProps, type IPrimaryDoughnutChartProps } from '$lib/types';
+	import {
+		type IAbstractDoughnutChartProps,
+		type IPrimaryDoughnutChartProps,
+		type ISecondaryDoughnutChartProps
+	} from '$lib/types';
 
-	export let chartData: IPrimaryDoughnutChartProps['chartData'];
-	export let centerText: string[] | undefined;
+	let { chartData, centerText, classNames }: ISecondaryDoughnutChartProps = $props();
 
-	let chartInstance: IPrimaryDoughnutChartProps['chartInstance'];
+	let chartInstance: IPrimaryDoughnutChartProps['chartInstance'] = $state();
 
 	const chartOptions: IAbstractDoughnutChartProps['chartOptions'] = {
 		cutout: 120,
@@ -28,8 +31,8 @@
 		}
 	};
 
-	const centerTextPlugin = createCenterTextPlugin(centerText);
-	const labelLinePlugin = createLabelLinePlugin(5, 5);
+	const centerTextPlugin = $derived.by(() => createCenterTextPlugin(centerText));
+	const labelLinePlugin = $derived.by(() => createLabelLinePlugin(5, 5));
 </script>
 
 <AbstractDoughnutChart
@@ -37,5 +40,5 @@
 	bind:chartInstance
 	plugins={[centerTextPlugin, labelLinePlugin]}
 	{chartOptions}
-	{...$$props}
+	{classNames}
 />

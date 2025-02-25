@@ -74,7 +74,7 @@ export async function load({ params }) {
 		: [];
 
 	const delegates = generateMockDelegates();
-
+	console.log('tickerDataCriteria', tickerDataCriteria);
 	return {
 		campaign: campaignDataRes?.data,
 		chartDataCriteria: getChartDataCriteria(),

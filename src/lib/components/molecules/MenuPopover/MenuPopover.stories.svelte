@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Template, Story } from '@storybook/addon-svelte-csf';
 	import { List, MenuPopover } from '$lib/components';
 	import MoreHorizontalIcon from '$lib/assets/icons/more-horizontal.svg?component';
@@ -18,13 +18,19 @@
 	};
 </script>
 
-<Template let:args>
-	<MenuPopover>
-		<div slot="trigger" class="cursor-pointer">
-			<MoreHorizontalIcon />
-		</div>
-		<List slot="content" options={args.options} />
-	</MenuPopover>
+<Template >
+	{#snippet children({ args })}
+		<MenuPopover>
+			{#snippet trigger()}
+				<div  class="cursor-pointer">
+					<MoreHorizontalIcon />
+				</div>
+			{/snippet}
+			{#snippet content()}
+				<List  options={args.options} />
+			{/snippet}
+		</MenuPopover>
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={data} />

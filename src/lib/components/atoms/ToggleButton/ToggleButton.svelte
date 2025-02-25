@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
 	import { ChevronDownIcon } from 'svelte-feather-icons';
+	import { type IToggleButtonProps } from '$lib/types';
 
-	export let isOpen = false;
-	export let onClick = () => {};
+	let { isOpen = false, onclick }: IToggleButtonProps = $props();
 </script>
 
 <div class="toggle-button-container" class:active={isOpen}>
-	<button on:click={onClick} class={isOpen ? 'icon-open' : 'icon-closed'}>
+	<button {onclick} class={`${isOpen ? 'icon-open' : 'icon-closed'} cursor-pointer`}>
 		<ChevronDownIcon />
 	</button>
 </div>

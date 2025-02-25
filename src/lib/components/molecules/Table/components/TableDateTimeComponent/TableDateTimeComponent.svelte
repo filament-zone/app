@@ -4,7 +4,11 @@
 
 	import { type ITableDateTimeComponentProps } from '$lib/types';
 
-	export let date: ITableDateTimeComponentProps['date'];
+	interface Props {
+		date: ITableDateTimeComponentProps['date'];
+	}
+
+	let { date }: Props = $props();
 </script>
 
 <div class="flex flex-row items-center gap-2">

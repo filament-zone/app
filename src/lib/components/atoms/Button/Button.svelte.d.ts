@@ -1,24 +1,14 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import type { HTMLButtonAttributes } from 'svelte/elements';
+import type { Component, Snippet } from 'svelte';
 import { EButtonSizeVariant, EButtonStyleVariant } from '$lib/types';
 
-declare const __propDef: {
-	props: {
-		sizeVariant?: EButtonSizeVariant;
-		styleVariant?: EButtonStyleVariant;
-		LeftContent?: ComponentType<SvelteComponent> | null;
-	};
-	events: {
-		[evt: string]: CustomEvent<unknown>;
-	};
-	slots: object;
-};
+export interface IButtonProps extends HTMLButtonAttributes {
+	sizeVariant?: EButtonSizeVariant;
+	styleVariant?: EButtonStyleVariant;
+	LeftContent?: Component | null;
+	children?: Snippet;
+	classNames?: string;
+}
 
-type CustomProps = typeof __propDef.props;
-
-type IButtonProps_ = CustomProps & Omit<Partial<HTMLButtonElement>, keyof CustomProps>;
-
-export type { IButtonProps_ as IButtonProps };
-export type IButtonEvents = typeof __propDef.events;
-export type IButtonSlots = typeof __propDef.slots;
-
-export default class Button extends SvelteComponent<IButtonProps, IButtonEvents, IButtonSlots> {}
+export declare const Button: Component<IButtonProps>;
+export default Button;

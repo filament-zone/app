@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Chart, registerables } from 'chart.js';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { SecondaryLineChart } from '$lib/components';
@@ -25,10 +25,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="mt-16">
-		<SecondaryLineChart {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="mt-16">
+			<SecondaryLineChart {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Secondary" args={{ data, styles: 'height: 400px', label: 'TVL' }} />

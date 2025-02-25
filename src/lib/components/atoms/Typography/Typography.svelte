@@ -1,12 +1,8 @@
+<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { ITypographyProps } from '$lib/types';
 
-	export let variant: ITypographyProps['variant'] = 'h3';
-	export let color: ITypographyProps['color'] = 'var(--primary-white)';
-	export let styles: ITypographyProps['styles'] = '';
-	export let dataTestId: ITypographyProps['dataTestId'] = '';
-	export let allowHover: boolean = false;
+	import type { ITypographyProps } from '$lib/types';
 
 	const variant_to_tag_map: Record<ITypographyProps['variant'], string> = {
 		h1: 'h1',
@@ -33,17 +29,27 @@
 	const forwardEvent = (event: Event) => {
 		dispatch(event.type, event);
 	};
+
+	let {
+		children,
+		variant = 'h3',
+		color = 'var(--primary-white)',
+		styles = '',
+		dataTestId = '',
+		allowHover = false,
+		classNames
+	}: ITypographyProps = $props();
 </script>
 
 <svelte:element
 	this={variant_to_tag_map[variant]}
-	class={`typography_${variant} ${allowHover ? 'allow-hover' : ''} ${$$props.class}`}
+	class={`typography_${variant} ${allowHover ? 'allow-hover' : ''} ${classNames}`}
 	style={`color: ${color}; ${styles}`}
-	on:click={forwardEvent}
+	onclick={forwardEvent}
 	aria-hidden="true"
 	data-testId={dataTestId}
 >
-	<slot />
+	{@render children?.()}
 </svelte:element>
 
 <style lang="less">

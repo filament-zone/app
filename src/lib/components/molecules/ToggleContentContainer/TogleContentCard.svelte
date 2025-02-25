@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { Divider } from '$lib/components';
+	import { type IToggleContentCardProps } from '$lib/types';
+
+	let { label, content }: IToggleContentCardProps = $props();
 </script>
 
 <div class="toggle-content-card">
 	<div class="card-content">
-		<slot name="label" />
+		{@render label?.()}
 	</div>
 	<Divider />
 	<div class="card-content">
-		<slot name="content" />
+		{@render content?.()}
 	</div>
 </div>
 

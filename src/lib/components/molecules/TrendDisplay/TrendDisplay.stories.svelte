@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Toggle, TrendDisplay } from '$lib/components';
 
@@ -22,8 +22,10 @@
 	};
 </script>
 
-<Template let:args>
-	<TrendDisplay {...args} />
+<Template >
+	{#snippet children({ args })}
+		<TrendDisplay {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Up" args={{ ...trendDisplayDataUp }} />

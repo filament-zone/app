@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { type IStepBarCampaignButtonProps } from '$lib/types';
 
-	export let step: IStepBarCampaignButtonProps['step'];
+	interface Props {
+		step: IStepBarCampaignButtonProps['step'];
+	}
+
+	let { step }: Props = $props();
 </script>
 
 {#if step.description}

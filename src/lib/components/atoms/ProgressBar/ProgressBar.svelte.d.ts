@@ -5,6 +5,7 @@ declare const __propDef: {
 		used: number;
 		total: number;
 		displayLabel?: boolean;
+		styles?: string;
 	};
 	events: {
 		[evt: string]: CustomEvent;

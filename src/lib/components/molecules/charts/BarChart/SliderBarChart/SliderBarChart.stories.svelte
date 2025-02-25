@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { SliderBarChart } from '$lib/components';
 	import type { IPrimaryBarChartProps } from '$lib/types';
@@ -19,10 +19,12 @@
 	};
 </script>
 
-<Template let:args>
-	<div class="w-full">
-		<SliderBarChart {...args} />
-	</div>
+<Template >
+	{#snippet children({ args })}
+		<div class="w-full">
+			<SliderBarChart {...args} />
+		</div>
+	{/snippet}
 </Template>
 
 <Story name="Slider" args={{ data }} />

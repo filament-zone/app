@@ -1,24 +1,10 @@
-import { SvelteComponent } from 'svelte';
-import type { ICampaign } from '$lib/types';
+import type { Component } from 'svelte';
+import { ICampaign } from '$lib/types';
 
-declare const __propDef: {
-	props: {
-		campaign: ICampaign;
-		useTimeLine: boolean;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-	useTimeline: boolean;
-};
-type ICampaignSummaryProps_ = typeof __propDef.props;
-export type { ICampaignSummaryProps_ as ICampaignSummaryProps };
-export type ICampaignSummaryEvents = typeof __propDef.events;
-export type ICampaignSummarySlots = typeof __propDef.slots;
+export interface ICampaignSummaryProps {
+	campaign: ICampaign;
+	withTimeLine: boolean;
+}
 
-export default class CampaignSummary extends SvelteComponent<
-	ICampaignSummaryProps,
-	ICampaignSummaryEvents,
-	ICampaignSummarySlots
-> {}
+export declare const CampaignSummary: Component<ICampaignSummaryProps>;
+export default CampaignSummary;

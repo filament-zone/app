@@ -4,11 +4,15 @@
 	import { Divider, Typography } from '$lib/components';
 	import type { ISubPageMenuBarProps } from '$lib/types';
 
-	export let subPages: ISubPageMenuBarProps['subPages'];
+	interface Props {
+		subPages: ISubPageMenuBarProps['subPages'];
+	}
 
-	$: subRouteSelected = (route: string) => {
+	let { subPages }: Props = $props();
+
+	let subRouteSelected = $derived((route: string) => {
 		return $page?.url?.pathname.split('/')[2] === route?.split('/')[2];
-	};
+	});
 
 	const handleSubRouteSelect = (route: string) => {
 		goto(route);

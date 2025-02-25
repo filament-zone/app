@@ -3,7 +3,7 @@
 	import { PageHeader } from '$lib/components';
 	import { setContext } from 'svelte';
 
-	export let data;
+	let { data, children } = $props();
 
 	setContext('stepBarStore', createStepBarStore(data.layoutData.initSteps));
 </script>
@@ -11,6 +11,6 @@
 <div class="flex flex-col h-full">
 	<PageHeader label={`New Airdrop Campaign`} />
 	<StepBar />
-	<slot />
+	{@render children?.()}
 	<NavigationFooter />
 </div>

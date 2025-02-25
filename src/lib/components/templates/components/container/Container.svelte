@@ -1,23 +1,31 @@
 <script lang="ts">
-	export let label: string;
-	export let variant: string = 'primary';
+	import type { IContainerProps } from '$lib/components/templates/components/container/Container.svelte';
+
+	let {
+		label,
+		variant = 'primary',
+		classNames,
+		header,
+		aboveContainer,
+		children
+	}: IContainerProps = $props();
 </script>
 
-<div class="base-container variant-{variant} gap-6 w-full">
+<div class="base-container variant-{variant} gap-6 w-full {classNames}">
 	{#if label}
 		<div class="flex flex-row justify-between w-full">
 			<div class="label-box">
 				<span>{label}</span>
 			</div>
 			<div>
-				<slot name="header" />
+				{@render header?.()}
 			</div>
 		</div>
 	{/if}
 	<div class="w-full">
-		<slot name="above-container" />
+		{@render aboveContainer?.()}
 		<div class="slot-container">
-			<slot />
+			{@render children?.()}
 		</div>
 	</div>
 </div>

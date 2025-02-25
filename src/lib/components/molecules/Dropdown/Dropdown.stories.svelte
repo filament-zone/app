@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Dropdown } from '$lib/components';
 	import type { IDropdownProps } from '$lib/types';
@@ -16,8 +16,10 @@
 	];
 </script>
 
-<Template let:args>
-	<Dropdown {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Dropdown {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ options }} />

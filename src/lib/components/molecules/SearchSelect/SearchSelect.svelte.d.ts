@@ -1,28 +1,16 @@
-import { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import { IInputProps, IDropdownProps } from '$lib/types';
 
-declare const __propDef: {
-	props: {
-		value?: {
-			inputValue: IInputProps['value'];
-			dropdownValue: IDropdownProps['value'];
-		};
-		onChange?: (value: ISearchSelectProps['value']) => void;
-		inputProps?: IInputProps;
-		dropdownProps?: IDropdownProps;
+export interface ISearchSelectProps {
+	value?: {
+		inputValue: IInputProps['value'];
+		dropdownValue: IDropdownProps['value'];
 	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ISearchSelectProps_ = typeof __propDef.props;
-export type { ISearchSelectProps_ as ISearchSelectProps };
-export type ISearchSelectEvents = typeof __propDef.events;
-export type ISearchSelectSlots = typeof __propDef.slots;
 
-export default class SearchSelect extends SvelteComponent<
-	ISearchSelectProps,
-	ISearchSelectEvents,
-	ISearchSelectSlots
-> {}
+	onChange?: (value: ISearchSelectProps['value']) => void;
+	inputProps?: IInputProps;
+	dropdownProps?: IDropdownProps;
+}
+
+export declare const SearchSelect: Component<ISearchSelectProps>;
+export default SearchSelect;

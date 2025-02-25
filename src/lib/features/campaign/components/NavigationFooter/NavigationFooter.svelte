@@ -12,14 +12,18 @@
 	import ArrowIcon from '$lib/assets/icons/arrow-1.svg?component';
 	import PlusIcon from '$lib/assets/icons/plus.svg?component';
 
-	export let handleBack: INavigationFooterProps['handleBack'] = () => {};
-	export let disabled: INavigationFooterProps['disabled'] = false;
+	interface Props {
+		handleBack?: INavigationFooterProps['handleBack'];
+		disabled?: INavigationFooterProps['disabled'];
+	}
+
+	let { handleBack = () => {}, disabled = false }: Props = $props();
 
 	const { clearCampaignDetails, createCampaign } = campaignStore;
 	const { currentStep, steps, isLastStep, isPreLastStep, validateCurrentStep } =
 		getContext<IStepBarStore>('stepBarStore');
 
-	$: localHandleNext = async () => {
+	let localHandleNext = $derived(async () => {
 		if ($isLastStep) {
 			await createCampaign();
 			return;
@@ -34,7 +38,7 @@
 				})
 			);
 		}
-	};
+	});
 </script>
 
 <div class="flex w-full justify-center items-end mt-auto">

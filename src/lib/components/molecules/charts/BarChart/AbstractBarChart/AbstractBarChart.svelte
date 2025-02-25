@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { onDestroy, onMount } from 'svelte';
 	import { Chart } from 'chart.js';
 	import { browser } from '$app/environment';
@@ -6,19 +8,31 @@
 	import { throttle } from '$lib/utils';
 	import { type IAbstractBarChartProps } from '$lib/types';
 
-	export let chartInstance: IAbstractBarChartProps['chartInstance'];
-	export let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	export let chartData: IAbstractBarChartProps['chartData'];
-	export let chartOptions: IAbstractBarChartProps['chartInstance']['options'];
-	export let className: IAbstractBarChartProps['className'];
-	export let plugins: IAbstractBarChartProps['plugins'] = [];
-	export let styles: string;
+	interface Props {
+		chartInstance: IAbstractBarChartProps['chartInstance'];
+		chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
+		chartData: IAbstractBarChartProps['chartData'];
+		chartOptions: IAbstractBarChartProps['chartInstance']['options'];
+		className: IAbstractBarChartProps['className'];
+		plugins?: IAbstractBarChartProps['plugins'];
+		styles: string;
+	}
 
-	$: chartOptionsLocal = {
+	let {
+		chartInstance = $bindable(),
+		chartCanvasInstance = $bindable(),
+		chartData,
+		chartOptions,
+		className,
+		plugins = [],
+		styles
+	}: Props = $props();
+
+	let chartOptionsLocal = $derived({
 		...chartOptions,
 		responsive: true,
 		maintainAspectRatio: false
-	};
+	});
 
 	onMount(() => {
 		if (browser) {
@@ -37,15 +51,19 @@
 		chartInstance?.destroy();
 	});
 
-	$: if (chartInstance && chartData) {
-		chartInstance.data = chartData;
-		chartInstance.update();
-	}
+	run(() => {
+		if (chartInstance && chartData) {
+			chartInstance.data = chartData;
+			chartInstance.update();
+		}
+	});
 
-	$: if (chartInstance && chartOptions) {
-		chartInstance.options = { ...chartInstance.options, ...chartOptions };
-		chartInstance.update();
-	}
+	run(() => {
+		if (chartInstance && chartOptions) {
+			chartInstance.options = { ...chartInstance.options, ...chartOptions };
+			chartInstance.update();
+		}
+	});
 
 	eventListener(
 		'resize',

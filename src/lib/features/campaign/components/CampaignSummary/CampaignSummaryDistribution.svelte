@@ -5,7 +5,7 @@
 	import { EInputSizeVariant } from '$lib/types';
 	import { shortCutTransactionHash } from '$lib/helpers/index.js';
 
-	$: insightsTable = {
+	let insightsTable = $derived({
 		data: [
 			{
 				recipients: '1,000',
@@ -16,9 +16,9 @@
 		],
 		columnDef: [...distributionInsightsColumnDef],
 		headerBackground: 'transparent'
-	};
+	});
 
-	$: allocationTable = {
+	let allocationTable = $derived({
 		data: [
 			{
 				number: '1',
@@ -29,12 +29,14 @@
 		],
 		columnDef: [...distributionAllocationColumnDef],
 		headerBackground: 'transparent'
-	};
+	});
 </script>
 
 <div>
 	<Container label="Indexer result based on Airdrop criteria">
-		<Button slot="header">Export CSV</Button>
+		{#snippet header()}
+				<Button >Export CSV</Button>
+			{/snippet}
 		<div class="flex flex-col gap-4">
 			<div class="flex flex-col">
 				<Typography variant="h5">Insights</Typography>

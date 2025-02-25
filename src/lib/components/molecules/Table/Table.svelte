@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import {
-		createSvelteTable,
-		flexRender,
+		createTable,
+		FlexRender,
 		getCoreRowModel,
 		getSortedRowModel,
 		type OnChangeFn,
@@ -20,16 +20,32 @@
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 	import ChevronUpIcon from '$lib/assets/icons/chevron-up.svg?component';
 
-	export let tableLabel: ITableProps['tableLabel'] = '';
-	export let tableRightLabel: ITableProps['tableRightLabel'] = '';
-	export let tableRightLabelProps: ITableProps['tableRightLabelProps'] = {};
-	export let columnDef: ITableProps['columnDef'] = [];
-	export let data: ITableProps['data'] = [];
-	export let pagination: ITableProps['pagination'] = null;
-	export let onPageChange: ITableProps['onPageChange'] = () => {};
-	export let onRowClick: ITableProps['onRowClick'] = null;
-	export let sortingState: ITableProps['sortingState'] = [];
-	export let tableEmptyMessage: ITableProps['tableEmptyMessage'] = 'Table contains no data';
+	interface Props {
+		tableLabel?: ITableProps['tableLabel'];
+		tableRightLabel?: ITableProps['tableRightLabel'];
+		tableRightLabelProps?: ITableProps['tableRightLabelProps'];
+		columnDef?: ITableProps['columnDef'];
+		data?: ITableProps['data'];
+		pagination?: ITableProps['pagination'];
+		onPageChange?: ITableProps['onPageChange'];
+		onRowClick?: ITableProps['onRowClick'];
+		sortingState?: ITableProps['sortingState'];
+		tableEmptyMessage?: ITableProps['tableEmptyMessage'];
+	}
+
+	let {
+		tableLabel = '',
+		tableRightLabel = '',
+		tableRightLabelProps = {},
+		columnDef = [],
+		data = [],
+		pagination = null,
+		onPageChange = () => {},
+		onRowClick = null,
+		sortingState = [],
+		tableEmptyMessage = 'Table contains no data'
+	}: Props = $props();
+
 	let columnVisibility: VisibilityState = {};
 
 	const setColumnVisibility: OnChangeFn<VisibilityState> = (updater) => {
@@ -77,14 +93,7 @@
 		getSortedRowModel: getSortedRowModel()
 	});
 
-	$: {
-		options.update((prev) => ({
-			...prev,
-			data
-		}));
-	}
-
-	export let tableClient = createSvelteTable(options);
+	const tableClient = writable(createTable($options));
 
 	const getLeftIfSticky = (cells: Cell<unknown, unknown>[], index: number) => {
 		return cells[index].column.columnDef.meta?.class?.includes('sticky') && index > 0
@@ -115,6 +124,12 @@
 			})
 		);
 	};
+	$effect(() => {
+		options.update((prev) => ({
+			...prev,
+			data
+		}));
+	});
 </script>
 
 <div>
@@ -130,8 +145,9 @@
 						<Typography variant="h2">{tableRightLabel}</Typography>
 					</div>
 				{:else}
+					{@const SvelteComponent = tableRightLabel}
 					<div>
-						<svelte:component this={tableRightLabel} {...tableRightLabelProps} />
+						<SvelteComponent {...tableRightLabelProps} />
 					</div>
 				{/if}
 			</div>
@@ -148,13 +164,16 @@
 								class={`p-2`}
 								class:cursor-pointer={header.column.getCanSort()}
 								class:select-none={header.column.getCanSort()}
-								on:click={header.column.getToggleSortingHandler()}
+								onclick={header.column.getToggleSortingHandler()}
 								style={`${isHeaderSticky(headerGroup.headers, index)}; width: ${header.getSize()}px`}
 							>
 								{#if !header.isPlaceholder}
 									<div class="flex flex-row gap-2">
-										<svelte:component
-											this={flexRender(header.column.columnDef.header, header.getContext())}
+										<FlexRender
+											content={typeof header.column.columnDef.header === 'function'
+												? header.column.columnDef.header(header.getContext())
+												: header.column.columnDef.header}
+											context={header.getContext()}
 										/>
 										{#if header.column.getIsSorted().toString() === 'asc'}
 											<ChevronUpIcon />
@@ -171,25 +190,23 @@
 					{#each $tableClient.getRowModel().rows as row}
 						<tr
 							class={`data-row ${onRowClick ? 'isHoverable' : ''}`}
-							on:mousedown={() => {
+							onmousedown={() => {
 								if (onRowClick) {
 									onRowClick(row);
 								}
 							}}
-							on:mouseenter={() => handleMouseEnterRow(row.id)}
-							on:mouseleave={handleMouseLeaveRow}
+							onmouseenter={() => handleMouseEnterRow(row.id)}
+							onmouseleave={handleMouseLeaveRow}
 						>
 							{#each row.getVisibleCells() as cell, index}
 								<td
 									style={`${stylesObjectToString(cell.column.columnDef.meta?.cellStyle)}; ${getLeftIfSticky(row.getVisibleCells(), index)}; width: ${cell.column.getSize()}px`}
 									class={cell.column.columnDef.meta?.class || ''}
-									on:click={() => {
+									onclick={() => {
 										cell.column.columnDef.meta?.onClick?.(cell);
 									}}
 								>
-									<svelte:component
-										this={flexRender(cell.column.columnDef.cell, cell.getContext())}
-									/>
+									<FlexRender content={cell.column.columnDef.cell} context={cell.getContext()} />
 								</td>
 							{/each}
 						</tr>

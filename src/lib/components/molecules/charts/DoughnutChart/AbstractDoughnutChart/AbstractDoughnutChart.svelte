@@ -6,14 +6,17 @@
 	import { throttle } from '$lib/utils';
 	import { type ChartInstance, type IAbstractDoughnutChartProps } from '$lib/types';
 
-	export let chartData: IAbstractDoughnutChartProps['chartData'];
-	export let chartInstance: IAbstractDoughnutChartProps['chartInstance'];
-	export let chartCanvasInstance: IAbstractDoughnutChartProps['chartCanvasInstance'];
-	export let chartOptions: IAbstractDoughnutChartProps['chartInstance']['options'];
-	export let plugins: IAbstractDoughnutChartProps['plugins'] = [];
+	let {
+		classNames,
+		chartData,
+		chartInstance,
+		chartCanvasInstance,
+		chartOptions,
+		plugins = []
+	}: IAbstractDoughnutChartProps = $props();
 
 	const screenTypeStore = screenDetect();
-	$: currentScreen = $screenTypeStore.currentScreen;
+	const currentScreen = $derived($screenTypeStore.currentScreen);
 
 	onMount(() => {
 		if (browser) {
@@ -39,12 +42,14 @@
 		}
 	});
 
-	$: if (currentScreen && chartInstance && chartData) {
-		if (chartInstance) {
-			chartInstance.data = chartData;
-			chartInstance.update();
+	$effect(() => {
+		if (currentScreen && chartInstance && chartData) {
+			if (chartInstance) {
+				chartInstance.data = chartData;
+				chartInstance.update();
+			}
 		}
-	}
+	});
 
 	eventListener(
 		'resize',
@@ -54,6 +59,6 @@
 	);
 </script>
 
-<div class={`chart-container ${$$props.class} h-[300px] relative`}>
-	<canvas bind:this={chartCanvasInstance} height="300px" class="absolute" />
+<div class={`chart-container ${classNames} h-[300px] relative`}>
+	<canvas bind:this={chartCanvasInstance} height="300px" class="absolute"></canvas>
 </div>

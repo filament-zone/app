@@ -1,9 +1,9 @@
 import { SvelteComponent } from 'svelte';
-import type { IValidator } from '$lib/types';
+import type { IDelegator } from '$lib/types';
 
 declare const __propDef: {
 	props: {
-		validator?: IValidator;
+		validator?: IDelegator;
 	};
 	events: {
 		[evt: string]: CustomEvent;

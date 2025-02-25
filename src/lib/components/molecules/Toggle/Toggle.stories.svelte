@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { Toggle } from '$lib/components';
 	import type { IToggleProps } from '$lib/components/molecules/Toggle/Toggle.svelte';
@@ -18,8 +18,10 @@
 	];
 </script>
 
-<Template let:args>
-	<Toggle {...args} />
+<Template >
+	{#snippet children({ args })}
+		<Toggle {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ options: tableToggleOptions, value: tableToggleValue }} />

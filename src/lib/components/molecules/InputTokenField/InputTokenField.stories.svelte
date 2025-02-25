@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Template, Story } from '@storybook/addon-svelte-csf';
 	import { InputTokenField } from '$lib/components';
 	import FilamentLogo from '$lib/assets/logos/logo-filament.svg?component';
@@ -21,8 +21,10 @@
 	};
 </script>
 
-<Template let:args>
-	<InputTokenField {...args} />
+<Template >
+	{#snippet children({ args })}
+		<InputTokenField {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={data} />

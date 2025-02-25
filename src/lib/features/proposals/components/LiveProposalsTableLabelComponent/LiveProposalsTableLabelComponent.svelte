@@ -2,8 +2,12 @@
 	import { Button, SearchSelect } from '$lib/components';
 	import { type ILiveProposalsTableLabelComponentProps } from '$lib/types';
 
-	export let searchSelectProps: ILiveProposalsTableLabelComponentProps['searchSelectProps'];
-	export let buttonProps: ILiveProposalsTableLabelComponentProps['buttonProps'];
+	interface Props {
+		searchSelectProps: ILiveProposalsTableLabelComponentProps['searchSelectProps'];
+		buttonProps: ILiveProposalsTableLabelComponentProps['buttonProps'];
+	}
+
+	let { searchSelectProps, buttonProps }: Props = $props();
 </script>
 
 <div class="flex flex-col items-end md:flex-row md:gap-4">

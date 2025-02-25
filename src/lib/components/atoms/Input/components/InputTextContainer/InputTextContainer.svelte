@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: Cannot split a chunk that has already been edited (8:57 – "onclick={onClick}") -->
 <script lang="ts">
 	import { type IInputTextContainerProps } from '$lib/types';
 	import { Typography } from '$lib/components';
@@ -6,7 +7,7 @@
 	export let onClick: IInputTextContainerProps['onClick'];
 </script>
 
-<div class="input-text-container" {...$$props} on:click={onClick} aria-hidden="true">
+<div class="input-text-container" {...$$props} onclick={onClick} aria-hidden="true">
 	<Typography variant="button">{label}</Typography>
 </div>
 

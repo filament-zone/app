@@ -1,5 +1,4 @@
 <script>
-	import { derived } from 'svelte/store';
 	import {
 		modalStore,
 		navigationStore,
@@ -21,7 +20,7 @@
 		closeModal();
 	});
 
-	const mainModal = derived(activeModal, () => {
+	const Modal = $derived.by(() => {
 		switch ($activeModal) {
 			case EModalVariant.CLOSED:
 				return null;
@@ -48,5 +47,7 @@
 </script>
 
 <div class="modal">
-	<svelte:component this={$mainModal} />
+	{#if $activeModal !== EModalVariant.CLOSED}
+		<Modal />
+	{/if}
 </div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import moment, { type Moment } from 'moment';
 	import { DaysRow, Input, Typography, Calendar, Label, Button } from '$lib/components';
 	import { clickOutside } from '$lib/actions';
@@ -13,18 +15,33 @@
 	import CloseIcon from '$lib/assets/icons/close_24px.svg?component';
 	import CalendarIcon from '$lib/assets/icons/calendar-1.svg?component';
 
-	export let value: IDatePickerProps<CalendarMode.SINGLE>['value'];
-	export let onChange: IDatePickerProps<CalendarMode.SINGLE>['onChange'] = null;
-	export let label: IDatePickerProps<CalendarMode.SINGLE>['label'] = '';
-	export let inputLabel: IDatePickerProps<CalendarMode.SINGLE>['inputLabel'] = '';
-	export let position: IDatePickerProps<CalendarMode.SINGLE>['position'] = '';
-	export let closeOnClickOutside: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'] = false;
-	export let disabled: IDatePickerProps<CalendarMode.SINGLE>['disabled'] = false;
+	interface Props {
+		value: IDatePickerProps<CalendarMode.SINGLE>['value'];
+		onChange?: IDatePickerProps<CalendarMode.SINGLE>['onChange'];
+		label?: IDatePickerProps<CalendarMode.SINGLE>['label'];
+		inputLabel?: IDatePickerProps<CalendarMode.SINGLE>['inputLabel'];
+		position?: IDatePickerProps<CalendarMode.SINGLE>['position'];
+		closeOnClickOutside?: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'];
+		disabled?: IDatePickerProps<CalendarMode.SINGLE>['disabled'];
+	}
 
-	$: initialDate = (value?.date ? moment(value.date) : '') as Moment;
-	$: localDate = { date: initialDate ? initialDate?.toISOString() : '' } as { date: string | null };
+	let {
+		value,
+		onChange = null,
+		label = '',
+		inputLabel = '',
+		position = '',
+		closeOnClickOutside = false,
+		disabled = false
+	}: Props = $props();
 
-	let isPopoverOpen = false;
+	let initialDate = $derived((value?.date ? moment(value.date) : '') as Moment);
+	let localDate;
+	run(() => {
+		localDate = { date: initialDate ? initialDate?.toISOString() : '' } as { date: string | null };
+	});
+
+	let isPopoverOpen = $state(false);
 
 	const handleOpenPopover = () => {
 		isPopoverOpen = true;
@@ -36,10 +53,10 @@
 		localDate = value;
 	};
 
-	$: dateLabel = `${localDate.date ? moment(localDate.date).format('MMM DD YYYY') : ''}`;
+	let dateLabel = $derived(`${localDate.date ? moment(localDate.date).format('MMM DD YYYY') : ''}`);
 
-	let monthsToRender: moment.Moment[] = [];
-	$: {
+	let monthsToRender: moment.Moment[] = $state([]);
+	run(() => {
 		let currentMonth = moment().month(); // 0-11
 		let currentYear = moment().year();
 		if (monthsToRender.length === 0) {
@@ -47,7 +64,7 @@
 				monthsToRender.push(moment([currentYear, month, 1]));
 			}
 		}
-	}
+	});
 
 	const addNextYearMonths = () => {
 		const lastMonthInArray = monthsToRender[monthsToRender.length - 1];
@@ -78,7 +95,7 @@
 		}
 	};
 
-	let calendarContainer: HTMLElement;
+	let calendarContainer: HTMLElement = $state();
 
 	const handleScroll = () => {
 		if (calendarContainer) {
@@ -121,14 +138,14 @@
 			class="popover-container ml-auto absolute z-10"
 			style={`${position === 'left' ? 'left: -32px;' : ''}; top: 50px`}
 			use:clickOutside
-			on:clickOutside={() => {
+			onclickOutside={() => {
 				if (closeOnClickOutside) {
 					handleClosePopover();
 				}
 			}}
 		>
 			<div class="p-2 h-[122px]">
-				<button on:click={handleClosePopover}>
+				<button onclick={handleClosePopover}>
 					<CloseIcon />
 				</button>
 				<div class="mx-12 mb-4 flex flex-col gap-2">
@@ -141,7 +158,7 @@
 				<div
 					class="overflow-y-scroll overflow-x-hidden max-h-[300px]"
 					bind:this={calendarContainer}
-					on:scroll={handleScroll}
+					onscroll={handleScroll}
 				>
 					{#each monthsToRender as month}
 						<Calendar

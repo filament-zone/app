@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { TextArea } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<TextArea {...args} />
+<Template >
+	{#snippet children({ args })}
+		<TextArea {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ placeholder: 'Placeholder' }} />

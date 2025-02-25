@@ -3,20 +3,26 @@
 	import MoreVerticalIcon from '$lib/assets/icons/more-vertical.svg?component';
 	import { type ITableValidatorOptionsComponentProps } from '$lib/types';
 
-	export let buttonOnClick: ITableValidatorOptionsComponentProps['buttonOnClick'] = () => {};
-	export let buttonLabel: ITableValidatorOptionsComponentProps['buttonLabel'];
-	export let options: ITableValidatorOptionsComponentProps['options'];
-	export let disabled: ITableValidatorOptionsComponentProps['disabled'];
+	let {
+		buttonOnClick = () => {},
+		buttonLabel,
+		options,
+		disabled
+	}: ITableValidatorOptionsComponentProps = $props();
 </script>
 
 <div class="flex flex-row items-center">
-	<Button on:click={buttonOnClick} class="mr-4" {disabled}>{buttonLabel}</Button>
+	<Button onclick={buttonOnClick} class="mr-4" {disabled}>{buttonLabel}</Button>
 	{#if options}
 		<MenuPopover>
-			<div slot="trigger" class="cursor-pointer">
-				<MoreVerticalIcon />
-			</div>
-			<List slot="content" {options} />
+			{#snippet trigger()}
+				<div class="cursor-pointer">
+					<MoreVerticalIcon />
+				</div>
+			{/snippet}
+			{#snippet content()}
+				<List {options} />
+			{/snippet}
 		</MenuPopover>
 	{/if}
 </div>

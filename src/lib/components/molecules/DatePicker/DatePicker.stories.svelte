@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { DatePicker } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<DatePicker {...args} />
+<Template >
+	{#snippet children({ args })}
+		<DatePicker {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ label: 'DatePicker Label' }} />

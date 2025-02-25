@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { ModalCampaignVote } from '$lib/features';
 
@@ -7,8 +7,10 @@
 	};
 </script>
 
-<Template let:args>
-	<svelte:component this={args.modal} {...args} />
+<Template >
+	{#snippet children({ args })}
+		<args.modal {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{ modal: ModalCampaignVote }} />

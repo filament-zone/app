@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	import { TableValidatorOptionsComponent } from '$lib/components';
 
@@ -8,8 +8,10 @@
 	};
 </script>
 
-<Template let:args>
-	<TableValidatorOptionsComponent {...args} />
+<Template >
+	{#snippet children({ args })}
+		<TableValidatorOptionsComponent {...args} />
+	{/snippet}
 </Template>
 
 <Story name="Primary" args={{}} />

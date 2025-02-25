@@ -19,7 +19,7 @@ export const screenDetect = () => {
 	function detectScreen() {
 		const width = window.innerWidth;
 		let currentScreen = 'xs';
-
+		console.log('width', width);
 		const updatedScreenType = {
 			isMounted: true,
 			isLayoutXs: width >= breakpoints.xs,

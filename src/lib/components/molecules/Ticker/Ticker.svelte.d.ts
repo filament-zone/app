@@ -1,19 +1,12 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
+export interface ITickerProps {
+	tickerData: {
 		name: string | null;
 		date: string | null;
 		status: string | null;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITickerProps_<T = string> = typeof __propDef.props<T>;
-export type { ITickerProps_ as ITickerProps };
-export type ITickerEvents = typeof __propDef.events;
-export type ITickerSlots = typeof __propDef.slots;
+	}[];
+}
 
-export default class Ticker extends SvelteComponent<ITickerProps<T>, ITickerEvents, ITickerSlots> {}
+export declare const Ticker: Component<ITickerProps>;
+export default Ticker;

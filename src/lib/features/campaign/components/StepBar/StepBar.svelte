@@ -6,14 +6,18 @@
 	import { eventListener } from '$lib/helpers';
 	import { type IStepBarProps, type IStepBarStore } from '$lib/types';
 
-	export let contextId: IStepBarProps['contextId'] = 'stepBarStore';
+	interface Props {
+		contextId?: IStepBarProps['contextId'];
+	}
+
+	let { contextId = 'stepBarStore' }: Props = $props();
 	const data = derived(page, () => $page.data);
 
 	const { steps } = getContext<IStepBarStore>(contextId);
 	const getColor = (step: number) => ($data.currentStep > step ? '#21F879' : '#A8A8A8');
 
-	let gaps: number[] | null = [];
-	let container: HTMLDivElement;
+	let gaps: number[] | null = $state([]);
+	let container: HTMLDivElement = $state();
 
 	const calculateDotsCount = (gap: number) => Math.floor(gap / 24);
 
@@ -54,7 +58,7 @@
 					<StepBarCampaignButton {step} />
 				</div>
 				{#if index < $steps.length - 1}
-					<div class="mx-2 flex flex-row justify-between flex-grow dots-wrapper">
+					<div class="mx-2 flex flex-row justify-between grow dots-wrapper">
 						<div class="dots-container flex flex-row justify-between">
 							{#if gaps?.length}
 								<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->

@@ -1,4 +1,4 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import type { EToggleSizeVariant } from '$lib/types';
 
 export interface IToggleOption<T> {
@@ -7,24 +7,15 @@ export interface IToggleOption<T> {
 	disabled?: boolean;
 }
 
-declare const __propDef: {
-	props: {
-		options?: IToggleOption<T>[] | null;
-		value?: T | T[] | null;
-		onChange?: ((value: T | T[]) => void) | null;
-		label?: string;
-		isMulti?: boolean;
-		variant?: EToggleVariant;
-		sizeVariant?: EToggleSizeVariant;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IToggleProps_<T = string> = typeof __propDef.props<T>;
-export type { IToggleProps_ as IToggleProps };
-export type IToggleEvents = typeof __propDef.events;
-export type IToggleSlots = typeof __propDef.slots;
+export interface IToggleProps<T> {
+	options?: IToggleOption<T>[] | null;
+	onChange?: ((value: T | T[]) => void) | null;
+	label?: string;
+	isMulti?: boolean;
+	variant?: EToggleVariant;
+	sizeVariant?: EToggleSizeVariant;
+	value?: T | T[] | null;
+}
 
-export default class Toggle extends SvelteComponent<IToggleProps<T>, IToggleEvents, IToggleSlots> {}
+export declare const Toggle: Component<IToggleProps<string>, {}, 'value'>;
+export default Toggle;

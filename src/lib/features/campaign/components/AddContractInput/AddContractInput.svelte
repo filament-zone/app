@@ -11,13 +11,22 @@
 	import SearchIcon from '$lib/assets/icons/search.svg?component';
 	import CloseIcon from '$lib/assets/icons/close-8px.svg?component';
 
-	export let contracts: IAddContractInputProps['contracts'] = [];
-	export let displayOnly: IAddContractInputProps['displayOnly'] = false;
-	export let direction: IAddContractInputProps['direction'] = 'col';
-	export let label: IAddContractInputProps['label'];
+	interface Props {
+		contracts?: IAddContractInputProps['contracts'];
+		displayOnly?: IAddContractInputProps['displayOnly'];
+		direction?: IAddContractInputProps['direction'];
+		label: IAddContractInputProps['label'];
+	}
 
-	let inputAddressValue: string = '';
-	let network: ENetwork | null = null;
+	let {
+		contracts = $bindable([]),
+		displayOnly = false,
+		direction = 'col',
+		label
+	}: Props = $props();
+
+	let inputAddressValue: string = $state('');
+	let network: ENetwork | null = $state(null);
 
 	const handleAddAddress = () => {
 		if (!inputAddressValue || !network) {
@@ -65,7 +74,7 @@
 							{#if !displayOnly}
 								<div
 									class="icon {direction === 'col' ? 'ml-auto' : ''}"
-									on:click={() => handleDeleteItem(index)}
+									onclick={() => handleDeleteItem(index)}
 									aria-hidden="true"
 								>
 									<CloseIcon />
@@ -79,7 +88,7 @@
 		{#if !displayOnly}
 			<div>
 				<Label value="Add contracts" />
-				<form on:submit={handleSubmit}>
+				<form onsubmit={handleSubmit}>
 					<div class="flex flex-{direction} gap-4">
 						<Dropdown
 							placeholder="e.g. Ethereum"
