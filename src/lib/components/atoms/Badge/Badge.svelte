@@ -5,6 +5,7 @@
 	export let label: IBadgeProps['label'];
 	export let colorVariant: IBadgeProps['colorVariant'] = EBadgeColorVariant.PRIMARY;
 	export let widthVariant: IBadgeProps['widthVariant'] = EBadgeWidthVariant.FIT_CONTENT;
+	export let sizeVariant: string = 'default';
 	export let LeftContent: IBadgeProps['LeftContent'] = null;
 	export let RightContent: IBadgeProps['RightContent'] = null;
 	export let textColor: IBadgeProps['textColor'] = '';
@@ -29,11 +30,15 @@
 				return 'var(--primary-white)';
 		}
 	}
+
+	function getSizeClass() {
+		return `size-${sizeVariant}`;
+	}
 </script>
 
 <div
 	{...$$props}
-	class={`${widthVariant} badge ${$$props.class} ${colorVariant} `}
+	class={`${widthVariant} badge ${getSizeClass()} ${colorVariant} ${$$props.class || ''}`}
 	on:click
 	aria-hidden="true"
 >
@@ -71,6 +76,27 @@
 		border-radius: 6px;
 		padding: 6px 14px;
 		height: fit-content;
+
+		&.size-tiny {
+			padding: 1px 4px;
+			border-radius: 3px;
+			font-size: 9px;
+			line-height: 1.2;
+
+			:global(.typography_badge) {
+				font-size: 9px !important;
+				line-height: 1.2 !important;
+			}
+		}
+
+		&.size-small {
+			padding: 3px 7px;
+			font-size: 11px;
+
+			:global(.typography_badge) {
+				font-size: 11px !important;
+			}
+		}
 
 		&.primary {
 			border: 2px solid var(--default-border);
