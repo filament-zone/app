@@ -1,11 +1,12 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
+	// @ts-expect-error - Missing types for sveltekit-progress-bar package
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
-	import { Button, Divider, NavBar } from '$lib/components';
+	import { Button, Divider, NavBar, Badge } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash, replaceUrlParams, screenDetect } from '$lib/helpers';
-	import { EButtonStyleVariant, EModalVariant } from '$lib/types';
+	import { EButtonStyleVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 	import { routes } from '$lib/constants';
 	import { Typography } from '$lib/components';
@@ -29,14 +30,19 @@
 	</div>
 	<div class="flex flex-row items-center justify-between pt-[5px] px-4" data-testid="header">
 		<div
-			class="cursor-pointer flex gap-3 pb-[10px]"
+			class="cursor-pointer flex items-center gap-2 pb-[10px]"
 			on:click={() => {
 				goto(routes.HOME);
 			}}
 			aria-hidden="true"
 		>
-			<img src={LogoFilament} alt="logo" class="w-6" />
-			<Typography variant="h5">Filament</Typography>
+			<div class="flex items-center gap-3">
+				<img src={LogoFilament} alt="logo" class="w-6" />
+				<Typography variant="h5">Filament</Typography>
+			</div>
+			<div class="flex items-start h-full">
+				<Badge label="Alpha" colorVariant={EBadgeColorVariant.REJECTED} sizeVariant="small" />
+			</div>
 		</div>
 		{#if $screenTypeStore.isMounted}
 			{#if !$screenTypeStore.isLayoutLg}
