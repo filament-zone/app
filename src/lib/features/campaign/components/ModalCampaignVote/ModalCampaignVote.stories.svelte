@@ -1,14 +1,16 @@
-<script context="module">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { ModalCampaignVote } from '$lib/features';
+<!--<script module>-->
+<!--	import { Story, Template } from '@storybook/addon-svelte-csf';-->
+<!--	import { ModalCampaignVote } from '$lib/features';-->
 
-	export const meta = {
-		title: 'Features/Modal/Campaign Vote'
-	};
-</script>
+<!--	export const meta = {-->
+<!--		title: 'Features/Modal/Campaign Vote'-->
+<!--	};-->
+<!--</script>-->
 
-<Template let:args>
-	<svelte:component this={args.modal} {...args} />
-</Template>
+<!--<Template>-->
+<!--	{#snippet children({ args })}-->
+<!--		<args.modal {...args} />-->
+<!--	{/snippet}-->
+<!--</Template>-->
 
-<Story name="Primary" args={{ modal: ModalCampaignVote }} />
+<!--<Story name="Primary" args={{ modal: ModalCampaignVote }} />-->

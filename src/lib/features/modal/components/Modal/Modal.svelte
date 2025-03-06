@@ -3,34 +3,39 @@
 	import { clickOutside } from '$lib/actions';
 	import type { IModalProps } from '$lib/types';
 
-	export let closeOnClickOutside: IModalProps['closeOnClickOutside'] = true;
-	export let onClickOutside: IModalProps['onClickOutside'] = () => {};
-	export let classNames: IModalProps['classNames'] = '';
-	export let width: IModalProps['width'] = '';
+	let {
+		closeOnClickOutside = true,
+		onClickOutside = () => {},
+		classNames = '',
+		width = '',
+		header,
+		content,
+		footer
+	}: IModalProps = $props();
 
 	const { closeModal } = modalStore;
 
-	$: handleClickOutside = () => {
+	let handleClickOutside = $derived(() => {
 		if (onClickOutside) {
 			onClickOutside();
 		}
 		if (closeOnClickOutside) {
 			closeModal();
 		}
-	};
+	});
 </script>
 
 <div class="overlay">
 	<div
 		class="modal-container {classNames}"
-		use:clickOutside
-		on:clickOutside={handleClickOutside}
+		use:clickOutside={[]}
+		onclickOutside={handleClickOutside}
 		style={`width: ${width}`}
 	>
-		<div class="header w-full"><slot name="header" /></div>
-		<div class="w-full"><slot name="content" class="content" /></div>
-		{#if $$slots.footer}
-			<div class="w-full"><slot name="footer" /></div>
+		<div class="header w-full">{@render header?.()}</div>
+		<div class="w-full">{@render content?.({ class: 'content' })}</div>
+		{#if footer}
+			<div class="w-full">{@render footer?.()}</div>
 		{/if}
 	</div>
 </div>
@@ -93,13 +98,12 @@
 			border-bottom: 1px solid var(--default-border);
 			padding: 16px;
 		}
-
-		.content {
-			display: flex;
-			height: 100%;
-			flex-direction: column;
-			justify-content: space-between;
-			min-height: 400px;
-		}
+	}
+	:global(.modal-container .content) {
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 400px;
 	}
 </style>

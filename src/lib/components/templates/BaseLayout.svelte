@@ -1,6 +1,13 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { RightSideBarController, ToastsContainer } from '$lib/features';
-	import { Header, Footer } from '$lib/components';
+	import { Footer, Header } from '$lib/components';
+
+	interface IBaseLayoutProps {
+		children?: Snippet;
+	}
+
+	let { children }: IBaseLayoutProps = $props();
 </script>
 
 <div class="flex flex-row h-svh">
@@ -8,7 +15,7 @@
 		<Header />
 		<div class="flex flex-col w-full items-center h-fit">
 			<div class="flex flex-col p-4 py-8 w-full max-w-[1440px] min-h-dvh h-fit">
-				<slot />
+				{@render children?.()}
 			</div>
 			<div class="w-full flex justify-center">
 				<Footer />

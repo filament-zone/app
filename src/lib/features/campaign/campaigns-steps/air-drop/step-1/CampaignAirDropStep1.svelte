@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { derived } from 'svelte/store';
-	import { page } from '$app/stores';
-	import { flexRender, type Row } from '@tanstack/svelte-table';
+	import { page } from '$app/state';
+	import { renderComponent, type Row } from '@tanstack/svelte-table';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
-	import { Container, Input, Table, TextEditor, Typography } from '$lib/components';
+	import { Container, Input, Label, Table, TextEditor, Typography } from '$lib/components';
 	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
-
-	const data = derived(page, () => $page.data);
 
 	const { campaignDetails, toggleDelegate, getDelegates } = campaignStore;
 
@@ -23,7 +20,7 @@
 			accessorKey: 'selected',
 			header: '',
 			cell: (value) => {
-				return flexRender(HoverableCellInverted, {
+				return renderComponent(HoverableCellInverted, {
 					id: value.row.id,
 					isSelected: delegateType === EDelegateType.ACTIVE
 				});
@@ -41,10 +38,10 @@
 		}
 	];
 
-	$: activeDelegatesTable = {
+	let activeDelegatesTable = $derived({
 		tableLabel: 'Selected Delegates',
 		data: [
-			...$data.pageData.delegates.filter(
+			...page.data.pageData.delegates.filter(
 				(delegate: IDelegate) => !Object.keys($campaignDetails.delegates)?.includes(delegate.id)
 			)
 		],
@@ -53,12 +50,12 @@
 			toggleDelegate(row.original.id as string);
 		},
 		sortingState: [{ id: 'votingPower', desc: true }]
-	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>);
 
-	$: evictedDelegatesTable = {
+	let evictedDelegatesTable = $derived({
 		tableLabel: 'Evicted Delegates',
 		data: [
-			...$data.pageData.delegates.filter((delegate: IDelegate) =>
+			...page.data.pageData.delegates.filter((delegate: IDelegate) =>
 				Object.keys($campaignDetails.delegates)?.includes(delegate.id)
 			)
 		],
@@ -67,7 +64,7 @@
 			toggleDelegate(row.original.id as string);
 		},
 		sortingState: [{ id: 'votingPower', desc: true }]
-	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>;
+	} as Pick<ITableProps, 'columnDef' | 'data' | 'tableLabel'>);
 </script>
 
 <div class="flex flex-col gap-5">
@@ -86,7 +83,10 @@
 						bind:value={$campaignDetails.title}
 						sizeVariant={EInputSizeVariant.MEDIUM}
 					/>
-					<TextEditor bind:value={$campaignDetails.description} />
+					<div>
+						<Label value={'Campaign description'} />
+						<TextEditor bind:value={$campaignDetails.description} />
+					</div>
 				</div>
 			</Container>
 		</div>

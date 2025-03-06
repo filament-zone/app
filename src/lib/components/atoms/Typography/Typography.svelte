@@ -1,14 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import type { ITypographyProps } from '$lib/types';
+	import type { ITypographyProps, TTypographyVariant } from '$lib/types';
 
-	export let variant: ITypographyProps['variant'] = 'h3';
-	export let color: ITypographyProps['color'] = 'var(--primary-white)';
-	export let styles: ITypographyProps['styles'] = '';
-	export let dataTestId: ITypographyProps['dataTestId'] = '';
-	export let allowHover: boolean = false;
-
-	const variant_to_tag_map: Record<ITypographyProps['variant'], string> = {
+	const variant_to_tag_map: Record<TTypographyVariant, string> = {
 		h1: 'h1',
 		h2: 'h2',
 		h3: 'h3',
@@ -28,22 +21,25 @@
 		cardDate: 'span'
 	};
 
-	const dispatch = createEventDispatcher();
-
-	const forwardEvent = (event: Event) => {
-		dispatch(event.type, event);
-	};
+	let {
+		children,
+		variant = 'h3',
+		color = 'var(--primary-white)',
+		styles = '',
+		dataTestId = '',
+		allowHover = false,
+		classNames
+	}: ITypographyProps = $props();
 </script>
 
 <svelte:element
 	this={variant_to_tag_map[variant]}
-	class={`typography_${variant} ${allowHover ? 'allow-hover' : ''} ${$$props.class}`}
+	class={`typography_${variant} ${allowHover ? 'allow-hover' : ''} ${classNames}`}
 	style={`color: ${color}; ${styles}`}
-	on:click={forwardEvent}
 	aria-hidden="true"
 	data-testId={dataTestId}
 >
-	<slot />
+	{@render children?.()}
 </svelte:element>
 
 <style lang="less">

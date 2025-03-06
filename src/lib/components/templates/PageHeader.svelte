@@ -1,13 +1,20 @@
-<script>
+<script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { Typography } from '$lib/components';
-	export let label = '';
+
+	interface IPageHeaderProps {
+		label?: string;
+		children?: Snippet;
+	}
+
+	let { label = '', children }: IPageHeaderProps = $props();
 </script>
 
 <div class="page-header-wrapper flex items-center justify-center w-full">
 	<div class="page-header max-w-screen-2xl">
 		<Typography variant="h4">{label}</Typography>
 		<div>
-			<slot />
+			{@render children?.()}
 		</div>
 	</div>
 </div>

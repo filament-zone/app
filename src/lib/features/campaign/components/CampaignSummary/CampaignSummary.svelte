@@ -7,15 +7,14 @@
 	import { EToggleVariant, type ICampaignSummaryProps, type IToggleProps } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
 
-	export let campaign: ICampaignSummaryProps['campaign'];
-	export let useTimeline: ICampaignSummaryProps['useTimeLine'] = false;
+	let { campaign, withTimeLine = false }: ICampaignSummaryProps = $props();
 
 	let toggleOptions: IToggleProps<string>['options'] = [
 		{ value: 'criteria', label: 'Criteria' },
 		{ value: 'governance', label: 'Delegates' }
 	];
 
-	let toggleValue = '';
+	let toggleValue = $state('');
 	onMount(() => {
 		if (campaign.phase)
 			if (toggleOptions?.length) {
@@ -42,7 +41,7 @@
 				</div>
 				<Typography variant="h4">{campaign?.title || 'Campaign Title'}</Typography>
 			</div>
-			{#if useTimeline}
+			{#if withTimeLine}
 				<CampaignTimeLine {campaign} />
 			{/if}
 			<CampaignSummaryDescription {campaign} />

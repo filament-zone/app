@@ -6,15 +6,20 @@
 	import { throttle } from '$lib/utils';
 	import { type ChartInstance, type IAbstractPieChartProps } from '$lib/types';
 
-	export let chartData: IAbstractPieChartProps['chartData'];
-	export let chartInstance: IAbstractPieChartProps['chartInstance'];
-	export let chartCanvasInstance: IAbstractPieChartProps['chartCanvasInstance'];
-	export let plugins: IAbstractPieChartProps['plugins'];
+	let {
+		chartData,
+		chartInstance = $bindable(),
+		chartCanvasInstance = $bindable(),
+		plugins
+	}: IAbstractPieChartProps = $props();
 
 	const screenTypeStore = screenDetect();
-	$: currentScreen = $screenTypeStore.currentScreen;
+	let currentScreen = $derived($screenTypeStore.currentScreen);
 
 	onMount(() => {
+		if (!chartCanvasInstance) {
+			return;
+		}
 		if (browser) {
 			chartInstance = new Chart(chartCanvasInstance, {
 				type: 'pie',
@@ -35,11 +40,13 @@
 		}
 	});
 
-	$: if (currentScreen && chartInstance) {
-		if (chartInstance) {
-			chartInstance.update();
+	$effect(() => {
+		if (currentScreen && chartInstance) {
+			if (chartInstance) {
+				chartInstance.update();
+			}
 		}
-	}
+	});
 
 	eventListener(
 		'resize',
@@ -50,5 +57,5 @@
 </script>
 
 <div class="chart-container relative w-full">
-	<canvas bind:this={chartCanvasInstance} />
+	<canvas bind:this={chartCanvasInstance}></canvas>
 </div>

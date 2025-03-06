@@ -1,4 +1,4 @@
-import { flexRender } from '@tanstack/svelte-table';
+import { renderComponent } from '@tanstack/svelte-table';
 import { modalStore } from '$lib/features';
 import {
 	Dropdown,
@@ -8,29 +8,29 @@ import {
 } from '$lib/components';
 import SearchIcon from '$lib/assets/icons/search.svg?component';
 import FilamentLogo from '$lib/assets/logos/logo-filament.svg?component';
-import { type ComponentType, SvelteComponent } from 'svelte';
+
 import {
 	EModalVariant,
 	type IDropdownProps,
 	type ISearchSelectProps,
 	type ITableProps,
-	type IValidator
+	type IDelegator
 } from '$lib/types';
 
 export type TDelegationsTableData = {
 	id: string;
-	delegate: IValidator;
+	delegate: IDelegator;
 	staked: string;
 	rewards: string;
 };
 
 type TDelegatesTableData = {
 	id: string;
-	delegate: IValidator;
+	delegate: IDelegator;
 	votingPower: string;
 	commission: string;
 	options: {
-		delegate: IValidator;
+		delegate: IDelegator;
 	};
 };
 
@@ -90,7 +90,7 @@ export async function load() {
 		isSearchable: true
 	};
 
-	const tableDelegationsData: ITableProps & { tableRightLabel: ComponentType<SvelteComponent> } = {
+	const tableDelegationsData: ITableProps = {
 		tableLabel: 'My Delegations',
 		tableRightLabel: Dropdown,
 		tableRightLabelProps: { ...dropdownProps },
@@ -112,7 +112,7 @@ export async function load() {
 				size: 200,
 				cell: (info) => {
 					const value = info.getValue() as unknown as TDelegationsTableData['delegate'];
-					return flexRender(TableValidatorComponent, { ...value });
+					return renderComponent(TableValidatorComponent, { ...value });
 				},
 				meta: {
 					class: 'sticky'
@@ -131,11 +131,11 @@ export async function load() {
 				header: '',
 				cell: (info) => {
 					const delegate = info.getValue() as unknown as TDelegationsTableData['delegate'];
-					return flexRender(TableValidatorOptionsComponent, {
+					return renderComponent(TableValidatorOptionsComponent, {
 						buttonLabel: 'Claim Rewards',
 						disabled: true,
 						buttonOnClick: () => {
-							console.log('claim rewards', delegate);
+							console.log('Claim rewards, delegate:', delegate);
 						},
 						options: [
 							{ value: 'stakeMore', label: 'Stake More', disabled: true },
@@ -211,69 +211,68 @@ export async function load() {
 		}
 	];
 
-	const tableAllValidatorsData: ITableProps & { tableRightLabel: ComponentType<SvelteComponent> } =
-		{
-			tableLabel: 'All Delegates',
-			tableRightLabel: SearchSelect,
-			tableRightLabelProps: { ...searchSelectProps },
-			columnDef: [
-				{
-					accessorKey: 'id',
-					header: '#',
-					size: 30,
-					meta: {
-						class: 'sticky',
-						cellStyle: {
-							color: 'var(--gray-200)'
-						}
-					}
-				},
-				{
-					accessorKey: 'delegate',
-					header: 'Delegate',
-					size: 200,
-					cell: (info) => {
-						const value = info.getValue() as unknown as TDelegatesTableData['delegate'];
-						return flexRender(TableValidatorComponent, { ...value });
-					},
-					meta: {
-						class: 'sticky'
-					}
-				},
-				{
-					accessorKey: 'votingPower',
-					header: 'Voting Power'
-				},
-				{
-					accessorKey: 'commission',
-					header: 'Commission'
-				},
-				{
-					accessorKey: 'options',
-					header: '',
-					cell: (info) => {
-						const { delegate } = info.getValue() as unknown as TDelegatesTableData['options'];
-						return flexRender(TableValidatorOptionsComponent, {
-							buttonLabel: 'Delegate FILA',
-							buttonOnClick: () => {
-								openModal({
-									variant: EModalVariant.VALIDATOR_STAKE,
-									state: { delegate }
-								});
-							}
-						});
-					},
-					meta: {
-						cellStyle: {
-							display: 'flex',
-							'justify-content': 'flex-end',
-							width: '100% !important'
-						}
+	const tableAllValidatorsData: ITableProps = {
+		tableLabel: 'All Delegates',
+		tableRightLabel: SearchSelect,
+		tableRightLabelProps: { ...searchSelectProps },
+		columnDef: [
+			{
+				accessorKey: 'id',
+				header: '#',
+				size: 30,
+				meta: {
+					class: 'sticky',
+					cellStyle: {
+						color: 'var(--gray-200)'
 					}
 				}
-			],
-			data: mockedDelegates
-		};
+			},
+			{
+				accessorKey: 'delegate',
+				header: 'Delegate',
+				size: 200,
+				cell: (info) => {
+					const value = info.getValue() as unknown as TDelegatesTableData['delegate'];
+					return renderComponent(TableValidatorComponent, { ...value });
+				},
+				meta: {
+					class: 'sticky'
+				}
+			},
+			{
+				accessorKey: 'votingPower',
+				header: 'Voting Power'
+			},
+			{
+				accessorKey: 'commission',
+				header: 'Commission'
+			},
+			{
+				accessorKey: 'options',
+				header: '',
+				cell: (info) => {
+					const { delegate } = info.getValue() as unknown as TDelegatesTableData['options'];
+					return renderComponent(TableValidatorOptionsComponent, {
+						buttonLabel: 'Delegate FILA',
+						buttonOnClick: () => {
+							openModal({
+								variant: EModalVariant.VALIDATOR_STAKE,
+								state: { delegate }
+							});
+						}
+					});
+				},
+				meta: {
+					cellStyle: {
+						display: 'flex',
+						'justify-content': 'flex-end',
+						width: '100% !important'
+					}
+				}
+			}
+		],
+		data: mockedDelegates
+	};
 
 	return {
 		cards,

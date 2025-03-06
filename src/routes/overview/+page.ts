@@ -1,4 +1,4 @@
-import { type ISecondaryDoughnutChartProps } from '$lib/types';
+import { type ILineChartWithControlsProps, type ISecondaryDoughnutChartProps } from '$lib/types';
 import { createSmoothRandomData, generateDateLabels } from '$lib/helpers';
 import { formatLargeNumber } from '$lib/utils';
 import { defaultToggleOptions } from '$lib/constants';
@@ -67,7 +67,7 @@ export async function load() {
 
 	const labels = generateDateLabels('2015-01-01', '2022-12-31');
 
-	const tvlData = {
+	const tvlData: ILineChartWithControlsProps = {
 		chartData: {
 			labels,
 			datasets: [
@@ -82,7 +82,7 @@ export async function load() {
 		useLastValue: true
 	};
 
-	const stakedData = {
+	const stakedData: ILineChartWithControlsProps = {
 		chartData: {
 			labels,
 			datasets: [
@@ -96,7 +96,7 @@ export async function load() {
 		formatter: formatLargeNumber
 	};
 
-	const newAddressesData = {
+	const newAddressesData: ILineChartWithControlsProps = {
 		chartData: {
 			labels,
 			datasets: [

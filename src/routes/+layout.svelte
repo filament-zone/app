@@ -7,6 +7,12 @@
 	import { EWalletProvider } from '$lib/services';
 	import '$lib/styles/app.less';
 
+	interface ILayoutProps {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: ILayoutProps = $props();
+
 	const { navigating, previousPage } = navigationStore;
 	const { initializeWallet } = walletStore;
 
@@ -27,6 +33,6 @@
 </script>
 
 <BaseLayout>
-	<slot />
+	{@render children?.()}
 </BaseLayout>
 <ModalController />

@@ -1,4 +1,4 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
 export interface INavBarItemOption {
 	label: string;
@@ -8,21 +8,9 @@ export interface INavBarItemOption {
 	subItems?: INavBarItemOption[];
 }
 
-declare const __propDef: {
-	props: { option: INavBarItemOption };
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
+export interface INavBarItemProps {
+	option: INavBarItemOption;
+}
 
-type INavBarItemProps_ = typeof __propDef.props;
-export type { INavBarItemProps_ as INavBarItemProps };
-export type INavBarItemEvents = typeof __propDef.events;
-export type INavBarItemSlots = typeof __propDef.slots;
-
-export default class NavBarItem extends SvelteComponent<
-	INavBarItemProps,
-	INavBarItemEvents,
-	INavBarItemSlots
-> {}
+export declare const NavBarItem: Component<INavBarItemProps>;
+export default NavBarItem;

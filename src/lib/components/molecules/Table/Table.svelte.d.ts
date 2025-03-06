@@ -1,31 +1,22 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import '@tanstack/svelte-table';
 import type { RowData } from '@tanstack/table-core';
 import type { ColumnDef, Row, SortingState } from '@tanstack/svelte-table';
 import type { IPaginationProps } from 'types';
 
-declare const __propDef: {
-	props: {
-		tableLabel: string;
-		tableRightLabel?: string | ComponentType<SvelteComponent>;
-		tableRightLabelProps?: object;
-		data: RowData[];
-		columnDef: ColumnDef<RowData>[];
-		pagination?: IPaginationProps['pagination'] | null;
-		onPageChange?: IPaginationProps['onPageChange'];
-		onRowClick?: ((row: Row<RowData>) => void) | null;
-		sortingState?: SortingState;
-		headerBackground?: string;
-		tableEmptyMessage?: string;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITableProps_ = typeof __propDef.props;
-export type { ITableProps_ as ITableProps };
-export type ITableEvents = typeof __propDef.events;
-export type ITableSlots = typeof __propDef.slots;
+export interface ITableProps {
+	tableLabel?: string;
+	tableRightLabel?: string | Component | null;
+	tableRightLabelProps?: object;
+	data: RowData[];
+	columnDef: ColumnDef<RowData>[];
+	pagination?: IPaginationProps['pagination'] | null;
+	onPageChange?: IPaginationProps['onPageChange'];
+	onRowClick?: ((row: Row<RowData>) => void) | null;
+	sortingState?: SortingState;
+	headerBackground?: string;
+	tableEmptyMessage?: string;
+}
 
-export default class Table extends SvelteComponent<ITableProps, ITableEvents, ITableSlots> {}
+export declare const Table: Component<ITableProps>;
+export default Table;

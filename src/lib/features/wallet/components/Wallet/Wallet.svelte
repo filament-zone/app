@@ -4,20 +4,20 @@
 	import { walletStore } from '$lib/features';
 	import { type IWalletProps } from '$lib/types';
 
-	export let isOpen: IWalletProps['isOpen'] = false;
+	let { isOpen = $bindable(false) }: IWalletProps = $props();
 
 	const { disconnectWallet, wallet } = walletStore;
 
-	$: handleClickOutside = () => {
+	let handleClickOutside = $derived(() => {
 		isOpen = false;
-	};
+	});
 </script>
 
-<div class="wallet-container" use:clickOutside on:clickOutside={handleClickOutside}>
+<div class="wallet-container" use:clickOutside={[]} onclickOutside={handleClickOutside}>
 	<div>
 		<Typography variant="h4">Wallet</Typography>
 		<div class="flex flex-row">
-			<Typography class="mr-4" variant="body1">Balance:</Typography>
+			<Typography classNames="mr-4" variant="body1">Balance:</Typography>
 			<Typography variant="body1"
 				>{$wallet?.balance ? Number($wallet?.balance).toFixed(4) : '0.00'}</Typography
 			>
@@ -27,7 +27,7 @@
 	</div>
 	<div class="mt-8">
 		<Button
-			on:click={() => {
+			onclick={() => {
 				disconnectWallet();
 				isOpen = false;
 			}}>Disconnect</Button

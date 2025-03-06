@@ -1,12 +1,14 @@
 <script lang="ts">
+	import { ArrowUpRightIcon } from 'svelte-feather-icons';
+	import moment from 'moment';
 	import { goto } from '$app/navigation';
 	import { CampaignTimeLine, Typography } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { type ICampaignListItemProps } from '$lib/types';
-	import { ArrowUpRightIcon } from 'svelte-feather-icons';
-	import moment from 'moment';
-	export let campaign: ICampaignListItemProps['campaign'];
+
+	let { campaign }: ICampaignListItemProps = $props();
+
 	const showCreatedAt = false;
 
 	const handleOpenCampaignDetails = () => {
@@ -18,19 +20,17 @@
 	};
 </script>
 
-<button on:click={handleOpenCampaignDetails}>
+<button onclick={handleOpenCampaignDetails}>
 	<div class="campaign-list-item-container">
 		<div class="header">
 			<Typography variant="h4">{campaign.title}</Typography>
 			<div class="icon-button">
-				<button on:click={handleOpenCampaignDetails}>
-					<ArrowUpRightIcon strokeWidth={3} class="w-5 h-5" />
-				</button>
+				<ArrowUpRightIcon strokeWidth={3} class="w-5 h-5" />
 			</div>
 		</div>
 		<div class="content">
 			{#if campaign}
-				<CampaignTimeLine {campaign} label="Phase" isCollapsable={false} />
+				<CampaignTimeLine {campaign} isCollapsable={false} />
 			{/if}
 		</div>
 		<div class="flex flex-row p-2 opacity-50 justify-end px-4">
@@ -83,13 +83,6 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-
-			button {
-				background: transparent;
-				border: none;
-				color: var(--accentColor);
-				cursor: pointer;
-			}
 		}
 
 		.content {

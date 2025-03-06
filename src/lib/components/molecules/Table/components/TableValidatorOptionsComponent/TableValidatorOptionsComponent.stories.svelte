@@ -1,15 +1,17 @@
-<script context="module" lang="ts">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { TableValidatorOptionsComponent } from '$lib/components';
+<!--<script module lang="ts">-->
+<!--	import { Story, Template } from '@storybook/addon-svelte-csf';-->
+<!--	import { TableValidatorOptionsComponent } from '$lib/components';-->
 
-	export const meta = {
-		title: 'Molecules/Table/Components/TableValidatorOptionsComponent',
-		component: TableValidatorOptionsComponent
-	};
-</script>
+<!--	export const meta = {-->
+<!--		title: 'Molecules/Table/Components/TableValidatorOptionsComponent',-->
+<!--		component: TableValidatorOptionsComponent-->
+<!--	};-->
+<!--</script>-->
 
-<Template let:args>
-	<TableValidatorOptionsComponent {...args} />
-</Template>
+<!--<Template>-->
+<!--	{#snippet children({ args })}-->
+<!--		<TableValidatorOptionsComponent {...args} />-->
+<!--	{/snippet}-->
+<!--</Template>-->
 
-<Story name="Primary" args={{}} />
+<!--<Story name="Primary" args={{}} />-->

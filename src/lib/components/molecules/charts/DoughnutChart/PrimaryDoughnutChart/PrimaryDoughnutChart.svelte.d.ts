@@ -1,24 +1,9 @@
-import { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import type { ChartInstance } from '$lib/types';
 
-declare const __propDef: {
-	props: {
-		chartData: ChartInstance<'doughnut'>['data'] | null;
-		colors?: string[];
-		chartInstance?: ChartInstance<'Doughnut'>;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IPrimaryDoughnutChartProps_ = typeof __propDef.props;
-export type { IPrimaryDoughnutChartProps_ as IPrimaryDoughnutChartProps };
-export type IPrimaryDoughnutChartEvents = typeof __propDef.events;
-export type IPrimaryDoughnutChartSlots = typeof __propDef.slots;
+export interface IPrimaryDoughnutChartProps {
+	chartData: ChartInstance<'doughnut'>['data'] | null;
+}
 
-export default class PrimaryDoughnutChart extends SvelteComponent<
-	IPrimaryDoughnutChartProps,
-	IPrimaryDoughnutChartEvents,
-	IPrimaryDoughnutChartSlots
-> {}
+export declare const PrimaryDoughnutChart: Component<IPrimaryDoughnutChartProps>;
+export default PrimaryDoughnutChart;

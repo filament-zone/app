@@ -1,21 +1,8 @@
-import type { SvelteComponent } from 'svelte';
+import { type Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		value?: string | null;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
+export interface ITextEditorProps {
+	value?: string | null;
+}
 
-export type ITextEditorProps = typeof __propDef.props;
-export type ITextEditorEvents = typeof __propDef.events;
-export type ITextEditorSlots = typeof __propDef.slots;
-
-export default class TextEditor extends SvelteComponent<
-	ITextEditorProps,
-	ITextEditorEvents,
-	ITextEditorSlots
-> {}
+export declare const TextEditor: Component<ITextEditorProps, object, 'value'>;
+export default TextEditor;

@@ -13,18 +13,22 @@
 	import CloseIcon from '$lib/assets/icons/close_24px.svg?component';
 	import CalendarIcon from '$lib/assets/icons/calendar-1.svg?component';
 
-	export let value: IDatePickerProps<CalendarMode.SINGLE>['value'];
-	export let onChange: IDatePickerProps<CalendarMode.SINGLE>['onChange'] = null;
-	export let label: IDatePickerProps<CalendarMode.SINGLE>['label'] = '';
-	export let inputLabel: IDatePickerProps<CalendarMode.SINGLE>['inputLabel'] = '';
-	export let position: IDatePickerProps<CalendarMode.SINGLE>['position'] = '';
-	export let closeOnClickOutside: IDatePickerProps<CalendarMode.SINGLE>['closeOnClickOutside'] = false;
-	export let disabled: IDatePickerProps<CalendarMode.SINGLE>['disabled'] = false;
+	let {
+		value,
+		onChange = null,
+		label = '',
+		inputLabel = '',
+		position = '',
+		disabled = false
+	}: IDatePickerProps<CalendarMode.SINGLE> = $props();
 
-	$: initialDate = (value?.date ? moment(value.date) : '') as Moment;
-	$: localDate = { date: initialDate ? initialDate?.toISOString() : '' } as { date: string | null };
+	let initialDate = $derived((value?.date ? moment(value.date) : '') as Moment);
+	let localDate: ICalendarProps<CalendarMode.SINGLE>['value'] = $state();
+	let isPopoverOpen = $state(false);
 
-	let isPopoverOpen = false;
+	$effect(() => {
+		localDate = { date: initialDate ? initialDate?.toISOString() : '' } as { date: string | null };
+	});
 
 	const handleOpenPopover = () => {
 		isPopoverOpen = true;
@@ -36,10 +40,10 @@
 		localDate = value;
 	};
 
-	$: dateLabel = `${localDate.date ? moment(localDate.date).format('MMM DD YYYY') : ''}`;
+	let dateLabel = $derived(`${localDate.date ? moment(localDate.date).format('MMM DD YYYY') : ''}`);
 
-	let monthsToRender: moment.Moment[] = [];
-	$: {
+	let monthsToRender: moment.Moment[] = $state([]);
+	$effect(() => {
 		let currentMonth = moment().month(); // 0-11
 		let currentYear = moment().year();
 		if (monthsToRender.length === 0) {
@@ -47,7 +51,7 @@
 				monthsToRender.push(moment([currentYear, month, 1]));
 			}
 		}
-	}
+	});
 
 	const addNextYearMonths = () => {
 		const lastMonthInArray = monthsToRender[monthsToRender.length - 1];
@@ -78,7 +82,7 @@
 		}
 	};
 
-	let calendarContainer: HTMLElement;
+	let calendarContainer: HTMLElement | undefined = $state();
 
 	const handleScroll = () => {
 		if (calendarContainer) {
@@ -104,10 +108,8 @@
 			{/if}
 			<Input
 				sizeVariant={EInputSizeVariant.FULL_WIDTH}
-				on:click={() => {
-					if (!disabled) {
-						handleOpenPopover();
-					}
+				onclick={() => {
+					handleOpenPopover();
 				}}
 				value={initialDate ? initialDate.format('MM / DD / YYYY') : ''}
 				placeholder="Date"
@@ -120,15 +122,11 @@
 		<div
 			class="popover-container ml-auto absolute z-10"
 			style={`${position === 'left' ? 'left: -32px;' : ''}; top: 50px`}
-			use:clickOutside
-			on:clickOutside={() => {
-				if (closeOnClickOutside) {
-					handleClosePopover();
-				}
-			}}
+			use:clickOutside={[]}
+			onclickOutside={handleClosePopover}
 		>
 			<div class="p-2 h-[122px]">
-				<button on:click={handleClosePopover}>
+				<button onclick={handleClosePopover}>
 					<CloseIcon />
 				</button>
 				<div class="mx-12 mb-4 flex flex-col gap-2">
@@ -141,7 +139,7 @@
 				<div
 					class="overflow-y-scroll overflow-x-hidden max-h-[300px]"
 					bind:this={calendarContainer}
-					on:scroll={handleScroll}
+					onscroll={handleScroll}
 				>
 					{#each monthsToRender as month}
 						<Calendar
@@ -156,13 +154,13 @@
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 						styleVariant={EButtonStyleVariant.NEGATIVE}
-						on:click={handleCancel}
+						onclick={handleCancel}
 						class="cursor-pointer">Cancel</Button
 					>
 					<Button
 						sizeVariant={EButtonSizeVariant.FULL_WIDTH}
 						styleVariant={EButtonStyleVariant.POSITIVE}
-						on:click={handleSave}
+						onclick={handleSave}
 						class="cursor-pointer">Save</Button
 					>
 				</div>

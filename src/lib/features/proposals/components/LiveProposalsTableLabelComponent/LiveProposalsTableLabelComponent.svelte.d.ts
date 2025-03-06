@@ -1,25 +1,10 @@
-import { SvelteComponent } from 'svelte';
-import { type ISearchSelectProps } from '$lib/types';
+import type { Component } from 'svelte';
+import { type IButtonProps, type ISearchSelectProps } from '$lib/types';
 
-declare const __propDef: {
-	props: {
-		searchSelectProps: ISearchSelectProps;
-		buttonProps: {
-			onClick: () => void;
-		};
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ILiveProposalsTableLabelComponentProps_ = typeof __propDef.props;
-export type { ILiveProposalsTableLabelComponentProps_ as ILiveProposalsTableLabelComponentProps };
-export type ILiveProposalsTableLabelComponentEvents = typeof __propDef.events;
-export type ILiveProposalsTableLabelComponentSlots = typeof __propDef.slots;
+export interface ILiveProposalsTableLabelComponentProps {
+	searchSelectProps?: ISearchSelectProps;
+	buttonProps?: Partial<IButtonProps>;
+}
 
-export default class LiveProposalsTableLabelComponent extends SvelteComponent<
-	ILiveProposalsTableLabelComponentProps,
-	ILiveProposalsTableLabelComponentEvents,
-	ILiveProposalsTableLabelComponentSlots
-> {}
+export declare const LiveProposalsTableLabelComponent: Component<ILiveProposalsTableLabelComponentProps>;
+export default LiveProposalsTableLabelComponent;

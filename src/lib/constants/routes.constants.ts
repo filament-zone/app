@@ -1,7 +1,7 @@
 export const routes = {
 	HOME: '/',
 	OVERVIEW: { ROOT: '/overview' },
-	GOVERNANCE: { ROOT: '/governance' },
+	GOVERNANCE: { ROOT: '/governance', CREATE: '/governance/create-proposal' },
 	CAMPAIGNS: {
 		ROOT: '/campaigns',
 		MANAGE: {

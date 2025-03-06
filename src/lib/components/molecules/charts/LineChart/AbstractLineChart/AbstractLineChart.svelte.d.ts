@@ -1,28 +1,16 @@
-import { SvelteComponent } from 'svelte';
-import type { ChartInstance } from '$lib/types';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		chartInstance: ChartInstance<'line'>;
-		chartCanvasInstance: HTMLCanvasElement;
-		chartData: ChartInstance<'line'>['data'];
-		plugins: Plugin<'line'>[];
-		className?: string;
-		rightSliderBarIndex?: number;
-		leftSliderBarIndex?: number;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IAbstractLineChartProps_ = typeof __propDef.props;
-export type { IAbstractLineChartProps_ as IAbstractLineChartProps };
-export type IAbstractLineChartEvents = typeof __propDef.events;
-export type IAbstractLineChartSlots = typeof __propDef.slots;
+export interface IAbstractLineChartProps {
+	chartInstance: ChartInstance;
+	chartCanvasInstance?: HTMLCanvasElement;
+	chartData: ChartInstance<'line'>['data'];
+	plugins?: Plugin<'line'>[];
+	className?: string;
+	rightSliderBarIndex?: number;
+	leftSliderBarIndex?: number;
+	chartOptions?: ChartInstance['options'];
+	styles?: string;
+}
 
-export default class AbstractLineChart extends SvelteComponent<
-	IAbstractLineChartProps,
-	IAbstractLineChartEvents,
-	IAbstractLineChartSlots
-> {}
+export declare const AbstractLineChart: Component<IAbstractLineChartProps>;
+export default AbstractLineChart;

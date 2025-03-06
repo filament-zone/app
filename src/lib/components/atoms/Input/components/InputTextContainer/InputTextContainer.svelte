@@ -2,11 +2,10 @@
 	import { type IInputTextContainerProps } from '$lib/types';
 	import { Typography } from '$lib/components';
 
-	export let label: IInputTextContainerProps['label'];
-	export let onClick: IInputTextContainerProps['onClick'];
+	let { label, onClick }: IInputTextContainerProps = $props();
 </script>
 
-<div class="input-text-container" {...$$props} on:click={onClick} aria-hidden="true">
+<div class="input-text-container" onclick={onClick} aria-hidden="true">
 	<Typography variant="button">{label}</Typography>
 </div>
 

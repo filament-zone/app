@@ -1,25 +1,20 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { Button } from '$lib/components';
 	import { routes } from '$lib/constants';
 	import { campaignStore } from '$lib/features';
-	import { Button } from '$lib/components';
 	import { replaceUrlParams } from '$lib/helpers';
 	import { EButtonStyleVariant, type INavigationFooterProps, type IStepBarStore } from '$lib/types';
 
-	import CloseIcon from '$lib/assets/icons/x.svg?component';
-	import ArrowIcon from '$lib/assets/icons/arrow-1.svg?component';
-	import PlusIcon from '$lib/assets/icons/plus.svg?component';
-
-	export let handleBack: INavigationFooterProps['handleBack'] = () => {};
-	export let disabled: INavigationFooterProps['disabled'] = false;
+	let { handleBack = () => {}, disabled = false }: INavigationFooterProps = $props();
 
 	const { clearCampaignDetails, createCampaign } = campaignStore;
 	const { currentStep, steps, isLastStep, isPreLastStep, validateCurrentStep } =
 		getContext<IStepBarStore>('stepBarStore');
 
-	$: localHandleNext = async () => {
+	let localHandleNext = $derived(async () => {
 		if ($isLastStep) {
 			await createCampaign();
 			return;
@@ -27,14 +22,14 @@
 		const isValid = await validateCurrentStep();
 
 		if (isValid) {
-			goto(
+			await goto(
 				replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
 					campaignType: 'air-drop',
 					step: ($currentStep + 1).toString()
 				})
 			);
 		}
-	};
+	});
 </script>
 
 <div class="flex w-full justify-center items-end mt-auto">
@@ -43,18 +38,18 @@
 			{#if $currentStep > 1}
 				<Button
 					styleVariant={EButtonStyleVariant.SECONDARY}
-					on:click={() => {
+					onclick={() => {
 						if (handleBack) {
 							handleBack();
 						}
-						if ($page.route.id?.includes('create')) {
+						if (page.route.id?.includes('create')) {
 							goto(
 								replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
 									campaignType: 'air-drop',
 									step: ($currentStep - 1).toString()
 								})
 							);
-						} else if ($page.route.id?.includes('edit')) {
+						} else if (page.route.id?.includes('edit')) {
 							// TODO: implement edit campaign route
 							// goto(routes.CAMPAIGNS.MANAGE.EDIT.ROOT);
 						}
@@ -63,8 +58,7 @@
 				>
 			{/if}
 			<Button
-				Icon={CloseIcon}
-				on:click={() => {
+				onclick={() => {
 					clearCampaignDetails();
 					goto(routes.CAMPAIGNS.MANAGE.ROOT);
 				}}
@@ -75,11 +69,10 @@
 		</div>
 		<div class="flex flex-row gap-2">
 			<Button
-				on:click={localHandleNext}
+				onclick={localHandleNext}
 				styleVariant={$currentStep === $steps.length
 					? EButtonStyleVariant.POSITIVE
 					: EButtonStyleVariant.PRIMARY}
-				Icon={$currentStep === $steps.length - 1 ? PlusIcon : ArrowIcon}
 				{disabled}
 			>
 				{$isLastStep ? 'Submit Campaign' : $isPreLastStep ? 'Summary' : 'Next'}

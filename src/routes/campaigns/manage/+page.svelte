@@ -6,14 +6,14 @@
 	import { routes } from '$lib/constants';
 	import { EToggleVariant, EWalletProvider, EButtonStyleVariant } from '$lib/types';
 
-	export let data;
+	let { data } = $props();
 
 	const { wallet, initializeWallet } = walletStore;
 	const { isCampaignOwner } = campaignDetailsStore;
 
-	$: toggleValue = 'all';
+	let toggleValue = $state('all');
 
-	$: filterCampaigns = () => {
+	let filteredCampaigns = $derived.by(() => {
 		switch (toggleValue) {
 			case 'all':
 				return data.campaignList;
@@ -24,9 +24,7 @@
 			default:
 				return [];
 		}
-	};
-
-	$: filteredCampaigns = filterCampaigns();
+	});
 </script>
 
 <div class="flex relative w-full max-w-[1440px]">
@@ -50,12 +48,12 @@
 			<div class="flex flex-col justify-center h-full min-h-[200px]">
 				{#if toggleValue === 'myCampaigns'}
 					{#if !$wallet.address}
-						<Button on:click={initializeWallet.bind(null, EWalletProvider.METAMASK)}
+						<Button onclick={initializeWallet.bind(null, EWalletProvider.METAMASK)}
 							>Connect your wallet</Button
 						>
 					{:else}
 						<Button
-							on:click={() => {
+							onclick={() => {
 								goto(
 									replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
 										campaignType: 'air-drop',
@@ -69,7 +67,7 @@
 						</Button>
 					{/if}
 				{:else}
-					<Typography class="text-center" variant="h4">No campaigns found</Typography>
+					<Typography classNames="text-center" variant="h4">No campaigns found</Typography>
 				{/if}
 			</div>
 		{/if}

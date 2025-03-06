@@ -1,14 +1,16 @@
-<script context="module">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { ModalTransactionTimeLine } from '$lib/features';
+<!--<script module>-->
+<!--	import { Story, Template } from '@storybook/addon-svelte-csf';-->
+<!--	import { ModalTransactionTimeLine } from '$lib/features';-->
 
-	export const meta = {
-		title: 'Features/Modal/Transaction TimeLine'
-	};
-</script>
+<!--	export const meta = {-->
+<!--		title: 'Features/Modal/Transaction TimeLine'-->
+<!--	};-->
+<!--</script>-->
 
-<Template let:args>
-	<svelte:component this={args.modal} {...args} />
-</Template>
+<!--<Template>-->
+<!--	{#snippet children({ args })}-->
+<!--		<args.modal {...args} />-->
+<!--	{/snippet}-->
+<!--</Template>-->
 
-<Story name="Primary" args={{ modal: ModalTransactionTimeLine }} />
+<!--<Story name="Primary" args={{ modal: ModalTransactionTimeLine }} />-->

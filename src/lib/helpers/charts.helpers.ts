@@ -1,11 +1,12 @@
 import type { ILineChartWithControlsProps } from '$lib/components/organisms/charts/LineChartWithControls/LineChartWithControls.svelte';
 import { EChartDateRange } from '$lib/components/molecules/charts/charts.types';
 import type { ChartDatasetProperties } from 'chart.js';
+import { type IToggleProps } from '$lib/components/molecules/Toggle/Toggle.svelte';
 
 export const updateChartDateRange: (
-	chartData: ILineChartWithControlsProps['data'],
-	toggleValue: EChartDateRange
-) => ILineChartWithControlsProps['data'] = (chartData, toggleValue) => {
+	chartData: ILineChartWithControlsProps['chartData'],
+	toggleValue: IToggleProps<string>['value']
+) => ILineChartWithControlsProps['chartData'] = (chartData, toggleValue) => {
 	if (!chartData || !chartData.labels || !chartData.datasets || !chartData.datasets[0].data) {
 		return chartData;
 	}

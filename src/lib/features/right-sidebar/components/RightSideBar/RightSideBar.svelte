@@ -4,8 +4,7 @@
 	import type { IRightSideBarProps } from '$lib/types';
 	import ChevronRightIcon from '$lib/assets/icons/chevron-right.svg?component';
 
-	export let closeOnClickOutside: IRightSideBarProps['closeOnClickOutside'] = false;
-	export let classNames: IRightSideBarProps['classNames'] = '';
+	let { closeOnClickOutside = false, classNames = '', children }: IRightSideBarProps = $props();
 
 	const { closeRightSideBar } = rightSideBarStore;
 
@@ -19,18 +18,18 @@
 <div class="right-sidebar-container w-[384px] h-full">
 	<div
 		class="right-sidebar px-6 py-8 {classNames} h-full"
-		use:clickOutside
-		on:clickOutside={handleClickOutside}
+		use:clickOutside={[]}
+		onclickOutside={handleClickOutside}
 	>
 		<div class="flex flex-col gap-8 h-full">
-			<div class="close-button" on:click={closeRightSideBar} aria-hidden="true">
+			<div class="close-button" onclick={closeRightSideBar} aria-hidden="true">
 				<span>Close</span>
 				<div class="icon">
 					<ChevronRightIcon />
 				</div>
 			</div>
 			<div class="h-full">
-				<slot />
+				{@render children?.()}
 			</div>
 		</div>
 	</div>

@@ -1,26 +1,9 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		label?: string | null;
-		error?: string;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
+export interface ITextAreaProps extends Partial<HTMLTextAreaElement> {
+	label?: string | null;
+	error?: string;
+}
 
-type CustomProps = typeof __propDef.props;
-
-type ITextAreaProps_ = CustomProps & Omit<Partial<HTMLTextAreaElement>, keyof CustomProps>;
-
-export type { ITextAreaProps_ as ITextAreaProps };
-export type ITextAreaEvents = typeof __propDef.events;
-export type ITextAreaSlots = typeof __propDef.slots;
-
-export default class TextArea extends SvelteComponent<
-	ITextAreaProps,
-	ITextAreaEvents,
-	ITextAreaSlots
-> {}
+export declare const TextArea: Component<ITextAreaProps>;
+export default TextArea;

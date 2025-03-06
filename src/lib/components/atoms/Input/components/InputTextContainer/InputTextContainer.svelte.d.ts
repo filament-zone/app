@@ -1,24 +1,9 @@
-import type { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		label: string;
-		onClick: () => void;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
+export interface IInputTextContainerProps {
+	label: string;
+	onClick: () => void;
+}
 
-type IInputTextContainerProps_ = typeof __propDef.props;
-
-export type { IInputTextContainerProps_ as IInputTextContainerProps };
-export type IInputTextContainerEvents = typeof __propDef.events;
-export type IInputTextContainerSlots = typeof __propDef.slots;
-
-export default class InputTextContainer extends SvelteComponent<
-	IInputTextContainerProps,
-	IInputTextContainerEvents,
-	IInputTextContainerSlots
-> {}
+export declare const InputTextContainer: Component;
+export default InputTextContainer;

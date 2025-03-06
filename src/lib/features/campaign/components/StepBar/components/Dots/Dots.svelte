@@ -1,10 +1,14 @@
-<script>
-	export let color = 'grey';
+<script lang="ts">
+	interface IDotsProps {
+		color?: string;
+	}
+
+	let { color = 'grey' }: IDotsProps = $props();
 </script>
 
 <div class="dots">
-	<div class="dot dot-1" style="background-color:{color}" />
-	<div class="dot dot-2" style="background-color:{color}" />
+	<div class="dot dot-1" style="background-color:{color}"></div>
+	<div class="dot dot-2" style="background-color:{color}"></div>
 </div>
 
 <style lang="less">

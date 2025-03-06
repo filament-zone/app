@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
 	import moment from 'moment/moment.js';
-	import { page } from '$app/stores';
-	import { flexRender, type Row } from '@tanstack/svelte-table';
+	import { page } from '$app/state';
+	import { renderComponent, type Row } from '@tanstack/svelte-table';
 	import {
 		campaignStore,
 		rightSideBarStore,
@@ -33,7 +32,6 @@
 	} from '$lib/types';
 	import type { Criterion } from '@filament-zone/filament/Criterion';
 
-	const data = derived(page, () => $page.data);
 	const { openRightSideBar, activeRightSideBar } = rightSideBarStore;
 	const { campaignDetails } = campaignStore;
 
@@ -49,7 +47,7 @@
 					($activeRightSideBar.state as ICampaignCreationSidebarCriteriaState).name ===
 						(value.row.original as Criterion).name;
 
-				return flexRender(HoverableCell, {
+				return renderComponent(HoverableCell, {
 					id: value.row.id,
 					isCompleted,
 					isSettingsCircleGreen
@@ -188,7 +186,7 @@
 					<Toggle
 						label="Snapshot Schedule"
 						bind:value={$campaignDetails.timeSettings.selectedType}
-						options={$data.pageData.step2Data.meta.timeSettingsOptions}
+						options={page.data.pageData.step2Data.meta.timeSettingsOptions}
 					/>
 					{#if $campaignDetails.timeSettings.selectedType === ECampaignTimeSettings.ONE_TIME}
 						<DatePicker
@@ -208,7 +206,7 @@
 							<Dropdown
 								label="Snapshot Interval"
 								sizeVariant={EDropdownSizeVariant.MEDIUM}
-								options={$data.pageData.step2Data.meta.snapshotIntervalOptions}
+								options={page.data.pageData.step2Data.meta.snapshotIntervalOptions}
 								bind:value={$campaignDetails.timeSettings[ECampaignTimeSettings.RECURRING].interval}
 							/>
 							<Input
@@ -242,14 +240,14 @@
 			</Typography>
 			<div>
 				<Toggle
-					options={$data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions}
+					options={page.data.pageData.step2Data.meta.eligibilityCriteriaCategoryOptions}
 					variant={EToggleVariant.SECONDARY}
 					bind:value={toggleValue}
 				/>
 				<Container variant="inner-container">
 					<div class="flex flex-col gap-5 w-full">
 						<Table {...eligibilityCriteriaTable} tableEmptyMessage="Please add a first criterion" />
-						<Button class="self-end" on:click={handleAddNewCriteria}>Add New Criterion</Button>
+						<Button class="self-end" onclick={handleAddNewCriteria}>Add New Criterion</Button>
 					</div>
 				</Container>
 			</div>

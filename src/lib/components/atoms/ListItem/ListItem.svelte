@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { Typography } from '$lib/components';
 	import type { IListItemProps } from '$lib/types';
-	import Typography from '$lib/components/atoms/Typography/Typography.svelte';
 
-	export let option: IListItemProps['option'] = null;
-	export let selected: IListItemProps['selected'] = false;
-	export let isPlaceholder: IListItemProps['isPlaceholder'] = false;
+	let {
+		option = null,
+		selected = false,
+		isPlaceholder = false,
+		onclick
+	}: IListItemProps = $props();
 </script>
 
 <div
@@ -12,14 +15,15 @@
 	class:selected
 	class:disabled={option?.disabled}
 	class:isPlaceholder
-	on:click
 	aria-hidden="true"
 	data-testId={`list-item-${option?.value}`}
+	{onclick}
 >
 	{#if typeof option?.icon === 'string'}
 		<img src={option.icon} alt="token-icon" style="height: 14px; width: 14px" />
 	{:else}
-		<svelte:component this={option?.icon} />
+		{@const SvelteComponent = option?.icon}
+		<SvelteComponent />
 	{/if}
 	<Typography variant="h6" allowHover={!option?.disabled && !isPlaceholder}>
 		{option?.label}

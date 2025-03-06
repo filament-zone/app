@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import { type IModalState, type IModalStore } from '$lib/types';
-import { EModalVariant } from '$lib/features/modal/modal.store.enums';
+import { EModalVariant } from './modal.store.enums';
 
 const initialState: IModalState = {
 	modalConfig: {

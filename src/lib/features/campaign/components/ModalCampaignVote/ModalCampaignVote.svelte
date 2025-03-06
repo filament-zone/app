@@ -7,66 +7,86 @@
 	const { modalConfig } = modalStore;
 	const { voteCampaignCriteria, voteCampaignDistribution, campaignDetails } = campaignDetailsStore;
 
-	$: state = $modalConfig.state as { campaignId: ICampaign['id'] };
+	let modalState = $derived($modalConfig.state as { campaignId: ICampaign['id'] });
 
-	$: toggleSelected = 'isFirst' as TToggleContentContainerSelected;
+	let toggleSelected = $state('isFirst' as TToggleContentContainerSelected);
 
-	$: handleVote = () => {
+	let handleVote = $derived(() => {
 		const value = toggleSelected === 'isFirst' ? 'Approved' : 'Rejected';
 		if ($campaignDetails?.phase === ECampaignPhase.CRITERIA) {
-			voteCampaignCriteria(state.campaignId, value);
+			voteCampaignCriteria(modalState.campaignId, value);
 		} else if ($campaignDetails?.phase === ECampaignPhase.DISTRIBUTION_VOTING) {
-			voteCampaignDistribution(state.campaignId, value);
+			voteCampaignDistribution(modalState.campaignId, value);
 		}
-	};
+	});
 </script>
 
 <Modal classNames="max-w-96">
-	<div slot="header">
-		<Typography variant="h5">Vote</Typography>
-	</div>
-	<div slot="content">
-		<Typography variant="caption"
-			>As a delegate, your mission is to represent your delegators interests and evaluate whether
-			the proposed airdrop criteria are aligned with your professional opinion. Please select one of
-			the options below to contribute with your voting power to the decision making of this airdrop.
-		</Typography>
-		<br />
-		<br />
-		<Typography variant="caption">
-			Please be aware that once voted, you cannot change your decision anymore.
-		</Typography>
-		<br />
-		<br />
-		<ToggleContentContainer bind:selected={toggleSelected}>
-			<ToggleContentCard slot="first">
-				<div slot="label" class="flex flex-row gap-4">
-					<CheckCircleIcon class={toggleSelected === 'isFirst' ? 'text-upOnly' : 'text-gray'} />
-					<Typography variant="caption">Yes</Typography>
-				</div>
-				<Typography variant="caption" slot="content"
-					>The airdrop criteria proposed by the campaigner <strong>do</strong> sufficiently represent
-					the expectation of your delegators and are aligned with your professional opinion. You hereby
-					reject this proposal.</Typography
-				>
-			</ToggleContentCard>
-			<ToggleContentCard slot="second">
-				<div slot="label" class="flex flex-row gap-4">
-					<MinusCircleIcon class={toggleSelected === 'isSecond' ? 'text-rugged' : 'text-gray'} />
-					<Typography variant="caption">No</Typography>
-				</div>
-				>
-				<Typography variant="caption" slot="content"
-					>The airdrop criteria proposed by the campaigner <strong>do not</strong> sufficiently meet
-					your expectations and are not aligned with you professional opinion. You hereby reject this
-					proposal.</Typography
-				>
-			</ToggleContentCard>
-		</ToggleContentContainer>
-
-		<Button on:click={handleVote} class="ml-auto mt-8" variant="secondary">Confirm Vote</Button>
-	</div>
+	{#snippet header()}
+		<div>
+			<Typography variant="h5">Vote</Typography>
+		</div>
+	{/snippet}
+	{#snippet content()}
+		<div>
+			<Typography variant="caption"
+				>As a delegate, your mission is to represent your delegators interests and evaluate whether
+				the proposed airdrop criteria are aligned with your professional opinion. Please select one
+				of the options below to contribute with your voting power to the decision making of this
+				airdrop.
+			</Typography>
+			<br />
+			<br />
+			<Typography variant="caption">
+				Please be aware that once voted, you cannot change your decision anymore.
+			</Typography>
+			<br />
+			<br />
+			<ToggleContentContainer bind:selected={toggleSelected}>
+				{#snippet first()}
+					<ToggleContentCard>
+						{#snippet label()}
+							<div class="flex flex-row gap-4">
+								<CheckCircleIcon
+									class={toggleSelected === 'isFirst' ? 'text-upOnly' : 'text-gray'}
+									size="24"
+								/>
+								<Typography variant="caption">Yes</Typography>
+							</div>
+						{/snippet}
+						{#snippet content()}
+							<Typography variant="caption"
+								>The airdrop criteria proposed by the campaigner <strong>do</strong> sufficiently represent
+								the expectation of your delegators and are aligned with your professional opinion. You
+								hereby reject this proposal.</Typography
+							>
+						{/snippet}
+					</ToggleContentCard>
+				{/snippet}
+				{#snippet second()}
+					<ToggleContentCard>
+						{#snippet label()}
+							<div class="flex flex-row gap-4">
+								<MinusCircleIcon
+									class={toggleSelected === 'isSecond' ? 'text-rugged' : 'text-gray'}
+									size="24"
+								/>
+								<Typography variant="caption">No</Typography>
+							</div>
+						{/snippet}
+						{#snippet content()}
+							<Typography variant="caption"
+								>The airdrop criteria proposed by the campaigner <strong>do not</strong> sufficiently
+								meet your expectations and are not aligned with you professional opinion. You hereby
+								reject this proposal.</Typography
+							>
+						{/snippet}
+					</ToggleContentCard>
+				{/snippet}
+			</ToggleContentContainer>
+		</div>
+	{/snippet}
+	{#snippet footer()}
+		<Button onclick={handleVote} class="ml-auto mt-8">Confirm Vote</Button>
+	{/snippet}
 </Modal>
-
-<style lang="less">
-</style>

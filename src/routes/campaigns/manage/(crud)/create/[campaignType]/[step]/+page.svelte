@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { beforeUpdate, getContext, onDestroy } from 'svelte';
+	import { getContext, onDestroy } from 'svelte';
 	import { airDropCampaignCreationConfig, campaignStore } from '$lib/features';
 	import { type IStepBarStore } from '$lib/types';
 
-	export let data;
+	let { data } = $props();
 
 	const { currentStep, setCurrentStep } = getContext<IStepBarStore>('stepBarStore');
 	const { clearCampaignDetails } = campaignStore;
 
-	beforeUpdate(() => {
+	$effect.pre(() => {
 		setCurrentStep(+data.currentStep);
 	});
 
@@ -20,5 +20,7 @@
 </script>
 
 {#each [stepComponents[$currentStep - 1]] as Step}
-	<svelte:component this={Step} />
+	{#if Step}
+		<Step />
+	{/if}
 {/each}

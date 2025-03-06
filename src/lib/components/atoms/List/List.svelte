@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
 	import { ListItem } from '$lib/components';
 	import { type IListProps } from '$lib/types';
@@ -10,7 +11,7 @@
 		{#each options as option}
 			<ListItem
 				{option}
-				on:click={() => {
+				onclick={() => {
 					if ($$props.onClick) {
 						$$props.onClick(option);
 					}

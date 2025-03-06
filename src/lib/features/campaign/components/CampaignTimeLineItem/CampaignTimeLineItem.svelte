@@ -5,32 +5,36 @@
 	import { type ICampaignTimeLineItemProps } from '$lib/types';
 	import CheckmarkCircleIcon from '$lib/assets/icons/checkmark-circle.svg?component';
 
-	export let title: ICampaignTimeLineItemProps['title'];
-	export let description: ICampaignTimeLineItemProps['description'];
-	export let date: ICampaignTimeLineItemProps['date'];
-	export let status: ICampaignTimeLineItemProps['status'];
-	export let isFirst: ICampaignTimeLineItemProps['isFirst'];
-	export let isLast: ICampaignTimeLineItemProps['isLast'];
-	export let onButtonClick: ICampaignTimeLineItemProps['onButtonClick'];
-	export let buttonLabel: ICampaignTimeLineItemProps['buttonLabel'];
-	export let numericPhase: ICampaignTimeLineItemProps['numericPhase'];
-	export let isExpanded: ICampaignTimeLineItemProps['isExpanded'] = false;
+	let {
+		title,
+		description,
+		date,
+		status,
+		isFirst,
+		isLast,
+		onButtonClick,
+		buttonLabel,
+		numericPhase,
+		isExpanded = false
+	}: ICampaignTimeLineItemProps = $props();
 
-	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = (status) => {
-		switch (status) {
-			case 'passed':
-				return 'var(--upOnly)';
-			case 'ongoing':
-				return 'var(--purpleCow)';
-			case 'rejected':
-				return 'var(--rugged)';
-			default:
-				return 'var(--foreground)';
+	const getStatusColor: (status: ICampaignTimeLineItemProps['status']) => string = $derived(
+		(status) => {
+			switch (status) {
+				case 'passed':
+					return 'var(--upOnly)';
+				case 'ongoing':
+					return 'var(--purpleCow)';
+				case 'rejected':
+					return 'var(--rugged)';
+				default:
+					return 'var(--foreground)';
+			}
 		}
-	};
+	);
 
-	const isLowOpacityBefore = status === 'ongoing';
-	const isLowOpacityAfter = status === 'planned' || status === 'ongoing';
+	let isLowOpacityBefore = $derived(status === 'ongoing');
+	let isLowOpacityAfter = $derived(status === 'planned' || status === 'ongoing');
 </script>
 
 <div class="flex flex-row h-fit gap-5 timeline-item {status} {isExpanded ? 'open' : ''}">
@@ -67,7 +71,7 @@
 	</div>
 	{#if onButtonClick}
 		<div class="flex flex-col justify-center items-end w-4/12">
-			<Button on:click={onButtonClick}>{buttonLabel}</Button>
+			<Button onclick={onButtonClick}>{buttonLabel}</Button>
 		</div>
 	{:else if status === 'to-do'}
 		<div class="flex flex-col justify-center items-end w-4/12">
@@ -78,7 +82,7 @@
 	{:else if date && status}
 		<div class="flex flex-col items-end justify-b w-[140px] px-2">
 			<div class="flex">
-				<Typography variant="cardDate" class="text-right text-nowrap"
+				<Typography variant="cardDate" classNames="text-right text-nowrap"
 					>{moment(date).format('MMM D, YYYY')}</Typography
 				>
 			</div>

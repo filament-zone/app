@@ -2,7 +2,7 @@
 	import { writable } from 'svelte/store';
 	import { initiateCampaignStore, Modal, modalStore, TxTimeLineItem } from '$lib/features';
 	import { Button, Typography } from '$lib/components';
-	import { type ITxTimeLineItemProps, ETxTimeLineItem } from '$lib/types';
+	import { type ITxTimeLineItemProps, ETxTimeLineItem, EButtonStyleVariant } from '$lib/types';
 
 	const { closeModal } = modalStore;
 	const { signTokenAllowance, signDepositTransaction, hubConfirm } = initiateCampaignStore;
@@ -126,15 +126,21 @@
 </script>
 
 <Modal classNames="max-w-96" closeOnClickOutside={false}>
-	<div slot="header">
-		<Typography variant="h5">Deposit Campaign Collateral</Typography>
-	</div>
-	<div slot="content">
+	{#snippet header()}
 		<div>
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
-			<TxTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+			<Typography variant="h5">Deposit Campaign Collateral</Typography>
 		</div>
-		<Button class="ml-auto mt-8" variant="secondary" on:click={closeModal}>Close</Button>
-	</div>
+	{/snippet}
+	{#snippet content()}
+		<div>
+			<div>
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemFilamentHubConfirmationProps} />
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemSignDepositTransactionProps} />
+				<TxTimeLineItem {...modalConfig[$step].timeLineItemSignTokenAllowanceProps} />
+			</div>
+			<Button class="ml-auto mt-8" styleVariant={EButtonStyleVariant.SECONDARY} onclick={closeModal}
+				>Close</Button
+			>
+		</div>
+	{/snippet}
 </Modal>

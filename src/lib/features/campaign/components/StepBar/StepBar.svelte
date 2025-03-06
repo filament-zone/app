@@ -1,30 +1,30 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
-	import { derived } from 'svelte/store';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { Dots, StepBarCampaignButton } from '$lib/features';
 	import { eventListener } from '$lib/helpers';
 	import { type IStepBarProps, type IStepBarStore } from '$lib/types';
 
-	export let contextId: IStepBarProps['contextId'] = 'stepBarStore';
-	const data = derived(page, () => $page.data);
+	let { contextId = 'stepBarStore' }: IStepBarProps = $props();
 
 	const { steps } = getContext<IStepBarStore>(contextId);
-	const getColor = (step: number) => ($data.currentStep > step ? '#21F879' : '#A8A8A8');
+	const getColor = (step: number) => (page.data.currentStep > step ? '#21F879' : '#A8A8A8');
 
-	let gaps: number[] | null = [];
-	let container: HTMLDivElement;
+	let gaps: number[] | null = $state([]);
+	let container: HTMLDivElement | undefined = $state();
 
 	const calculateDotsCount = (gap: number) => Math.floor(gap / 24);
 
 	const updateGaps = () => {
-		const stepButtons = container.querySelectorAll('.step-button');
+		const stepButtons = container?.querySelectorAll('.step-button');
 		let newGaps = [];
-		for (let i = 0; i < stepButtons.length - 1; i++) {
-			const button1 = stepButtons[i].getBoundingClientRect();
-			const button2 = stepButtons[i + 1].getBoundingClientRect();
-			const gap = button2.left - (button1.left + button1.width);
-			newGaps.push(calculateDotsCount(gap));
+		if (stepButtons?.length) {
+			for (let i = 0; i < stepButtons?.length - 1; i++) {
+				const button1 = stepButtons?.[i].getBoundingClientRect();
+				const button2 = stepButtons?.[i + 1].getBoundingClientRect();
+				const gap = button2?.left - (button1?.left + button1?.width);
+				newGaps.push(calculateDotsCount(gap));
+			}
 		}
 
 		gaps = [...newGaps];
@@ -54,7 +54,7 @@
 					<StepBarCampaignButton {step} />
 				</div>
 				{#if index < $steps.length - 1}
-					<div class="mx-2 flex flex-row justify-between flex-grow dots-wrapper">
+					<div class="mx-2 flex flex-row justify-between grow dots-wrapper">
 						<div class="dots-container flex flex-row justify-between">
 							{#if gaps?.length}
 								<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->

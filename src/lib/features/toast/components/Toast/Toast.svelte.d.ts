@@ -1,18 +1,9 @@
-import type { SvelteComponent } from 'svelte';
-import type { IToastConfig } from '$lib/types';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		config?: IToastConfig;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IToastProps_ = typeof __propDef.props;
-export type { IToastProps_ as IToastProps };
-export type IToastEvents = typeof __propDef.events;
-export type IToastSlots = typeof __propDef.slots;
+export interface IToastProps {
+	config?: IToastConfig;
+	onclick?: () => void;
+}
 
-export default class IToast extends SvelteComponent<IToastProps, IToastEvents, IToastSlots> {}
+export declare const IToast: Component<IToastProps>;
+export default IToast;

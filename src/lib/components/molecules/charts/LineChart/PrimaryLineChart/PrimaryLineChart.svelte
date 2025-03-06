@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { AbstractLineChart } from '$lib/components';
-
 	import { externalTooltipHandler } from '../tooltips';
 	import { verticalLinePlugin } from '../plugins';
 	import {
@@ -9,12 +8,12 @@
 		type IPrimaryLineChartProps
 	} from '$lib/types';
 
-	export let data: IPrimaryLineChartProps['data'];
+	let { data }: IPrimaryLineChartProps = $props();
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] | undefined = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] | undefined = $state();
 
-	$: x2Labels = data?.labels?.map((label) => label);
+	let x2Labels = $derived(data?.labels?.map((label) => label));
 
 	const lineColors = ['#e8fbff', '#86e9ff', '#9feeff'];
 	const backgroundColors = [
@@ -39,7 +38,7 @@
 			}) ?? []
 	};
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: true,
@@ -104,7 +103,7 @@
 				intersect: false
 			}
 		}
-	} as ChartInstance<'line'>['options'];
+	} as ChartInstance<'line'>['options']);
 </script>
 
 <AbstractLineChart

@@ -1,42 +1,44 @@
+<!-- @migration-task Error while migrating Svelte code: Can't migrate code with beforeUpdate. Please migrate by hand. -->
 <script lang="ts">
-	import { beforeUpdate } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { clickOutside } from '$lib/actions';
 	import { ListItem, Input, SelectedItemMulti } from '$lib/components';
 	import { EDropdownSizeVariant, type IDropdownOption, type IDropdownProps } from '$lib/types';
 	import ChevronUpIcon from '$lib/assets/icons/chevron-up.svg?component';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
-	export let label: IDropdownProps['label'] = '';
-	export let sizeVariant: IDropdownProps['sizeVariant'] = EDropdownSizeVariant.FULL_WIDTH;
-	export let value: IDropdownProps['value'] = null;
-	export let options: IDropdownProps['options'] = [];
-	export let placeholder: IDropdownProps['placeholder'] = 'Select';
-	export let onChange: IDropdownProps['onChange'] = () => {};
-	export let isSearchable: IDropdownProps['isSearchable'] = false;
-	export let isCreatable: IDropdownProps['isCreatable'] = false;
-	export let isMulti: IDropdownProps['isMulti'] = false;
-	export let displaySelectedValues: IDropdownProps['displaySelectedValues'] = true;
-	export let disabled: IDropdownProps['disabled'] = false;
-	export let leftLabel: IDropdownProps['leftLabel'] = '';
-	export let valueColor: IDropdownProps['valueColor'] = '';
+	let {
+		label = '',
+		sizeVariant = EDropdownSizeVariant.FULL_WIDTH,
+		value = $bindable(null),
+		options = [],
+		placeholder = 'Select',
+		onChange = () => {},
+		isSearchable = false,
+		isCreatable = false,
+		isMulti = false,
+		displaySelectedValues = true,
+		disabled = false,
+		valueColor = '',
+		classNames = '',
+		styles = ''
+	}: IDropdownProps = $props();
 
-	let isOpen = writable(false);
+	let isOpen = $state(false);
 
 	const toggleDropdown = () => {
 		if (!disabled) {
-			isOpen.update((n) => !n);
+			isOpen = !isOpen;
 		}
 	};
 
-	let inputValue = null as string | null;
-	$: searchValue = null as string | null;
-	$: localValue = null as string | null;
+	let inputValue = $state(null as string | null);
+	let searchValue = $state(null as string | null);
+	let localValue = $state(null as string | null);
 
-	$: createOption = {
+	let createOption: IDropdownOption<string> = $derived.by(() => ({
 		label: `Create "${searchValue ?? inputValue}"`,
-		value: searchValue ?? inputValue
-	} as IDropdownOption;
+		value: searchValue ? searchValue : (inputValue ?? '')
+	}));
 
 	const selectOption = (option: IDropdownOption) => {
 		let resValue;
@@ -77,10 +79,10 @@
 		searchValue = null;
 		localValue = null;
 		inputValue = null;
-		isOpen.set(false);
+		isOpen = false;
 	};
 
-	$: filterOptions = () => {
+	const filteredOptions = $derived.by(() => {
 		if (!options?.length) {
 			return [];
 		}
@@ -105,16 +107,15 @@
 		});
 
 		return localOptions;
-	};
+	});
 
-	$: filteredOptions = filterOptions();
-
-	$: showCreateOption =
+	const showCreateOption = $derived(
 		(searchValue || inputValue) &&
-		isCreatable &&
-		!options?.some(
-			(option) => option.label.toLowerCase() === (searchValue ?? inputValue)?.toLowerCase()
-		);
+			isCreatable &&
+			!options?.some(
+				(option) => option.label.toLowerCase() === (searchValue ?? inputValue)?.toLowerCase()
+			)
+	);
 
 	const isReadonly = () => {
 		if (isSearchable || isCreatable) {
@@ -125,7 +126,7 @@
 	};
 
 	const handleInputChange = (e: Event) => {
-		isOpen.set(true);
+		isOpen = true;
 		if (isSearchable) {
 			searchValue = (e.target as HTMLInputElement).value;
 		} else {
@@ -133,7 +134,7 @@
 		}
 	};
 
-	beforeUpdate(() => {
+	$effect.pre(() => {
 		if (!isMulti) {
 			if (isSearchable) {
 				localValue =
@@ -161,7 +162,7 @@
 		}
 	});
 
-	$: hideLeftBorder = () => {
+	const hideLeftBorder = () => {
 		if (isMulti) {
 			if (value?.length) {
 				if (displaySelectedValues) {
@@ -176,19 +177,19 @@
 		return false;
 	};
 
-	$: getLeftIcon = () => {
+	const getLeftIcon = $derived(() => {
 		if (Array.isArray(value)) {
 			return options?.find((option) => option.value === value?.[0])?.icon;
 		} else if (value) {
 			return options?.find((option) => option.value === value)?.icon;
 		}
-	};
+	});
 </script>
 
 <div
-	class={`${$$props.class} ${sizeVariant === EDropdownSizeVariant.FULL_WIDTH ? 'w-full' : ''}`}
-	use:clickOutside
-	on:clickOutside={() => isOpen.set(false)}
+	class={`${classNames} ${sizeVariant === EDropdownSizeVariant.FULL_WIDTH ? 'w-full' : ''}`}
+	use:clickOutside={[]}
+	onclickOutside={() => (isOpen = false)}
 >
 	<div class="dropdown-container">
 		{#if isMulti && value?.length && displaySelectedValues}
@@ -220,25 +221,24 @@
 			{label}
 			value={localValue}
 			onInput={handleInputChange}
-			on:click={toggleDropdown}
-			class="w-full"
+			onclick={toggleDropdown}
+			classNames="w-full"
 			readonly={isReadonly()}
-			{leftLabel}
-			RightIcon={$isOpen ? ChevronUpIcon : ChevronDownIcon}
-			LeftIcon={getLeftIcon()}
+			RightIcon={isOpen ? ChevronUpIcon : ChevronDownIcon}
+			LeftContent={getLeftIcon()}
 			{sizeVariant}
 			placeholder={displaySelectedValues && isMulti && value?.length ? '' : placeholder}
 			hideLeftBorder={hideLeftBorder()}
-			style={`${valueColor ? `color: ${valueColor}` : ''} ${$$props.style}`}
+			styles={`${valueColor ? `color: ${valueColor}` : ''} ${styles}`}
 		/>
-		{#if $isOpen}
+		{#if isOpen}
 			<div class="list-container" style={`top: ${label ? '68px' : '34px'}`}>
 				{#if filteredOptions.length}
 					{#each filteredOptions as option}
 						<ListItem
 							{option}
 							selected={value?.includes(option.value)}
-							on:click={() => {
+							onclick={() => {
 								if (!option.disabled) {
 									return selectOption(option);
 								}
@@ -249,7 +249,7 @@
 					<ListItem option={{ label: 'No results', value: '' }} isPlaceholder />
 				{/if}
 				{#if showCreateOption}
-					<ListItem option={createOption} on:click={() => selectOption(createOption)} />
+					<ListItem option={createOption} onclick={() => selectOption(createOption)} />
 				{/if}
 			</div>
 		{/if}

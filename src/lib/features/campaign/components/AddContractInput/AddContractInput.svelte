@@ -11,13 +11,15 @@
 	import SearchIcon from '$lib/assets/icons/search.svg?component';
 	import CloseIcon from '$lib/assets/icons/close-8px.svg?component';
 
-	export let contracts: IAddContractInputProps['contracts'] = [];
-	export let displayOnly: IAddContractInputProps['displayOnly'] = false;
-	export let direction: IAddContractInputProps['direction'] = 'col';
-	export let label: IAddContractInputProps['label'];
+	let {
+		contracts = $bindable([]),
+		displayOnly = false,
+		direction = 'col',
+		label = ''
+	}: IAddContractInputProps = $props();
 
-	let inputAddressValue: string = '';
-	let network: ENetwork | null = null;
+	let inputAddressValue: string = $state('');
+	let network: ENetwork | null = $state(null);
 
 	const handleAddAddress = () => {
 		if (!inputAddressValue || !network) {
@@ -45,7 +47,7 @@
 </script>
 
 <div class="w-full">
-	<Label {label} />
+	<Label value={label} />
 	<div class="flex flex-col gap-4">
 		<div>
 			<Label value="Contracts" />
@@ -65,7 +67,7 @@
 							{#if !displayOnly}
 								<div
 									class="icon {direction === 'col' ? 'ml-auto' : ''}"
-									on:click={() => handleDeleteItem(index)}
+									onclick={() => handleDeleteItem(index)}
 									aria-hidden="true"
 								>
 									<CloseIcon />
@@ -79,7 +81,7 @@
 		{#if !displayOnly}
 			<div>
 				<Label value="Add contracts" />
-				<form on:submit={handleSubmit}>
+				<form onsubmit={handleSubmit}>
 					<div class="flex flex-{direction} gap-4">
 						<Dropdown
 							placeholder="e.g. Ethereum"
@@ -95,7 +97,7 @@
 							sizeVariant={direction === 'col'
 								? EButtonSizeVariant.FULL_WIDTH
 								: EButtonSizeVariant.PRIMARY}
-							on:click={handleAddAddress}>Add Address</Button
+							onclick={handleAddAddress}>Add Address</Button
 						>
 					</div>
 				</form>

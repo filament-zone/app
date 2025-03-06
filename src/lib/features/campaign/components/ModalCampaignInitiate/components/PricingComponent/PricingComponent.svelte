@@ -2,12 +2,15 @@
 	import { Dropdown, Typography } from '$lib/components/';
 	import { EDropdownSizeVariant, type IPricingComponentProps } from '$lib/types';
 
-	export let requiredLabel: IPricingComponentProps['requiredLabel'] = '';
-	export let dropdownOptions: IPricingComponentProps['dropdownOptions'] = [];
-	export let dropdownValue: IPricingComponentProps['dropdownValue'] = null;
+	let {
+		requiredLabel = '',
+		dropdownOptions = [],
+		dropdownValue = null,
+		classNames
+	}: IPricingComponentProps = $props();
 </script>
 
-<div class="pricing-component-container {$$props.class}" aria-hidden="true">
+<div class="pricing-component-container {classNames}" aria-hidden="true">
 	<div class="p-4 w-full">
 		<div class="flex flex-row justify-between items-center">
 			<Typography variant="overline">Required {requiredLabel}</Typography>

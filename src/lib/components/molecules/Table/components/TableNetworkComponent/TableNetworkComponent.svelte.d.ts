@@ -1,23 +1,10 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		Icon: ComponentType<SvelteComponent>;
-		label: string;
-		ticker: string;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITableNetworkComponentProps_ = typeof __propDef.props;
-export type { ITableNetworkComponentProps_ as ITableNetworkComponentProps };
-export type ITableNetworkComponentEvents = typeof __propDef.events;
-export type ITableNetworkComponentSlots = typeof __propDef.slots;
+export interface ITableNetworkComponentProps {
+	Icon: Component;
+	label: string;
+	ticker: string;
+}
 
-export default class TableNetworkComponent extends SvelteComponent<
-	ITableNetworkComponentProps,
-	ITableNetworkComponentEvents,
-	ITableNetworkComponentSlots
-> {}
+export declare const TableNetworkComponent: Component<ITableNetworkComponentProps>;
+export default TableNetworkComponent;

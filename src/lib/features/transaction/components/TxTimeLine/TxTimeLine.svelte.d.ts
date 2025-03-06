@@ -1,30 +1,16 @@
-import { SvelteComponent } from 'svelte';
-import { ETxTimeLineItem } from '$lib/types';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		iconStatus?: ETxTimeLineItem;
-		title: string;
-		description: string;
-		date?: string | Date;
-		status?: string;
-		isLast?: boolean;
-		isFirst?: boolean;
-		onButtonClick?: (() => Promise<void> | void) | null;
-		buttonLabel?: string | null;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITxTimeLineItemProps_ = typeof __propDef.props;
-export type { ITxTimeLineItemProps_ as ITxTimeLineItemProps };
-export type ITxTimeLineItemEvents = typeof __propDef.events;
-export type ITxTimeLineItemSlots = typeof __propDef.slots;
+export interface ITxTimeLineItemProps {
+	iconStatus?: ETxTimeLineItem;
+	title: string;
+	description: string;
+	date?: string | Date;
+	status?: string;
+	isLast?: boolean;
+	isFirst?: boolean;
+	onButtonClick?: (() => Promise<void> | void) | null;
+	buttonLabel?: string | null;
+}
 
-export default class TxTimeLineItem extends SvelteComponent<
-	ITxTimeLineItemProps,
-	ITxTimeLineItemEvents,
-	ITxTimeLineItemSlots
-> {}
+export declare const TxTimeLineItem: Component<ITxTimeLineItemProps>;
+export default TxTimeLineItem;

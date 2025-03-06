@@ -1,4 +1,10 @@
-<div class="divider {$$props.class}" />
+<script lang="ts">
+	import type { IDividerProps } from '$lib/types';
+
+	let { classNames }: IDividerProps = $props();
+</script>
+
+<div class="divider {classNames}"></div>
 
 <style lang="less">
 	.divider {

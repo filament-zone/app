@@ -52,7 +52,7 @@ export default {
 			'purpleCow-700': 'var(--purpleCow-700)',
 			'purpleCow-800': 'var(--purpleCow-800)',
 			'purpleCow-900': 'var(--purpleCow-900)',
-			rugged: 'var(--rugged)',
+			rugged: 'var(-rugged)',
 			'rugged-50': 'var(--rugged-50)',
 			'rugged-100': 'var(--rugged-100)',
 			'rugged-200': 'var(--rugged-200)',

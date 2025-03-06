@@ -2,19 +2,18 @@
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
-	import { Button, Divider, NavBar } from '$lib/components';
+	import { Button, Divider, NavBar, Typography } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
 	import { shortCutTransactionHash, replaceUrlParams, screenDetect } from '$lib/helpers';
+	import { routes } from '$lib/constants';
 	import { EButtonStyleVariant, EModalVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
-	import { routes } from '$lib/constants';
-	import { Typography } from '$lib/components';
 
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
-	let isWalletMenuOpen = false;
-	let isMobileMenuOpen = false;
+	let isWalletMenuOpen = $state(false);
+	let isMobileMenuOpen = $state(false);
 
 	const screenTypeStore = screenDetect();
 
@@ -30,7 +29,7 @@
 	<div class="flex flex-row items-center justify-between pt-[5px] px-4" data-testid="header">
 		<div
 			class="cursor-pointer flex gap-3 pb-[10px]"
-			on:click={() => {
+			onclick={() => {
 				goto(routes.HOME);
 			}}
 			aria-hidden="true"
@@ -42,7 +41,7 @@
 			{#if !$screenTypeStore.isLayoutLg}
 				<button
 					class="hamburger"
-					on:click={toggleMobileMenu}
+					onclick={toggleMobileMenu}
 					aria-label="Toggle menu"
 					data-testid="mobile-nav-bar-button"
 				>
@@ -56,7 +55,7 @@
 				<div class="ml-4 pb-[10px] flex gap-4">
 					<Button
 						styleVariant={EButtonStyleVariant.HIGHLIGHT}
-						on:click={() => {
+						onclick={() => {
 							goto(
 								replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
 									campaignType: 'air-drop',
@@ -69,7 +68,7 @@
 					</Button>
 					<Button
 						data-testid="connect-wallet-button"
-						on:click={() => {
+						onclick={() => {
 							if (!$wallet.address) {
 								openModal({ variant: EModalVariant.CONNECT_WALLET });
 							} else {
