@@ -7,6 +7,8 @@
 	import { EWalletProvider } from '$lib/services';
 	import '$lib/styles/app.less';
 
+	export const ssr = false;
+
 	interface ILayoutProps {
 		children?: import('svelte').Snippet;
 	}
