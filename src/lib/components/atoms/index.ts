@@ -11,4 +11,4 @@ export * from './Badge';
 export * from './TextArea';
 export * from './Calendar';
 export * from './ToggleButton';
-export * from './TextEditor';
+// export * from './TextEditor';

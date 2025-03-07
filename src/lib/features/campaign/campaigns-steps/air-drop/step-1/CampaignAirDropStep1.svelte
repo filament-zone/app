@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import { renderComponent, type Row } from '@tanstack/svelte-table';
 	import { campaignStore, delegatesColumnDefCommon, HoverableCellInverted } from '$lib/features';
-	import { Container, Input, Label, Table, TextEditor, Typography } from '$lib/components';
+	import { Container, Input, Label, Table, Typography } from '$lib/components';
 	import { EDelegateType, EInputSizeVariant, type IDelegate, type ITableProps } from '$lib/types';
 
 	const { campaignDetails, toggleDelegate, getDelegates } = campaignStore;
@@ -85,7 +85,7 @@
 					/>
 					<div>
 						<Label value={'Campaign description'} />
-						<TextEditor bind:value={$campaignDetails.description} />
+						<!--						<TextEditor bind:value={$campaignDetails.description} />-->
 					</div>
 				</div>
 			</Container>

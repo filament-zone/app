@@ -10,5 +10,5 @@ export * from './ProgressBar/index.types';
 export * from './Badge/index.types';
 export * from './TextArea/index.types';
 export * from './Calendar/index.types';
-export * from './TextEditor/index.types';
+// export * from './TextEditor/index.types';
 export * from './ToggleButton/index.types';

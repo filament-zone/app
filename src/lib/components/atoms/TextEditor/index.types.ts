@@ -1,2 +1,2 @@
-export * from './TextEditor.svelte';
-export * from './SvelteLexical.svelte';
+// export * from './TextEditor.svelte';
+// export * from './SvelteLexical.svelte';

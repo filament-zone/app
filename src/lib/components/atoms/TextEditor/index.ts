@@ -1,1 +1,1 @@
-export { default as TextEditor } from './TextEditor.svelte';
+// export { default as TextEditor } from './TextEditor.svelte';
