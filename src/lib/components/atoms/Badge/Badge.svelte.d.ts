@@ -9,6 +9,7 @@ export interface IBadgeProps {
 	RightContent?: Component | string | null;
 	textColor?: string;
 	RightContentColorVariant?: string;
+	classNames?: string;
 }
 
 export declare const Badge: Component<IBadgeProps>;

@@ -125,7 +125,7 @@
 		<div class="flex flex-row items-center justify-between gap-4 flex-wrap w-full">
 			<div class="flex flex-row items-center gap-3 flex-wrap">
 				{#if title}
-					<Badge label={title} colorVariant={getBadgeColorVariant()} class="py-1 px-2" />
+					<Badge label={title} colorVariant={getBadgeColorVariant()} classNames="py-1 px-2" />
 				{/if}
 				{#if description}
 					<p class={getTextColor()}>
@@ -134,7 +134,7 @@
 				{/if}
 			</div>
 			{#if dismissible}
-				<Button styleVariant={getButtonStyleVariant()} on:click={acknowledgeBanner}>
+				<Button styleVariant={getButtonStyleVariant()} onclick={acknowledgeBanner}>
 					{buttonText}
 				</Button>
 			{/if}

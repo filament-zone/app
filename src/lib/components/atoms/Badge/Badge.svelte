@@ -10,6 +10,7 @@
 		RightContent = null,
 		textColor = '',
 		RightContentColorVariant = '',
+		classNames = '',
 		...rest
 	}: IBadgeProps = $props();
 
@@ -30,16 +31,12 @@
 			default:
 				return 'var(--primary-white)';
 		}
-	}
-
-	function getSizeClass() {
-		return `size-${sizeVariant}`;
-	}
+	});
 </script>
 
 <div
 	{...rest}
-	class={`${widthVariant} badge ${getSizeClass()} ${colorVariant}`}
+	class={`${widthVariant} badge ${colorVariant} ${classNames}`}
 	on:click
 	aria-hidden="true"
 >

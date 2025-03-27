@@ -39,7 +39,7 @@
 				<Typography variant="h5">Filament</Typography>
 			</div>
 			<div class="flex items-start h-full">
-				<Badge label="Alpha" colorVariant={EBadgeColorVariant.REJECTED} sizeVariant="small" />
+				<Badge label="Alpha" colorVariant={EBadgeColorVariant.REJECTED} />
 			</div>
 		</div>
 		{#if $screenTypeStore.isMounted}
