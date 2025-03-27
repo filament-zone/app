@@ -30,10 +30,19 @@
 			default:
 				return 'var(--primary-white)';
 		}
-	});
+	}
+
+	function getSizeClass() {
+		return `size-${sizeVariant}`;
+	}
 </script>
 
-<div {...rest} class={`${widthVariant} badge ${colorVariant} `} aria-hidden="true">
+<div
+	{...rest}
+	class={`${widthVariant} badge ${getSizeClass()} ${colorVariant}`}
+	on:click
+	aria-hidden="true"
+>
 	{#if LeftContent}
 		<div class="item item-1 mr-2">
 			{#if typeof LeftContent === 'string'}
@@ -67,6 +76,27 @@
 		border-radius: 6px;
 		padding: 6px 14px;
 		height: fit-content;
+
+		&.size-tiny {
+			padding: 1px 4px;
+			border-radius: 3px;
+			font-size: 9px;
+			line-height: 1.2;
+
+			:global(.typography_badge) {
+				font-size: 9px !important;
+				line-height: 1.2 !important;
+			}
+		}
+
+		&.size-small {
+			padding: 3px 7px;
+			font-size: 11px;
+
+			:global(.typography_badge) {
+				font-size: 11px !important;
+			}
+		}
 
 		&.primary {
 			border: 2px solid var(--default-border);
