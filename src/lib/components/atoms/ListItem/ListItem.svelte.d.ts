@@ -1,4 +1,4 @@
-import { type ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
 export interface IListItemOption<T = string> {
 	label: string;
@@ -6,27 +6,15 @@ export interface IListItemOption<T = string> {
 	valueSecondary?: string;
 	icon?: ComponentType<SvelteComponent> | string;
 	disabled?: boolean;
-	onClick?: () => void;
+	onclick?: () => void;
 }
 
-declare const __propDef: {
-	props: {
-		option: IListItemOption | null;
-		selected?: boolean;
-		isPlaceholder?: boolean;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IListItemProps_ = typeof __propDef.props;
-export type { IListItemProps_ as IListItemProps };
-export type IListItemEvents = typeof __propDef.events;
-export type IListItemSlots = typeof __propDef.slots;
+export interface IListItemProps {
+	option: IListItemOption | null;
+	selected?: boolean;
+	isPlaceholder?: boolean;
+	onclick?: () => void;
+}
 
-export default class ListItem extends SvelteComponent<
-	IListItemProps,
-	IListItemEvents,
-	IListItemSlots
-> {}
+export declare const ListItem: Component<IListItemProps>;
+export default ListItem;

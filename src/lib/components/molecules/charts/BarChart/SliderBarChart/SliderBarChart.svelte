@@ -3,37 +3,127 @@
 	import type { Chart, ScriptableContext } from 'chart.js';
 	import { AbstractBarChart, Input } from '$lib/components';
 	import {
-		type IAbstractBarChartProps,
 		EInputSizeVariant,
+		type IAbstractBarChartProps,
 		type ISliderBarChartProps,
 		type ChartInstance
 	} from '$lib/types';
 
-	export let className: string = '';
-	export let data: ISliderBarChartProps['data'];
-	export let onChange: ISliderBarChartProps['onChange'];
-	export let minLabel: ISliderBarChartProps['minLabel'] = 'Min';
-	export let maxLabel: ISliderBarChartProps['maxLabel'] = 'Max';
-	export let displayOnlySlider: ISliderBarChartProps['displayOnlySlider'] = false;
+	let {
+		classNames = '',
+		data,
+		onChange,
+		minLabel = 'Min',
+		maxLabel = 'Max',
+		displayOnlySlider = false
+	}: ISliderBarChartProps = $props();
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] | undefined = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] | undefined = $state();
 
-	let draggingRight = false;
-	let draggingLeft = false;
+	let draggingRight = $state(false);
+	let draggingLeft = $state(false);
 
-	$: dragging = draggingLeft || draggingRight;
-
-	let rightSliderX: number;
-	let leftSliderX: number;
+	let rightSliderX: number = $state(0);
+	let leftSliderX: number = $state(0);
 
 	const sliderHeight = 10;
 	const sliderWidth = 10;
 
-	let rightSliderBarIndex: number = data.labels?.length ?? 0;
-	let leftSliderBarIndex: number = 0;
+	let rightSliderBarIndex: number = $state(data.labels?.length ?? 0);
+	let leftSliderBarIndex: number = $state(0);
 
-	$: {
+	function isLeftSlider(x: number) {
+		return x >= leftSliderX - sliderWidth - 20 && x <= leftSliderX;
+	}
+
+	function isRightSlider(x: number) {
+		return x >= rightSliderX - sliderWidth - 20 && x <= rightSliderX;
+	}
+
+	function updateSliderPosition(event: MouseEvent) {
+		const rect = chartCanvasInstance?.getBoundingClientRect();
+
+		if (!rect || !chartCanvasInstance || !chartInstance) {
+			return;
+		}
+
+		const x = event.clientX - rect.left;
+
+		chartCanvasInstance.style.cursor =
+			isRightSlider(x) || isLeftSlider(x) ? 'ew-resize' : 'default';
+
+		if (draggingRight) {
+			rightSliderX = Math.min(Math.max(x, leftSliderX), chartInstance.chartArea.right);
+			rightSliderBarIndex = getBarIndexForSliderPosition(rightSliderX);
+			chartInstance.update();
+		} else if (draggingLeft) {
+			leftSliderX = Math.max(Math.min(x, rightSliderX), chartInstance.chartArea.left);
+
+			leftSliderBarIndex = getBarIndexForSliderPosition(leftSliderX);
+			chartInstance.update();
+		}
+	}
+
+	onMount(() => {
+		if (!chartCanvasInstance || !chartInstance) {
+			return;
+		}
+		rightSliderX = chartInstance.chartArea.right;
+		leftSliderX = chartInstance.chartArea.left;
+
+		chartCanvasInstance.addEventListener('mousemove', (event) => {
+			updateSliderPosition(event);
+		});
+
+		chartCanvasInstance.addEventListener('mousedown', (event) => {
+			if (isLeftSlider(event.offsetX)) {
+				draggingLeft = true;
+			} else if (isRightSlider(event.offsetX)) {
+				draggingRight = true;
+			}
+		});
+
+		window.addEventListener('mouseup', () => {
+			draggingRight = false;
+			draggingLeft = false;
+		});
+	});
+
+	const handleMin = (e: Event) => {
+		leftSliderBarIndex = +(e.target as HTMLInputElement)?.value - 1;
+	};
+
+	const handleMax = (e: Event) => {
+		rightSliderBarIndex = +(e.target as HTMLInputElement)?.value;
+	};
+
+	const chartData: ChartInstance['data'] = {
+		labels: data.labels,
+		datasets: [
+			{
+				label: '',
+				data: data.datasets[0].data,
+
+				borderColor: (context: ScriptableContext<'bar'>) => {
+					const index = context.dataIndex;
+
+					return index >= rightSliderBarIndex || index < leftSliderBarIndex ? '#C8C8C8' : '#21FFFE';
+				},
+				backgroundColor: (context: ScriptableContext<'bar'>) => {
+					const index = context.dataIndex;
+
+					return index >= rightSliderBarIndex || index < leftSliderBarIndex ? '#272727' : '#152827';
+				},
+				borderWidth: 1.5,
+				barPercentage: 0.5,
+				hidden: displayOnlySlider
+			}
+		]
+	};
+	let dragging = $derived(draggingLeft || draggingRight);
+
+	$effect(() => {
 		if (!dragging && chartInstance) {
 			const rightSliderDataPoint = chartInstance.getDatasetMeta(0).data[rightSliderBarIndex - 1];
 			rightSliderX =
@@ -54,8 +144,9 @@
 			}
 			chartInstance.update();
 		}
-	}
-	$: chartOptions = {
+	});
+
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: false
@@ -81,9 +172,9 @@
 				enabled: false
 			}
 		}
-	};
+	});
 
-	$: sliderPlugin = {
+	let sliderPlugin = $derived({
 		id: 'sliderPlugin',
 		afterDraw(chart: Chart) {
 			const ctx = chart.ctx;
@@ -136,105 +227,27 @@
 
 			ctx.restore();
 		}
-	};
+	});
 
-	$: getBarIndexForSliderPosition = (x: number): number => {
+	let getBarIndexForSliderPosition = $derived((x: number): number => {
+		if (!chartInstance) {
+			return 0;
+		}
 		const scale = chartInstance.scales.x;
 		const stepWidth = scale.width / scale.ticks.length;
 		let index = Math.floor((x - scale.left) / stepWidth);
 		index = Math.max(0, Math.min(index, chartData.labels?.length ?? 1 - 1));
 		return index;
-	};
-
-	function isLeftSlider(x: number) {
-		return x >= leftSliderX - sliderWidth - 20 && x <= leftSliderX;
-	}
-
-	function isRightSlider(x: number) {
-		return x >= rightSliderX - sliderWidth - 20 && x <= rightSliderX;
-	}
-
-	function updateSliderPosition(event: MouseEvent) {
-		const rect = chartCanvasInstance.getBoundingClientRect();
-		const x = event.clientX - rect.left;
-
-		chartCanvasInstance.style.cursor =
-			isRightSlider(x) || isLeftSlider(x) ? 'ew-resize' : 'default';
-
-		if (draggingRight) {
-			rightSliderX = Math.min(Math.max(x, leftSliderX), chartInstance.chartArea.right);
-			rightSliderBarIndex = getBarIndexForSliderPosition(rightSliderX);
-			chartInstance.update();
-		} else if (draggingLeft) {
-			leftSliderX = Math.max(Math.min(x, rightSliderX), chartInstance.chartArea.left);
-
-			leftSliderBarIndex = getBarIndexForSliderPosition(leftSliderX);
-			chartInstance.update();
-		}
-	}
-
-	onMount(() => {
-		rightSliderX = chartInstance.chartArea.right;
-		leftSliderX = chartInstance.chartArea.left;
-
-		chartCanvasInstance.addEventListener('mousemove', (event) => {
-			updateSliderPosition(event);
-		});
-
-		chartCanvasInstance.addEventListener('mousedown', (event) => {
-			if (isLeftSlider(event.offsetX)) {
-				draggingLeft = true;
-			} else if (isRightSlider(event.offsetX)) {
-				draggingRight = true;
-			}
-		});
-
-		window.addEventListener('mouseup', () => {
-			draggingRight = false;
-			draggingLeft = false;
-		});
 	});
 
-	$: maxValue = rightSliderBarIndex.toString();
-	$: minValue = (leftSliderBarIndex + 1).toString();
+	let maxValue = $derived(rightSliderBarIndex.toString());
+	let minValue = $derived((leftSliderBarIndex + 1).toString());
 
-	$: {
+	$effect(() => {
 		if (onChange) {
 			onChange(minValue, maxValue);
 		}
-	}
-
-	const handleMin = (e: Event) => {
-		leftSliderBarIndex = +(e.target as HTMLInputElement)?.value - 1;
-	};
-
-	const handleMax = (e: Event) => {
-		rightSliderBarIndex = +(e.target as HTMLInputElement)?.value;
-	};
-
-	const chartData: ChartInstance['data'] = {
-		labels: data.labels,
-		datasets: [
-			{
-				label: '',
-				data: data.datasets[0].data,
-
-				borderColor: (context: ScriptableContext<'bar'>) => {
-					const index = context.dataIndex;
-
-					return index >= rightSliderBarIndex || index < leftSliderBarIndex ? '#C8C8C8' : '#21FFFE';
-				},
-				backgroundColor: (context: ScriptableContext<'bar'>) => {
-					const index = context.dataIndex;
-
-					return index >= rightSliderBarIndex || index < leftSliderBarIndex ? '#272727' : '#152827';
-				},
-				borderWidth: 1.5,
-				barPercentage: 0.5,
-				hidden: displayOnlySlider
-			}
-		]
-	};
+	});
 </script>
 
 <div class="flex flex-row items-end gap-6 {displayOnlySlider ? 'h-[80px]' : ''}">
@@ -254,7 +267,7 @@
 		bind:chartCanvasInstance
 		{chartData}
 		{chartOptions}
-		{className}
+		{classNames}
 		plugins={[sliderPlugin]}
 		styles={`height: 200px;`}
 	/>

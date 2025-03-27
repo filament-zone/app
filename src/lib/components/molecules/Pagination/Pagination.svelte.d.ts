@@ -1,5 +1,4 @@
-import { SvelteComponent } from 'svelte';
-import '@tanstack/svelte-Pagination';
+import type { Component } from 'svelte';
 
 export interface IPagination {
 	pageSize: number;
@@ -12,23 +11,10 @@ export interface IPagination {
 	endIndex: number;
 }
 
-declare const __propDef: {
-	props: {
-		pagination?: IPagination;
-		onPageChange?: (page: number) => void;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IPaginationProps_ = typeof __propDef.props;
-export type { IPaginationProps_ as IPaginationProps };
-export type IPaginationEvents = typeof __propDef.events;
-export type IPaginationSlots = typeof __propDef.slots;
+export interface IPaginationProps {
+	pagination?: IPagination;
+	onPageChange?: (page: number) => void;
+}
 
-export default class Pagination extends SvelteComponent<
-	IPaginationProps,
-	IPaginationEvents,
-	IPaginationSlots
-> {}
+export declare const Pagination: Component<IPaginationProps>;
+export default Pagination;

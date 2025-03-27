@@ -4,11 +4,13 @@
 	import { months } from '$lib/constants';
 	import { CalendarMode, type ICalendarProps } from '$lib/types';
 
-	export let mode: ICalendarProps<CalendarMode>['mode'];
-	export let value: ICalendarProps<typeof mode>['value'];
-	export let onChange: ICalendarProps<typeof mode>['onChange'];
-	export let displayDayOfWeek: ICalendarProps<typeof mode>['displayDayOfWeek'] = false;
-	export let monthToRender: ICalendarProps<typeof mode>['monthToRender'];
+	let {
+		mode,
+		value,
+		onChange,
+		displayDayOfWeek = false,
+		monthToRender
+	}: ICalendarProps<CalendarMode.SINGLE> = $props();
 
 	let today = moment();
 	let currentMonth = monthToRender.month();
@@ -68,13 +70,13 @@
 		}
 	};
 
-	$: isCurrentDay = (day: number) => {
+	let isCurrentDay = $derived((day: number) => {
 		return today.date() === day && today.month() === currentMonth && today.year() === currentYear
 			? 'current-day'
 			: '';
-	};
+	});
 
-	$: isSelectedDay = (day: number) => {
+	let isSelectedDay = $derived((day: number) => {
 		if (mode === CalendarMode.SINGLE && value) {
 			return moment((value as ICalendarProps<CalendarMode.SINGLE>['value']).date).date() === day &&
 				moment((value as ICalendarProps<CalendarMode.SINGLE>['value']).date).month() ===
@@ -84,65 +86,74 @@
 				: '';
 		}
 		return '';
-	};
+	});
 
-	$: isFirstDay = (day: number) => {
-		if (
-			mode === CalendarMode.RANGED &&
-			(value as ICalendarProps<CalendarMode.RANGED>['value']).start
-		) {
-			return moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).date() === day &&
-				moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).month() ===
-					currentMonth &&
-				moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).year() === currentYear
-				? 'selected-day first-day'
-				: '';
+	let isFirstDay = $derived(() =>
+		// day: number
+		{
+			// if (
+			// 	mode === CalendarMode.RANGED &&
+			// 	(value as ICalendarProps<CalendarMode.RANGED>['value']).start
+			// ) {
+			// 	return moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).date() === day &&
+			// 		moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).month() ===
+			// 			currentMonth &&
+			// 		moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start).year() === currentYear
+			// 		? 'selected-day first-day'
+			// 		: '';
+			// }
+			return '';
 		}
-		return '';
-	};
+	);
 
-	$: isLastDay = (day: number) => {
-		if (
-			mode === CalendarMode.RANGED &&
-			(value as ICalendarProps<CalendarMode.RANGED>['value']).end
-		) {
-			return moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).date() === day &&
-				moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).month() ===
-					currentMonth &&
-				moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).year() === currentYear
-				? 'selected-day last-day'
-				: '';
+	let isLastDay = $derived(() =>
+		// day: number
+		{
+			// if (
+			// 	mode === CalendarMode.RANGED &&
+			// 	(value as ICalendarProps<CalendarMode.RANGED>['value']).end
+			// ) {
+			// 	return moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).date() === day &&
+			// 		moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).month() ===
+			// 			currentMonth &&
+			// 		moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end).year() === currentYear
+			// 		? 'selected-day last-day'
+			// 		: '';
+			// }
+			return '';
 		}
-		return '';
-	};
+	);
 
-	$: isInsideRange = (day: number) => {
-		if (
-			mode === 'ranged' &&
-			(value as ICalendarProps<CalendarMode.RANGED>['value']).start &&
-			(value as ICalendarProps<CalendarMode.RANGED>['value']).end
-		) {
-			const currentDayMoment = moment([currentYear, currentMonth, day]);
-			return currentDayMoment.isAfter(
-				moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start)
-			) &&
-				currentDayMoment.isBefore(
-					moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end)
-				)
-				? 'inside-range'
-				: '';
+	let isInsideRange = $derived(() =>
+		// day: number
+		{
+			// if (
+			// 	mode === 'ranged' &&
+			// 	(value as ICalendarProps<CalendarMode.RANGED>['value']).start &&
+			// 	(value as ICalendarProps<CalendarMode.RANGED>['value']).end
+			// ) {
+			// 	const currentDayMoment = moment([currentYear, currentMonth, day]);
+			// 	return currentDayMoment.isAfter(
+			// 		moment((value as ICalendarProps<CalendarMode.RANGED>['value']).start)
+			// 	) &&
+			// 		currentDayMoment.isBefore(
+			// 			moment((value as ICalendarProps<CalendarMode.RANGED>['value']).end)
+			// 		)
+			// 		? 'inside-range'
+			// 		: '';
+			// }
+			return '';
 		}
-		return '';
-	};
+	);
 
-	$: classNamesString = (day: number) => {
+	let classNamesString = $derived((day: number) => {
 		if (mode === CalendarMode.SINGLE) {
 			return `${isSelectedDay(day)} ${isCurrentDay(day)}`;
 		}
 		if (mode === CalendarMode.RANGED) {
-			return `${isCurrentDay(day)} ${isFirstDay(day)} ${isLastDay(day)} ${isInsideRange(day)}`;
+			return `${isCurrentDay(day)} ${isFirstDay()} ${isLastDay()} ${isInsideRange()}`;
 		}
-	};
+	});
 </script>
 
 <div>
@@ -159,8 +170,8 @@
 		{#each daysArray as day}
 			<div
 				class="day-container"
-				on:click={() => handleChange(day)}
-				on:keyup={(event) => (event.key === 'Enter' || event.key === 'Space') && handleChange(day)}
+				onclick={() => handleChange(day)}
+				onkeyup={(event) => (event.key === 'Enter' || event.key === 'Space') && handleChange(day)}
 				aria-label={`Calendar day: ${day}`}
 				role="button"
 				tabindex="0"
@@ -169,7 +180,7 @@
 				<div class={`day ${classNamesString(day)}`}>
 					<Typography
 						variant="caption"
-						color={classNamesString(day)?.includes('selected-day') ?? 'var(--white)'}
+						color={classNamesString(day)?.includes('selected-day') ? '' : 'var(--white)'}
 						>{day}</Typography
 					>
 				</div>
@@ -192,7 +203,7 @@
 		height: 46px;
 		position: relative;
 
-		&:has(.first-day) {
+		&:has(:global(.first-day)) {
 			&:before {
 				content: '';
 				position: absolute;
@@ -203,7 +214,7 @@
 			}
 		}
 
-		&:has(.last-day) {
+		&:has(:global(.last-day)) {
 			&:before {
 				content: '';
 				position: absolute;
@@ -214,7 +225,7 @@
 			}
 		}
 
-		&:has(.inside-range) {
+		&:has(:global(.inside-range)) {
 			&:before {
 				content: '';
 				position: absolute;

@@ -1,25 +1,11 @@
-import { SvelteComponent } from 'svelte';
-import { IDropdownProps } from '$lib/types';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		label: string;
-		requiredLabel: string;
-		dropdownValue: IDropdownProps['value'];
-		dropdownOptions: IDropdownProps['options'];
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IPricingComponentProps_ = typeof __propDef.props;
-export type { IPricingComponentProps_ as IPricingComponentProps };
-export type IPricingComponentEvents = typeof __propDef.events;
-export type IPricingComponentSlots = typeof __propDef.slots;
+export interface IPricingComponentProps {
+	requiredLabel: string;
+	dropdownValue: IDropdownProps['value'];
+	dropdownOptions: IDropdownProps['options'];
+	classNames?: string;
+}
 
-export default class PricingComponent extends SvelteComponent<
-	IPricingComponentProps,
-	IPricingComponentEvents,
-	IPricingComponentSlots
-> {}
+export declare const PricingComponent: Component<IPricingComponentProps, object, 'dropdownValue'>;
+export default PricingComponent;

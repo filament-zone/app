@@ -1,21 +1,19 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
-	// @ts-expect-error - Missing types for sveltekit-progress-bar package
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
-	import { Button, Divider, NavBar, Badge } from '$lib/components';
+	import { Button, Divider, NavBar, Badge, Typography } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
+	import { routes } from '$lib/constants';
 	import { shortCutTransactionHash, replaceUrlParams, screenDetect } from '$lib/helpers';
 	import { EButtonStyleVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
-	import { routes } from '$lib/constants';
-	import { Typography } from '$lib/components';
 
 	const { openModal } = modalStore;
 	const { wallet } = walletStore;
 
-	let isWalletMenuOpen = false;
-	let isMobileMenuOpen = false;
+	let isWalletMenuOpen = $state(false);
+	let isMobileMenuOpen = $state(false);
 
 	const screenTypeStore = screenDetect();
 
@@ -31,7 +29,7 @@
 	<div class="flex flex-row items-center justify-between pt-[5px] px-4" data-testid="header">
 		<div
 			class="cursor-pointer flex items-center gap-2 pb-[10px]"
-			on:click={() => {
+			onclick={() => {
 				goto(routes.HOME);
 			}}
 			aria-hidden="true"
@@ -41,14 +39,14 @@
 				<Typography variant="h5">Filament</Typography>
 			</div>
 			<div class="flex items-start h-full">
-				<Badge label="Alpha" colorVariant={EBadgeColorVariant.REJECTED} sizeVariant="small" />
+				<Badge label="Alpha" colorVariant={EBadgeColorVariant.REJECTED} />
 			</div>
 		</div>
 		{#if $screenTypeStore.isMounted}
 			{#if !$screenTypeStore.isLayoutLg}
 				<button
 					class="hamburger"
-					on:click={toggleMobileMenu}
+					onclick={toggleMobileMenu}
 					aria-label="Toggle menu"
 					data-testid="mobile-nav-bar-button"
 				>
@@ -62,7 +60,7 @@
 				<div class="ml-4 pb-[10px] flex gap-4">
 					<Button
 						styleVariant={EButtonStyleVariant.HIGHLIGHT}
-						on:click={() => {
+						onclick={() => {
 							goto(
 								replaceUrlParams(routes.CAMPAIGNS.MANAGE.CREATE.ROOT, {
 									campaignType: 'air-drop',
@@ -75,7 +73,7 @@
 					</Button>
 					<Button
 						data-testid="connect-wallet-button"
-						on:click={() => {
+						onclick={() => {
 							if (!$wallet.address) {
 								openModal({ variant: EModalVariant.CONNECT_WALLET });
 							} else {

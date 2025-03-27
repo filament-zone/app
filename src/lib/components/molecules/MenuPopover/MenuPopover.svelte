@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
 	import { portal } from 'svelte-portal';
 	import { v4 as uuidV4 } from 'uuid';
 	import { clickOutside } from '$lib/actions';
 	import type { IMenuPopoverProps } from '$lib/types';
 
-	export let width: IMenuPopoverProps['width'];
-	export let maxHeight: IMenuPopoverProps['maxHeight'] = '';
-
-	let isOpen = false;
+	let { width, maxHeight, trigger, content }: IMenuPopoverProps = $props();
+	let isOpen = $state(false);
 
 	const onClickOutside = () => {
 		isOpen = false;
@@ -51,7 +48,7 @@
 		popover.style.top = `${top}px`;
 	};
 
-	afterUpdate(() => {
+	$effect(() => {
 		if (isOpen) {
 			const popover = document.querySelector('.menu-popover');
 			if (popover) {
@@ -66,22 +63,22 @@
 </script>
 
 <div class="relative w-fit">
-	<div on:click={openPopover} aria-hidden="true" id={`popover-parent-${popoverId}`}>
-		<slot name="trigger" />
+	<div onclick={openPopover} aria-hidden="true" id={`popover-parent-${popoverId}`}>
+		{@render trigger?.()}
 	</div>
 	{#if isOpen}
 		<div
 			use:portal={'body'}
-			class="menu-popover overflow-scroll rounded border border-default"
-			use:clickOutside
-			on:clickOutside={onClickOutside}
+			class="menu-popover overflow-scroll rounded-sm border border-default"
+			use:clickOutside={[]}
+			onclickOutside={onClickOutside}
 			style="width: {width}; max-height: {maxHeight};"
-			on:click={() => {
+			onclick={() => {
 				isOpen = false;
 			}}
 			aria-hidden="true"
 		>
-			<slot name="content" />
+			{@render content?.()}
 		</div>
 	{/if}
 </div>

@@ -24,7 +24,7 @@
 				src={LogoFilament}
 				alt="logo-filament-footer"
 				class="w-[26px] cursor-pointer"
-				on:click={handleClickSocialIcon.bind(null, 'FILAMENT')}
+				onclick={handleClickSocialIcon.bind(null, 'FILAMENT')}
 				aria-hidden="true"
 				style="height: 26px"
 			/>
@@ -32,7 +32,7 @@
 				src={LogoGitGub}
 				alt="logo-github"
 				class="cursor-pointer"
-				on:click={handleClickSocialIcon.bind(null, 'GITHUB')}
+				onclick={handleClickSocialIcon.bind(null, 'GITHUB')}
 				aria-hidden="true"
 				style="height: 26px"
 			/>
@@ -40,7 +40,7 @@
 				src={LogoLinkedIn}
 				alt="logo-linkedin"
 				class="cursor-pointer"
-				on:click={handleClickSocialIcon.bind(null, 'LINKEDIN')}
+				onclick={handleClickSocialIcon.bind(null, 'LINKEDIN')}
 				aria-hidden="true"
 				style="height: 26px"
 			/>
@@ -48,7 +48,7 @@
 				src={LogoTwitter}
 				alt="logo-twitter"
 				class="cursor-pointer"
-				on:click={handleClickSocialIcon.bind(null, 'TWITTER')}
+				onclick={handleClickSocialIcon.bind(null, 'TWITTER')}
 				aria-hidden="true"
 				style="height: 26px"
 			/>

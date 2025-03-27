@@ -1,58 +1,55 @@
 <script lang="ts">
-	import { derived, writable } from 'svelte/store';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { clickOutside } from '$lib/actions';
 	import { List, Typography } from '$lib/components';
-	import type { IListItemOption, INavBarItemOption } from '$lib/types';
+	import type { IListItemOption, INavBarItemProps } from '$lib/types';
 	import ChevronDownIcon from '$lib/assets/icons/chevron-down.svg?component';
 
-	export let option: INavBarItemOption;
+	let { option }: INavBarItemProps = $props();
 
-	const isOpen = writable<boolean>(false);
+	let isOpen = $state(false);
 
 	const handleClickOutside = () => {
-		isOpen.set(false);
+		isOpen = false;
 	};
 
-	const data = derived(page, () => $page.data);
+	let currentPath = $derived(page.url?.pathname ?? '');
+	let mainRouteSelected = $derived(currentPath.split('/')[1] === option.path?.split('/')[1]);
 
-	$: currentPath = $page?.url?.pathname ?? '';
-	$: mainRouteSelected = currentPath.split('/')[1] === option.path?.split('/')[1];
-
-	$: {
+	$effect(() => {
 		if (option.subItems && option.subItems.length) {
 			option.subItems = option.subItems.map((subItem) => {
 				const listSubItem: IListItemOption<string> = {
 					label: subItem.label,
 					value: subItem.value,
-					onClick: () => {
+					onclick: () => {
 						if (subItem.path) {
 							goto(subItem.path);
 						}
-						isOpen.set(false);
+						isOpen = false;
 					}
 				};
 				return listSubItem;
 			});
 		}
-	}
+	});
 
 	type RouteConfig = {
 		condition: () => boolean | undefined;
 		getLabel: () => string;
 	};
 
-	const routeLabelMap: Record<string, RouteConfig> = {
+	const routeLabelMap: Record<string, RouteConfig> = $derived({
 		campaignDetails: {
-			condition: () => $page.route.id?.includes('campaignId'),
-			getLabel: () => $data?.campaign?.title || ''
+			condition: () => page.route.id?.includes('campaignId'),
+			getLabel: () => page.data.campaign?.title || ''
 		},
 		create: {
-			condition: () => $page.route.id?.includes('create'),
+			condition: () => page.route.id?.includes('create'),
 			getLabel: () => 'Create'
 		}
-	};
+	});
 
 	const getCustomLabel = () => {
 		for (const key in routeLabelMap) {
@@ -64,12 +61,13 @@
 		return '';
 	};
 
-	$: generateLabel = () => {
+	const generateLabel = () => {
 		if (option.subItems?.length && currentPath.split('/')[1] === option.path?.split('/')[1]) {
 			const customLabel = getCustomLabel();
 			const defaultLabel = currentPath.split('/')[2];
 			return `${option.label} / ${customLabel || defaultLabel}`;
 		}
+
 		return option.label;
 	};
 </script>
@@ -79,11 +77,11 @@
 		class="nav-item h-fit md:h-full items-center justify-center w-fit p-6 md:px-6 md:py-3"
 		data-testId={`nav-item-${option.value}`}
 		class:selected={mainRouteSelected}
-		on:click={() => {
+		onclick={() => {
 			if (!option.subItems && option.path) {
 				goto(option.path);
 			}
-			isOpen.update((n) => !n);
+			isOpen = !isOpen;
 		}}
 		aria-hidden="true"
 	>
@@ -100,9 +98,9 @@
 			/>
 		{/if}
 	</div>
-	{#if option.subItems && $isOpen}
-		<div class="sub-items-container" use:clickOutside on:clickOutside={handleClickOutside}>
-			<List options={option.subItems} on:click={option.onClick} />
+	{#if option.subItems && isOpen}
+		<div class="sub-items-container" use:clickOutside={[]} onclickOutside={handleClickOutside}>
+			<List options={option.subItems} onclick={option.onClick} />
 		</div>
 	{/if}
 </div>

@@ -1,22 +1,9 @@
-import { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		id: string;
-		isSelected: boolean;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IHoverableCellInvertedProps_ = typeof __propDef.props;
-export type { IHoverableCellInvertedProps_ as IHoverableCellInvertedProps };
-export type IHoverableCellInvertedEvents = typeof __propDef.events;
-export type IHoverableCellInvertedSlots = typeof __propDef.slots;
+export interface IHoverableCellInvertedProps {
+	id: string;
+	isSelected: boolean;
+}
 
-export default class HoverableCellInverted extends SvelteComponent<
-	IHoverableCellInvertedProps,
-	IHoverableCellInvertedEvents,
-	IHoverableCellInvertedSlots
-> {}
+export declare const HoverableCellInverted: Component<IHoverableCellInvertedProps>;
+export default HoverableCellInverted;

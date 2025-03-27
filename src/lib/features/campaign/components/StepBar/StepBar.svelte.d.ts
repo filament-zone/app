@@ -1,4 +1,4 @@
-import { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 import { ECampaignType } from '$lib/features/campaign/campaign.enums';
 
 export interface IStepBarCampaignOption {
@@ -14,23 +14,9 @@ export type TStepBarConfig = Record<
 	{ label: string; steps: IStepBarCampaignOption[] }
 >;
 
-declare const __propDef: {
-	props: {
-		contextId?: string;
-	};
-	events: {
-		[evt: string]: CustomEvent<unknown>;
-	};
-	slots: object;
-};
+export interface IStepBarProps {
+	contextId?: string;
+}
 
-type IStepBarProps_ = typeof __propDef.props;
-export type { IStepBarProps_ as IStepBarProps };
-export type IStepBarEvents = typeof __propDef.events;
-export type IStepBarSlots = typeof __propDef.slots;
-
-export default class StepBar extends SvelteComponent<
-	IStepBarProps,
-	IStepBarEvents,
-	IStepBarSlots
-> {}
+export declare const StepBar: Component<IStepBarProps>;
+export default StepBar;

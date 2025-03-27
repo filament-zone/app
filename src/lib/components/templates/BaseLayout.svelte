@@ -1,7 +1,14 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { RightSideBarController, ToastsContainer } from '$lib/features';
-	import { Header, Footer } from '$lib/components';
+	import { Footer, Header } from '$lib/components';
 	import { InfoBanner, EInfoBannerStyleVariant } from '$lib/components/molecules';
+
+	interface IBaseLayoutProps {
+		children?: Snippet;
+	}
+
+	let { children }: IBaseLayoutProps = $props();
 </script>
 
 <div class="flex flex-row h-svh">
@@ -16,7 +23,7 @@
 					description="You're viewing data from our development environment. This version allows you to explore the UI while testnet deployment is in progress."
 					styleVariant={EInfoBannerStyleVariant.RUGGED}
 				/>
-				<slot />
+				{@render children?.()}
 			</div>
 			<div class="w-full flex justify-center">
 				<Footer />

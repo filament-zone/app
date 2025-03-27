@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { campaignStore } from '$lib/features';
 	import { Container, Input, Toggle, Typography } from '$lib/components';
 	import { EInputSizeVariant, EToggleSizeVariant } from '$lib/types';
 
-	const data = derived(page, () => $page.data);
 	const { campaignDetails } = campaignStore;
 </script>
 
@@ -22,7 +20,7 @@
 					<Toggle
 						label="Visibility"
 						bind:value={$campaignDetails.visibility}
-						options={$data.pageData.step3Data.meta.visibilityOptions}
+						options={page.data.pageData.step3Data.meta.visibilityOptions}
 						sizeVariant={EToggleSizeVariant.NORMAL}
 					/>
 					<Input

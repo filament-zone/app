@@ -14,7 +14,7 @@ test.describe('Header Component', () => {
 	});
 
 	test('should display the "Connect Wallet" button', async ({ page }, testInfo) => {
-		const targetProject = 'Desktop Chrome'; // Укажите нужный проект здесь
+		const targetProject = 'Desktop Chrome';
 
 		if (testInfo.project.name !== targetProject) {
 			test.skip();

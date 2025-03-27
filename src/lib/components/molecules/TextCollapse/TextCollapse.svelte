@@ -1,24 +1,23 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import { ToggleButton } from '$lib/components/atoms/ToggleButton';
+	import { ToggleButton } from '$lib/components';
+	import type { ITextCollapseProps } from '$lib/types';
 
-	export let isOpen: boolean = false;
+	let { label, children }: ITextCollapseProps = $props();
 
-	const dispatch = createEventDispatcher();
+	let isOpen = $state(false);
 
-	function toggle() {
+	const toggle = () => {
 		isOpen = !isOpen;
-		dispatch('toggle', { isOpen });
-	}
+	};
 </script>
 
 <div class="text-collapse">
 	<div class="flex w-full justify-between">
-		<slot name="label" />
-		<ToggleButton {isOpen} onClick={toggle} />
+		{@render label?.()}
+		<ToggleButton {isOpen} onclick={toggle} />
 	</div>
 	<div class="text-collapse {isOpen ? 'text-open' : 'text-closed'}">
-		<slot name="body" />
+		{@render children?.()}
 	</div>
 </div>
 

@@ -1,4 +1,5 @@
-import { SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
+import type { Snippet } from 'svelte';
 
 export type TTypographyVariant =
 	| 'h1'
@@ -19,27 +20,16 @@ export type TTypographyVariant =
 	| 'toggle'
 	| 'cardDate';
 
-declare const __propDef: {
-	props: {
-		variant: TTypographyVariant;
-		color?: string;
-		styles?: string;
-		dataTestId?: string;
-		weight?: number;
-		allowHover?: boolean;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type ITypographyProps_ = typeof __propDef.props;
-export type { ITypographyProps_ as ITypographyProps };
-export type ITypographyEvents = typeof __propDef.events;
-export type ITypographySlots = typeof __propDef.slots;
+export interface ITypographyProps {
+	variant?: TTypographyVariant;
+	color?: string;
+	styles?: string;
+	dataTestId?: string;
+	weight?: number;
+	allowHover?: boolean;
+	classNames?: string;
+	children: Snippet;
+}
 
-export default class Typography extends SvelteComponent<
-	ITypographyProps,
-	ITypographyEvents,
-	ITypographySlots
-> {}
+export declare const Typography: Component<ITypographyProps>;
+export default Typography;

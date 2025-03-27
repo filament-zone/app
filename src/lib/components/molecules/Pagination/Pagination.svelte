@@ -5,14 +5,13 @@
 	import type { IPaginationProps } from '$lib/types';
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 
-	export let pagination: IPaginationProps['pagination'];
-	export let onPageChange: IPaginationProps['onPageChange'];
+	let { pagination, onPageChange }: IPaginationProps = $props();
 
-	let currentPage = 1;
+	let currentPage = $state(1);
 
-	$: totalPages = pagination?.totalPages ?? 0;
+	let totalPages = $derived(pagination?.totalPages ?? 0);
 
-	$: visiblePages = () => {
+	let visiblePages = $derived(() => {
 		const pages = [1];
 		let lowerLimit, upperLimit;
 
@@ -41,26 +40,26 @@
 		}
 
 		return pages;
-	};
+	});
 
-	$: goToPage = (page: number) => {
+	let goToPage = $derived((page: number) => {
 		currentPage = page;
 		if (onPageChange) {
 			onPageChange(page);
 		}
-	};
+	});
 
-	$: handlePrevPage = () => {
+	let handlePrevPage = $derived(() => {
 		if (currentPage > 1) {
 			goToPage(currentPage - 1);
 		}
-	};
+	});
 
-	$: handleNextPage = () => {
+	let handleNextPage = $derived(() => {
 		if (currentPage < totalPages) {
 			goToPage(currentPage + 1);
 		}
-	};
+	});
 
 	onMount(() => {
 		if (pagination?.currentPage) {
@@ -72,13 +71,13 @@
 {#if pagination}
 	<div class="flex flex-row justify-between text-white gap-2 py-3">
 		<div
-			on:click={handlePrevPage}
+			onclick={handlePrevPage}
 			class:disabled={currentPage <= 1}
 			aria-hidden="true"
 			class="cursor-pointer"
 		>
 			<span
-				class="flex items-center justify-center text-foreground bg-background-300 rounded-sm p-1
+				class="flex items-center justify-center text-foreground bg-background-300 rounded-xs p-1
 				hover:bg-background-100"
 			>
 				<ChevronLeftIcon class="w-5 h-5" />
@@ -91,11 +90,7 @@
 						<Typography variant="caption">...</Typography>
 					</li>
 				{/if}
-				<li
-					class:selected={currentPage === page}
-					on:click={() => goToPage(page)}
-					aria-hidden="true"
-				>
+				<li class:selected={currentPage === page} onclick={() => goToPage(page)} aria-hidden="true">
 					<Typography variant="caption" color={currentPage === page ? 'darkNet' : 'white'}
 						>{page}</Typography
 					>
@@ -103,13 +98,13 @@
 			{/each}
 		</ul>
 		<div
-			on:click={handleNextPage}
+			onclick={handleNextPage}
 			class:disabled={currentPage >= totalPages}
 			aria-hidden="true"
 			class="cursor-pointer"
 		>
 			<span
-				class="flex items-center justify-center text-foreground bg-background-300 rounded-sm p-1
+				class="flex items-center justify-center text-foreground bg-background-300 rounded-xs p-1
 				hover:bg-background-100"
 			>
 				<ChevronRightIcon class="w-5 h-5 " />

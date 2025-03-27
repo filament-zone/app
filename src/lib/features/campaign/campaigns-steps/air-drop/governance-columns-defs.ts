@@ -1,8 +1,8 @@
-import { flexRender } from '@tanstack/svelte-table';
+import { renderComponent } from '@tanstack/svelte-table';
 import { Badge, ProgressBar } from '$lib/components';
+import { stylesObjectToString } from '$lib/helpers';
 import { EBadgeColorVariant, type IDelegate, type ITableProps } from '$lib/types';
 import ArrowRight from '$lib/assets/icons/arrow-right.svg?component';
-import { stylesObjectToString } from '$lib/helpers';
 
 export const delegatesColumnDefCommon = [
 	{
@@ -20,7 +20,7 @@ export const delegatesColumnDefCommon = [
 		header: '',
 		cell: (info) => {
 			const value = info.getValue() as IDelegate['value'];
-			return flexRender(ProgressBar, {
+			return renderComponent(ProgressBar, {
 				total: 100,
 				used: Number(value) * 100,
 				styles: stylesObjectToString({ height: '26px' }),
@@ -33,7 +33,7 @@ export const delegatesColumnDefCommon = [
 		header: 'Voting Power (VP)',
 		cell: (info) => {
 			const votingPower = info.getValue() as IDelegate['votingPower'];
-			return flexRender(Badge, {
+			return renderComponent(Badge, {
 				label: votingPower.toLocaleString(),
 				colorVariant: EBadgeColorVariant.PRIMARY,
 				LeftContent: 'VP',
@@ -45,7 +45,7 @@ export const delegatesColumnDefCommon = [
 	{
 		header: ' ',
 		cell: () => {
-			return flexRender(ArrowRight, {});
+			return renderComponent(ArrowRight, {});
 		},
 		size: 10
 	},
@@ -54,7 +54,7 @@ export const delegatesColumnDefCommon = [
 		header: 'Eviction Cost (EC)',
 		cell: (info) => {
 			const evictionCost = info.getValue() as IDelegate['evictionCost'];
-			return flexRender(Badge, {
+			return renderComponent(Badge, {
 				label: evictionCost.toLocaleString(),
 				colorVariant: EBadgeColorVariant.SECONDARY,
 				LeftContent: 'EC',
@@ -81,7 +81,7 @@ export const delegatesColumnDefCommonSecond = [
 		header: '',
 		cell: (info) => {
 			const value = info.getValue() as IDelegate['value'];
-			return flexRender(ProgressBar, {
+			return renderComponent(ProgressBar, {
 				total: 100,
 				used: Number(value) * 100,
 				styles: stylesObjectToString({ height: '26px' }),
@@ -94,7 +94,7 @@ export const delegatesColumnDefCommonSecond = [
 		header: 'Voting Power (VP)',
 		cell: (info) => {
 			const votingPower = info.getValue() as IDelegate['votingPower'];
-			return flexRender(Badge, {
+			return renderComponent(Badge, {
 				label: votingPower.toLocaleString(),
 				colorVariant: EBadgeColorVariant.PRIMARY,
 				LeftContent: 'VP',

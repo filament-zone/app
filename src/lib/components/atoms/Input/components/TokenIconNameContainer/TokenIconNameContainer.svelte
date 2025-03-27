@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { type ITokenIconNameContainerProps } from '$lib/types';
 	import { Typography } from '$lib/components';
+	import type { Component } from 'svelte';
 
-	export let tokenIcon: ITokenIconNameContainerProps['tokenIcon'];
-	export let tokenTicker: ITokenIconNameContainerProps['tokenTicker'];
+	let { tokenIcon, tokenTicker, styles }: ITokenIconNameContainerProps = $props();
+
+	const SvelteComponent = tokenIcon as Component;
 </script>
 
-<div class="token-icon-name-container" style={$$props.style}>
-	<svelte:component this={tokenIcon} width="12px" height="12px" />
+<div class="token-icon-name-container" style={styles}>
+	<SvelteComponent width="12px" height="12px" />
 	<Typography variant="button">{tokenTicker}</Typography>
 </div>
 

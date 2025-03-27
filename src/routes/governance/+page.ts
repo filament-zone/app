@@ -1,5 +1,4 @@
-import { goto } from '$app/navigation';
-import { flexRender } from '@tanstack/svelte-table';
+import { renderComponent } from '@tanstack/svelte-table';
 import {
 	LiveProposalsTableLabelComponent,
 	ProposalTypeNameMap,
@@ -7,13 +6,12 @@ import {
 	ProposalStatusBadgeColorVariantMap
 } from '$lib/features';
 import { Badge, TableDateTimeComponent } from '$lib/components';
-import { routes } from '$lib/constants';
 import SearchIcon from '$lib/assets/icons/search.svg?component';
-import { type ComponentType, SvelteComponent } from 'svelte';
 import {
 	EBadgeColorVariant,
 	EProposalStatus,
 	EProposalType,
+	type ILiveProposalsTableLabelComponentProps,
 	type ISearchSelectProps,
 	type ITableProps
 } from '$lib/types';
@@ -66,11 +64,12 @@ export async function load() {
 		}
 	};
 
-	const tableRightLabelProps = {
+	const tableRightLabelProps: ILiveProposalsTableLabelComponentProps = {
 		searchSelectProps: { ...searchSelectProps },
 		buttonProps: {
-			onClick: () => {
-				goto(routes.GOVERNANCE.ROOT); //TEMP PLACEHOLDER
+			disabled: true,
+			onclick: () => {
+				// goto(routes.GOVERNANCE.CREATE); //TEMP PLACEHOLDER
 			}
 		}
 	};
@@ -92,9 +91,7 @@ export async function load() {
 		}
 	];
 
-	const tableLiveProposalsData: ITableProps & {
-		tableRightLabel: ComponentType<SvelteComponent>;
-	} = {
+	const tableLiveProposalsData: ITableProps = {
 		tableLabel: 'Live Proposals',
 		tableRightLabel: LiveProposalsTableLabelComponent,
 		tableRightLabelProps: { ...tableRightLabelProps },
@@ -126,7 +123,7 @@ export async function load() {
 				header: 'Type',
 				cell: (info) => {
 					const label = info.getValue() as unknown as TAllProposalsTableData['type'];
-					return flexRender(Badge, {
+					return renderComponent(Badge, {
 						label: ProposalTypeNameMap[label],
 						colorVariant: EBadgeColorVariant.PRIMARY
 					});
@@ -142,7 +139,7 @@ export async function load() {
 				header: 'Status',
 				cell: (info) => {
 					const status = info.getValue() as unknown as TAllProposalsTableData['status'];
-					return flexRender(Badge, {
+					return renderComponent(Badge, {
 						label: ProposalStatusNameMap[status],
 						colorVariant: ProposalStatusBadgeColorVariantMap[status]
 					});
@@ -158,7 +155,7 @@ export async function load() {
 				header: 'Voting End',
 				cell: (info) => {
 					const date = info.getValue() as unknown as TAllProposalsTableData['votingEnd'];
-					return flexRender(TableDateTimeComponent, { ...date });
+					return renderComponent(TableDateTimeComponent, { date: date });
 				},
 				meta: {
 					cellStyle: {

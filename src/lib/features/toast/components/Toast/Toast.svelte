@@ -2,18 +2,19 @@
 	import { fly } from 'svelte/transition';
 	import { type IToastProps } from '$lib/types';
 
-	export let data: IToastProps['config'];
+	let { config, onclick }: IToastProps = $props();
 </script>
 
 <div
-	{...$$props}
 	class="toast"
 	in:fly={{ y: -50, duration: 200 }}
 	out:fly={{ y: -100, duration: 200 }}
-	on:click
 	aria-hidden="true"
+	onclick={() => {
+		onclick?.();
+	}}
 >
-	{data?.message}
+	{config.message}
 </div>
 
 <style>

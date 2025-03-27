@@ -1,12 +1,12 @@
 <script lang="ts">
+	import type { Chart } from 'chart.js';
 	import ChartDataLabels from 'chartjs-plugin-datalabels';
-	import { AbstractDoughnutChart, createCenterTextPlugin } from '$lib/components';
+	import { AbstractDoughnutChart } from '$lib/components';
 	import { type IAbstractDoughnutChartProps, type IPrimaryDoughnutChartProps } from '$lib/types';
 
-	export let chartData: IPrimaryDoughnutChartProps['chartData'];
-	export let centerText: string[];
+	let { chartData }: IPrimaryDoughnutChartProps = $props();
 
-	let chartInstance: IPrimaryDoughnutChartProps['chartInstance'];
+	let chartInstance: IAbstractDoughnutChartProps['chartInstance'] = $state();
 
 	const chartOptions: IAbstractDoughnutChartProps['chartOptions'] = {
 		cutout: 110,
@@ -20,13 +20,19 @@
 				borderWidth: 0.5,
 				borderColor: 'white',
 				borderRadius: 4,
-				backgroundColor: (context) => {
+				backgroundColor: (context: { dataset: { backgroundColor: string } }) => {
 					return context.dataset.backgroundColor as string;
 				},
 				font: {
 					weight: 'bold'
 				},
-				formatter: (value, context) => {
+				formatter: (
+					value: number,
+					context: {
+						chart: Chart;
+						dataIndex: number;
+					}
+				) => {
 					const label = context.chart.data.labels?.[context.dataIndex];
 					const tempVar = context.chart.data.datasets[0].data.reduce(
 						(a, b) => (a as number) + (b as number)
@@ -43,14 +49,6 @@
 			}
 		}
 	};
-
-	const centerTextPlugin = createCenterTextPlugin(centerText);
 </script>
 
-<AbstractDoughnutChart
-	{chartData}
-	bind:chartInstance
-	plugins={[ChartDataLabels, centerTextPlugin]}
-	{chartOptions}
-	{...$$props}
-/>
+<AbstractDoughnutChart {chartData} bind:chartInstance plugins={[ChartDataLabels]} {chartOptions} />

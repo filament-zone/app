@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { Label, Typography } from '$lib/components';
 	import {
 		EToggleSizeVariant,
@@ -7,14 +9,16 @@
 		type IToggleProps
 	} from '$lib/types';
 
-	export let options: IToggleProps['options'] = null;
-	export let value: IToggleProps['value'] = null;
-	export let label: IToggleProps['label'] = '';
-	export let isMulti: IToggleProps['isMulti'] = false;
-	export let variant: IToggleProps['variant'] = EToggleVariant.PRIMARY;
-	export let sizeVariant: IToggleProps['sizeVariant'] = EToggleSizeVariant.NORMAL;
+	let {
+		options = $bindable(null),
+		value = $bindable(null),
+		label = '',
+		isMulti = false,
+		variant = EToggleVariant.PRIMARY,
+		sizeVariant = EToggleSizeVariant.NORMAL
+	}: IToggleProps<string> = $props();
 
-	$: updateValue = (selectedValues: string[]) => {
+	let updateValue = $derived((selectedValues: string[]) => {
 		if (isMulti) {
 			if (Array.isArray(options) && selectedValues.length === options.length - 1) {
 				value = [];
@@ -24,9 +28,9 @@
 		} else {
 			value = selectedValues;
 		}
-	};
+	});
 
-	$: selectOption = (option: IToggleOption<string>) => {
+	let selectOption = $derived((option: IToggleOption<string>) => {
 		if (isMulti) {
 			if (option.value === 'all') {
 				value = [];
@@ -42,18 +46,20 @@
 		} else {
 			value = option.value;
 		}
-	};
+	});
 
-	$: if (isMulti && options) {
-		const allOption: IToggleOption<string> = { value: 'all', label: 'All' };
-		if (!options.some((opt: IToggleOption<string>) => opt.value === 'all')) {
-			options = [allOption, ...options];
-		} else {
-			value = [];
+	run(() => {
+		if (isMulti && options) {
+			const allOption: IToggleOption<string> = { value: 'all', label: 'All' };
+			if (!options.some((opt: IToggleOption<string>) => opt.value === 'all')) {
+				options = [allOption, ...options];
+			} else {
+				value = [];
+			}
 		}
-	}
+	});
 
-	$: isOptionSelected = (option: IToggleOption<string>) => {
+	let isOptionSelected = $derived((option: IToggleOption<string>) => {
 		if (isMulti && Array.isArray(value)) {
 			if (value.length === 0 && option.value === 'all') {
 				return true;
@@ -62,7 +68,7 @@
 		} else {
 			return value === option.value;
 		}
-	};
+	});
 
 	const getTypographyColor = (isSelected: boolean, variant: EToggleVariant) => {
 		switch (variant) {
@@ -93,7 +99,7 @@
 					class="toggle-{variant} toggle-{sizeVariant}"
 					class:selected={isOptionSelected(option)}
 					class:disabled={option.disabled}
-					on:click={() => {
+					onclick={() => {
 						if (!option.disabled) {
 							selectOption(option);
 						}

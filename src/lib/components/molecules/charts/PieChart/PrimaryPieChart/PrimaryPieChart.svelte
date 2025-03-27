@@ -4,13 +4,13 @@
 	import { screenDetect } from '$lib/helpers';
 	import type { IPrimaryPieChartProps } from '$lib/types';
 
-	export let data: IPrimaryPieChartProps['data'];
-	export let colors: IPrimaryPieChartProps['colors'] = ['#fff', '#144a94'];
+	let { data, colors = ['#fff', '#144a94'] }: IPrimaryPieChartProps = $props();
 
-	let chartInstance: IPrimaryPieChartProps['chartInstance'];
+	let chartInstance: IPrimaryPieChartProps['chartInstance'] = $state();
+	let chartCanvasInstance: IPrimaryPieChartProps['chartCanvasInstance'] = $state();
 
 	const screenTypeStore = screenDetect();
-	$: currentScreen = $screenTypeStore.currentScreen;
+	let currentScreen = $derived($screenTypeStore.currentScreen);
 
 	const chartData = {
 		labels: data?.map(({ label }) => label) ?? [],
@@ -65,7 +65,7 @@
 		}
 	});
 
-	$: centerTextPlugin = {
+	let centerTextPlugin = $derived({
 		id: 'centerTextPlugin',
 		afterDraw: (chart: Chart<'pie'>) => {
 			const ctx = chart.ctx;
@@ -84,7 +84,12 @@
 			ctx.fillText(text, textX, textY);
 			ctx.restore();
 		}
-	};
+	});
 </script>
 
-<AbstractPieChart {chartData} bind:chartInstance plugins={[centerTextPlugin]} />
+<AbstractPieChart
+	{chartData}
+	bind:chartInstance
+	bind:chartCanvasInstance
+	plugins={[centerTextPlugin]}
+/>

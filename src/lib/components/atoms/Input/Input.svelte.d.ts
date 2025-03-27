@@ -1,35 +1,25 @@
-import type { SvelteComponent, ComponentType } from 'svelte';
-import { EInputColorVariant, type EInputSizeVariant } from '$lib/types';
+import type { HTMLInputAttributes } from 'svelte/elements';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		label?: string | null;
-		labelGap?: boolean;
-		error?: string;
-		sizeVariant?: EInputSizeVariant;
-		readonly?: boolean;
-		RightIcon?: ComponentType<SvelteComponent> | string | null;
-		RightIconProps?: object;
-		LeftContent?: ComponentType<SvelteComponent> | string | null;
-		colorVariant?: EInputColorVariant;
-		onInput?: (e: Event<HTMLInputElement>) => void;
-		hideLeftBorder?: boolean;
-		classNames?: string;
-		textColor?: string;
-		tooltipContent?: string;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
+export interface IInputProps extends HTMLInputAttributes {
+	label?: string | null;
+	labelGap?: boolean;
+	error?: string;
+	sizeVariant?: EInputSizeVariant;
+	readonly?: boolean;
+	RightIcon?: Component | string | null;
+	RightIconProps?: object;
+	LeftContent?: Component | string | null;
+	colorVariant?: EInputColorVariant;
+	onInput?: (e: Event<HTMLInputElement>) => void;
+	hideLeftBorder?: boolean;
+	classNames?: string;
+	textColor?: string;
+	tooltipContent?: string;
+	styles?: string;
+	placeholder?: string;
+	onclick?: () => void;
+}
 
-type CustomProps = typeof __propDef.props;
-
-type IInputProps_ = CustomProps & Omit<Partial<HTMLInputElement>, keyof CustomProps>;
-
-export type { IInputProps_ as IInputProps };
-export type IInputEvents = typeof __propDef.events;
-export type IInputSlots = typeof __propDef.slots;
-
-export default class Input extends SvelteComponent<IInputProps, IInputEvents, IInputSlots> {}
+export declare const Input: Component<IInputProps, object, 'value'>;
+export default Input;

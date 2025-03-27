@@ -1,24 +1,9 @@
-import { SvelteComponent } from 'svelte';
+import type { Component, Snippet } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		isOpen: boolean;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: {
-		label: object;
-		body: object;
-	};
-};
-type ITextCollapseProps_ = typeof __propDef.props;
-export type { ITextCollapseProps_ as ITextCollapseProps };
-export type ITextCollapseEvents = typeof __propDef.events;
-export type ITextCollapseSlots = typeof __propDef.slots;
+export interface ITextCollapseProps {
+	label?: Snippet;
+	children?: Snippet;
+}
 
-export default class TextCollapse extends SvelteComponent<
-	ITextCollapseProps,
-	ITextCollapseEvents,
-	ITextCollapseSlots
-> {}
+export declare const TextCollapse: Component<ITextCollapseProps>;
+export default TextCollapse;

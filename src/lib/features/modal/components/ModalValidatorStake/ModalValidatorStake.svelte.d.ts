@@ -1,22 +1,8 @@
-import { SvelteComponent } from 'svelte';
-import type { IValidator } from '$lib/types';
+import type { Component } from 'svelte';
 
-declare const __propDef: {
-	props: {
-		validator?: IValidator;
-	};
-	events: {
-		[evt: string]: CustomEvent;
-	};
-	slots: object;
-};
-type IModalValidatorStakeProps_ = typeof __propDef.props;
-export type { IModalValidatorStakeProps_ as IModalValidatorStakeProps };
-export type IModalValidatorStakeEvents = typeof __propDef.events;
-export type IModalValidatorStakeSlots = typeof __propDef.slots;
+export interface IModalValidatorStakeProps {
+	validator?: IDelegator;
+}
 
-export default class ModalValidatorStake extends SvelteComponent<
-	IModalValidatorStakeProps,
-	IModalValidatorStakeEvents,
-	IModalValidatorStakeSlots
-> {}
+export declare const ModalValidatorStake: Component<IModalValidatorStakeProps>;
+export default ModalValidatorStake;

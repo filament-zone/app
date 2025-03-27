@@ -1,22 +1,21 @@
 <script lang="ts">
 	import { AbstractLineChart } from '$lib/components';
+	import { calculatePercentageChange } from '$lib/helpers';
 	import {
 		type ChartInstance,
 		type IAbstractBarChartProps,
 		type IPlainLineChartProps
 	} from '$lib/types';
-	import { calculatePercentageChange } from '$lib/helpers';
 
-	export let data: IPlainLineChartProps['data'];
-	export let styles: IPlainLineChartProps['styles'] = 'height: 285px';
+	let { data, styles = 'height: 285px' }: IPlainLineChartProps = $props();
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] | undefined = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] | undefined = $state();
 
-	$: change = calculatePercentageChange(data?.datasets[0].data as number[]);
-	$: lineColors = change > 0 ? ['#7dFA79'] : ['#ff74a4'];
+	let change = $derived(calculatePercentageChange(data?.datasets[0].data as number[]));
+	let lineColors = $derived(change > 0 ? ['#7dFA79'] : ['#ff74a4']);
 
-	$: chartData = {
+	let chartData = $derived({
 		labels: data?.labels?.length ? [...(data?.labels as string[])] : [],
 		datasets:
 			data?.datasets?.map((dataset, index) => {
@@ -28,9 +27,9 @@
 					tension: 0.4
 				};
 			}) ?? []
-	};
+	});
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: false,
@@ -50,7 +49,7 @@
 				display: false
 			}
 		}
-	} as ChartInstance<'line'>['options'];
+	} as ChartInstance<'line'>['options']);
 </script>
 
 <AbstractLineChart

@@ -3,11 +3,15 @@
 	import { eligibilityCriteriaColumnDefCommon } from '$lib/features';
 	import { type ICampaignSummaryProps } from '$lib/types';
 
-	export let campaign: ICampaignSummaryProps['campaign'];
+	interface ICampaignSummaryCriteriaProps {
+		campaign: ICampaignSummaryProps['campaign'];
+	}
 
-	$: toggleValue = 'all';
+	let { campaign }: ICampaignSummaryCriteriaProps = $props();
 
-	$: eligibilityCriteriaTable = {
+	let toggleValue = $derived('all');
+
+	let eligibilityCriteriaTable = $derived({
 		data: [
 			...campaign.criteria.filter((item) => {
 				if (toggleValue === 'all') {
@@ -19,7 +23,7 @@
 			})
 		],
 		columnDef: [...eligibilityCriteriaColumnDefCommon]
-	};
+	});
 </script>
 
 <div>

@@ -1,5 +1,5 @@
-<script>
-	export let error;
+<script lang="ts">
+	let { error } = $props();
 
 	const status = error?.status || 500;
 	const message = error?.message || 'An unexpected error occurred';

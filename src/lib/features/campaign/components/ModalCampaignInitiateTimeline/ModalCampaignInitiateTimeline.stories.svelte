@@ -1,14 +1,16 @@
-<script context="module">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { ModalCampaignInitiateTimeline } from '$lib/features';
+<!--<script module>-->
+<!--	import { Story, Template } from '@storybook/addon-svelte-csf';-->
+<!--	import { ModalCampaignInitiateTimeline } from '$lib/features';-->
 
-	export const meta = {
-		title: 'Features/Modal/Campaign Initiate Time Line'
-	};
-</script>
+<!--	export const meta = {-->
+<!--		title: 'Features/Modal/Campaign Initiate Time Line'-->
+<!--	};-->
+<!--</script>-->
 
-<Template let:args>
-	<svelte:component this={args.modal} {...args} />
-</Template>
+<!--<Template>-->
+<!--	{#snippet children({ args })}-->
+<!--		<args.modal {...args} />-->
+<!--	{/snippet}-->
+<!--</Template>-->
 
-<Story name="Primary" args={{ modal: ModalCampaignInitiateTimeline }} />
+<!--<Story name="Primary" args={{ modal: ModalCampaignInitiateTimeline }} />-->

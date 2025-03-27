@@ -2,13 +2,13 @@
 	import { Typography } from '$lib/components';
 	import type { ICardProps } from '$lib/types';
 
-	export let label: ICardProps['label'] = '';
+	let { label = '', classNames, children }: ICardProps = $props();
 </script>
 
-<div class={`card ${$$props.class} p-2`}>
+<div class={`card ${classNames} p-2`}>
 	<Typography variant="caption">{label}</Typography>
 	<div class="card-content">
-		<slot />
+		{@render children?.()}
 	</div>
 </div>
 

@@ -1,10 +1,9 @@
 <script lang="ts">
 	import moment from 'moment/moment.js';
 	import { Typography } from '$lib/components';
-
 	import { type ITableDateTimeComponentProps } from '$lib/types';
 
-	export let date: ITableDateTimeComponentProps['date'];
+	let { date }: ITableDateTimeComponentProps = $props();
 </script>
 
 <div class="flex flex-row items-center gap-2">

@@ -8,16 +8,16 @@
 		type ISecondaryLineChartProps
 	} from '$lib/types';
 
-	export let data: ISecondaryLineChartProps['data'];
-	export let lineColors: ISecondaryLineChartProps['lineColors'] = ['#A8FFCE'];
-	export let backgroundColors: ISecondaryLineChartProps['backgroundColors'] = [
-		'rgba(168, 255, 206, 0.1)'
-	];
+	let {
+		data,
+		lineColors = ['#A8FFCE'],
+		backgroundColors = ['rgba(168, 255, 206, 0.1)']
+	}: ISecondaryLineChartProps = $props();
 
-	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	let chartInstance: IAbstractBarChartProps['chartInstance'];
+	let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'] | undefined = $state();
+	let chartInstance: IAbstractBarChartProps['chartInstance'] | undefined = $state();
 
-	$: chartData = {
+	let chartData = $derived({
 		labels: data?.labels?.length ? [...(data?.labels as string[])] : [],
 		datasets:
 			data?.datasets?.map((dataset, index) => {
@@ -32,9 +32,9 @@
 					fill: true
 				};
 			}) ?? []
-	};
+	});
 
-	$: chartOptions = {
+	let chartOptions = $derived({
 		scales: {
 			y: {
 				display: true,
@@ -103,7 +103,7 @@
 				right: 20
 			}
 		}
-	} as ChartInstance<'line'>['options'];
+	} as ChartInstance<'line'>['options']);
 </script>
 
 <AbstractLineChart

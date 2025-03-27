@@ -1,30 +1,44 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { EButtonSizeVariant, EButtonStyleVariant } from './Button.enums';
-	import type { IButtonProps } from '$lib/types';
+	import { type IButtonProps, EButtonSizeVariant, EButtonStyleVariant } from '$lib/types';
 
-	export let sizeVariant: IButtonProps['sizeVariant'] = EButtonSizeVariant.PRIMARY;
-	export let styleVariant: IButtonProps['styleVariant'] = EButtonStyleVariant.PRIMARY;
-	export let LeftContent: IButtonProps['LeftContent'] = null;
+	let {
+		sizeVariant = EButtonSizeVariant.PRIMARY,
+		styleVariant = EButtonStyleVariant.PRIMARY,
+		LeftContent = null,
+		disabled = false,
+		classNames = '',
+		onclick,
+		children,
+		...rest
+	}: IButtonProps = $props();
 
-	const isOnHover = writable<boolean>(false);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let isOnHover = $state(false);
 </script>
 
 <button
-	{...$$props}
-	on:mouseenter={() => isOnHover.set(true)}
-	on:mouseleave={() => isOnHover.set(false)}
-	class={`button w-${sizeVariant} style-${$$props.disabled ? 'disabled' : styleVariant} ${$$props.class || ''}`}
-	on:click
+	{...rest}
+	onmouseenter={() => {
+		isOnHover = true;
+	}}
+	onmouseleave={() => {
+		isOnHover = false;
+	}}
+	class={`w-${sizeVariant} style-${disabled ? 'disabled' : styleVariant} ${classNames}`}
+	{onclick}
 >
 	{#if LeftContent}
-		<svelte:component this={LeftContent} width="12px" height="12px" />
+		{#if typeof LeftContent === 'string'}
+			{LeftContent}
+		{:else}
+			<LeftContent width="12px" height="12px" />
+		{/if}
 	{/if}
-	<span class="typography_button"><slot /></span>
+	<span class="typography_button">{@render children?.()}</span>
 </button>
 
 <style lang="less">
-	.button {
+	button {
 		padding: 6px 10px;
 		text-align: center;
 		height: fit-content;

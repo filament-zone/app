@@ -1,6 +1,6 @@
 import { CampaignApi } from '$lib/api';
 import { generateMockCampaign } from '$lib/features';
-import type { ICampaign } from '$lib/api/campaign/campaign.hub.api.types';
+import type { ICampaign } from '$lib/types';
 
 export const load = async () => {
 	const campaignToggleOptions = [

@@ -6,21 +6,26 @@
 	import { throttle } from '$lib/utils';
 	import { type IAbstractBarChartProps } from '$lib/types';
 
-	export let chartInstance: IAbstractBarChartProps['chartInstance'];
-	export let chartCanvasInstance: IAbstractBarChartProps['chartCanvasInstance'];
-	export let chartData: IAbstractBarChartProps['chartData'];
-	export let chartOptions: IAbstractBarChartProps['chartInstance']['options'];
-	export let className: IAbstractBarChartProps['className'];
-	export let plugins: IAbstractBarChartProps['plugins'] = [];
-	export let styles: string;
+	let {
+		chartInstance = $bindable(),
+		chartCanvasInstance = $bindable(),
+		chartData,
+		chartOptions,
+		classNames,
+		plugins = [],
+		styles
+	}: IAbstractBarChartProps = $props();
 
-	$: chartOptionsLocal = {
+	let chartOptionsLocal = $derived({
 		...chartOptions,
 		responsive: true,
 		maintainAspectRatio: false
-	};
+	});
 
 	onMount(() => {
+		if (!chartCanvasInstance) {
+			return;
+		}
 		if (browser) {
 			chartInstance = new Chart(chartCanvasInstance, {
 				type: 'bar',
@@ -37,15 +42,19 @@
 		chartInstance?.destroy();
 	});
 
-	$: if (chartInstance && chartData) {
-		chartInstance.data = chartData;
-		chartInstance.update();
-	}
+	$effect(() => {
+		if (chartInstance && chartData) {
+			chartInstance.data = chartData;
+			chartInstance.update();
+		}
+	});
 
-	$: if (chartInstance && chartOptions) {
-		chartInstance.options = { ...chartInstance.options, ...chartOptions };
-		chartInstance.update();
-	}
+	$effect(() => {
+		if (chartInstance && chartOptions) {
+			chartInstance.options = { ...chartInstance.options, ...chartOptions };
+			chartInstance.update();
+		}
+	});
 
 	eventListener(
 		'resize',
@@ -55,6 +64,6 @@
 	);
 </script>
 
-<div class={`chart-container w-full relative ${className}`} style={styles}>
+<div class={`chart-container w-full relative ${classNames}`} style={styles}>
 	<canvas bind:this={chartCanvasInstance}></canvas>
 </div>

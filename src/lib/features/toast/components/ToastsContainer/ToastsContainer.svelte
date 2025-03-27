@@ -8,8 +8,8 @@
 	{#each $toasts as toast (toast.id)}
 		{#if toast.display}
 			<Toast
-				data={toast}
-				on:click={() => {
+				config={toast}
+				onclick={() => {
 					toast.options?.onClick?.();
 				}}
 			/>
