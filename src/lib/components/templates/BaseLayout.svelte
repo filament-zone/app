@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { RightSideBarController, ToastsContainer } from '$lib/features';
 	import { Footer, Header } from '$lib/components';
-  import { InfoBanner, EInfoBannerStyleVariant } from '$lib/components/molecules';
+	import { InfoBanner, EInfoBannerStyleVariant } from '$lib/components/molecules';
 
 	interface IBaseLayoutProps {
 		children?: Snippet;

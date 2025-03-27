@@ -34,12 +34,7 @@
 	});
 </script>
 
-<div
-	{...rest}
-	class={`${widthVariant} badge ${colorVariant} ${classNames}`}
-	on:click
-	aria-hidden="true"
->
+<div {...rest} class={`${widthVariant} badge ${colorVariant} ${classNames}`} aria-hidden="true">
 	{#if LeftContent}
 		<div class="item item-1 mr-2">
 			{#if typeof LeftContent === 'string'}

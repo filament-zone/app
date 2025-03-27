@@ -4,7 +4,7 @@
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 	import { Button, Divider, NavBar, Badge, Typography } from '$lib/components';
 	import { modalStore, Wallet, walletStore } from '$lib/features';
-  import { routes } from '$lib/constants';
+	import { routes } from '$lib/constants';
 	import { shortCutTransactionHash, replaceUrlParams, screenDetect } from '$lib/helpers';
 	import { EButtonStyleVariant, EModalVariant, EBadgeColorVariant } from '$lib/types';
 	import LogoFilament from '$lib/assets/logos/logo-filament.svg?url';
@@ -28,7 +28,7 @@
 	</div>
 	<div class="flex flex-row items-center justify-between pt-[5px] px-4" data-testid="header">
 		<div
-      class="cursor-pointer flex items-center gap-2 pb-[10px]"
+			class="cursor-pointer flex items-center gap-2 pb-[10px]"
 			onclick={() => {
 				goto(routes.HOME);
 			}}
