@@ -22,7 +22,7 @@
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@filament-zone/filament": "0.1.0-eddb997",
-		"@playwright/test": "^1.48.2",
+		"@playwright/test": "^1.56.1",
 		"@poppanator/sveltekit-svg": "^4.2.1",
 		"@prgm/sveltekit-progress-bar": "^2.0.0",
 		"@storybook/addon-essentials": "^8.4.7",
